@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
+
+  <!-- 缓存管理器 使用Ehcache实现-->
+  <beans:bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+    <beans:property name="cacheManagerConfigFile" value="classpath:/META-INF/spring/ehcache.xml" />
+  </beans:bean>
+  
+  <!-- 凭证管理器 -->
+  <beans:bean id="credentialsMatcher" class="com.kuaiba.site.security.RetryLimitSimpleCredentialsMatcher">
+    <beans:constructor-arg ref="cacheManager" />
+  </beans:bean>
+  
+  <!-- 配置自定义Realm -->
+  <beans:bean id="userRealm" class="com.kuaiba.site.security.UserRealm">
+    <beans:property name="credentialsMatcher" ref="credentialsMatcher" />
+    <beans:property name="service" ref="userServiceImpl" />
+  </beans:bean>
+  <beans:bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+    <beans:property name="realm" ref="userRealm" />
+  </beans:bean>
+  
+  <!-- SHIRO WEB过滤器配置 -->
+  <beans:bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+    <beans:property name="securityManager" ref="securityManager" />
+    <beans:property name="loginUrl" value="/cms/login" />
+    <beans:property name="successUrl" value="/cms" />
+    <beans:property name="unauthorizedUrl" value="/cms/unauthorized" />
+    <beans:property name="filterChainDefinitions">
+      <beans:value>
+        /cms/**=authc
+      </beans:value>
+    </beans:property>
+  </beans:bean>
+
+  <!-- 生命周期管理 -->
+  <beans:bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+</beans:beans>
