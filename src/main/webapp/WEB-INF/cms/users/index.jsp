@@ -95,7 +95,7 @@ usersEL.dg.datagrid({
     },
     // 双击查看
     onDblClickRow: function(index,row) {
-    	console.log("view detail");
+    	CMS.viewHandler("/cms/users/" + row.id);
     }
 });
 

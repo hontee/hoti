@@ -15,4 +15,7 @@
 .cms-mb20 {margin-bottom: 20px;}
 .cms-mb5 {margin-bottom: 5px;}
 .cms-wbox {padding: 20px 40px;}
+.cms-view-ul {list-style: none; padding: 10px 20px; font-size: 14px;}
+.cms-view-ul li {margin: 10px 0;}
+.cms-view-ul label {display: inline-block; width: 100px; text-align: right; margin-right: 10px; font-weight: bold;}
 </style>

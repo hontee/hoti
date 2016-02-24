@@ -89,7 +89,7 @@ catesEL.dg.datagrid({
     },
     // 双击查看
     onDblClickRow: function(index,row) {
-    	console.log("view detail");
+    	CMS.viewHandler("/cms/cates/" + row.id);
     }
 });
 
