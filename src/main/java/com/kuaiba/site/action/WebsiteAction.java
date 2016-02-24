@@ -4,18 +4,24 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.db.entity.Recommend;
+import com.kuaiba.site.db.entity.Website;
+import com.kuaiba.site.db.entity.WebsiteExample;
 import com.kuaiba.site.net.FetchUtils;
 import com.kuaiba.site.net.FetchUtils.WebModel;
 import com.kuaiba.site.service.RecommendService;
 import com.kuaiba.site.service.WebsiteService;
+import com.kuaiba.site.support.Pagination;
 import com.kuaiba.site.support.Result;
 import com.kuaiba.site.support.ResultBuilder;
 
@@ -33,13 +39,25 @@ public class WebsiteAction {
 	@Resource
 	private WebsiteService service;
 	
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public String home(@RequestParam(required = false) String q, Pagination p, Model model) throws Exception {
+		WebsiteExample example = new WebsiteExample();
+		if (StringUtils.isNotEmpty(q)) {
+			example.createCriteria().andTitleLike("%" + q + "q");
+		}
+		PageInfo<Website> pageInfo = service.findByExample(example, p);
+		model.addAttribute("p", pageInfo);
+		model.addAttribute("list", pageInfo.getList());
+		return "views/home";
+	}
+	
 	/**
 	 * 分享站点
 	 * @return
 	 */
 	@RequestMapping(value = "/share", method = RequestMethod.GET)
-	public String sharePage() {
-		return "views/website-share";
+	public String recommend() {
+		return "views/recommend";
 	}
 	
 	/**
@@ -47,7 +65,7 @@ public class WebsiteAction {
 	 * @return
 	 */
 	@RequestMapping(value = "/share", method = RequestMethod.POST)
-	public String share(@RequestParam String url, Model model) {
+	public @ResponseBody Result recommend(@RequestParam String url, Model model) {
 		WebModel wm = FetchUtils.connect(url);
 		Recommend record = new Recommend();
 		record.setCreator("admin");
@@ -59,8 +77,7 @@ public class WebsiteAction {
 		record.setKeywords(wm.getKeywords());
 		recommend.add(record);
 		model.addAttribute("wm", wm);
-		model.addAttribute("result", ResultBuilder.ok());
-		return "views/website-share";
+		return ResultBuilder.ok();
 	}
 	
 	/**
