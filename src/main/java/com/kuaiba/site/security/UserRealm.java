@@ -1,5 +1,8 @@
 package com.kuaiba.site.security;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -37,9 +40,17 @@ public class UserRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		logger.info("为登录成功的用户：{}，添加角色和权限", principals.getPrimaryPrincipal());
+		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+		Set<String> roles = new HashSet<>();
+		if (LoginUser.isAdmin()) { // 登录用户是否为管理员
+			roles.add("admin");
+			info.setRoles(roles);
+		} else {
+			roles.add("user");
+			info.setRoles(roles);
+		}
 		
-		
-		return new SimpleAuthorizationInfo();
+		return info;
 	}
 
 	/**

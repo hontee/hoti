@@ -41,4 +41,11 @@
 
   <!-- 生命周期管理 -->
   <beans:bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+  
+  <beans:bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+    <beans:property name="proxyTargetClass" value="true" />
+  </beans:bean>
+  <beans:bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+    <beans:property name="securityManager" ref="securityManager"/>
+  </beans:bean>
 </beans:beans>

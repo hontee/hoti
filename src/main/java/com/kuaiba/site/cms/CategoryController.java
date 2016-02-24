@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,16 +30,19 @@ public class CategoryController {
 	@Resource
 	private CategoryService service;
 
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String index() {
 		return "cms/cates/index";
 	}
 	
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String addPage() {
 		return "cms/cates/new";
 	}
 
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) {
 		try {
@@ -48,6 +52,7 @@ public class CategoryController {
 		return "cms/cates/edit";
 	}
 	
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) {
 		try {
@@ -59,6 +64,7 @@ public class CategoryController {
 		return "cms/cates/view";
 	}
 
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/list")
 	public @ResponseBody DataGrid<Category> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
 		CategoryExample example = new CategoryExample();
@@ -69,6 +75,7 @@ public class CategoryController {
 		return new DataGrid<>(pageInfo);
 	}
 	
+	@RequiresRoles(value = "admin")
 	@RequestMapping("/datalist")
 	public @ResponseBody List<Category> datalist() throws Exception {
 		CategoryExample example = new CategoryExample();
@@ -76,6 +83,7 @@ public class CategoryController {
 		return service.findByExample(example);
 	}
 	
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	public @ResponseBody Result add(
 			@RequestParam String name, 
@@ -94,6 +102,7 @@ public class CategoryController {
 		return ResultBuilder.ok();
 	}
 
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	public @ResponseBody Result delete(@PathVariable Long id) {
 		try {
@@ -104,6 +113,7 @@ public class CategoryController {
 		}
 	}
 	
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	public @ResponseBody Result edit(@PathVariable Long id, 
 			@RequestParam String name, 

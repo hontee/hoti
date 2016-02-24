@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,16 +32,19 @@ public class RecommendController {
 	@Resource
 	private RecommendService service;
 
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String index() {
 		return "cms/recmds/index";
 	}
-	
+
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String addPage() {
 		return "cms/recmds/new";
 	}
 
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) {
 		try {
@@ -49,7 +53,8 @@ public class RecommendController {
 		}
 		return "cms/recmds/edit";
 	}
-	
+
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) {
 		try {
@@ -60,7 +65,8 @@ public class RecommendController {
 		
 		return "cms/recmds/view";
 	}
-	
+
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/list")
 	public @ResponseBody DataGrid<Recommend> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
 		RecommendExample example = new RecommendExample();
@@ -70,7 +76,8 @@ public class RecommendController {
 		PageInfo<Recommend> pageInfo = service.findByExample(example, p);
 		return new DataGrid<>(pageInfo);
 	}
-	
+
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	public @ResponseBody Result add(@RequestParam String url) {
 		WebModel wm = FetchUtils.connect(url);
@@ -86,6 +93,7 @@ public class RecommendController {
 		return ResultBuilder.ok();
 	}
 
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	public @ResponseBody Result delete(@PathVariable Long id) {
 		try {
@@ -95,7 +103,8 @@ public class RecommendController {
 			return ResultBuilder.failed(e);
 		}
 	}
-	
+
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	public @ResponseBody Result edit(@PathVariable Long id, 
 			@RequestParam String title, 

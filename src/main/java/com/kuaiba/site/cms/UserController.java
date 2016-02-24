@@ -3,6 +3,7 @@ package com.kuaiba.site.cms;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,29 +28,34 @@ public class UserController {
 	
 	@Resource
 	private UserService service;
-	
+
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String index() {
 		return "cms/users/index";
 	}
-	
+
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String addPage() {
 		return "cms/users/new";
 	}
-	
+
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/users/edit";
 	}
-	
+
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/users/view";
 	}
-	
+
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/list")
 	public @ResponseBody DataGrid<User> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
 		UserExample example = new UserExample();
@@ -60,7 +66,7 @@ public class UserController {
 		return new DataGrid<>(pageInfo);
 	}
 	
-	
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	public @ResponseBody Result add(
 			@RequestParam String name, 
@@ -81,13 +87,14 @@ public class UserController {
 		return ResultBuilder.ok();
 	}
 
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	public @ResponseBody Result delete(@PathVariable Long id) {
 		service.deleteByPrimaryKey(id);
 		return ResultBuilder.ok();
 	}
 
-
+	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	public @ResponseBody Result edit(@PathVariable Long id, 
 			@RequestParam String name, 
