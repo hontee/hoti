@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.kuaiba.site.Constants;
 import com.kuaiba.site.db.dao.UserMapper;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;
@@ -112,11 +113,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Result login(String username, String password) {
 		try {
+			ValidUtils.checkEmail(username);
+			username = this.findNameByEmail(username);
+		} catch (Exception e) {
+			// 非邮箱登录
+		}
+		
+		try {
 			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
 			User currentUser = this.findByName((String)subject.getPrincipal());
-			subject.getSession().setAttribute("currentUser", currentUser);
+			subject.getSession().setAttribute(Constants.LOGIN_USER, currentUser);
 			return ResultBuilder.ok();
 		} catch (InvalidSessionException e) {
 			return ResultBuilder.failed("登录失败.");

@@ -30,9 +30,8 @@
   <!-- SHIRO WEB过滤器配置 -->
   <beans:bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
     <beans:property name="securityManager" ref="securityManager" />
-    <beans:property name="loginUrl" value="/cms/login" />
-    <beans:property name="successUrl" value="/cms" />
-    <beans:property name="unauthorizedUrl" value="/cms/unauthorized" />
+    <beans:property name="loginUrl" value="/login" />
+    <beans:property name="successUrl" value="/" />
     <beans:property name="filterChainDefinitions">
       <beans:value>
         /cms/**=authc

@@ -1,4 +1,4 @@
-package com.kuaiba.site.views;
+package com.kuaiba.site.action;
 
 import javax.annotation.Resource;
 

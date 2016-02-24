@@ -1,4 +1,4 @@
-package com.kuaiba.site.views;
+package com.kuaiba.site.action;
 
 import java.text.DateFormat;
 import java.util.Date;
