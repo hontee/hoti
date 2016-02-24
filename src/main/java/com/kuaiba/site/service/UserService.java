@@ -5,6 +5,7 @@ import java.util.List;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;
 import com.kuaiba.site.support.Pager;
+import com.kuaiba.site.support.Result;
 
 public interface UserService extends Pager<User, UserExample> {
 	
@@ -23,5 +24,15 @@ public interface UserService extends Pager<User, UserExample> {
     void updateByExample(User record, UserExample example);
 
     void updateByPrimaryKey(User record);
-
+    
+    String findNameByEmail(String email);
+    
+    boolean existsEmail(String email);
+    
+    User findByName(String name);
+    
+    boolean existsName(String name);
+    
+    Result login(String username, String password);
+    
 }

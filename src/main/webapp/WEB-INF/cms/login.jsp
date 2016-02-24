@@ -32,7 +32,12 @@ $('#cms-login-window').window({
 function cmsLogin(){
   $('#cms-login-form').form({
     success: function(data) {
-    	console.log(data);
+    	var r = $.parseJSON(data);
+    	if (r.success) {
+			window.location.href = "/cms";
+		} else {
+			alert(r.message);
+		}
     }
   });
 }

@@ -275,4 +275,15 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <!-- 根据邮箱查询用户名 -->
+  <select id="selectNameByEmail" parameterType="java.lang.String" resultType="java.lang.String">
+  	SELECT name FROM t_users WHERE email = #{email} LIMIT 1
+  </select>
+  <!-- 根据用户名查询用户记录 -->
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_users
+    where name = #{name}
+  </select>
 </mapper>

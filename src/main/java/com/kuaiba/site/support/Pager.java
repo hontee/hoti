@@ -10,6 +10,6 @@ public interface Pager<T, S> {
 	 * @param p
 	 * @return
 	 */
-	PageInfo<T> findByExample(S example, Pagination p) throws Exception;
+	PageInfo<T> findByExample(S example, Pagination p);
 
 }
