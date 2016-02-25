@@ -234,6 +234,30 @@ public class HttpUtils {
 	}
 	
 	/**
+	 * Append query parameters to given url
+	 * @param url         Url as string
+	 * @param params      Map with query parameters
+	 * @return url        Url with query parameters appended
+	 * @throws IOException 
+	 */
+	public static String appendQueryParams(String url, String reffer) {
+		try {
+			String[] reffers = reffer.split("&");
+			Map<String, String> params = new HashMap<String, String>();
+			for (String string : reffers) {
+				String[] r = string.split("=");
+				params.put(r[0], r[1]);
+			}
+			
+			return HttpUtils.appendQueryParams(url, params);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * Retrieve the query parameters from given url
 	 * @param url         Url containing query parameters
 	 * @return params     Map with query parameters
@@ -356,6 +380,10 @@ public class HttpUtils {
 			out.append(new String(b, 0, n));
 		}
 		return out.toString();
+	}
+	
+	public static void main(String[] args) throws IOException {
+		
 	}
 	
 }

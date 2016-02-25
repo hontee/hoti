@@ -106,6 +106,12 @@
 	JOIN site_category c ON a.category = c.id
     where a.id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectByCategory" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM site_website a
+    WHERE category = #{category,jdbcType=BIGINT}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from site_website
     where id = #{id,jdbcType=BIGINT}

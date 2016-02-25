@@ -18,6 +18,8 @@ public interface WebsiteMapper {
 	List<Website> selectByExample(WebsiteExample example);
 
 	Website selectByPrimaryKey(Long id);
+	
+	List<Website> selectByCategory(@Param("category") Long category);
 
 	int updateByExample(@Param("record") Website record, @Param("example") WebsiteExample example);
 

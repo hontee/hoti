@@ -101,4 +101,10 @@ public class CategoryServiceImpl implements CategoryService {
 		return mapper.selectByOrganization(organization);
 	}
 
+	@Override
+	public List<Category> findByCollect(CategoryExample example) {
+		ValidUtils.checkNotNull(example);
+		return mapper.selectByCollect(example);
+	}
+
 }

@@ -8,13 +8,16 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.kuaiba.site.Constants;
 import com.kuaiba.site.db.dao.SiteFollowMapper;
 import com.kuaiba.site.db.dao.WebsiteMapper;
 import com.kuaiba.site.db.entity.Website;
 import com.kuaiba.site.db.entity.WebsiteExample;
+import com.kuaiba.site.net.HttpUtils;
 import com.kuaiba.site.security.LoginUser;
 import com.kuaiba.site.service.WebsiteService;
 import com.kuaiba.site.support.Pagination;
+import com.kuaiba.site.support.RandomKit;
 import com.kuaiba.site.support.ValidUtils;
 import com.kuaiba.site.vo.WebsiteVO;
 
@@ -64,6 +67,8 @@ public class WebsiteServiceImpl implements WebsiteService {
 		record.setState(vo.getState());
 		record.setCreateBy(LoginUser.getId());
 		record.setCategory(vo.getCategory());
+		record.setHit(RandomKit.getRandomHit());
+		record.setReffer(Constants.REFFER);
 		mapper.insert(record);
 	}
 
@@ -114,6 +119,15 @@ public class WebsiteServiceImpl implements WebsiteService {
 		ValidUtils.checkPrimaryKey(uid);
 		ValidUtils.checkPrimaryKey(fid);
 		sfMapper.insert(uid, fid);
+	}
+
+	@Override
+	public String hit(Long id) {
+		ValidUtils.checkPrimaryKey(id);
+		Website record = findByPrimaryKey(id);
+		record.setHit(record.getHit() + 1);
+		mapper.updateByPrimaryKey(record);
+		return HttpUtils.appendQueryParams(record.getUrl(), record.getReffer());
 	}
 	
 }

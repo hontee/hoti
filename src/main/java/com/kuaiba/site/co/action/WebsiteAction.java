@@ -1,8 +1,9 @@
 package com.kuaiba.site.co.action;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.db.entity.Website;
-import com.kuaiba.site.db.entity.WebsiteExample;
+import com.kuaiba.site.db.entity.Category;
+import com.kuaiba.site.db.entity.CategoryExample;
+import com.kuaiba.site.service.CategoryService;
 import com.kuaiba.site.service.RecommendService;
 import com.kuaiba.site.service.WebsiteService;
 import com.kuaiba.site.support.Pagination;
@@ -34,16 +35,19 @@ public class WebsiteAction {
 	@Resource
 	private WebsiteService service;
 	
+	@Resource
+	private CategoryService cs;
+	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String home(@RequestParam(required = false) String q, Pagination p, Model model) throws Exception {
-		WebsiteExample example = new WebsiteExample();
-		if (StringUtils.isNotEmpty(q)) {
-			example.createCriteria().andTitleLike("%" + q + "q");
-		}
-		PageInfo<Website> pageInfo = service.findByExample(example, p);
-		model.addAttribute("p", pageInfo);
-		model.addAttribute("list", pageInfo.getList());
+	public String home(Pagination p, Model model) throws Exception {
+		List<Category> cates = cs.findByCollect(new CategoryExample());
+		model.addAttribute("cates", cates);
 		return "views/home";
+	}
+	
+	@RequestMapping(value = "/{id}/hit", method = RequestMethod.GET)
+	public String hit(@PathVariable Long id, Model model) throws Exception {
+		return "redirect:" + service.hit(id);
 	}
 	
 	/**

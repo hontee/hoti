@@ -1,6 +1,7 @@
 package com.kuaiba.site.db.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class Category {
     private Long id;
@@ -30,6 +31,8 @@ public class Category {
     private String extOrganizationTitle;
     
 	private String extCreateName;
+	
+	private List<Website> websites;
 
     public Long getId() {
         return id;
@@ -141,6 +144,14 @@ public class Category {
 
 	public void setExtCreateName(String extCreateName) {
 		this.extCreateName = extCreateName;
+	}
+
+	public List<Website> getWebsites() {
+		return websites;
+	}
+
+	public void setWebsites(List<Website> websites) {
+		this.websites = websites;
 	}
     
 }

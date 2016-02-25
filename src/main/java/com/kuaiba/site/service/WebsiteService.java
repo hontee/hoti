@@ -28,5 +28,7 @@ public interface WebsiteService extends Pager<Website, WebsiteExample> {
 	void unfollow(Long uid, Long fid);
 
 	void follow(Long uid, Long fid);
+	
+	String hit(Long id);
 
 }

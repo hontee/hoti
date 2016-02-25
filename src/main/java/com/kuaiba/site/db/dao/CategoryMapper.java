@@ -1,9 +1,11 @@
 package com.kuaiba.site.db.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface CategoryMapper {
 	
@@ -23,6 +25,8 @@ public interface CategoryMapper {
 
     int updateByPrimaryKey(Category record);
     
-    List<Category> selectByOrganization(Long organization);
+    List<Category> selectByOrganization(@Param("organization") Long organization);
+    
+    List<Category> selectByCollect(CategoryExample example);
     
 }
