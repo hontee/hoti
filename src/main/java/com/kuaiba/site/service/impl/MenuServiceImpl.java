@@ -11,9 +11,11 @@ import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.db.dao.MenuMapper;
 import com.kuaiba.site.db.entity.Menu;
 import com.kuaiba.site.db.entity.MenuExample;
+import com.kuaiba.site.security.LoginUser;
 import com.kuaiba.site.service.MenuService;
 import com.kuaiba.site.support.Pagination;
 import com.kuaiba.site.support.ValidUtils;
+import com.kuaiba.site.vo.MenuVO;
 
 @Service
 public class MenuServiceImpl implements MenuService {
@@ -48,8 +50,19 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public void add(Menu record) {
-		ValidUtils.checkNotNull(record);
+	public void add(MenuVO vo) {
+		ValidUtils.checkNotNull(vo);
+		
+		Menu record = new Menu();
+		record.setCreator(LoginUser.getName());
+		record.setDescription(vo.getDescription());
+		record.setName(vo.getName());
+		record.setState(vo.getState());
+		record.setTitle(vo.getTitle());
+		record.setPath(vo.getPath());
+		record.setWeight(vo.getWeight());
+		record.setOrganization(vo.getOrganization());
+		
 		mapper.insert(record);
 	}
 
@@ -72,9 +85,20 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public void updateByPrimaryKey(Menu record) {
-		ValidUtils.checkNotNull(record);
-		ValidUtils.checkPrimaryKey(record.getId());
+	public void updateByPrimaryKey(Long id, MenuVO vo) {
+		ValidUtils.checkNotNull(vo);
+		ValidUtils.checkPrimaryKey(id);
+		
+		Menu record = new Menu();
+		record.setId(id);
+		record.setDescription(vo.getDescription());
+		record.setName(vo.getName());
+		record.setState(vo.getState());
+		record.setTitle(vo.getTitle());
+		record.setPath(vo.getPath());
+		record.setWeight(vo.getWeight());
+		record.setOrganization(vo.getOrganization());
+		
 		mapper.updateByPrimaryKey(record);		
 	}
 

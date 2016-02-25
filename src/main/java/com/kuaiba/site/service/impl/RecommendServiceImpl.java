@@ -1,6 +1,7 @@
 package com.kuaiba.site.service.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -11,9 +12,13 @@ import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.db.dao.RecommendMapper;
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
+import com.kuaiba.site.net.FetchUtils;
+import com.kuaiba.site.net.FetchUtils.WebModel;
+import com.kuaiba.site.security.LoginUser;
 import com.kuaiba.site.service.RecommendService;
 import com.kuaiba.site.support.Pagination;
 import com.kuaiba.site.support.ValidUtils;
+import com.kuaiba.site.vo.RecommendVO;
 
 @Service
 public class RecommendServiceImpl implements RecommendService {
@@ -48,8 +53,19 @@ public class RecommendServiceImpl implements RecommendService {
 	}
 
 	@Override
-	public void add(Recommend record) {
-		ValidUtils.checkNotNull(record);
+	public void add(String url) {
+		ValidUtils.checkNotNull(url);
+		
+		WebModel wm = FetchUtils.connect(url);
+		Recommend record = new Recommend();
+		record.setCreator(LoginUser.getName());
+		record.setDescription(wm.getDescription());
+		record.setName(UUID.randomUUID().toString());
+		record.setState((byte)1); // 待审核
+		record.setTitle(wm.getTitle());
+		record.setUrl(url);
+		record.setKeywords(wm.getKeywords());
+		
 		mapper.insert(record);		
 	}
 
@@ -72,9 +88,17 @@ public class RecommendServiceImpl implements RecommendService {
 	}
 
 	@Override
-	public void updateByPrimaryKey(Recommend record) {
-		ValidUtils.checkNotNull(record);
-		ValidUtils.checkPrimaryKey(record.getId());
+	public void updateByPrimaryKey(Long id, RecommendVO vo) {
+		ValidUtils.checkNotNull(vo);
+		ValidUtils.checkPrimaryKey(id);
+		
+		Recommend record = new Recommend();
+		record.setId(id);
+		record.setDescription(vo.getDescription());
+		record.setState(vo.getState());
+		record.setTitle(vo.getTitle());
+		record.setKeywords(vo.getKeywords());
+		
 		mapper.updateByPrimaryKey(record);
 	}
 

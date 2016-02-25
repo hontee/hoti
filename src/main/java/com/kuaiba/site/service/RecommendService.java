@@ -5,6 +5,7 @@ import java.util.List;
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
 import com.kuaiba.site.support.Pager;
+import com.kuaiba.site.vo.RecommendVO;
 
 public interface RecommendService extends Pager<Recommend, RecommendExample> {
 	
@@ -14,7 +15,7 @@ public interface RecommendService extends Pager<Recommend, RecommendExample> {
 
     void deleteByPrimaryKey(Long id);
 
-    void add(Recommend record);
+    void add(String url);
 
     List<Recommend> findByExample(RecommendExample example);
 
@@ -22,6 +23,6 @@ public interface RecommendService extends Pager<Recommend, RecommendExample> {
 
     void updateByExample(Recommend record, RecommendExample example);
 
-    void updateByPrimaryKey(Recommend record);
+    void updateByPrimaryKey(Long id, RecommendVO vo);
 
 }

@@ -1,4 +1,4 @@
-package com.kuaiba.site.action;
+package com.kuaiba.site.co.action;
 
 import javax.annotation.Resource;
 

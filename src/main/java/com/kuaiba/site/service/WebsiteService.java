@@ -5,6 +5,7 @@ import java.util.List;
 import com.kuaiba.site.db.entity.Website;
 import com.kuaiba.site.db.entity.WebsiteExample;
 import com.kuaiba.site.support.Pager;
+import com.kuaiba.site.vo.WebsiteVO;
 
 public interface WebsiteService extends Pager<Website, WebsiteExample> {
 	
@@ -14,7 +15,7 @@ public interface WebsiteService extends Pager<Website, WebsiteExample> {
 
 	void deleteByPrimaryKey(Long id);
 
-	void add(Website record);
+	void add(WebsiteVO vo);
 
 	List<Website> findByExample(WebsiteExample example);
 
@@ -22,7 +23,7 @@ public interface WebsiteService extends Pager<Website, WebsiteExample> {
 
 	void updateByExample(Website record, WebsiteExample example);
 
-	void updateByPrimaryKey(Website record);
+	void updateByPrimaryKey(Long id, WebsiteVO vo);
 	
 	void unfollow(Long uid, Long fid);
 

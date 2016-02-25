@@ -6,6 +6,7 @@ import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;
 import com.kuaiba.site.support.Pager;
 import com.kuaiba.site.support.Result;
+import com.kuaiba.site.vo.UserVO;
 
 public interface UserService extends Pager<User, UserExample> {
 	
@@ -15,7 +16,7 @@ public interface UserService extends Pager<User, UserExample> {
 
     void deleteByPrimaryKey(Long id);
 
-    void add(User record);
+    void add(UserVO vo);
 
     List<User> findByExample(UserExample example);
 
@@ -23,7 +24,7 @@ public interface UserService extends Pager<User, UserExample> {
 
     void updateByExample(User record, UserExample example);
 
-    void updateByPrimaryKey(User record);
+    void updateByPrimaryKey(Long id, UserVO vo);
     
     String findNameByEmail(String email);
     

@@ -1,4 +1,4 @@
-package com.kuaiba.site.action;
+package com.kuaiba.site.co.action;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

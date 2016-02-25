@@ -5,6 +5,7 @@ import java.util.List;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
 import com.kuaiba.site.support.Pager;
+import com.kuaiba.site.vo.CategoryVO;
 
 public interface CategoryService extends Pager<Category, CategoryExample> {
 	
@@ -14,7 +15,7 @@ public interface CategoryService extends Pager<Category, CategoryExample> {
 
     void deleteByPrimaryKey(Long id);
 
-    void add(Category record);
+	void add(CategoryVO vo);
 
     List<Category> findByExample(CategoryExample example);
 
@@ -22,6 +23,6 @@ public interface CategoryService extends Pager<Category, CategoryExample> {
 
     void updateByExample(Category record, CategoryExample example);
 
-    void updateByPrimaryKey(Category record);
+    void updateByPrimaryKey(Long id, CategoryVO vo);
 	
 }

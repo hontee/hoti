@@ -11,9 +11,11 @@ import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.db.dao.CategoryMapper;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
+import com.kuaiba.site.security.LoginUser;
 import com.kuaiba.site.service.CategoryService;
 import com.kuaiba.site.support.Pagination;
 import com.kuaiba.site.support.ValidUtils;
+import com.kuaiba.site.vo.CategoryVO;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -48,9 +50,16 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void add(Category record) {
-		ValidUtils.checkNotNull(record);
-		mapper.insert(record);		
+	public void add(CategoryVO vo) {
+		ValidUtils.checkNotNull(vo);
+		Category record = new Category();
+		record.setName(vo.getName());
+		record.setTitle(vo.getTitle());
+		record.setDescription(vo.getDescription());
+		record.setState(vo.getState());
+		record.setOrganization(vo.getOrganization());
+		record.setCreateBy(LoginUser.getId());
+		mapper.insert(record);
 	}
 
 	@Override
@@ -72,10 +81,20 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void updateByPrimaryKey(Category record) {
-		ValidUtils.checkNotNull(record);
-		ValidUtils.checkPrimaryKey(record.getId());
+	public void updateByPrimaryKey(Long id, CategoryVO vo) {
+		ValidUtils.checkNotNull(vo);
+		ValidUtils.checkPrimaryKey(id);
+
+		Category record = new Category();
+		record.setId(id);
+		record.setName(vo.getName());
+		record.setTitle(vo.getTitle());
+		record.setDescription(vo.getDescription());
+		record.setState(vo.getState());
+		record.setOrganization(vo.getOrganization());
 		mapper.updateByPrimaryKey(record);
 	}
+	
+	
 
 }

@@ -1,6 +1,4 @@
-package com.kuaiba.site.action;
-
-import java.util.UUID;
+package com.kuaiba.site.co.action;
 
 import javax.annotation.Resource;
 
@@ -14,11 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.Website;
 import com.kuaiba.site.db.entity.WebsiteExample;
-import com.kuaiba.site.net.FetchUtils;
-import com.kuaiba.site.net.FetchUtils.WebModel;
 import com.kuaiba.site.service.RecommendService;
 import com.kuaiba.site.service.WebsiteService;
 import com.kuaiba.site.support.Pagination;
@@ -65,18 +60,8 @@ public class WebsiteAction {
 	 * @return
 	 */
 	@RequestMapping(value = "/share", method = RequestMethod.POST)
-	public @ResponseBody Result recommend(@RequestParam String url, Model model) {
-		WebModel wm = FetchUtils.connect(url);
-		Recommend record = new Recommend();
-		record.setCreator("admin");
-		record.setDescription(wm.getDescription());
-		record.setName(UUID.randomUUID().toString());
-		record.setState((byte)1); // 待审核
-		record.setTitle(wm.getTitle());
-		record.setUrl(url);
-		record.setKeywords(wm.getKeywords());
-		recommend.add(record);
-		model.addAttribute("wm", wm);
+	public @ResponseBody Result recommend(@RequestParam String url) {
+		recommend.add(url);
 		return ResultBuilder.ok();
 	}
 	

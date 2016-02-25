@@ -1,6 +1,4 @@
-package com.kuaiba.site.cms;
-
-import java.util.UUID;
+package com.kuaiba.site.co.cms;
 
 import javax.annotation.Resource;
 
@@ -17,17 +15,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
-import com.kuaiba.site.net.FetchUtils;
-import com.kuaiba.site.net.FetchUtils.WebModel;
 import com.kuaiba.site.service.RecommendService;
 import com.kuaiba.site.support.DataGrid;
 import com.kuaiba.site.support.Pagination;
 import com.kuaiba.site.support.Result;
 import com.kuaiba.site.support.ResultBuilder;
+import com.kuaiba.site.vo.RecommendVO;
 
 @Controller
 @RequestMapping("/cms/recmds")
-public class RecommendController {
+public class RecommendCMS {
 	
 	@Resource
 	private RecommendService service;
@@ -47,22 +44,14 @@ public class RecommendController {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) {
-		try {
-			model.addAttribute("record", findByPrimaryKey(id));
-		} catch (Exception e) {
-		}
+		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/recmds/edit";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) {
-		try {
-			model.addAttribute("record", findByPrimaryKey(id));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/recmds/view";
 	}
 
@@ -80,44 +69,21 @@ public class RecommendController {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	public @ResponseBody Result add(@RequestParam String url) {
-		WebModel wm = FetchUtils.connect(url);
-		Recommend record = new Recommend();
-		record.setCreator("admin");
-		record.setDescription(wm.getDescription());
-		record.setName(UUID.randomUUID().toString());
-		record.setState((byte)1); // 待审核
-		record.setTitle(wm.getTitle());
-		record.setUrl(url);
-		record.setKeywords(wm.getKeywords());
-		service.add(record);
+		service.add(url);
 		return ResultBuilder.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	public @ResponseBody Result delete(@PathVariable Long id) {
-		try {
-			service.deleteByPrimaryKey(id);
-			return ResultBuilder.ok();
-		} catch (Exception e) {
-			return ResultBuilder.failed(e);
-		}
+		service.deleteByPrimaryKey(id);
+		return ResultBuilder.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-	public @ResponseBody Result edit(@PathVariable Long id, 
-			@RequestParam String title, 
-			@RequestParam String keywords,
-			@RequestParam(defaultValue = "无") String description, 
-			@RequestParam(defaultValue = "1") Byte state) {
-		Recommend record = new Recommend();
-		record.setId(id);
-		record.setDescription(description);
-		record.setState(state); // 待审核
-		record.setTitle(title);
-		record.setKeywords(keywords);
-		service.updateByPrimaryKey(record);
+	public @ResponseBody Result edit(@PathVariable Long id, RecommendVO vo) {
+		service.updateByPrimaryKey(id, vo);
 		return ResultBuilder.ok();
 	}
 	

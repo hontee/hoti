@@ -1,4 +1,4 @@
-package com.kuaiba.site.cms;
+package com.kuaiba.site.co.cms;
 
 import java.util.List;
 
@@ -22,10 +22,11 @@ import com.kuaiba.site.support.DataGrid;
 import com.kuaiba.site.support.Pagination;
 import com.kuaiba.site.support.Result;
 import com.kuaiba.site.support.ResultBuilder;
+import com.kuaiba.site.vo.MenuVO;
 
 @Controller
 @RequestMapping("/cms/menus")
-public class MenuController {
+public class MenuCMS {
 	
 	@Resource
 	private MenuService service;
@@ -45,22 +46,14 @@ public class MenuController {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) {
-		try {
-			model.addAttribute("record", findByPrimaryKey(id));
-		} catch (Exception e) {
-		}
+		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/menus/edit";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) {
-		try {
-			model.addAttribute("record", findByPrimaryKey(id));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/menus/view";
 	}
 
@@ -86,63 +79,23 @@ public class MenuController {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
-	public @ResponseBody Result add(
-			@RequestParam String name, 
-			@RequestParam String title, 
-			@RequestParam String path,
-			@RequestParam String organization, 
-			@RequestParam(defaultValue = "无") String description, 
-			@RequestParam(defaultValue = "0") Integer weight, 
-			@RequestParam(defaultValue = "1") Byte state) {
-		Menu record = new Menu();
-		record.setCreator("admin");
-		record.setDescription(description);
-		record.setName(name);
-		record.setState(state);
-		record.setTitle(title);
-		record.setPath(path);
-		record.setWeight(weight);
-		record.setOrganization(organization);
-		service.add(record);
+	public @ResponseBody Result add(MenuVO vo) {
+		service.add(vo);
 		return ResultBuilder.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	public @ResponseBody Result delete(@PathVariable Long id) {
-		try {
-			service.deleteByPrimaryKey(id);
-			return ResultBuilder.ok();
-		} catch (Exception e) {
-			return ResultBuilder.failed(e);
-		}
+		service.deleteByPrimaryKey(id);
+		return ResultBuilder.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-	public @ResponseBody Result edit(@PathVariable Long id, 
-			@RequestParam String name, 
-			@RequestParam String title, 
-			@RequestParam String path,
-			@RequestParam String organization,
-			@RequestParam(defaultValue = "无") String description, 
-			@RequestParam(defaultValue = "0") Integer weight, 
-			@RequestParam(defaultValue = "1") Byte state) {
-		Menu record = new Menu();
-		record.setId(id);
-		record.setDescription(description);
-		record.setName(name);
-		record.setState(state);
-		record.setTitle(title);
-		record.setPath(path);
-		record.setWeight(weight);
-		record.setOrganization(organization);
-		try {
-			service.updateByPrimaryKey(record);
-			return ResultBuilder.ok();
-		} catch (Exception e) {
-			return ResultBuilder.failed(e);
-		}
+	public @ResponseBody Result edit(@PathVariable Long id, MenuVO vo) {
+		service.updateByPrimaryKey(id, vo);
+		return ResultBuilder.ok();
 	}
 	
 	private Menu findByPrimaryKey(Long id) {

@@ -11,9 +11,11 @@ import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.db.dao.OrganizationMapper;
 import com.kuaiba.site.db.entity.Organization;
 import com.kuaiba.site.db.entity.OrganizationExample;
+import com.kuaiba.site.security.LoginUser;
 import com.kuaiba.site.service.OrganizationService;
 import com.kuaiba.site.support.Pagination;
 import com.kuaiba.site.support.ValidUtils;
+import com.kuaiba.site.vo.OrganizationVO;
 
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
@@ -48,8 +50,17 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public void add(Organization record) {
-		ValidUtils.checkNotNull(record);
+	public void add(OrganizationVO vo) {
+		ValidUtils.checkNotNull(vo);
+		
+		Organization record = new Organization();
+		record.setCreator(LoginUser.getName());
+		record.setDescription(vo.getDescription());
+		record.setName(vo.getName());
+		record.setState(vo.getState());
+		record.setTitle(vo.getTitle());
+		record.setWeight(vo.getWeight());
+		
 		mapper.insert(record);		
 	}
 
@@ -72,9 +83,18 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public void updateByPrimaryKey(Organization record) {
-		ValidUtils.checkNotNull(record);
-		ValidUtils.checkPrimaryKey(record.getId());
+	public void updateByPrimaryKey(Long id, OrganizationVO vo) {
+		ValidUtils.checkNotNull(vo);
+		ValidUtils.checkPrimaryKey(id);
+		
+		Organization record = new Organization();
+		record.setId(id);
+		record.setDescription(vo.getDescription());
+		record.setName(vo.getName());
+		record.setState(vo.getState());
+		record.setTitle(vo.getTitle());
+		record.setWeight(vo.getWeight());
+		
 		mapper.updateByPrimaryKey(record);
 	}
 

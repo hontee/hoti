@@ -17,11 +17,13 @@ import com.kuaiba.site.Constants;
 import com.kuaiba.site.db.dao.UserMapper;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;
+import com.kuaiba.site.security.EncryptUtils;
 import com.kuaiba.site.service.UserService;
 import com.kuaiba.site.support.Pagination;
 import com.kuaiba.site.support.Result;
 import com.kuaiba.site.support.ResultBuilder;
 import com.kuaiba.site.support.ValidUtils;
+import com.kuaiba.site.vo.UserVO;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -56,8 +58,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void add(User record) {
-		ValidUtils.checkNotNull(record);
+	public void add(UserVO vo) {
+		ValidUtils.checkNotNull(vo);
+		
+		User record = new User();
+		record.setEmail(vo.getEmail());
+		record.setIsEmailSet((byte)0);
+		record.setSalt(EncryptUtils.getRandomSalt()); // 随机盐值
+		record.setPassword(EncryptUtils.encrypt(vo.getPassword(), record.getSalt())); // 密码加密
+		record.setUserType(vo.getUserType());
+		record.setName(vo.getName());
+		record.setState(vo.getState());
+		record.setTitle(vo.getName());
+		
 		mapper.insert(record);		
 	}
 
@@ -80,9 +93,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateByPrimaryKey(User record) {
-		ValidUtils.checkNotNull(record);
-		ValidUtils.checkPrimaryKey(record.getId());
+	public void updateByPrimaryKey(Long id, UserVO vo) {
+		ValidUtils.checkNotNull(vo);
+		ValidUtils.checkPrimaryKey(id);
+		
+		User record = new User();
+		record.setId(id);
+		record.setEmail(vo.getEmail());
+		record.setUserType(vo.getUserType());
+		record.setName(vo.getName());
+		record.setState(vo.getState());
+		record.setTitle(vo.getTitle());
+		record.setDescription(vo.getDescription());
+		
 		mapper.updateByPrimaryKey(record);		
 	}
 

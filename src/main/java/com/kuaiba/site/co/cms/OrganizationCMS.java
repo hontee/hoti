@@ -1,4 +1,4 @@
-package com.kuaiba.site.cms;
+package com.kuaiba.site.co.cms;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +24,11 @@ import com.kuaiba.site.support.DataGrid;
 import com.kuaiba.site.support.Pagination;
 import com.kuaiba.site.support.Result;
 import com.kuaiba.site.support.ResultBuilder;
+import com.kuaiba.site.vo.OrganizationVO;
 
 @Controller
 @RequestMapping("/cms/orgs")
-public class OrganizationController {
+public class OrganizationCMS {
 
 	@Resource
 	private OrganizationService service;
@@ -47,22 +48,14 @@ public class OrganizationController {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) {
-		try {
-			model.addAttribute("record", findByPrimaryKey(id));
-		} catch (Exception e) {
-		}
+		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/orgs/edit";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) {
-		try {
-			model.addAttribute("record", findByPrimaryKey(id));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/orgs/view";
 	}
 
@@ -91,50 +84,22 @@ public class OrganizationController {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
-	public @ResponseBody Result add(
-			@RequestParam String name, 
-			@RequestParam String title, 
-			@RequestParam(defaultValue = "无") String description, 
-			@RequestParam(defaultValue = "0") Integer weight, 
-			@RequestParam(defaultValue = "1") Byte state) {
-		Organization record = new Organization();
-		record.setCreator("admin");
-		record.setDescription(description);
-		record.setName(name);
-		record.setState(state);
-		record.setTitle(title);
-		record.setWeight(weight);
-		service.add(record);
+	public @ResponseBody Result add(OrganizationVO vo) {
+		service.add(vo);
 		return ResultBuilder.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	public @ResponseBody Result delete(@PathVariable Long id) {
-		try {
-			service.deleteByPrimaryKey(id);
-			return ResultBuilder.ok();
-		} catch (Exception e) {
-			return ResultBuilder.failed(e);
-		}
+		service.deleteByPrimaryKey(id);
+		return ResultBuilder.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-	public @ResponseBody Result edit(@PathVariable Long id, 
-			@RequestParam String name, 
-			@RequestParam String title, 
-			@RequestParam(defaultValue = "无") String description, 
-			@RequestParam(defaultValue = "0") Integer weight, 
-			@RequestParam(defaultValue = "1") Byte state) {
-		Organization record = new Organization();
-		record.setId(id);
-		record.setDescription(description);
-		record.setName(name);
-		record.setState(state);
-		record.setTitle(title);
-		record.setWeight(weight);
-		service.updateByPrimaryKey(record);
+	public @ResponseBody Result edit(@PathVariable Long id, OrganizationVO vo) {
+		service.updateByPrimaryKey(id, vo);
 		return ResultBuilder.ok();
 	}
 	

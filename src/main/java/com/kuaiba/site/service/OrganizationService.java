@@ -5,6 +5,7 @@ import java.util.List;
 import com.kuaiba.site.db.entity.Organization;
 import com.kuaiba.site.db.entity.OrganizationExample;
 import com.kuaiba.site.support.Pager;
+import com.kuaiba.site.vo.OrganizationVO;
 
 public interface OrganizationService extends Pager<Organization, OrganizationExample> {
 
@@ -14,7 +15,7 @@ public interface OrganizationService extends Pager<Organization, OrganizationExa
 
     void deleteByPrimaryKey(Long id);
 
-    void add(Organization record);
+    void add(OrganizationVO vo);
 
     List<Organization> findByExample(OrganizationExample example);
 
@@ -22,6 +23,6 @@ public interface OrganizationService extends Pager<Organization, OrganizationExa
 
     void updateByExample(Organization record, OrganizationExample example);
 
-    void updateByPrimaryKey(Organization record);
+    void updateByPrimaryKey(Long id, OrganizationVO vo);
     
 }

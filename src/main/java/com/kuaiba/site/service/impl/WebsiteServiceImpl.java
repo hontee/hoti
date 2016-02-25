@@ -12,9 +12,11 @@ import com.kuaiba.site.db.dao.SiteFollowMapper;
 import com.kuaiba.site.db.dao.WebsiteMapper;
 import com.kuaiba.site.db.entity.Website;
 import com.kuaiba.site.db.entity.WebsiteExample;
+import com.kuaiba.site.security.LoginUser;
 import com.kuaiba.site.service.WebsiteService;
 import com.kuaiba.site.support.Pagination;
 import com.kuaiba.site.support.ValidUtils;
+import com.kuaiba.site.vo.WebsiteVO;
 
 @Service
 public class WebsiteServiceImpl implements WebsiteService {
@@ -52,8 +54,16 @@ public class WebsiteServiceImpl implements WebsiteService {
 	}
 
 	@Override
-	public void add(Website record) {
-		ValidUtils.checkNotNull(record);
+	public void add(WebsiteVO vo) {
+		ValidUtils.checkNotNull(vo);
+		Website record = new Website();
+		record.setName(vo.getNameUUID());
+		record.setTitle(vo.getTitle());
+		record.setUrl(vo.getUrl());
+		record.setDescription(vo.getDescription());
+		record.setState(vo.getState());
+		record.setCreateBy(LoginUser.getId());
+		record.setCategory(vo.getCategory());
 		mapper.insert(record);
 	}
 
@@ -76,8 +86,19 @@ public class WebsiteServiceImpl implements WebsiteService {
 	}
 
 	@Override
-	public void updateByPrimaryKey(Website record) {
-		ValidUtils.checkNotNull(record);
+	public void updateByPrimaryKey(Long id, WebsiteVO vo) {
+		ValidUtils.checkNotNull(vo);
+		ValidUtils.checkPrimaryKey(id);
+		
+		Website record = new Website();
+		record.setId(id);
+		record.setTitle(vo.getTitle());
+		record.setUrl(vo.getUrl());
+		record.setDescription(vo.getDescription());
+		record.setState(vo.getState());
+		record.setReffer(vo.getReffer());
+		record.setCategory(vo.getCategory());
+		
 		mapper.updateByPrimaryKey(record);
 	}
 

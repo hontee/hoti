@@ -1,6 +1,4 @@
-package com.kuaiba.site.cms;
-
-import java.util.UUID;
+package com.kuaiba.site.co.cms;
 
 import javax.annotation.Resource;
 
@@ -15,80 +13,63 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.db.entity.Website;
-import com.kuaiba.site.db.entity.WebsiteExample;
-import com.kuaiba.site.service.WebsiteService;
+import com.kuaiba.site.db.entity.User;
+import com.kuaiba.site.db.entity.UserExample;
+import com.kuaiba.site.service.UserService;
 import com.kuaiba.site.support.DataGrid;
 import com.kuaiba.site.support.Pagination;
 import com.kuaiba.site.support.Result;
 import com.kuaiba.site.support.ResultBuilder;
+import com.kuaiba.site.vo.UserVO;
 
 @Controller
-@RequestMapping("/cms/websites")
-public class WebsiteController {
-
+@RequestMapping("/cms/users")
+public class UserCMS {
+	
 	@Resource
-	private WebsiteService service;
+	private UserService service;
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String index() {
-		return "cms/websites/index";
+		return "cms/users/index";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String addPage() {
-		return "cms/websites/new";
+		return "cms/users/new";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) {
 		model.addAttribute("record", findByPrimaryKey(id));
-		return "cms/websites/edit";
+		return "cms/users/edit";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) {
-		try {
-			model.addAttribute("record", findByPrimaryKey(id));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return "cms/websites/view";
+		model.addAttribute("record", findByPrimaryKey(id));
+		return "cms/users/view";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/list")
-	public @ResponseBody DataGrid<Website> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
-		WebsiteExample example = new WebsiteExample();
+	public @ResponseBody DataGrid<User> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
+		UserExample example = new UserExample();
 		if (StringUtils.isNotBlank(title)) {
 			example.createCriteria().andTitleLike("%" + title + "%"); // 模糊查询
 		}
-		PageInfo<Website> pageInfo = service.findByExample(example, p);
+		PageInfo<User> pageInfo = service.findByExample(example, p);
 		return new DataGrid<>(pageInfo);
 	}
-
+	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
-	public @ResponseBody Result add(
-			@RequestParam String url, 
-			@RequestParam String title, 
-			@RequestParam Long category, 
-			@RequestParam(defaultValue = "无") String description, 
-			@RequestParam(defaultValue = "1") Byte state) {
-		Website record = new Website();
-		record.setName(UUID.randomUUID().toString());
-		record.setTitle(title);
-		record.setUrl(url);
-		record.setDescription(description);
-		record.setState(state);
-		record.setCreateBy(1L);
-		record.setCategory(category);
-		service.add(record);
+	public @ResponseBody Result add(UserVO vo) {
+		service.add(vo);
 		return ResultBuilder.ok();
 	}
 
@@ -101,25 +82,12 @@ public class WebsiteController {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-	public @ResponseBody Result edit(@PathVariable Long id, 
-			@RequestParam String url, 
-			@RequestParam String title, 
-			@RequestParam Long category, 
-			@RequestParam String reffer, 
-			@RequestParam(defaultValue = "无") String description, 
-			@RequestParam(defaultValue = "1") Byte state) {
-		Website record = new Website();
-		record.setId(id);
-		record.setTitle(title);
-		record.setUrl(url);
-		record.setDescription(description);
-		record.setState(state);
-		record.setCategory(category);
-		service.updateByPrimaryKey(record);
+	public @ResponseBody Result edit(@PathVariable Long id, UserVO vo) {
+		service.updateByPrimaryKey(id, vo);
 		return ResultBuilder.ok();
 	}
 	
-	private Website findByPrimaryKey(Long id) {
+	private User findByPrimaryKey(Long id) {
 		return service.findByPrimaryKey(id);
 	}
 
