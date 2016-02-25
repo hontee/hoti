@@ -23,4 +23,6 @@ public interface CategoryMapper {
 
     int updateByPrimaryKey(Category record);
     
+    List<Category> selectByOrganization(Long organization);
+    
 }

@@ -18,7 +18,9 @@ public interface OrganizationMapper {
     List<Organization> selectByExample(OrganizationExample example);
 
     Organization selectByPrimaryKey(Long id);
-
+    
+    List<Organization> selectByCollect(OrganizationExample example);
+    
     int updateByExample(@Param("record") Organization record, @Param("example") OrganizationExample example);
 
     int updateByPrimaryKey(Organization record);

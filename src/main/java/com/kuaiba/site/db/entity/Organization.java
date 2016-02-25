@@ -1,6 +1,7 @@
 package com.kuaiba.site.db.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class Organization {
     private Long id;
@@ -22,6 +23,8 @@ public class Organization {
     private Date lastModified;
 
     private String creator;
+    
+    private List<Category> cates;
 
     public Long getId() {
         return id;
@@ -102,4 +105,13 @@ public class Organization {
     public void setCreator(String creator) {
         this.creator = creator;
     }
+
+	public List<Category> getCates() {
+		return cates;
+	}
+
+	public void setCates(List<Category> cates) {
+		this.cates = cates;
+	}
+    
 }

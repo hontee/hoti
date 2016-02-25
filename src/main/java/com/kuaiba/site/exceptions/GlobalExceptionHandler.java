@@ -24,8 +24,6 @@ public class GlobalExceptionHandler {
 		return ResultBuilder.failed(e);
 	}
 	
-	
-	
 	/**
 	 * 没有访问权限
 	 * @param e

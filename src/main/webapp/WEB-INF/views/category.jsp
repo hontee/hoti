@@ -9,12 +9,10 @@
 		  <a class="list-group-item active">
 		    ${org.title}
 		  </a>
-		  <c:forEach items="${cates }" var="c">
-		  <c:if test="${org.id == c.organization}">
+		  <c:forEach items="${org.cates}" var="c">
 		  <a href="/groups/${c.id}" title="${c.description}" class="list-group-item">${c.title}
 		  <span class="label label-default label-pill pull-right">${c.count}</span>
 		  </a>
-		  </c:if>
 		  </c:forEach>
 		</div>
 	    </div>

@@ -98,4 +98,10 @@ public class OrganizationServiceImpl implements OrganizationService {
 		mapper.updateByPrimaryKey(record);
 	}
 
+	@Override
+	public List<Organization> findByCollect(OrganizationExample example) {
+		ValidUtils.checkNotNull(example);
+		return mapper.selectByCollect(example);
+	}
+
 }

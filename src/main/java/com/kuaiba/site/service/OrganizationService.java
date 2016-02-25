@@ -20,6 +20,8 @@ public interface OrganizationService extends Pager<Organization, OrganizationExa
     List<Organization> findByExample(OrganizationExample example);
 
     Organization findByPrimaryKey(Long id);
+    
+    List<Organization> findByCollect(OrganizationExample example);
 
     void updateByExample(Organization record, OrganizationExample example);
 

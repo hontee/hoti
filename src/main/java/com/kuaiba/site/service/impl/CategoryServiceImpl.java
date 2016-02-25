@@ -94,7 +94,11 @@ public class CategoryServiceImpl implements CategoryService {
 		record.setOrganization(vo.getOrganization());
 		mapper.updateByPrimaryKey(record);
 	}
-	
-	
+
+	@Override
+	public List<Category> findByOrganization(Long organization) {
+		ValidUtils.checkNotNull(organization);
+		return mapper.selectByOrganization(organization);
+	}
 
 }
