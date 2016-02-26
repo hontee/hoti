@@ -2,6 +2,8 @@ package com.kuaiba.site.front.result;
 
 import javax.ws.rs.core.Response;
 
+import com.kuaiba.site.exceptions.BusinessException;
+
 public interface ResultBuilder {
 	
 	/**
@@ -39,6 +41,9 @@ public interface ResultBuilder {
 	 */
 	public static Result failed(Throwable e) {
 		String message = "系统错误";
+		if (e instanceof BusinessException) {
+			message = e.getMessage();
+		}
 		return failed(message);
 	}
 	

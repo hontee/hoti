@@ -3,8 +3,13 @@ package com.kuaiba.site.service.kit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Preconditions;
-import com.kuaiba.site.exceptions.ValidationException;
+import com.google.common.base.Throwables;
+import com.kuaiba.site.exceptions.BType;
+import com.kuaiba.site.exceptions.BusinessException;
 
 /**
  * 服务层工具
@@ -12,6 +17,8 @@ import com.kuaiba.site.exceptions.ValidationException;
  *
  */
 public class ValidKit {
+	
+	private static Logger logger = LoggerFactory.getLogger(ValidKit.class);
 	
 	/**
 	 * 请求参数不能为空
@@ -24,7 +31,8 @@ public class ValidKit {
 				Preconditions.checkNotNull(object);
 			}
 		} catch (Exception e) {
-			throw new ValidationException(e);
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(BType.KB2001);
 		}
 	}
 	
@@ -37,7 +45,8 @@ public class ValidKit {
 			Preconditions.checkNotNull(id);
 			Preconditions.checkArgument(id > 0);
 		} catch (Exception e) {
-			throw new ValidationException(e);
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(BType.KB2001);
 		}
 	}
 	
@@ -52,6 +61,7 @@ public class ValidKit {
 			Matcher matcher = regex.matcher(email);
 			return matcher.matches();
 		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
 			return false;
 		}
 	}

@@ -20,9 +20,8 @@ import com.kuaiba.site.Constants;
 import com.kuaiba.site.db.dao.UserMapper;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;
+import com.kuaiba.site.exceptions.BType;
 import com.kuaiba.site.exceptions.BusinessException;
-import com.kuaiba.site.front.result.Result;
-import com.kuaiba.site.front.result.ResultBuilder;
 import com.kuaiba.site.front.vo.UserVO;
 import com.kuaiba.site.security.EncryptUtils;
 import com.kuaiba.site.service.UserService;
@@ -46,7 +45,7 @@ public class UserServiceImpl implements UserService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -57,7 +56,7 @@ public class UserServiceImpl implements UserService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -68,7 +67,7 @@ public class UserServiceImpl implements UserService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -79,7 +78,7 @@ public class UserServiceImpl implements UserService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -99,7 +98,7 @@ public class UserServiceImpl implements UserService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -110,7 +109,7 @@ public class UserServiceImpl implements UserService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -121,7 +120,7 @@ public class UserServiceImpl implements UserService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -132,7 +131,7 @@ public class UserServiceImpl implements UserService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -152,7 +151,7 @@ public class UserServiceImpl implements UserService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -163,7 +162,7 @@ public class UserServiceImpl implements UserService {
 			return mapper.selectNameByEmail(email);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -174,7 +173,7 @@ public class UserServiceImpl implements UserService {
 			return (mapper.selectNameByEmail(email) == null) ? false : true;
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -185,7 +184,7 @@ public class UserServiceImpl implements UserService {
 			return mapper.selectByName(name);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -196,12 +195,12 @@ public class UserServiceImpl implements UserService {
 			return (mapper.selectByName(name) == null) ? false : true;
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
 	@Override
-	public Result login(String username, String password) {
+	public void login(String username, String password) throws Exception {
 		try {
 			if (ValidKit.checkEmail(username)){
 				username = this.findNameByEmail(username);
@@ -211,14 +210,15 @@ public class UserServiceImpl implements UserService {
 			subject.login(token);
 			User currentUser = this.findByName((String) subject.getPrincipal());
 			subject.getSession().setAttribute(Constants.LOGIN_USER, currentUser);
-			return ResultBuilder.ok();
 		} catch (InvalidSessionException e) {
-			return ResultBuilder.failed("登录失败.");
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(BType.KB1001);
 		} catch (AuthenticationException e) {
-			return ResultBuilder.failed("用户名或密码错误.");
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(BType.KB1002);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 

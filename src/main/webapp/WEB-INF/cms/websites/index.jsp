@@ -38,6 +38,8 @@ websitesEL.dg.datagrid({
     idField: "id",
     rownumbers: true,
     pagination: true,
+    pageSize: 20,
+    pageList:[20, 50, 100],
     title:'站点管理',
     header: '#websites-header',
     fit: true,

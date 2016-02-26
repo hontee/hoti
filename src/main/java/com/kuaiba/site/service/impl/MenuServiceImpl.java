@@ -14,6 +14,7 @@ import com.google.common.base.Throwables;
 import com.kuaiba.site.db.dao.MenuMapper;
 import com.kuaiba.site.db.entity.Menu;
 import com.kuaiba.site.db.entity.MenuExample;
+import com.kuaiba.site.exceptions.BType;
 import com.kuaiba.site.exceptions.BusinessException;
 import com.kuaiba.site.front.vo.MenuVO;
 import com.kuaiba.site.security.LoginUser;
@@ -38,7 +39,7 @@ public class MenuServiceImpl implements MenuService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -49,7 +50,7 @@ public class MenuServiceImpl implements MenuService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -60,7 +61,7 @@ public class MenuServiceImpl implements MenuService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -71,7 +72,7 @@ public class MenuServiceImpl implements MenuService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -91,7 +92,7 @@ public class MenuServiceImpl implements MenuService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -102,7 +103,7 @@ public class MenuServiceImpl implements MenuService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -113,7 +114,7 @@ public class MenuServiceImpl implements MenuService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -124,7 +125,7 @@ public class MenuServiceImpl implements MenuService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -145,7 +146,7 @@ public class MenuServiceImpl implements MenuService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}		
 	}
 

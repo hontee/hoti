@@ -38,6 +38,8 @@ catesEL.dg.datagrid({
     idField: "id",
     rownumbers: true,
     pagination: true,
+    pageSize: 20,
+    pageList:[20, 50, 100],
     title:'类别管理',
     header: '#cates-header',
     fit: true,

@@ -42,6 +42,8 @@ recmdsEL.dg.datagrid({
     idField: "id",
     rownumbers: true,
     pagination: true,
+    pageSize: 20,
+    pageList:[20, 50, 100],
     title:'推荐站点',
     header: '#recmds-header',
     fit: true,

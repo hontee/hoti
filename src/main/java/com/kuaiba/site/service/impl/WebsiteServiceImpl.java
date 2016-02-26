@@ -16,6 +16,7 @@ import com.kuaiba.site.db.dao.SiteFollowMapper;
 import com.kuaiba.site.db.dao.WebsiteMapper;
 import com.kuaiba.site.db.entity.Website;
 import com.kuaiba.site.db.entity.WebsiteExample;
+import com.kuaiba.site.exceptions.BType;
 import com.kuaiba.site.exceptions.BusinessException;
 import com.kuaiba.site.front.vo.WebsiteVO;
 import com.kuaiba.site.net.HttpUtils;
@@ -45,7 +46,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -56,7 +57,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -67,7 +68,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -78,7 +79,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -99,7 +100,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -110,7 +111,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -121,7 +122,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -132,7 +133,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -152,7 +153,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -164,7 +165,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 			sfMapper.deleteByPrimaryKey(uid, fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -176,7 +177,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 			sfMapper.insert(uid, fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -190,7 +191,19 @@ public class WebsiteServiceImpl implements WebsiteService {
 			return HttpUtils.appendQueryParams(record.getUrl(), record.getReffer());
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
+		}
+	}
+
+	@Override
+	public boolean isFollow(Long fid) {
+		ValidKit.checkPrimaryKey(fid);
+		try {
+			List<Long> list = sfMapper.selectByUid(LoginUser.getId());
+			return list.contains(fid);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			return false;
 		}
 	}
 	

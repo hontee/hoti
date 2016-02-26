@@ -16,4 +16,8 @@
     insert into site_follow (uid, fid)
     values (#{uid,jdbcType=BIGINT}, #{fid,jdbcType=BIGINT})
   </insert>
+  <select id="selectByUid" parameterType="java.lang.Long" resultType="Long">
+  SELECT fid FROM site_follow WHERE uid = #{uid} ORDER BY fid
+  </select>
+  
 </mapper>

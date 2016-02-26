@@ -38,6 +38,8 @@ orgsEL.dg.datagrid({
     idField: "id",
     rownumbers: true,
     pagination: true,
+    pageSize: 20,
+    pageList:[20, 50, 100],
     title:'菜单管理',
     header: '#orgs-header',
     fit: true,

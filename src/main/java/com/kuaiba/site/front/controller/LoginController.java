@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kuaiba.site.Constants;
 import com.kuaiba.site.front.result.Result;
+import com.kuaiba.site.front.result.ResultBuilder;
 import com.kuaiba.site.service.UserService;
 
 /**
@@ -35,7 +36,12 @@ public class LoginController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody Result login(@RequestParam String username, @RequestParam String password) {
-		return service.login(username, password);
+		try {
+			service.login(username, password);
+			return ResultBuilder.ok();
+		} catch (Exception e) { // 登录失败
+			return ResultBuilder.failed(e);
+		}
 	}
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)

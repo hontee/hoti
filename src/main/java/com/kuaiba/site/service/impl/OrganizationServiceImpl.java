@@ -14,6 +14,7 @@ import com.google.common.base.Throwables;
 import com.kuaiba.site.db.dao.OrganizationMapper;
 import com.kuaiba.site.db.entity.Organization;
 import com.kuaiba.site.db.entity.OrganizationExample;
+import com.kuaiba.site.exceptions.BType;
 import com.kuaiba.site.exceptions.BusinessException;
 import com.kuaiba.site.front.vo.OrganizationVO;
 import com.kuaiba.site.security.LoginUser;
@@ -38,7 +39,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -49,7 +50,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -60,7 +61,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}		
 	}
 
@@ -71,7 +72,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -89,7 +90,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}		
 	}
 
@@ -100,7 +101,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -111,7 +112,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -122,7 +123,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -141,7 +142,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
@@ -152,7 +153,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			return mapper.selectByCollect(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(e);
+			throw new BusinessException(BType.KB2003);
 		}
 	}
 
