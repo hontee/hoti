@@ -5,101 +5,184 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.base.Throwables;
 import com.kuaiba.site.db.dao.RecommendMapper;
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
+import com.kuaiba.site.exceptions.BusinessException;
+import com.kuaiba.site.front.vo.RecommendVO;
+import com.kuaiba.site.front.vo.WebsiteVO;
 import com.kuaiba.site.net.FetchUtils;
 import com.kuaiba.site.net.FetchUtils.WebModel;
 import com.kuaiba.site.security.LoginUser;
 import com.kuaiba.site.service.RecommendService;
-import com.kuaiba.site.support.Pagination;
-import com.kuaiba.site.support.ValidUtils;
-import com.kuaiba.site.vo.RecommendVO;
+import com.kuaiba.site.service.WebsiteService;
+import com.kuaiba.site.service.kit.Pagination;
+import com.kuaiba.site.service.kit.ValidKit;
 
 @Service
 public class RecommendServiceImpl implements RecommendService {
 	
+	private Logger logger = LoggerFactory.getLogger(RecommendServiceImpl.class);
+	
 	@Resource
 	private RecommendMapper mapper;
+	
+	@Resource
+	private WebsiteService webService;
 
 	@Override
 	public PageInfo<Recommend> findByExample(RecommendExample example, Pagination p) {
-		ValidUtils.checkNotNull(example, p);
-		PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-		List<Recommend> list = this.findByExample(example);
-		return new PageInfo<>(list);
+		ValidKit.checkNotNull(example, p);
+		try {
+			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
+			List<Recommend> list = this.findByExample(example);
+			return new PageInfo<>(list);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public int countByExample(RecommendExample example) {
-		ValidUtils.checkNotNull(example);
-		return mapper.countByExample(example);
+		ValidKit.checkNotNull(example);
+		try {
+			return mapper.countByExample(example);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public void deleteByExample(RecommendExample example) {
-		ValidUtils.checkNotNull(example);
-		mapper.deleteByExample(example);
+		ValidKit.checkNotNull(example);
+		try {
+			mapper.deleteByExample(example);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public void deleteByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
-		mapper.deleteByPrimaryKey(id);		
+		ValidKit.checkPrimaryKey(id);
+		try {
+			mapper.deleteByPrimaryKey(id);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public void add(String url) {
-		ValidUtils.checkNotNull(url);
-		
-		WebModel wm = FetchUtils.connect(url);
-		Recommend record = new Recommend();
-		record.setCreator(LoginUser.getName());
-		record.setDescription(wm.getDescription());
-		record.setName(UUID.randomUUID().toString());
-		record.setState((byte)1); // 待审核
-		record.setTitle(wm.getTitle());
-		record.setUrl(url);
-		record.setKeywords(wm.getKeywords());
-		
-		mapper.insert(record);		
+		ValidKit.checkNotNull(url);
+		try {
+			WebModel wm = FetchUtils.connect(url);
+			Recommend record = new Recommend();
+			record.setCreator(LoginUser.getName());
+			record.setDescription(wm.getDescription());
+			record.setName(UUID.randomUUID().toString());
+			record.setState((byte)1); // 待审核
+			record.setTitle(wm.getTitle());
+			record.setUrl(url);
+			record.setKeywords(wm.getKeywords());
+			mapper.insert(record);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}		
 	}
 
 	@Override
 	public List<Recommend> findByExample(RecommendExample example) {
-		ValidUtils.checkNotNull(example);
-		return mapper.selectByExample(example);
+		ValidKit.checkNotNull(example);
+		try {
+			return mapper.selectByExample(example);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public Recommend findByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
-		return mapper.selectByPrimaryKey(id);
+		ValidKit.checkPrimaryKey(id);
+		try {
+			return mapper.selectByPrimaryKey(id);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public void updateByExample(Recommend record, RecommendExample example) {
-		ValidUtils.checkNotNull(record, example);
-		mapper.updateByExample(record, example);
+		ValidKit.checkNotNull(record, example);
+		try {
+			mapper.updateByExample(record, example);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public void updateByPrimaryKey(Long id, RecommendVO vo) {
-		ValidUtils.checkNotNull(vo);
-		ValidUtils.checkPrimaryKey(id);
-		
-		Recommend record = new Recommend();
-		record.setId(id);
-		record.setDescription(vo.getDescription());
-		record.setState(vo.getState());
-		record.setTitle(vo.getTitle());
-		record.setKeywords(vo.getKeywords());
-		
-		mapper.updateByPrimaryKey(record);
+		ValidKit.checkNotNull(vo);
+		ValidKit.checkPrimaryKey(id);
+		try {
+			Recommend record = new Recommend();
+			record.setId(id);
+			record.setDescription(vo.getDescription());
+			record.setTitle(vo.getTitle());
+			record.setKeywords(vo.getKeywords());
+			mapper.updateByPrimaryKey(record);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
+	}
+
+	@Override
+	public void audit(Long id, String remark) {
+		ValidKit.checkNotNull(remark);
+		ValidKit.checkPrimaryKey(id);
+		try {
+			Recommend record = new Recommend();
+			record.setId(id);
+			record.setState((byte)3); // 审核拒绝
+			record.setRemark(remark);
+			mapper.updateByPrimaryKey(record);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
+	}
+
+	@Override
+	public void audit(Long id, WebsiteVO vo) {
+		ValidKit.checkNotNull(vo);
+		ValidKit.checkPrimaryKey(id);
+		try {
+			Recommend record = new Recommend();
+			record.setId(id);
+			record.setState((byte)2); // 审核通过
+			mapper.updateByPrimaryKey(record);
+			webService.add(vo);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 }

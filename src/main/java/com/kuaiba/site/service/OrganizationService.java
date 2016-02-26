@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.kuaiba.site.db.entity.Organization;
 import com.kuaiba.site.db.entity.OrganizationExample;
-import com.kuaiba.site.support.Pager;
-import com.kuaiba.site.vo.OrganizationVO;
+import com.kuaiba.site.front.vo.OrganizationVO;
+import com.kuaiba.site.service.kit.Pager;
 
 public interface OrganizationService extends Pager<Organization, OrganizationExample> {
 

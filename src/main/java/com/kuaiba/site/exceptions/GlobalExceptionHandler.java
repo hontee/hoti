@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.kuaiba.site.support.Result;
-import com.kuaiba.site.support.ResultBuilder;
+import com.kuaiba.site.front.result.Result;
+import com.kuaiba.site.front.result.ResultBuilder;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

@@ -4,25 +4,31 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.base.Throwables;
 import com.kuaiba.site.Constants;
 import com.kuaiba.site.db.dao.SiteFollowMapper;
 import com.kuaiba.site.db.dao.WebsiteMapper;
 import com.kuaiba.site.db.entity.Website;
 import com.kuaiba.site.db.entity.WebsiteExample;
+import com.kuaiba.site.exceptions.BusinessException;
+import com.kuaiba.site.front.vo.WebsiteVO;
 import com.kuaiba.site.net.HttpUtils;
 import com.kuaiba.site.security.LoginUser;
 import com.kuaiba.site.service.WebsiteService;
-import com.kuaiba.site.support.Pagination;
-import com.kuaiba.site.support.RandomKit;
-import com.kuaiba.site.support.ValidUtils;
-import com.kuaiba.site.vo.WebsiteVO;
+import com.kuaiba.site.service.kit.Pagination;
+import com.kuaiba.site.service.kit.RandomKit;
+import com.kuaiba.site.service.kit.ValidKit;
 
 @Service
 public class WebsiteServiceImpl implements WebsiteService {
+	
+	private Logger logger = LoggerFactory.getLogger(WebsiteServiceImpl.class);
 	
 	@Resource
 	private WebsiteMapper mapper;
@@ -32,102 +38,160 @@ public class WebsiteServiceImpl implements WebsiteService {
 
 	@Override
 	public PageInfo<Website> findByExample(WebsiteExample example, Pagination p) {
-		ValidUtils.checkNotNull(example, p);
-		PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-		List<Website> list = this.findByExample(example);
-		return new PageInfo<>(list);
+		ValidKit.checkNotNull(example, p);
+		try {
+			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
+			List<Website> list = this.findByExample(example);
+			return new PageInfo<>(list);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public int countByExample(WebsiteExample example) {
-		ValidUtils.checkNotNull(example);
-		return mapper.countByExample(example);
+		ValidKit.checkNotNull(example);
+		try {
+			return mapper.countByExample(example);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public void deleteByExample(WebsiteExample example) {
-		ValidUtils.checkNotNull(example);
-		mapper.deleteByExample(example);
+		ValidKit.checkNotNull(example);
+		try {
+			mapper.deleteByExample(example);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public void deleteByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
-		mapper.deleteByPrimaryKey(id);
+		ValidKit.checkPrimaryKey(id);
+		try {
+			mapper.deleteByPrimaryKey(id);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public void add(WebsiteVO vo) {
-		ValidUtils.checkNotNull(vo);
-		Website record = new Website();
-		record.setName(vo.getNameUUID());
-		record.setTitle(vo.getTitle());
-		record.setUrl(vo.getUrl());
-		record.setDescription(vo.getDescription());
-		record.setState(vo.getState());
-		record.setCreateBy(LoginUser.getId());
-		record.setCategory(vo.getCategory());
-		record.setHit(RandomKit.getRandomHit());
-		record.setReffer(Constants.REFFER);
-		mapper.insert(record);
+		ValidKit.checkNotNull(vo);
+		try {
+			Website record = new Website();
+			record.setName(vo.getNameUUID());
+			record.setTitle(vo.getTitle());
+			record.setUrl(vo.getUrl());
+			record.setDescription(vo.getDescription());
+			record.setState(vo.getState());
+			record.setCreateBy(LoginUser.getId());
+			record.setCategory(vo.getCategory());
+			record.setHit(RandomKit.getRandomHit());
+			record.setReffer(Constants.REFFER);
+			mapper.insert(record);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public List<Website> findByExample(WebsiteExample example) {
-		ValidUtils.checkNotNull(example);
-		return mapper.selectByExample(example);
+		ValidKit.checkNotNull(example);
+		try {
+			return mapper.selectByExample(example);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public Website findByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
-		return mapper.selectByPrimaryKey(id);
+		ValidKit.checkPrimaryKey(id);
+		try {
+			return mapper.selectByPrimaryKey(id);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public void updateByExample(Website record, WebsiteExample example) {
-		ValidUtils.checkNotNull(record, example);
-		mapper.updateByExample(record, example);
+		ValidKit.checkNotNull(record, example);
+		try {
+			mapper.updateByExample(record, example);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public void updateByPrimaryKey(Long id, WebsiteVO vo) {
-		ValidUtils.checkNotNull(vo);
-		ValidUtils.checkPrimaryKey(id);
-		
-		Website record = new Website();
-		record.setId(id);
-		record.setTitle(vo.getTitle());
-		record.setUrl(vo.getUrl());
-		record.setDescription(vo.getDescription());
-		record.setState(vo.getState());
-		record.setReffer(vo.getReffer());
-		record.setCategory(vo.getCategory());
-		
-		mapper.updateByPrimaryKey(record);
+		ValidKit.checkNotNull(vo);
+		ValidKit.checkPrimaryKey(id);
+		try {
+			Website record = new Website();
+			record.setId(id);
+			record.setTitle(vo.getTitle());
+			record.setUrl(vo.getUrl());
+			record.setDescription(vo.getDescription());
+			record.setState(vo.getState());
+			record.setReffer(vo.getReffer());
+			record.setCategory(vo.getCategory());
+			mapper.updateByPrimaryKey(record);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public void unfollow(Long uid, Long fid) {
-		ValidUtils.checkPrimaryKey(uid);
-		ValidUtils.checkPrimaryKey(fid);
-		sfMapper.deleteByPrimaryKey(uid, fid);
+		ValidKit.checkPrimaryKey(uid);
+		ValidKit.checkPrimaryKey(fid);
+		try {
+			sfMapper.deleteByPrimaryKey(uid, fid);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public void follow(Long uid, Long fid) {
-		ValidUtils.checkPrimaryKey(uid);
-		ValidUtils.checkPrimaryKey(fid);
-		sfMapper.insert(uid, fid);
+		ValidKit.checkPrimaryKey(uid);
+		ValidKit.checkPrimaryKey(fid);
+		try {
+			sfMapper.insert(uid, fid);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public String hit(Long id) {
-		ValidUtils.checkPrimaryKey(id);
-		Website record = findByPrimaryKey(id);
-		record.setHit(record.getHit() + 1);
-		mapper.updateByPrimaryKey(record);
-		return HttpUtils.appendQueryParams(record.getUrl(), record.getReffer());
+		ValidKit.checkPrimaryKey(id);
+		try {
+			Website record = findByPrimaryKey(id);
+			record.setHit(record.getHit() + 1);
+			mapper.updateByPrimaryKey(record);
+			return HttpUtils.appendQueryParams(record.getUrl(), record.getReffer());
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+			throw new BusinessException(e);
+		}
 	}
 	
 }

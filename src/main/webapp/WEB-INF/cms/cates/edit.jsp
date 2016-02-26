@@ -13,7 +13,7 @@
     </div>
     <div class="cms-mb20">
       <div class="cms-mb5">所属分组:</div>
-      <input id="cc" class="easyui-combobox" name="organization"
+      <input class="easyui-combobox" name="organization"
     	data-options="panelHeight:'auto',editable: false, value: '${record.organization}', valueField:'id',textField:'title',url:'/cms/orgs/datalist'" 
     	style="width:100%; height:32px">
     </div>

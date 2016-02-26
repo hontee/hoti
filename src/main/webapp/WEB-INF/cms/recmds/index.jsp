@@ -6,6 +6,8 @@
 <header id="recmds-header" class="cms-dg-header">
 	<button id="recmds-add" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新建</button>
 	<button id="recmds-edit" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">编辑</button>
+	<button id="recmds-audit-ok" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">审核通过</button>
+	<button id="recmds-audit-not" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">审核拒绝</button>
 	<button id="recmds-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
 	<button id="recmds-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
@@ -23,6 +25,8 @@
 var recmdsEL = {
 	add: $("#recmds-add"),
 	edit: $("#recmds-edit"),
+	auditOk: $("#recmds-audit-ok"),
+	auditNot: $("#recmds-audit-not"),
 	remove: $("#recmds-remove"),
 	reload: $("#recmds-reload"),
 	dg: $("#recmds-dg"),
@@ -92,18 +96,20 @@ recmdsEL.dg.datagrid({
 recmdsEL.reset = function() {
 	var length = recmdsEL.dg.datagrid("getSelections").length;
 	if (length == 0) { // 全部禁用
-		recmdsEL.linkButton(true, true, true);
+		recmdsEL.linkButton(true);
 	} else if (length == 1) { // 可编辑和删除
-		recmdsEL.linkButton(false, false, true);
+		recmdsEL.linkButton(false);
 	} else { // 可批量操作
-		recmdsEL.linkButton(true, true, false);
+		recmdsEL.linkButton(true);
 	}
 }
 
 // 设置按钮是否可用
-recmdsEL.linkButton = function(a, b, c) {
+recmdsEL.linkButton = function(a) {
 	recmdsEL.edit.linkbutton({disabled: a});
-	recmdsEL.remove.linkbutton({disabled: b});
+	recmdsEL.auditOk.linkbutton({disabled: a});
+	recmdsEL.auditNot.linkbutton({disabled: a});
+	recmdsEL.remove.linkbutton({disabled: a});
 }
 
 // 搜索
@@ -142,6 +148,44 @@ recmdsEL.edit.click(function() {
 			minimizable: false,
 			maximizable: false,
 			href: '/cms/recmds/' + row.id + '/edit',
+			method: 'get',
+			cache: false
+		});
+	}
+});
+
+//审核通过
+recmdsEL.auditOk.click(function() {
+	var row = recmdsEL.dg.datagrid('getSelected');
+	if (row) {
+		recmdsEL.editWin.window({
+			width: 480,
+			height: 650,
+			modal: true,
+			title: '审核',
+			collapsible: false,
+			minimizable: false,
+			maximizable: false,
+			href: '/cms/recmds/' + row.id + '/auditOk',
+			method: 'get',
+			cache: false
+		});
+	}
+});
+
+//审核拒绝
+recmdsEL.auditNot.click(function() {
+	var row = recmdsEL.dg.datagrid('getSelected');
+	if (row) {
+		recmdsEL.editWin.window({
+			width: 480,
+			height: 650,
+			modal: true,
+			title: '审核',
+			collapsible: false,
+			minimizable: false,
+			maximizable: false,
+			href: '/cms/recmds/' + row.id + '/auditNot',
 			method: 'get',
 			cache: false
 		});

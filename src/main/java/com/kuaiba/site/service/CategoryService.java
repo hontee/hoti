@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
-import com.kuaiba.site.support.Pager;
-import com.kuaiba.site.vo.CategoryVO;
+import com.kuaiba.site.front.vo.CategoryVO;
+import com.kuaiba.site.service.kit.Pager;
 
 public interface CategoryService extends Pager<Category, CategoryExample> {
 	

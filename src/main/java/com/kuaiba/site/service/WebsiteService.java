@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.kuaiba.site.db.entity.Website;
 import com.kuaiba.site.db.entity.WebsiteExample;
-import com.kuaiba.site.support.Pager;
-import com.kuaiba.site.vo.WebsiteVO;
+import com.kuaiba.site.front.vo.WebsiteVO;
+import com.kuaiba.site.service.kit.Pager;
 
 public interface WebsiteService extends Pager<Website, WebsiteExample> {
 	
