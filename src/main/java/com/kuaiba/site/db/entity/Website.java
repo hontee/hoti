@@ -36,6 +36,11 @@ public class Website {
     private String extCategoryTitle;
     
     private String extCreateName;
+    
+    /**
+     * 判断用户是否关注
+     */
+    private int extFollow;
 
     public Long getId() {
         return id;
@@ -171,6 +176,14 @@ public class Website {
 
 	public void setExtCreateName(String extCreateName) {
 		this.extCreateName = extCreateName;
+	}
+
+	public int getExtFollow() {
+		return extFollow;
+	}
+
+	public void setExtFollow(int extFollow) {
+		this.extFollow = extFollow;
 	}
     
 }

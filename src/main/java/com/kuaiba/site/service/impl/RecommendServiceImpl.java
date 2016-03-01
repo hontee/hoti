@@ -90,7 +90,9 @@ public class RecommendServiceImpl implements RecommendService {
 		try {
 			WebModel wm = FetchUtils.connect(url);
 			Recommend record = new Recommend();
-			record.setCreator(LoginUser.getName());
+			if (LoginUser.isLogin()) {
+				record.setCreator(LoginUser.getName());
+			}
 			record.setDescription(wm.getDescription());
 			record.setName(UUID.randomUUID().toString());
 			record.setState((byte)1); // 待审核

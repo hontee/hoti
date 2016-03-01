@@ -59,4 +59,16 @@ public abstract class LoginUser {
 			throw new InvalidSessionException();
 		}
 	}
+	
+	/**
+	 * 判断登录用户是否为管理员
+	 * @return
+	 */
+	public static boolean isLogin() {
+		try {
+			return getUser() != null;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }

@@ -11,7 +11,7 @@
 		  </a>
 		  <c:forEach items="${c.websites}" var="w">
 		  <a href="/${w.id}/hit" title="${w.description}" target="_blank" class="list-group-item">${w.title}
-		  <span class="label label-default label-pill pull-right">${w.star}</span>
+		  <span class="label label-default label-pill pull-right">${w.star} - ${w.extFollow}</span>
 		  </a>
 		  </c:forEach>
 		</div>

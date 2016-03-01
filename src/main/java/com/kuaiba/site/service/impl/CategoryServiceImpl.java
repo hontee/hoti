@@ -1,5 +1,6 @@
 package com.kuaiba.site.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -12,8 +13,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
 import com.kuaiba.site.db.dao.CategoryMapper;
+import com.kuaiba.site.db.dao.SiteFollowMapper;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
+import com.kuaiba.site.db.entity.Website;
 import com.kuaiba.site.exceptions.BType;
 import com.kuaiba.site.exceptions.BusinessException;
 import com.kuaiba.site.front.vo.CategoryVO;
@@ -26,6 +29,9 @@ import com.kuaiba.site.service.kit.ValidKit;
 public class CategoryServiceImpl implements CategoryService {
 	
 	private Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
+	
+	@Resource
+	private SiteFollowMapper sfMapper;
 	
 	@Resource
 	private CategoryMapper mapper;
@@ -161,11 +167,29 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Category> findByCollect(CategoryExample example) {
 		ValidKit.checkNotNull(example);
 		try {
-			return mapper.selectByCollect(example);
+			List<Category> cates = mapper.selectByCollect(example);
+			List<Category> list = new ArrayList<>();
+			Long uid = LoginUser.isLogin() ? LoginUser.getId(): 0L;
+			final List<Long> fids = sfMapper.selectByUid(uid);
+			
+			cates.forEach((c) -> {
+				List<Website> ws = c.getWebsites();
+				if (ws.isEmpty()) {
+					list.add(c);
+				} else {
+					ws.forEach((web) -> {
+						if (fids.contains(web.getId())) {
+							web.setExtFollow(1);
+						}
+					});
+				}
+			});
+			cates.removeAll(list);
+			return cates;
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
 			throw new BusinessException(BType.KB2003);
 		}
 	}
-
+	
 }

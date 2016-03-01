@@ -45,7 +45,7 @@ websitesEL.dg.datagrid({
     fit: true,
     columns:[[
         {field:'id', checkbox: true},
-        {field:'name',title:'名称',width:100, sortable: true},
+        {field:'name',title:'名称',width:100, hidden: true},
         {field:'title',title:'标题',width:100, sortable: true},
         {field:'url',title:'网址',width:100},
         {field:'description',title:'描述',width:100},
