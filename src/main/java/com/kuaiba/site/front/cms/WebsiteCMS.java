@@ -1,7 +1,5 @@
 package com.kuaiba.site.front.cms;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
@@ -13,82 +11,80 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.kuaiba.site.CmsIds;
 import com.kuaiba.site.db.entity.Website;
 import com.kuaiba.site.db.entity.WebsiteExample;
+import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.result.DataGrid;
 import com.kuaiba.site.front.result.Result;
 import com.kuaiba.site.front.result.ResultBuilder;
 import com.kuaiba.site.front.vo.WebsiteVO;
-import com.kuaiba.site.service.WebsiteService;
 import com.kuaiba.site.service.kit.Pagination;
 
 @Controller
-@RequestMapping("/cms/websites")
-public class WebsiteCMS {
-
-	@Resource
-	private WebsiteService service;
+@RequestMapping(CmsIds.CMS_WEBSITES)
+public class WebsiteCMS extends BaseController {
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = CmsIds.HOME, method = RequestMethod.GET)
 	public String index() {
 		return "cms/websites/index";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/new", method = RequestMethod.GET)
+	@RequestMapping(value = CmsIds.CREATE, method = RequestMethod.GET)
 	public String addPage() {
 		return "cms/websites/new";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+	@RequestMapping(value = CmsIds.EDIT, method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/websites/edit";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = CmsIds.VIEW, method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/websites/view";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/list")
+	@RequestMapping(value = CmsIds.LIST)
 	public @ResponseBody DataGrid<Website> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
 		WebsiteExample example = new WebsiteExample();
 		if (StringUtils.isNotBlank(title)) {
 			example.createCriteria().andTitleLike("%" + title + "%"); // 模糊查询
 		}
-		PageInfo<Website> pageInfo = service.findByExample(example, p);
+		PageInfo<Website> pageInfo = websiteService.findByExample(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/new", method = RequestMethod.POST)
+	@RequestMapping(value = CmsIds.CREATE, method = RequestMethod.POST)
 	public @ResponseBody Result add(WebsiteVO vo) {
-		service.add(vo);
+		websiteService.add(vo);
 		return ResultBuilder.ok();
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
+	@RequestMapping(value = CmsIds.DELETE, method = RequestMethod.POST)
 	public @ResponseBody Result delete(@PathVariable Long id) {
-		service.deleteByPrimaryKey(id);
+		websiteService.deleteByPrimaryKey(id);
 		return ResultBuilder.ok();
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
+	@RequestMapping(value = CmsIds.EDIT, method = RequestMethod.POST)
 	public @ResponseBody Result edit(@PathVariable Long id, WebsiteVO vo) {
-		service.updateByPrimaryKey(id, vo);
+		websiteService.updateByPrimaryKey(id, vo);
 		return ResultBuilder.ok();
 	}
 	
 	private Website findByPrimaryKey(Long id) {
-		return service.findByPrimaryKey(id);
+		return websiteService.findByPrimaryKey(id);
 	}
 
 }

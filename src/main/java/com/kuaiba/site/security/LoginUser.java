@@ -3,7 +3,7 @@ package com.kuaiba.site.security;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.InvalidSessionException;
 
-import com.kuaiba.site.Constants;
+import com.kuaiba.site.GlobalIds;
 import com.kuaiba.site.db.entity.User;
 
 /**
@@ -18,7 +18,7 @@ public abstract class LoginUser {
 	 */
 	public static User getUser() {
 		try {
-			return (User)SecurityUtils.getSubject().getSession().getAttribute(Constants.LOGIN_USER);
+			return (User)SecurityUtils.getSubject().getSession().getAttribute(GlobalIds.LOGIN_USER);
 		} catch (Exception e) {
 			throw new InvalidSessionException();
 		}

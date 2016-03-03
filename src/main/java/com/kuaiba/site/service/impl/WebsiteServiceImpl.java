@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
-import com.kuaiba.site.Constants;
+import com.kuaiba.site.GlobalIds;
 import com.kuaiba.site.db.dao.SiteFollowMapper;
 import com.kuaiba.site.db.dao.WebsiteMapper;
 import com.kuaiba.site.db.entity.Website;
@@ -96,7 +96,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 			record.setCreateBy(LoginUser.getId());
 			record.setCategory(vo.getCategory());
 			record.setHit(RandomKit.getRandomHit());
-			record.setReffer(Constants.REFFER);
+			record.setReffer(GlobalIds.REFFER);
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));

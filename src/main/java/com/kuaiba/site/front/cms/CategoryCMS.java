@@ -2,8 +2,6 @@ package com.kuaiba.site.front.cms;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
@@ -15,89 +13,87 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.kuaiba.site.CmsIds;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
+import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.result.DataGrid;
 import com.kuaiba.site.front.result.Result;
 import com.kuaiba.site.front.result.ResultBuilder;
 import com.kuaiba.site.front.vo.CategoryVO;
-import com.kuaiba.site.service.CategoryService;
 import com.kuaiba.site.service.kit.Pagination;
 
 @Controller
-@RequestMapping("/cms/cates")
-public class CategoryCMS {
+@RequestMapping(CmsIds.CMS_CATES)
+public class CategoryCMS extends BaseController {
 	
-	@Resource
-	private CategoryService service;
-
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = CmsIds.HOME, method = RequestMethod.GET)
 	public String index() {
 		return "cms/cates/index";
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/new", method = RequestMethod.GET)
+	@RequestMapping(value = CmsIds.CREATE, method = RequestMethod.GET)
 	public String addPage() {
 		return "cms/cates/new";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+	@RequestMapping(value = CmsIds.EDIT, method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/cates/edit";
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = CmsIds.VIEW, method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/cates/view";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/list")
+	@RequestMapping(value = CmsIds.LIST)
 	public @ResponseBody DataGrid<Category> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
 		CategoryExample example = new CategoryExample();
 		if (StringUtils.isNotBlank(title)) {
 			example.createCriteria().andTitleLike("%" + title + "%"); // 模糊查询
 		}
-		PageInfo<Category> pageInfo = service.findByExample(example, p);
+		PageInfo<Category> pageInfo = categoryService.findByExample(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping("/datalist")
+	@RequestMapping(value = CmsIds.DATALIST)
 	public @ResponseBody List<Category> datalist() throws Exception {
 		CategoryExample example = new CategoryExample();
 		example.createCriteria().andStateEqualTo((byte)1);
-		return service.findByExample(example);
+		return categoryService.findByExample(example);
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/new", method = RequestMethod.POST)
+	@RequestMapping(value = CmsIds.CREATE, method = RequestMethod.POST)
 	public @ResponseBody Result add(CategoryVO vo) {
-		service.add(vo);
+		categoryService.add(vo);
 		return ResultBuilder.ok();
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
+	@RequestMapping(value = CmsIds.DELETE, method = RequestMethod.POST)
 	public @ResponseBody Result delete(@PathVariable Long id) {
-		service.deleteByPrimaryKey(id);
+		categoryService.deleteByPrimaryKey(id);
 		return ResultBuilder.ok();
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
+	@RequestMapping(value = CmsIds.EDIT, method = RequestMethod.POST)
 	public @ResponseBody Result edit(@PathVariable Long id,  CategoryVO vo) {
-		service.updateByPrimaryKey(id, vo);
+		categoryService.updateByPrimaryKey(id, vo);
 		return ResultBuilder.ok();
 	}
 	
 	private Category findByPrimaryKey(Long id) {
-		return service.findByPrimaryKey(id);
+		return categoryService.findByPrimaryKey(id);
 	}
 }

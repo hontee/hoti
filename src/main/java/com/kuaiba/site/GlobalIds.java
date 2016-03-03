@@ -4,7 +4,7 @@ package com.kuaiba.site;
  * 常量类
  * @author larry.qi
  */
-public interface Constants {
+public interface GlobalIds {
 	
 	/**
 	 * 登录用户

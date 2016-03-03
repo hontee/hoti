@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
-import com.kuaiba.site.Constants;
+import com.kuaiba.site.GlobalIds;
 import com.kuaiba.site.db.dao.UserMapper;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;
@@ -209,7 +209,7 @@ public class UserServiceImpl implements UserService {
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
 			User currentUser = this.findByName((String) subject.getPrincipal());
-			subject.getSession().setAttribute(Constants.LOGIN_USER, currentUser);
+			subject.getSession().setAttribute(GlobalIds.LOGIN_USER, currentUser);
 		} catch (InvalidSessionException e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
 			throw new BusinessException(BType.KB1001);
