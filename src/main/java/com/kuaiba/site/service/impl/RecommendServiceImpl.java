@@ -21,7 +21,7 @@ import com.kuaiba.site.front.vo.RecommendVO;
 import com.kuaiba.site.front.vo.WebsiteVO;
 import com.kuaiba.site.net.FetchUtils;
 import com.kuaiba.site.net.FetchUtils.WebModel;
-import com.kuaiba.site.security.LoginUser;
+import com.kuaiba.site.security.Administrator;
 import com.kuaiba.site.service.RecommendService;
 import com.kuaiba.site.service.WebsiteService;
 import com.kuaiba.site.service.kit.Pagination;
@@ -90,8 +90,8 @@ public class RecommendServiceImpl implements RecommendService {
 		try {
 			WebModel wm = FetchUtils.connect(url);
 			Recommend record = new Recommend();
-			if (LoginUser.isLogin()) {
-				record.setCreator(LoginUser.getName());
+			if (Administrator.isLogin()) {
+				record.setCreator(Administrator.getName());
 			}
 			record.setDescription(wm.getDescription());
 			record.setName(UUID.randomUUID().toString());

@@ -20,7 +20,7 @@ import com.kuaiba.site.exceptions.BType;
 import com.kuaiba.site.exceptions.BusinessException;
 import com.kuaiba.site.front.vo.WebsiteVO;
 import com.kuaiba.site.net.HttpUtils;
-import com.kuaiba.site.security.LoginUser;
+import com.kuaiba.site.security.Administrator;
 import com.kuaiba.site.service.WebsiteService;
 import com.kuaiba.site.service.kit.Pagination;
 import com.kuaiba.site.service.kit.RandomKit;
@@ -93,7 +93,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 			record.setUrl(vo.getUrl());
 			record.setDescription(vo.getDescription());
 			record.setState(vo.getState());
-			record.setCreateBy(LoginUser.getId());
+			record.setCreateBy(Administrator.getId());
 			record.setCategory(vo.getCategory());
 			record.setHit(RandomKit.getRandomHit());
 			record.setReffer(GlobalIds.REFFER);
@@ -199,7 +199,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 	public boolean isFollow(Long fid) {
 		ValidKit.checkPrimaryKey(fid);
 		try {
-			List<Long> list = sfMapper.selectByUid(LoginUser.getId());
+			List<Long> list = sfMapper.selectByUid(Administrator.getId());
 			return list.contains(fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));

@@ -20,7 +20,7 @@ import com.kuaiba.site.db.entity.Website;
 import com.kuaiba.site.exceptions.BType;
 import com.kuaiba.site.exceptions.BusinessException;
 import com.kuaiba.site.front.vo.CategoryVO;
-import com.kuaiba.site.security.LoginUser;
+import com.kuaiba.site.security.Administrator;
 import com.kuaiba.site.service.CategoryService;
 import com.kuaiba.site.service.kit.Pagination;
 import com.kuaiba.site.service.kit.ValidKit;
@@ -92,7 +92,7 @@ public class CategoryServiceImpl implements CategoryService {
 			record.setDescription(vo.getDescription());
 			record.setState(vo.getState());
 			record.setOrganization(vo.getOrganization());
-			record.setCreateBy(LoginUser.getId());
+			record.setCreateBy(Administrator.getId());
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
@@ -169,7 +169,7 @@ public class CategoryServiceImpl implements CategoryService {
 		try {
 			List<Category> cates = mapper.selectByCollect(example);
 			List<Category> list = new ArrayList<>();
-			Long uid = LoginUser.isLogin() ? LoginUser.getId(): 0L;
+			Long uid = Administrator.isLogin() ? Administrator.getId(): 0L;
 			final List<Long> fids = sfMapper.selectByUid(uid);
 			
 			cates.forEach((c) -> {

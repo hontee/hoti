@@ -10,7 +10,7 @@ import com.kuaiba.site.db.entity.User;
  * 登录用户信息
  * @author larry.qi
  */
-public abstract class LoginUser {
+public abstract class Administrator {
 	
 	/**
 	 * 获取登录用户

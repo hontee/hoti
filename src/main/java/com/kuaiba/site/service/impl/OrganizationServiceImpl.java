@@ -17,7 +17,7 @@ import com.kuaiba.site.db.entity.OrganizationExample;
 import com.kuaiba.site.exceptions.BType;
 import com.kuaiba.site.exceptions.BusinessException;
 import com.kuaiba.site.front.vo.OrganizationVO;
-import com.kuaiba.site.security.LoginUser;
+import com.kuaiba.site.security.Administrator;
 import com.kuaiba.site.service.OrganizationService;
 import com.kuaiba.site.service.kit.Pagination;
 import com.kuaiba.site.service.kit.ValidKit;
@@ -81,7 +81,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 		ValidKit.checkNotNull(vo);
 		try {
 			Organization record = new Organization();
-			record.setCreator(LoginUser.getName());
+			record.setCreator(Administrator.getName());
 			record.setDescription(vo.getDescription());
 			record.setName(vo.getName());
 			record.setState(vo.getState());
