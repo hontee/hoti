@@ -12,7 +12,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
 import com.kuaiba.site.GlobalIds;
-import com.kuaiba.site.db.dao.SiteFollowMapper;
+import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.WebsiteMapper;
 import com.kuaiba.site.db.entity.Website;
 import com.kuaiba.site.db.entity.WebsiteExample;
@@ -35,7 +35,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 	private WebsiteMapper mapper;
 	
 	@Resource
-	private SiteFollowMapper sfMapper;
+	private BookmarkFollowMapper bfMapper;
 
 	@Override
 	public PageInfo<Website> findByExample(WebsiteExample example, Pagination p) {
@@ -162,7 +162,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 		ValidKit.checkPrimaryKey(uid);
 		ValidKit.checkPrimaryKey(fid);
 		try {
-			sfMapper.deleteByPrimaryKey(uid, fid);
+			bfMapper.deleteByPrimaryKey(uid, fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
 			throw new BusinessException(BType.KB2003);
@@ -174,7 +174,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 		ValidKit.checkPrimaryKey(uid);
 		ValidKit.checkPrimaryKey(fid);
 		try {
-			sfMapper.insert(uid, fid);
+			bfMapper.insert(uid, fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
 			throw new BusinessException(BType.KB2003);
@@ -199,7 +199,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 	public boolean isFollow(Long fid) {
 		ValidKit.checkPrimaryKey(fid);
 		try {
-			List<Long> list = sfMapper.selectByUid(Administrator.getId());
+			List<Long> list = bfMapper.selectByUid(Administrator.getId());
 			return list.contains(fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));

@@ -50,20 +50,4 @@ public class ValidKit {
 		}
 	}
 	
-	/**
-	 * 检测邮箱格式
-	 * @param email
-	 */
-	public static boolean checkEmail(String email) {
-		try {
-			String check = "^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
-			Pattern regex = Pattern.compile(check);
-			Matcher matcher = regex.matcher(email);
-			return matcher.matches();
-		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			return false;
-		}
-	}
-	
 }

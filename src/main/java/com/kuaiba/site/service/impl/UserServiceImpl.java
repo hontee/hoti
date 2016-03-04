@@ -87,8 +87,6 @@ public class UserServiceImpl implements UserService {
 		ValidKit.checkNotNull(vo);
 		try {
 			User record = new User();
-			record.setEmail(vo.getEmail());
-			record.setIsEmailSet((byte) 0);
 			record.setSalt(EncryptUtils.getRandomSalt()); // 随机盐值
 			record.setPassword(EncryptUtils.encrypt(vo.getPassword(), record.getSalt())); // 密码加密
 			record.setUserType(vo.getUserType());
@@ -142,35 +140,12 @@ public class UserServiceImpl implements UserService {
 		try {
 			User record = new User();
 			record.setId(id);
-			record.setEmail(vo.getEmail());
 			record.setUserType(vo.getUserType());
 			record.setName(vo.getName());
 			record.setState(vo.getState());
 			record.setTitle(vo.getTitle());
 			record.setDescription(vo.getDescription());
 			mapper.updateByPrimaryKey(record);
-		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
-		}
-	}
-
-	@Override
-	public String findNameByEmail(String email) {
-		ValidKit.checkEmail(email);
-		try {
-			return mapper.selectNameByEmail(email);
-		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
-		}
-	}
-
-	@Override
-	public boolean existsEmail(String email) {
-		ValidKit.checkEmail(email);
-		try {
-			return (mapper.selectNameByEmail(email) == null) ? false : true;
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
 			throw new BusinessException(BType.KB2003);
@@ -202,9 +177,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void login(String username, String password) throws Exception {
 		try {
-			if (ValidKit.checkEmail(username)){
-				username = this.findNameByEmail(username);
-			}
 			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);

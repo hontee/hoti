@@ -5,7 +5,7 @@
 <title>快吧后台管理系统</title>
 </head>
 <body class="easyui-layout">
-  <div data-options="region:'north'" style="height:80px;">${currentUser.email}</div>
+  <div data-options="region:'north'" style="height:80px;"></div>
   <div data-options="region:'west',title:'菜单管理'" style="width:200px;">
     <div id="menu-datalist"></div>
   </div>

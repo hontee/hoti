@@ -82,7 +82,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from site_menu
+    from t_menu
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -93,21 +93,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from site_menu
+    from t_menu
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from site_menu
+    delete from t_menu
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuaiba.site.db.entity.MenuExample" >
-    delete from site_menu
+    delete from t_menu
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuaiba.site.db.entity.Menu" >
-    insert into site_menu
+    insert into t_menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -180,13 +180,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuaiba.site.db.entity.MenuExample" resultType="java.lang.Integer" >
-    select count(*) from site_menu
+    select count(*) from t_menu
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExample" parameterType="map" >
-    update site_menu
+    update t_menu
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=BIGINT},
@@ -227,7 +227,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuaiba.site.db.entity.Menu" >
-    update site_menu
+    update t_menu
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},

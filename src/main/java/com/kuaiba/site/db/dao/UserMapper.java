@@ -23,18 +23,6 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
     
-    /**
-     * 根据Email查询用户名，同时可用于验证邮箱是否存在
-     * @param email
-     * @return
-     */
-    String selectNameByEmail(@Param("email") String email);
-    
-    /**
-     * 根据用户名查询用户记录
-     * @param email
-     * @return
-     */
     User selectByName(@Param("name") String name);
     
 }

@@ -8,8 +8,6 @@
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="salt" property="salt" jdbcType="VARCHAR" />
-    <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="is_email_set" property="isEmailSet" jdbcType="TINYINT" />
     <result column="user_type" property="userType" jdbcType="TINYINT" />
     <result column="state" property="state" jdbcType="TINYINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
@@ -74,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, title, description, password, salt, email, is_email_set, user_type, state, 
+    id, name, title, description, password, salt, user_type, state, 
     created, last_modified
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.UserExample" >
@@ -128,12 +126,6 @@
       <if test="salt != null" >
         salt,
       </if>
-      <if test="email != null" >
-        email,
-      </if>
-      <if test="isEmailSet != null" >
-        is_email_set,
-      </if>
       <if test="userType != null" >
         user_type,
       </if>
@@ -165,12 +157,6 @@
       </if>
       <if test="salt != null" >
         #{salt,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null" >
-        #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="isEmailSet != null" >
-        #{isEmailSet,jdbcType=TINYINT},
       </if>
       <if test="userType != null" >
         #{userType,jdbcType=TINYINT},
@@ -213,12 +199,6 @@
       <if test="record.salt != null" >
         salt = #{record.salt,jdbcType=VARCHAR},
       </if>
-      <if test="record.email != null" >
-        email = #{record.email,jdbcType=VARCHAR},
-      </if>
-      <if test="record.isEmailSet != null" >
-        is_email_set = #{record.isEmailSet,jdbcType=TINYINT},
-      </if>
       <if test="record.userType != null" >
         user_type = #{record.userType,jdbcType=TINYINT},
       </if>
@@ -254,12 +234,6 @@
       <if test="salt != null" >
         salt = #{salt,jdbcType=VARCHAR},
       </if>
-      <if test="email != null" >
-        email = #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="isEmailSet != null" >
-        is_email_set = #{isEmailSet,jdbcType=TINYINT},
-      </if>
       <if test="userType != null" >
         user_type = #{userType,jdbcType=TINYINT},
       </if>
@@ -275,10 +249,6 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <!-- 根据邮箱查询用户名 -->
-  <select id="selectNameByEmail" parameterType="java.lang.String" resultType="java.lang.String">
-  	SELECT name FROM t_users WHERE email = #{email} LIMIT 1
-  </select>
   <!-- 根据用户名查询用户记录 -->
   <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

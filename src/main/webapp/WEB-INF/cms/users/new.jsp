@@ -7,10 +7,6 @@
       <input class="easyui-textbox" name="name" data-options="required:true, prompt:'用户名'" style="width:100%; height:32px">
     </div>
     <div class="cms-mb20">
-      <div class="cms-mb5">邮箱:</div>
-      <input class="easyui-textbox" name="email" data-options="required:true, prompt:'邮箱'" style="width:100%; height:32px">
-    </div>
-    <div class="cms-mb20">
       <div class="cms-mb5">密码:</div>
       <input class="easyui-textbox" type="password" name="password" data-options="required:true" style="width:100%; height:32px">
     </div>

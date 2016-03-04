@@ -8,10 +8,6 @@
       <input class="easyui-textbox" name="name" value="${record.name}" data-options="required:true, readonly: true" style="width:100%; height:32px">
     </div>
     <div class="cms-mb20">
-      <div class="cms-mb5">邮箱:</div>
-      <input class="easyui-textbox" name="email" value="${record.email}" data-options="required:true, prompt:'邮箱'" style="width:100%; height:32px">
-    </div>
-    <div class="cms-mb20">
       <div class="cms-mb5">昵称:</div>
       <input class="easyui-textbox" name="title" value="${record.title}" data-options="required:true, prompt:'昵称'" style="width:100%;height:32px">
     </div>

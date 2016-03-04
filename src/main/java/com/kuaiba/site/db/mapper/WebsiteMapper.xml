@@ -89,7 +89,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from site_website
+    from t_bookmark
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -101,7 +101,7 @@
 	JOIN t_category c ON a.category = c.id
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    SELECT a.*, u.name AS ext_create_name, c.title AS ext_category_title FROM site_website a
+    SELECT a.*, u.name AS ext_create_name, c.title AS ext_category_title FROM t_bookmark a
 	JOIN t_users u ON a.create_by = u.id
 	JOIN t_category c ON a.category = c.id
     where a.id = #{id,jdbcType=BIGINT}
@@ -109,21 +109,21 @@
   <select id="selectByCategory" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     SELECT 
     <include refid="Base_Column_List" />
-    FROM site_website a
+    FROM t_bookmark a
     WHERE category = #{category,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from site_website
+    delete from t_bookmark
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuaiba.site.db.entity.WebsiteExample" >
-    delete from site_website
+    delete from t_bookmark
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuaiba.site.db.entity.Website" >
-    insert into site_website
+    insert into t_bookmark
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -220,13 +220,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuaiba.site.db.entity.WebsiteExample" resultType="java.lang.Integer" >
-    select count(*) from site_website
+    select count(*) from t_bookmark
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExample" parameterType="map" >
-    update site_website
+    update t_bookmark
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=BIGINT},
@@ -279,7 +279,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuaiba.site.db.entity.Website" >
-    update site_website
+    update t_bookmark
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},

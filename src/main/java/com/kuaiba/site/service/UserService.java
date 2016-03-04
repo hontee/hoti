@@ -25,10 +25,6 @@ public interface UserService extends Pager<User, UserExample> {
 
     void updateByPrimaryKey(Long id, UserVO vo);
     
-    String findNameByEmail(String email);
-    
-    boolean existsEmail(String email);
-    
     User findByName(String name);
     
     boolean existsName(String name);

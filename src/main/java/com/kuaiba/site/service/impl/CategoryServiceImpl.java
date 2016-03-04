@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
+import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.CategoryMapper;
-import com.kuaiba.site.db.dao.SiteFollowMapper;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
 import com.kuaiba.site.db.entity.Website;
@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
 	private Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 	
 	@Resource
-	private SiteFollowMapper sfMapper;
+	private BookmarkFollowMapper bfMapper;
 	
 	@Resource
 	private CategoryMapper mapper;
@@ -170,7 +170,7 @@ public class CategoryServiceImpl implements CategoryService {
 			List<Category> cates = mapper.selectByCollect(example);
 			List<Category> list = new ArrayList<>();
 			Long uid = Administrator.isLogin() ? Administrator.getId(): 0L;
-			final List<Long> fids = sfMapper.selectByUid(uid);
+			final List<Long> fids = bfMapper.selectByUid(uid);
 			
 			cates.forEach((c) -> {
 				List<Website> ws = c.getWebsites();

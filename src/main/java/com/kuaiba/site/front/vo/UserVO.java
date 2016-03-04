@@ -7,7 +7,6 @@ public class UserVO implements Serializable {
 	private static final long serialVersionUID = -8275375007541105737L;
 
 	private String name;
-	private String email;
 	private String password;
 	private Byte userType;
 	private Byte state;
@@ -21,14 +20,6 @@ public class UserVO implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getPassword() {

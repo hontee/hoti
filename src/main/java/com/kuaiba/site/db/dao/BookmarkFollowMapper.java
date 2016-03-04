@@ -4,12 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-public interface SiteFollowMapper {
+public interface BookmarkFollowMapper {
 	
 	int deleteByPrimaryKey(@Param("uid") Long uid, @Param("fid") Long fid);
 
 	int insert(@Param("uid") Long uid, @Param("fid") Long fid);
 	
 	List<Long> selectByUid(@Param("uid") Long uid);
-	
 }

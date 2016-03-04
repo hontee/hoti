@@ -50,14 +50,6 @@ usersEL.dg.datagrid({
         {field:'description',title:'签名',width:100},
         {field:'password',title:'密码',width:100, hidden: true},
         {field:'salt',title:'盐',width:100, hidden: true},
-        {field:'email',title:'邮箱',width:100},
-        {field:'isEmailSet',title:'邮箱状态',width:100, sortable: true, formatter: function(value,row,index) {
-        	if (value == '1') {
-				return '通过验证';
-			} else {
-				return '未验证';
-			}
-        }},
         {field:'userType',title:'用户类型',width:100, sortable: true, formatter: function(value,row,index) {
         	if (value == '2') {
 				return '管理员';

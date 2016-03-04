@@ -19,10 +19,6 @@ public class User implements Serializable {
 
     private String salt;
 
-    private String email;
-
-    private Byte isEmailSet;
-
     private Byte userType;
 
     private Byte state;
@@ -77,22 +73,6 @@ public class User implements Serializable {
 
     public void setSalt(String salt) {
         this.salt = salt;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Byte getIsEmailSet() {
-        return isEmailSet;
-    }
-
-    public void setIsEmailSet(Byte isEmailSet) {
-        this.isEmailSet = isEmailSet;
     }
 
     public Byte getUserType() {

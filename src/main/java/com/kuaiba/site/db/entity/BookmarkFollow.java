@@ -3,9 +3,9 @@ package com.kuaiba.site.db.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class SiteFollow implements Serializable {
- 
-	private static final long serialVersionUID = 5578540052955620191L;
+public class BookmarkFollow implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Long uid;
 

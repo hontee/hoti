@@ -7,10 +7,6 @@
   <li><label>介绍：</label>${record.description}</li>
   <li><label>密码：</label>${record.password}</li>
   <li><label>盐值：</label>${record.salt}</li>
-  <li><label>邮箱：</label>${record.email}</li>
-  <li><label>邮箱状态：</label>${record.isEmailSet}
-    <c:if test="${record.isEmailSet == 1}">通过验证</c:if>
-    <c:if test="${record.isEmailSet == 0}">未验证</c:if></li>
   <li><label>用户类型：</label>${record.userType}
     <c:if test="${record.userType == 1}">普通用户</c:if>
     <c:if test="${record.userType == 2}">管理员</c:if>
