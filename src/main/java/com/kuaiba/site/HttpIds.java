@@ -18,7 +18,7 @@ public interface HttpIds {
 	String HOME = "";
 	String WEBSITE_HIT = "/{id}/hit";
 	String RECOMMEND = "/share";
-	String WEBSITE_FOLLOW = "/website/{id}/follow";
-	String WEBSITE_UNFOLLOW = "/website/{id}/unfollow";
+	String BOOKMARK_FOLLOW = "/bookmarks/{id}/follow";
+	String BOOKMARK_UNFOLLOW = "/bookmarks/{id}/unfollow";
 	
 }

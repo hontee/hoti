@@ -20,8 +20,8 @@ import com.kuaiba.site.db.entity.CategoryExample;
 import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.User;
-import com.kuaiba.site.db.entity.Website;
-import com.kuaiba.site.db.entity.WebsiteExample;
+import com.kuaiba.site.db.entity.Bookmark;
+import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.front.result.Result;
 import com.kuaiba.site.front.result.ResultBuilder;
 import com.kuaiba.site.service.kit.Pagination;
@@ -37,11 +37,11 @@ public class WebController extends BaseController implements WebPage {
 	
 	@RequestMapping(value = HttpIds.SEARCH, method = RequestMethod.GET)
 	public String search(@RequestParam String q, Pagination p, Model model) throws Exception {
-		WebsiteExample example = new WebsiteExample();
+		BookmarkExample example = new BookmarkExample();
 		if (StringUtils.isNotEmpty(q)) {
 			example.createCriteria().andTitleLike("%" + q + "q");
 		}
-		PageInfo<Website> pageInfo = websiteService.findByExample(example, p);
+		PageInfo<Bookmark> pageInfo = bookmarkService.findByExample(example, p);
 		model.addAttribute("p", pageInfo);
 		return "views/search";
 	}
@@ -117,7 +117,7 @@ public class WebController extends BaseController implements WebPage {
 	
 	@RequestMapping(value = HttpIds.WEBSITE_HIT, method = RequestMethod.GET)
 	public String hit(@PathVariable Long id, Model model) throws Exception {
-		return "redirect:" + websiteService.hit(id);
+		return "redirect:" + bookmarkService.hit(id);
 	}
 	
 	/**
@@ -144,9 +144,9 @@ public class WebController extends BaseController implements WebPage {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = HttpIds.WEBSITE_FOLLOW, method = RequestMethod.POST)
+	@RequestMapping(value = HttpIds.BOOKMARK_FOLLOW, method = RequestMethod.POST)
 	public Result follow(@PathVariable Long id) {
-		websiteService.follow(1L, id);
+		bookmarkService.follow(1L, id);
 		return ResultBuilder.ok();
 	}
 	
@@ -155,9 +155,9 @@ public class WebController extends BaseController implements WebPage {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = HttpIds.WEBSITE_UNFOLLOW, method = RequestMethod.POST)
+	@RequestMapping(value = HttpIds.BOOKMARK_UNFOLLOW, method = RequestMethod.POST)
 	public Result unfollow(@PathVariable Long id) {
-		websiteService.unfollow(1L, id);
+		bookmarkService.unfollow(1L, id);
 		return ResultBuilder.ok();
 	}
 

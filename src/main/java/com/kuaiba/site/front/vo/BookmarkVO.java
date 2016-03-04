@@ -1,6 +1,6 @@
 package com.kuaiba.site.front.vo;
 
-public class WebsiteVO extends BaseVO {
+public class BookmarkVO extends BaseVO {
 
 	private static final long serialVersionUID = 7449613864826308903L;
 

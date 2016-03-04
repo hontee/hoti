@@ -3,36 +3,36 @@
 <title>站点管理</title>
 </head>
 <body>
-<header id="websites-header" class="cms-dg-header">
-	<button id="websites-add" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新建</button>
-	<button id="websites-edit" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">编辑</button>
-	<button id="websites-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
-	<button id="websites-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
+<header id="bookmarks-header" class="cms-dg-header">
+	<button id="bookmarks-add" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新建</button>
+	<button id="bookmarks-edit" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">编辑</button>
+	<button id="bookmarks-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
+	<button id="bookmarks-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
-	  <input class="easyui-searchbox" data-options="prompt:'输入标题', searcher:websitesEL.search" style="width:200px" />
+	  <input class="easyui-searchbox" data-options="prompt:'输入标题', searcher:bookmarksEL.search" style="width:200px" />
 	</span>
 </header>
-<table id="websites-dg"></table>
+<table id="bookmarks-dg"></table>
 <footer>
-    <div id="websites-add-win"></div>
-    <div id="websites-edit-win"></div>
+    <div id="bookmarks-add-win"></div>
+    <div id="bookmarks-edit-win"></div>
 </footer>
 <script>
 // 变量取值要唯一
-var websitesEL = {
-	add: $("#websites-add"),
-	edit: $("#websites-edit"),
-	remove: $("#websites-remove"),
-	reload: $("#websites-reload"),
-	dg: $("#websites-dg"),
-	addWin: $("#websites-add-win"),
-	editWin: $("#websites-edit-win")
+var bookmarksEL = {
+	add: $("#bookmarks-add"),
+	edit: $("#bookmarks-edit"),
+	remove: $("#bookmarks-remove"),
+	reload: $("#bookmarks-reload"),
+	dg: $("#bookmarks-dg"),
+	addWin: $("#bookmarks-add-win"),
+	editWin: $("#bookmarks-edit-win")
 };
 
 // DataGrid
-websitesEL.dg.datagrid({
-    url:'/cms/websites/list',
+bookmarksEL.dg.datagrid({
+    url:'/cms/bookmarks/list',
     fitColumns: true,
     border: false,
     idField: "id",
@@ -41,7 +41,7 @@ websitesEL.dg.datagrid({
     pageSize: 20,
     pageList:[20, 50, 100],
     title:'站点管理',
-    header: '#websites-header',
+    header: '#bookmarks-header',
     fit: true,
     columns:[[
         {field:'id', checkbox: true},
@@ -77,54 +77,54 @@ websitesEL.dg.datagrid({
     ]],
  	// 当选择一行时触发
     onSelect: function(index,row) {
-    	websitesEL.reset();
+    	bookmarksEL.reset();
     },
  	// 当取消选择一行时触发
     onUnselect: function(index,row) {
-    	websitesEL.reset();
+    	bookmarksEL.reset();
     },
  	// 当全选时触发
     onSelectAll: function(rows) {
-    	websitesEL.reset();
+    	bookmarksEL.reset();
     },
  	// 当取消全选时触发
     onUnselectAll: function(rows) {
-    	websitesEL.reset();
+    	bookmarksEL.reset();
     },
     // 双击查看
     onDblClickRow: function(index,row) {
-    	CMS.viewHandler("/cms/websites/" + row.id);
+    	CMS.viewHandler("/cms/bookmarks/" + row.id);
     }
 });
 
 // 根据选择记录触发: 重置按钮状态
-websitesEL.reset = function() {
-	var length = websitesEL.dg.datagrid("getSelections").length;
+bookmarksEL.reset = function() {
+	var length = bookmarksEL.dg.datagrid("getSelections").length;
 	if (length == 0) { // 全部禁用
-		websitesEL.linkButton(true, true, true);
+		bookmarksEL.linkButton(true, true, true);
 	} else if (length == 1) { // 可编辑和删除
-		websitesEL.linkButton(false, false, true);
+		bookmarksEL.linkButton(false, false, true);
 	} else { // 可批量操作
-		websitesEL.linkButton(true, true, false);
+		bookmarksEL.linkButton(true, true, false);
 	}
 }
 
 // 设置按钮是否可用
-websitesEL.linkButton = function(a, b, c) {
-	websitesEL.edit.linkbutton({disabled: a});
-	websitesEL.remove.linkbutton({disabled: b});
+bookmarksEL.linkButton = function(a, b, c) {
+	bookmarksEL.edit.linkbutton({disabled: a});
+	bookmarksEL.remove.linkbutton({disabled: b});
 }
 
 // 搜索
-websitesEL.search = function(value){
-	websitesEL.dg.datagrid('load',{
+bookmarksEL.search = function(value){
+	bookmarksEL.dg.datagrid('load',{
 		title: value
 	});
 }
 
 // 新建
-websitesEL.add.click(function() {
-	websitesEL.addWin.window({
+bookmarksEL.add.click(function() {
+	bookmarksEL.addWin.window({
 		width: 480,
 		height: 500,
 		modal: true,
@@ -132,17 +132,17 @@ websitesEL.add.click(function() {
 		collapsible: false,
 		minimizable: false,
 		maximizable: false,
-		href: '/cms/websites/new',
+		href: '/cms/bookmarks/new',
 		method: 'get',
 		cache: false
 	});
 });
 
 // 编辑
-websitesEL.edit.click(function() {
-	var row = websitesEL.dg.datagrid('getSelected');
+bookmarksEL.edit.click(function() {
+	var row = bookmarksEL.dg.datagrid('getSelected');
 	if (row) {
-		websitesEL.editWin.window({
+		bookmarksEL.editWin.window({
 			width: 480,
 			height: 500,
 			modal: true,
@@ -150,7 +150,7 @@ websitesEL.edit.click(function() {
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
-			href: '/cms/websites/' + row.id + '/edit',
+			href: '/cms/bookmarks/' + row.id + '/edit',
 			method: 'get',
 			cache: false
 		});
@@ -158,13 +158,13 @@ websitesEL.edit.click(function() {
 });
 
 // 删除
-websitesEL.remove.click(function() {
-	CMS.removeSubmitHandler(websitesEL, 'websites');
+bookmarksEL.remove.click(function() {
+	CMS.removeSubmitHandler(bookmarksEL, 'bookmarks');
 });
 
 // 重载
-websitesEL.reload.click(function() {
-	websitesEL.dg.datagrid('reload',{});
+bookmarksEL.reload.click(function() {
+	bookmarksEL.dg.datagrid('reload',{});
 });
 </script>
 </body>

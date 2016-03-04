@@ -13,7 +13,7 @@ public interface CmsIds {
 	String CMS_DOMAINS = "/cms/domains";
 	String CMS_RECMDS = "/cms/recmds";
 	String CMS_USERS = "/cms/users";
-	String CMS_WEBSITES = "/cms/websites";
+	String CMS_BOOKMARKS = "/cms/bookmarks";
 	
 	// Commons
 	String HOME = "";

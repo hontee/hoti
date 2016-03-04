@@ -5,7 +5,7 @@ import java.util.List;
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
 import com.kuaiba.site.front.vo.RecommendVO;
-import com.kuaiba.site.front.vo.WebsiteVO;
+import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.service.kit.Pager;
 
 public interface RecommendService extends Pager<Recommend, RecommendExample> {
@@ -38,6 +38,6 @@ public interface RecommendService extends Pager<Recommend, RecommendExample> {
      * @param id
      * @param remark
      */
-    void audit(Long id, WebsiteVO vo);
+    void audit(Long id, BookmarkVO vo);
 
 }

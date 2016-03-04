@@ -31,10 +31,9 @@
     <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
     <result column="domain" property="domain" jdbcType="BIGINT" />
     <result column="create_by" property="createBy" jdbcType="BIGINT" />
-    <collection property="websites" javaType="java.util.List" column="id" ofType="com.kuaiba.site.db.entity.Website" 
-    select="com.kuaiba.site.db.dao.WebsiteMapper.selectByCategory" />
+    <collection property="bookmarks" javaType="java.util.List" column="id" ofType="com.kuaiba.site.db.entity.Bookmark" 
+    select="com.kuaiba.site.db.dao.BookmarkMapper.selectByCategory" />
   </resultMap>
-  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >

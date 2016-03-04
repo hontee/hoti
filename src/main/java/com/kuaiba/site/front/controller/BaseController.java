@@ -7,7 +7,7 @@ import com.kuaiba.site.service.MenuService;
 import com.kuaiba.site.service.DomainService;
 import com.kuaiba.site.service.RecommendService;
 import com.kuaiba.site.service.UserService;
-import com.kuaiba.site.service.WebsiteService;
+import com.kuaiba.site.service.BookmarkService;
 
 public abstract class BaseController {
 	
@@ -22,6 +22,6 @@ public abstract class BaseController {
 	@Resource
 	protected UserService userService;
 	@Resource
-	protected WebsiteService websiteService;
+	protected BookmarkService bookmarkService;
 
 }

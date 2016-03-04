@@ -3,9 +3,9 @@ package com.kuaiba.site.db.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Website implements Serializable {
+public class Bookmark implements Serializable {
 
-	private static final long serialVersionUID = 5257349013545774384L;
+	private static final long serialVersionUID = 4078788641734464984L;
 
 	private Long id;
 
@@ -36,14 +36,13 @@ public class Website implements Serializable {
     private Long createBy;
 
     private Long category;
+
+    private Long mtype;
     
     private String extCategoryTitle;
     
     private String extCreateName;
     
-    /**
-     * 判断用户是否关注
-     */
     private int extFollow;
 
     public Long getId() {
@@ -164,6 +163,14 @@ public class Website implements Serializable {
 
     public void setCategory(Long category) {
         this.category = category;
+    }
+
+    public Long getMtype() {
+        return mtype;
+    }
+
+    public void setMtype(Long mtype) {
+        this.mtype = mtype;
     }
 
 	public String getExtCategoryTitle() {

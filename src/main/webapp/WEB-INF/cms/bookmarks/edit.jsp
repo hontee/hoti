@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="easyui-layout" data-options="fit:true">
   <div data-options="region:'center', border:false" class="cms-wbox">
-  <form id="websites-edit-form" action="/cms/websites/${record.id}/edit" method="post">
+  <form id="bookmarks-edit-form" action="/cms/bookmarks/${record.id}/edit" method="post">
     <div class="cms-mb20">
       <div class="cms-mb5">网址:</div>
       <input class="easyui-textbox" name="url" value="${record.url}" data-options="required:true" style="width:100%; height:32px">
@@ -32,15 +32,15 @@
       <div class="cms-mb5">描述:</div>
       <input class="easyui-textbox" name="description"  value="${record.description}" data-options="multiline:true" style="width:100%;height:64px">
     </div>
-    <button class="easyui-linkbutton" onclick="websitesEditSubmitForm()" style="width:100%;height:32px">更新</button>
+    <button class="easyui-linkbutton" onclick="bookmarksEditSubmitForm()" style="width:100%;height:32px">更新</button>
   </form>
   </div>
 </div>
 <script>
-function websitesEditSubmitForm(){
-  $('#websites-edit-form').form({
+function bookmarksEditSubmitForm(){
+  $('#bookmarks-edit-form').form({
     success: function(data) {
-    	CMS.editSubmitHandler(data, websitesEL);
+    	CMS.editSubmitHandler(data, bookmarksEL);
     }
   });
 }

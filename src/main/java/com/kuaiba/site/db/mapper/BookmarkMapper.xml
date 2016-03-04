@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kuaiba.site.db.dao.WebsiteMapper" >
-  <resultMap id="BaseResultMap" type="com.kuaiba.site.db.entity.Website" >
+<mapper namespace="com.kuaiba.site.db.dao.BookmarkMapper" >
+  <resultMap id="BaseResultMap" type="com.kuaiba.site.db.entity.Bookmark" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
@@ -17,6 +17,7 @@
     <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
     <result column="create_by" property="createBy" jdbcType="BIGINT" />
     <result column="category" property="category" jdbcType="BIGINT" />
+    <result column="mtype" property="mtype" jdbcType="BIGINT" />
     <result column="ext_category_title" property="extCategoryTitle" jdbcType="VARCHAR" />
     <result column="ext_create_name" property="extCreateName" jdbcType="VARCHAR" />
   </resultMap>
@@ -80,9 +81,9 @@
   </sql>
   <sql id="Base_Column_List" >
     id, name, title, url, description, avatar, reffer, star, hit, state, audit, created, 
-    last_modified, create_by, category
+    last_modified, create_by, category, mtype
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.WebsiteExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.BookmarkExample" >
   	SELECT a.*, u.name AS ext_create_name, c.title AS ext_category_title FROM (
     select
     <if test="distinct" >
@@ -116,13 +117,13 @@
     delete from t_bookmark
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.kuaiba.site.db.entity.WebsiteExample" >
+  <delete id="deleteByExample" parameterType="com.kuaiba.site.db.entity.BookmarkExample" >
     delete from t_bookmark
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kuaiba.site.db.entity.Website" >
+  <insert id="insert" parameterType="com.kuaiba.site.db.entity.Bookmark" >
     insert into t_bookmark
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -169,6 +170,9 @@
       </if>
       <if test="category != null" >
         category,
+      </if>
+      <if test="mtype != null" >
+        mtype,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -217,9 +221,12 @@
       <if test="category != null" >
         #{category,jdbcType=BIGINT},
       </if>
+      <if test="mtype != null" >
+        #{mtype,jdbcType=BIGINT},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.kuaiba.site.db.entity.WebsiteExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.kuaiba.site.db.entity.BookmarkExample" resultType="java.lang.Integer" >
     select count(*) from t_bookmark
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -273,12 +280,15 @@
       <if test="record.category != null" >
         category = #{record.category,jdbcType=BIGINT},
       </if>
+      <if test="record.mtype != null" >
+        mtype = #{record.mtype,jdbcType=BIGINT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.kuaiba.site.db.entity.Website" >
+  <update id="updateByPrimaryKey" parameterType="com.kuaiba.site.db.entity.Bookmark" >
     update t_bookmark
     <set >
       <if test="name != null" >
@@ -322,6 +332,9 @@
       </if>
       <if test="category != null" >
         category = #{category,jdbcType=BIGINT},
+      </if>
+      <if test="mtype != null" >
+        mtype = #{mtype,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}

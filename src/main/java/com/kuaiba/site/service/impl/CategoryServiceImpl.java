@@ -14,9 +14,9 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.CategoryMapper;
+import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
-import com.kuaiba.site.db.entity.Website;
 import com.kuaiba.site.exceptions.BType;
 import com.kuaiba.site.exceptions.BusinessException;
 import com.kuaiba.site.front.vo.CategoryVO;
@@ -173,7 +173,7 @@ public class CategoryServiceImpl implements CategoryService {
 			final List<Long> fids = bfMapper.selectByUid(uid);
 			
 			cates.forEach((c) -> {
-				List<Website> ws = c.getWebsites();
+				List<Bookmark> ws = c.getBookmarks();
 				if (ws.isEmpty()) {
 					list.add(c);
 				} else {

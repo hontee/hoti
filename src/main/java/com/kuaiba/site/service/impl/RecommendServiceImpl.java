@@ -18,12 +18,12 @@ import com.kuaiba.site.db.entity.RecommendExample;
 import com.kuaiba.site.exceptions.BType;
 import com.kuaiba.site.exceptions.BusinessException;
 import com.kuaiba.site.front.vo.RecommendVO;
-import com.kuaiba.site.front.vo.WebsiteVO;
+import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.net.FetchUtils;
 import com.kuaiba.site.net.FetchUtils.WebModel;
 import com.kuaiba.site.security.Administrator;
 import com.kuaiba.site.service.RecommendService;
-import com.kuaiba.site.service.WebsiteService;
+import com.kuaiba.site.service.BookmarkService;
 import com.kuaiba.site.service.kit.Pagination;
 import com.kuaiba.site.service.kit.ValidKit;
 
@@ -36,7 +36,7 @@ public class RecommendServiceImpl implements RecommendService {
 	private RecommendMapper mapper;
 	
 	@Resource
-	private WebsiteService webService;
+	private BookmarkService webService;
 
 	@Override
 	public PageInfo<Recommend> findByExample(RecommendExample example, Pagination p) {
@@ -173,7 +173,7 @@ public class RecommendServiceImpl implements RecommendService {
 	}
 
 	@Override
-	public void audit(Long id, WebsiteVO vo) {
+	public void audit(Long id, BookmarkVO vo) {
 		ValidKit.checkNotNull(vo);
 		ValidKit.checkPrimaryKey(id);
 		try {

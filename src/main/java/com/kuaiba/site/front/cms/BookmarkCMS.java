@@ -12,79 +12,79 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.CmsIds;
-import com.kuaiba.site.db.entity.Website;
-import com.kuaiba.site.db.entity.WebsiteExample;
+import com.kuaiba.site.db.entity.Bookmark;
+import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.result.DataGrid;
 import com.kuaiba.site.front.result.Result;
 import com.kuaiba.site.front.result.ResultBuilder;
-import com.kuaiba.site.front.vo.WebsiteVO;
+import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.service.kit.Pagination;
 
 @Controller
-@RequestMapping(CmsIds.CMS_WEBSITES)
-public class WebsiteCMS extends BaseController {
+@RequestMapping(CmsIds.CMS_BOOKMARKS)
+public class BookmarkCMS extends BaseController {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.HOME, method = RequestMethod.GET)
 	public String index() {
-		return "cms/websites/index";
+		return "cms/bookmarks/index";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.CREATE, method = RequestMethod.GET)
 	public String addPage() {
-		return "cms/websites/new";
+		return "cms/bookmarks/new";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.EDIT, method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) {
 		model.addAttribute("record", findByPrimaryKey(id));
-		return "cms/websites/edit";
+		return "cms/bookmarks/edit";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.VIEW, method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) {
 		model.addAttribute("record", findByPrimaryKey(id));
-		return "cms/websites/view";
+		return "cms/bookmarks/view";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.LIST)
-	public @ResponseBody DataGrid<Website> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
-		WebsiteExample example = new WebsiteExample();
+	public @ResponseBody DataGrid<Bookmark> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
+		BookmarkExample example = new BookmarkExample();
 		if (StringUtils.isNotBlank(title)) {
 			example.createCriteria().andTitleLike("%" + title + "%"); // 模糊查询
 		}
-		PageInfo<Website> pageInfo = websiteService.findByExample(example, p);
+		PageInfo<Bookmark> pageInfo = bookmarkService.findByExample(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.CREATE, method = RequestMethod.POST)
-	public @ResponseBody Result add(WebsiteVO vo) {
-		websiteService.add(vo);
+	public @ResponseBody Result add(BookmarkVO vo) {
+		bookmarkService.add(vo);
 		return ResultBuilder.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.DELETE, method = RequestMethod.POST)
 	public @ResponseBody Result delete(@PathVariable Long id) {
-		websiteService.deleteByPrimaryKey(id);
+		bookmarkService.deleteByPrimaryKey(id);
 		return ResultBuilder.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.EDIT, method = RequestMethod.POST)
-	public @ResponseBody Result edit(@PathVariable Long id, WebsiteVO vo) {
-		websiteService.updateByPrimaryKey(id, vo);
+	public @ResponseBody Result edit(@PathVariable Long id, BookmarkVO vo) {
+		bookmarkService.updateByPrimaryKey(id, vo);
 		return ResultBuilder.ok();
 	}
 	
-	private Website findByPrimaryKey(Long id) {
-		return websiteService.findByPrimaryKey(id);
+	private Bookmark findByPrimaryKey(Long id) {
+		return bookmarkService.findByPrimaryKey(id);
 	}
 
 }

@@ -19,7 +19,7 @@ import com.kuaiba.site.front.result.DataGrid;
 import com.kuaiba.site.front.result.Result;
 import com.kuaiba.site.front.result.ResultBuilder;
 import com.kuaiba.site.front.vo.RecommendVO;
-import com.kuaiba.site.front.vo.WebsiteVO;
+import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.service.kit.Pagination;
 
 @Controller
@@ -100,7 +100,7 @@ public class RecommendCMS extends BaseController {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.AUDIT_OK, method = RequestMethod.POST)
-	public @ResponseBody Result auditOk(@PathVariable Long id, WebsiteVO vo) {
+	public @ResponseBody Result auditOk(@PathVariable Long id, BookmarkVO vo) {
 		recommendService.audit(id, vo);
 		return ResultBuilder.ok();
 	}

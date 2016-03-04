@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class WebsiteExample {
+public class BookmarkExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public WebsiteExample() {
+    public BookmarkExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -1062,6 +1062,66 @@ public class WebsiteExample {
 
         public Criteria andCategoryNotBetween(Long value1, Long value2) {
             addCriterion("category not between", value1, value2, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andMtypeIsNull() {
+            addCriterion("mtype is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMtypeIsNotNull() {
+            addCriterion("mtype is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMtypeEqualTo(Long value) {
+            addCriterion("mtype =", value, "mtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andMtypeNotEqualTo(Long value) {
+            addCriterion("mtype <>", value, "mtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andMtypeGreaterThan(Long value) {
+            addCriterion("mtype >", value, "mtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andMtypeGreaterThanOrEqualTo(Long value) {
+            addCriterion("mtype >=", value, "mtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andMtypeLessThan(Long value) {
+            addCriterion("mtype <", value, "mtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andMtypeLessThanOrEqualTo(Long value) {
+            addCriterion("mtype <=", value, "mtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andMtypeIn(List<Long> values) {
+            addCriterion("mtype in", values, "mtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andMtypeNotIn(List<Long> values) {
+            addCriterion("mtype not in", values, "mtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andMtypeBetween(Long value1, Long value2) {
+            addCriterion("mtype between", value1, value2, "mtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andMtypeNotBetween(Long value1, Long value2) {
+            addCriterion("mtype not between", value1, value2, "mtype");
             return (Criteria) this;
         }
     }

@@ -13,36 +13,36 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
 import com.kuaiba.site.GlobalIds;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
-import com.kuaiba.site.db.dao.WebsiteMapper;
-import com.kuaiba.site.db.entity.Website;
-import com.kuaiba.site.db.entity.WebsiteExample;
+import com.kuaiba.site.db.dao.BookmarkMapper;
+import com.kuaiba.site.db.entity.Bookmark;
+import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.exceptions.BType;
 import com.kuaiba.site.exceptions.BusinessException;
-import com.kuaiba.site.front.vo.WebsiteVO;
+import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.net.HttpUtils;
 import com.kuaiba.site.security.Administrator;
-import com.kuaiba.site.service.WebsiteService;
+import com.kuaiba.site.service.BookmarkService;
 import com.kuaiba.site.service.kit.Pagination;
 import com.kuaiba.site.service.kit.RandomKit;
 import com.kuaiba.site.service.kit.ValidKit;
 
 @Service
-public class WebsiteServiceImpl implements WebsiteService {
+public class BookmarkServiceImpl implements BookmarkService {
 	
-	private Logger logger = LoggerFactory.getLogger(WebsiteServiceImpl.class);
+	private Logger logger = LoggerFactory.getLogger(BookmarkServiceImpl.class);
 	
 	@Resource
-	private WebsiteMapper mapper;
+	private BookmarkMapper mapper;
 	
 	@Resource
 	private BookmarkFollowMapper bfMapper;
 
 	@Override
-	public PageInfo<Website> findByExample(WebsiteExample example, Pagination p) {
+	public PageInfo<Bookmark> findByExample(BookmarkExample example, Pagination p) {
 		ValidKit.checkNotNull(example, p);
 		try {
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<Website> list = this.findByExample(example);
+			List<Bookmark> list = this.findByExample(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
@@ -51,7 +51,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 	}
 
 	@Override
-	public int countByExample(WebsiteExample example) {
+	public int countByExample(BookmarkExample example) {
 		ValidKit.checkNotNull(example);
 		try {
 			return mapper.countByExample(example);
@@ -62,7 +62,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 	}
 
 	@Override
-	public void deleteByExample(WebsiteExample example) {
+	public void deleteByExample(BookmarkExample example) {
 		ValidKit.checkNotNull(example);
 		try {
 			mapper.deleteByExample(example);
@@ -84,10 +84,10 @@ public class WebsiteServiceImpl implements WebsiteService {
 	}
 
 	@Override
-	public void add(WebsiteVO vo) {
+	public void add(BookmarkVO vo) {
 		ValidKit.checkNotNull(vo);
 		try {
-			Website record = new Website();
+			Bookmark record = new Bookmark();
 			record.setName(vo.getNameUUID());
 			record.setTitle(vo.getTitle());
 			record.setUrl(vo.getUrl());
@@ -105,7 +105,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 	}
 
 	@Override
-	public List<Website> findByExample(WebsiteExample example) {
+	public List<Bookmark> findByExample(BookmarkExample example) {
 		ValidKit.checkNotNull(example);
 		try {
 			return mapper.selectByExample(example);
@@ -116,7 +116,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 	}
 
 	@Override
-	public Website findByPrimaryKey(Long id) {
+	public Bookmark findByPrimaryKey(Long id) {
 		ValidKit.checkPrimaryKey(id);
 		try {
 			return mapper.selectByPrimaryKey(id);
@@ -127,7 +127,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 	}
 
 	@Override
-	public void updateByExample(Website record, WebsiteExample example) {
+	public void updateByExample(Bookmark record, BookmarkExample example) {
 		ValidKit.checkNotNull(record, example);
 		try {
 			mapper.updateByExample(record, example);
@@ -138,11 +138,11 @@ public class WebsiteServiceImpl implements WebsiteService {
 	}
 
 	@Override
-	public void updateByPrimaryKey(Long id, WebsiteVO vo) {
+	public void updateByPrimaryKey(Long id, BookmarkVO vo) {
 		ValidKit.checkNotNull(vo);
 		ValidKit.checkPrimaryKey(id);
 		try {
-			Website record = new Website();
+			Bookmark record = new Bookmark();
 			record.setId(id);
 			record.setTitle(vo.getTitle());
 			record.setUrl(vo.getUrl());
@@ -185,7 +185,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 	public String hit(Long id) {
 		ValidKit.checkPrimaryKey(id);
 		try {
-			Website record = findByPrimaryKey(id);
+			Bookmark record = findByPrimaryKey(id);
 			record.setHit(record.getHit() + 1);
 			mapper.updateByPrimaryKey(record);
 			return HttpUtils.appendQueryParams(record.getUrl(), record.getReffer());
