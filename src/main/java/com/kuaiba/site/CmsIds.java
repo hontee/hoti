@@ -23,7 +23,6 @@ public interface CmsIds {
 	String LIST = "/list";
 	String DATALIST = "/datalist";
 	String DELETE = "/{id}/delete";
-
 	String AUDIT_OK = "/{id}/auditOk";
 	String AUDIT_NOT = "/{id}/auditNOT";
 }

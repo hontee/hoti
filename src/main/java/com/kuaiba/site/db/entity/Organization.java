@@ -1,10 +1,14 @@
 package com.kuaiba.site.db.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Organization {
-    private Long id;
+public class Organization implements Serializable {
+
+	private static final long serialVersionUID = -7060569167593709706L;
+
+	private Long id;
 
     private String name;
 

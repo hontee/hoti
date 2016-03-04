@@ -1,9 +1,13 @@
 package com.kuaiba.site.db.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Menu {
-    private Long id;
+public class Menu implements Serializable {
+
+	private static final long serialVersionUID = 2606247721778487587L;
+
+	private Long id;
 
     private String name;
 

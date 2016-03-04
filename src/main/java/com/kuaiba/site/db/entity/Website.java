@@ -1,9 +1,13 @@
 package com.kuaiba.site.db.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Website {
-    private Long id;
+public class Website implements Serializable {
+
+	private static final long serialVersionUID = 5257349013545774384L;
+
+	private Long id;
 
     private String name;
 

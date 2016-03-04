@@ -3,9 +3,9 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha/css/bootstrap.min.css" rel="stylesheet">
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-light bg-faded">

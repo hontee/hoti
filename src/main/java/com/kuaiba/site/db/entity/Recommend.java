@@ -1,9 +1,13 @@
 package com.kuaiba.site.db.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Recommend {
-    private Long id;
+public class Recommend implements Serializable {
+
+	private static final long serialVersionUID = -7315075100656688786L;
+
+	private Long id;
 
     private String name;
 

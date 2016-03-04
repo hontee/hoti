@@ -19,8 +19,8 @@ public abstract class Administrator {
 	public static User getUser() {
 		try {
 			return (User)SecurityUtils.getSubject().getSession().getAttribute(GlobalIds.LOGIN_USER);
-		} catch (Exception e) {
-			throw new InvalidSessionException();
+		} catch (InvalidSessionException e) {
+			throw new SecurityException();
 		}
 	}
 	
@@ -32,7 +32,7 @@ public abstract class Administrator {
 		try {
 			return getUser().getId();
 		} catch (Exception e) {
-			throw new InvalidSessionException();
+			throw new SecurityException();
 		}
 	}
 	
@@ -44,7 +44,7 @@ public abstract class Administrator {
 		try {
 			return getUser().getName();
 		} catch (Exception e) {
-			throw new InvalidSessionException();
+			throw new SecurityException();
 		}
 	}
 	
@@ -56,7 +56,7 @@ public abstract class Administrator {
 		try {
 			return getUser().getUserType() == 2;
 		} catch (Exception e) {
-			throw new InvalidSessionException();
+			throw new SecurityException();
 		}
 	}
 	
