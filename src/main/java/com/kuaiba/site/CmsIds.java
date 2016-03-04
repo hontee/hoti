@@ -10,7 +10,7 @@ public interface CmsIds {
 	String CMS_HOME = "/cms";
 	String CMS_CATES = "/cms/cates";
 	String CMS_MENUS = "/cms/menus";
-	String CMS_ORGS = "/cms/orgs";
+	String CMS_DOMAINS = "/cms/domains";
 	String CMS_RECMDS = "/cms/recmds";
 	String CMS_USERS = "/cms/users";
 	String CMS_WEBSITES = "/cms/websites";

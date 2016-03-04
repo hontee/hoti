@@ -17,8 +17,8 @@ import com.kuaiba.site.GlobalIds;
 import com.kuaiba.site.HttpIds;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
-import com.kuaiba.site.db.entity.Organization;
-import com.kuaiba.site.db.entity.OrganizationExample;
+import com.kuaiba.site.db.entity.Domain;
+import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.Website;
 import com.kuaiba.site.db.entity.WebsiteExample;
@@ -91,10 +91,10 @@ public class WebController extends BaseController implements WebPage {
 	
 	@RequestMapping(value = HttpIds.GROUPS, method = RequestMethod.GET)
 	public String group(Model model) {
-		OrganizationExample oe = new OrganizationExample();
+		DomainExample oe = new DomainExample();
 		oe.createCriteria().andStateEqualTo((byte)1);
 		oe.setOrderByClause("weight DESC");
-		List<Organization> orgs = organizationService.findByCollect(oe);
+		List<Domain> orgs = domainService.findByCollect(oe);
 		model.addAttribute("orgs", orgs);
 		return "views/category";
 	}

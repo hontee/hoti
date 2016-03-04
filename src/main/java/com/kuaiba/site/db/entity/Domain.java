@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Organization implements Serializable {
+public class Domain implements Serializable {
 
-	private static final long serialVersionUID = -7060569167593709706L;
+	private static final long serialVersionUID = 2252679070329261753L;
 
 	private Long id;
 
@@ -18,7 +18,9 @@ public class Organization implements Serializable {
 
     private String avatar;
 
-    private Integer weight;
+    private Short weight;
+
+    private Short count;
 
     private Byte state;
 
@@ -70,12 +72,20 @@ public class Organization implements Serializable {
         this.avatar = avatar;
     }
 
-    public Integer getWeight() {
+    public Short getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(Short weight) {
         this.weight = weight;
+    }
+
+    public Short getCount() {
+        return count;
+    }
+
+    public void setCount(Short count) {
+        this.count = count;
     }
 
     public Byte getState() {

@@ -11,31 +11,31 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
-import com.kuaiba.site.db.dao.OrganizationMapper;
-import com.kuaiba.site.db.entity.Organization;
-import com.kuaiba.site.db.entity.OrganizationExample;
+import com.kuaiba.site.db.dao.DomainMapper;
+import com.kuaiba.site.db.entity.Domain;
+import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.exceptions.BType;
 import com.kuaiba.site.exceptions.BusinessException;
-import com.kuaiba.site.front.vo.OrganizationVO;
+import com.kuaiba.site.front.vo.DomainVO;
 import com.kuaiba.site.security.Administrator;
-import com.kuaiba.site.service.OrganizationService;
+import com.kuaiba.site.service.DomainService;
 import com.kuaiba.site.service.kit.Pagination;
 import com.kuaiba.site.service.kit.ValidKit;
 
 @Service
-public class OrganizationServiceImpl implements OrganizationService {
+public class DomainServiceImpl implements DomainService {
 	
-	private Logger logger = LoggerFactory.getLogger(OrganizationServiceImpl.class);
+	private Logger logger = LoggerFactory.getLogger(DomainServiceImpl.class);
 	
 	@Resource
-	private OrganizationMapper mapper;
+	private DomainMapper mapper;
 
 	@Override
-	public PageInfo<Organization> findByExample(OrganizationExample example, Pagination p) {
+	public PageInfo<Domain> findByExample(DomainExample example, Pagination p) {
 		ValidKit.checkNotNull(example, p);
 		try {
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<Organization> list = this.findByExample(example);
+			List<Domain> list = this.findByExample(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
@@ -44,7 +44,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public int countByExample(OrganizationExample example) {
+	public int countByExample(DomainExample example) {
 		ValidKit.checkNotNull(example);
 		try {
 			return mapper.countByExample(example);
@@ -55,7 +55,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public void deleteByExample(OrganizationExample example) {
+	public void deleteByExample(DomainExample example) {
 		ValidKit.checkNotNull(example);
 		try {
 			mapper.deleteByExample(example);
@@ -77,10 +77,10 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public void add(OrganizationVO vo) {
+	public void add(DomainVO vo) {
 		ValidKit.checkNotNull(vo);
 		try {
-			Organization record = new Organization();
+			Domain record = new Domain();
 			record.setCreator(Administrator.getName());
 			record.setDescription(vo.getDescription());
 			record.setName(vo.getName());
@@ -95,7 +95,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public List<Organization> findByExample(OrganizationExample example) {
+	public List<Domain> findByExample(DomainExample example) {
 		ValidKit.checkNotNull(example);
 		try {
 			return mapper.selectByExample(example);
@@ -106,7 +106,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public Organization findByPrimaryKey(Long id) {
+	public Domain findByPrimaryKey(Long id) {
 		ValidKit.checkPrimaryKey(id);
 		try {
 			return mapper.selectByPrimaryKey(id);
@@ -117,7 +117,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public void updateByExample(Organization record, OrganizationExample example) {
+	public void updateByExample(Domain record, DomainExample example) {
 		ValidKit.checkNotNull(record, example);
 		try {
 			mapper.updateByExample(record, example);
@@ -128,11 +128,11 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public void updateByPrimaryKey(Long id, OrganizationVO vo) {
+	public void updateByPrimaryKey(Long id, DomainVO vo) {
 		ValidKit.checkNotNull(vo);
 		ValidKit.checkPrimaryKey(id);
 		try {
-			Organization record = new Organization();
+			Domain record = new Domain();
 			record.setId(id);
 			record.setDescription(vo.getDescription());
 			record.setName(vo.getName());
@@ -147,7 +147,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public List<Organization> findByCollect(OrganizationExample example) {
+	public List<Domain> findByCollect(DomainExample example) {
 		ValidKit.checkNotNull(example);
 		try {
 			return mapper.selectByCollect(example);

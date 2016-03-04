@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kuaiba.site.db.dao.OrganizationMapper" >
-  <resultMap id="BaseResultMap" type="com.kuaiba.site.db.entity.Organization" >
+<mapper namespace="com.kuaiba.site.db.dao.DomainMapper" >
+  <resultMap id="BaseResultMap" type="com.kuaiba.site.db.entity.Domain" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="avatar" property="avatar" jdbcType="VARCHAR" />
-    <result column="weight" property="weight" jdbcType="INTEGER" />
+    <result column="weight" property="weight" jdbcType="SMALLINT" />
+    <result column="count" property="count" jdbcType="SMALLINT" />
     <result column="state" property="state" jdbcType="TINYINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
   </resultMap>
-  <resultMap id="CollectResultMap" type="com.kuaiba.site.db.entity.Organization" >
+  <resultMap id="CollectResultMap" type="com.kuaiba.site.db.entity.Domain" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="avatar" property="avatar" jdbcType="VARCHAR" />
-    <result column="weight" property="weight" jdbcType="INTEGER" />
+    <result column="weight" property="weight" jdbcType="SMALLINT" />
+    <result column="count" property="count" jdbcType="SMALLINT" />
     <result column="state" property="state" jdbcType="TINYINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
@@ -86,15 +88,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, title, description, avatar, weight, state, created, last_modified, creator
+    id, name, title, description, avatar, weight, count, state, created, last_modified, 
+    creator
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.OrganizationExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.DomainExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from site_organization
+    from t_domain
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -102,13 +105,13 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByCollect" resultMap="CollectResultMap" parameterType="com.kuaiba.site.db.entity.OrganizationExample" >
+  <select id="selectByCollect" resultMap="CollectResultMap" parameterType="com.kuaiba.site.db.entity.DomainExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from site_organization
+    from t_domain
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -119,21 +122,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from site_organization
+    from t_domain
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from site_organization
+    delete from t_domain
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.kuaiba.site.db.entity.OrganizationExample" >
-    delete from site_organization
+  <delete id="deleteByExample" parameterType="com.kuaiba.site.db.entity.DomainExample" >
+    delete from t_domain
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kuaiba.site.db.entity.Organization" >
-    insert into site_organization
+  <insert id="insert" parameterType="com.kuaiba.site.db.entity.Domain" >
+    insert into t_domain
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -152,6 +155,9 @@
       </if>
       <if test="weight != null" >
         weight,
+      </if>
+      <if test="count != null" >
+        count,
       </if>
       <if test="state != null" >
         state,
@@ -183,7 +189,10 @@
         #{avatar,jdbcType=VARCHAR},
       </if>
       <if test="weight != null" >
-        #{weight,jdbcType=INTEGER},
+        #{weight,jdbcType=SMALLINT},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=SMALLINT},
       </if>
       <if test="state != null" >
         #{state,jdbcType=TINYINT},
@@ -199,14 +208,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.kuaiba.site.db.entity.OrganizationExample" resultType="java.lang.Integer" >
-    select count(*) from site_organization
+  <select id="countByExample" parameterType="com.kuaiba.site.db.entity.DomainExample" resultType="java.lang.Integer" >
+    select count(*) from t_domain
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExample" parameterType="map" >
-    update site_organization
+    update t_domain
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=BIGINT},
@@ -224,7 +233,10 @@
         avatar = #{record.avatar,jdbcType=VARCHAR},
       </if>
       <if test="record.weight != null" >
-        weight = #{record.weight,jdbcType=INTEGER},
+        weight = #{record.weight,jdbcType=SMALLINT},
+      </if>
+      <if test="record.count != null" >
+        count = #{record.count,jdbcType=SMALLINT},
       </if>
       <if test="record.state != null" >
         state = #{record.state,jdbcType=TINYINT},
@@ -243,8 +255,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.kuaiba.site.db.entity.Organization" >
-    update site_organization
+  <update id="updateByPrimaryKey" parameterType="com.kuaiba.site.db.entity.Domain" >
+    update t_domain
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -259,7 +271,10 @@
         avatar = #{avatar,jdbcType=VARCHAR},
       </if>
       <if test="weight != null" >
-        weight = #{weight,jdbcType=INTEGER},
+        weight = #{weight,jdbcType=SMALLINT},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=SMALLINT},
       </if>
       <if test="state != null" >
         state = #{state,jdbcType=TINYINT},

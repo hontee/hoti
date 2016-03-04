@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div class="easyui-layout" data-options="fit:true">
   <div data-options="region:'center', border:false" class="cms-wbox">
-  <form id="orgs-add-form" action="/cms/orgs/new" method="post">
+  <form id="domains-add-form" action="/cms/domains/new" method="post">
     <div class="cms-mb20">
       <div class="cms-mb5">名称:</div>
       <input class="easyui-textbox" name="name" data-options="required:true" style="width:100%; height:32px">
@@ -25,15 +25,15 @@
       <div class="cms-mb5">描述:</div>
       <input class="easyui-textbox" name="description" data-options="multiline:true" style="width:100%;height:64px">
     </div>
-    <button class="easyui-linkbutton" onclick="orgsAddSubmitForm()" style="width:100%;height:32px">创建</button>
+    <button class="easyui-linkbutton" onclick="domainsAddSubmitForm()" style="width:100%;height:32px">创建</button>
   </form>
   </div>
 </div>
 <script>
-function orgsAddSubmitForm(){
-  $('#orgs-add-form').form({
+function domainsAddSubmitForm(){
+  $('#domains-add-form').form({
     success: function(data) {
-    	CMS.addSubmitHandler(data, orgsEL);
+    	CMS.addSubmitHandler(data, domainsEL);
     }
   });
 }
