@@ -26,7 +26,7 @@ import com.kuaiba.site.front.vo.UserVO;
 import com.kuaiba.site.security.EncryptUtils;
 import com.kuaiba.site.service.UserService;
 import com.kuaiba.site.service.kit.Pagination;
-import com.kuaiba.site.service.kit.ValidKit;
+import com.kuaiba.site.service.kit.ValidUtils;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public PageInfo<User> findByExample(UserExample example, Pagination p) {
-		ValidKit.checkNotNull(example, p);
+		ValidUtils.checkNotNull(example, p);
 		try {
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<User> list = this.findByExample(example);
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int countByExample(UserExample example) {
-		ValidKit.checkNotNull(example);
+		ValidUtils.checkNotNull(example);
 		try {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void deleteByExample(UserExample example) {
-		ValidKit.checkNotNull(example);
+		ValidUtils.checkNotNull(example);
 		try {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void deleteByPrimaryKey(Long id) {
-		ValidKit.checkPrimaryKey(id);
+		ValidUtils.checkPrimaryKey(id);
 		try {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void add(UserVO vo) {
-		ValidKit.checkNotNull(vo);
+		ValidUtils.checkNotNull(vo);
 		try {
 			User record = new User();
 			record.setSalt(EncryptUtils.getRandomSalt()); // 随机盐值
@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> findByExample(UserExample example) {
-		ValidKit.checkNotNull(example);
+		ValidUtils.checkNotNull(example);
 		try {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findByPrimaryKey(Long id) {
-		ValidKit.checkPrimaryKey(id);
+		ValidUtils.checkPrimaryKey(id);
 		try {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void updateByExample(User record, UserExample example) {
-		ValidKit.checkNotNull(record, example);
+		ValidUtils.checkNotNull(record, example);
 		try {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
@@ -135,8 +135,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void updateByPrimaryKey(Long id, UserVO vo) {
-		ValidKit.checkNotNull(vo);
-		ValidKit.checkPrimaryKey(id);
+		ValidUtils.checkNotNull(vo);
+		ValidUtils.checkPrimaryKey(id);
 		try {
 			User record = new User();
 			record.setId(id);
@@ -154,7 +154,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findByName(String name) {
-		ValidKit.checkNotNull(name);
+		ValidUtils.checkNotNull(name);
 		try {
 			return mapper.selectByName(name);
 		} catch (Exception e) {
@@ -165,7 +165,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean existsName(String name) {
-		ValidKit.checkNotNull(name);
+		ValidUtils.checkNotNull(name);
 		try {
 			return (mapper.selectByName(name) == null) ? false : true;
 		} catch (Exception e) {

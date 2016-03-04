@@ -8,6 +8,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import com.google.common.base.Preconditions;
+import com.kuaiba.site.GlobalIds;
 
 /**
  * URL自动抓取工具类
@@ -15,12 +16,6 @@ import com.google.common.base.Preconditions;
  * @author larry.qi
  */
 public final class FetchUtils {
-	
-	// 设置User_agent
-	static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36";
-	
-	// 抓取超时时间
-	static final int TIMEOUT = 5000;
 	
 	/**
 	 * 连接并返回JSON格式的数据
@@ -63,8 +58,8 @@ public final class FetchUtils {
 	private static Document build(String url) throws IOException {
 		try {
 			return Jsoup.connect(url)
-					.userAgent(USER_AGENT)
-					.timeout(TIMEOUT)
+					.userAgent(GlobalIds.USER_AGENT)
+					.timeout(GlobalIds.TIMEOUT)
 					.followRedirects(true)
 					.ignoreContentType(true)
 					.ignoreHttpErrors(true)

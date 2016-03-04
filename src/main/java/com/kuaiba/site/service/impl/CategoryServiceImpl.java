@@ -23,7 +23,7 @@ import com.kuaiba.site.front.vo.CategoryVO;
 import com.kuaiba.site.security.Administrator;
 import com.kuaiba.site.service.CategoryService;
 import com.kuaiba.site.service.kit.Pagination;
-import com.kuaiba.site.service.kit.ValidKit;
+import com.kuaiba.site.service.kit.ValidUtils;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -38,7 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public PageInfo<Category> findByExample(CategoryExample example, Pagination p) {
-		ValidKit.checkNotNull(example, p);
+		ValidUtils.checkNotNull(example, p);
 		try {
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Category> list = this.findByExample(example);
@@ -51,7 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public int countByExample(CategoryExample example) {
-		ValidKit.checkNotNull(example);
+		ValidUtils.checkNotNull(example);
 		try {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
@@ -62,7 +62,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public void deleteByExample(CategoryExample example) {
-		ValidKit.checkNotNull(example);
+		ValidUtils.checkNotNull(example);
 		try {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
@@ -73,7 +73,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public void deleteByPrimaryKey(Long id) {
-		ValidKit.checkPrimaryKey(id);
+		ValidUtils.checkPrimaryKey(id);
 		try {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public void add(CategoryVO vo) {
-		ValidKit.checkNotNull(vo);
+		ValidUtils.checkNotNull(vo);
 		try {
 			Category record = new Category();
 			record.setName(vo.getName());
@@ -102,7 +102,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<Category> findByExample(CategoryExample example) {
-		ValidKit.checkNotNull(example);
+		ValidUtils.checkNotNull(example);
 		try {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
@@ -113,7 +113,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public Category findByPrimaryKey(Long id) {
-		ValidKit.checkPrimaryKey(id);
+		ValidUtils.checkPrimaryKey(id);
 		try {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
@@ -124,7 +124,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public void updateByExample(Category record, CategoryExample example) {
-		ValidKit.checkNotNull(record, example);
+		ValidUtils.checkNotNull(record, example);
 		try {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
@@ -135,8 +135,8 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public void updateByPrimaryKey(Long id, CategoryVO vo) {
-		ValidKit.checkNotNull(vo);
-		ValidKit.checkPrimaryKey(id);
+		ValidUtils.checkNotNull(vo);
+		ValidUtils.checkPrimaryKey(id);
 		try {
 			Category record = new Category();
 			record.setId(id);
@@ -154,7 +154,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<Category> findByOrganization(Long domain) {
-		ValidKit.checkNotNull(domain);
+		ValidUtils.checkNotNull(domain);
 		try {
 			return mapper.selectByDomain(domain);
 		} catch (Exception e) {
@@ -165,7 +165,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<Category> findByCollect(CategoryExample example) {
-		ValidKit.checkNotNull(example);
+		ValidUtils.checkNotNull(example);
 		try {
 			List<Category> cates = mapper.selectByCollect(example);
 			List<Category> list = new ArrayList<>();

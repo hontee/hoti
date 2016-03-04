@@ -16,9 +16,9 @@ import com.kuaiba.site.exceptions.BusinessException;
  * @author larry.qi
  *
  */
-public class ValidKit {
+public class ValidUtils {
 	
-	private static Logger logger = LoggerFactory.getLogger(ValidKit.class);
+	private static Logger logger = LoggerFactory.getLogger(ValidUtils.class);
 	
 	/**
 	 * 请求参数不能为空

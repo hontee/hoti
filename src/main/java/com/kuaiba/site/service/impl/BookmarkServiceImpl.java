@@ -24,7 +24,7 @@ import com.kuaiba.site.security.Administrator;
 import com.kuaiba.site.service.BookmarkService;
 import com.kuaiba.site.service.kit.Pagination;
 import com.kuaiba.site.service.kit.RandomKit;
-import com.kuaiba.site.service.kit.ValidKit;
+import com.kuaiba.site.service.kit.ValidUtils;
 
 @Service
 public class BookmarkServiceImpl implements BookmarkService {
@@ -39,7 +39,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public PageInfo<Bookmark> findByExample(BookmarkExample example, Pagination p) {
-		ValidKit.checkNotNull(example, p);
+		ValidUtils.checkNotNull(example, p);
 		try {
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Bookmark> list = this.findByExample(example);
@@ -52,7 +52,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public int countByExample(BookmarkExample example) {
-		ValidKit.checkNotNull(example);
+		ValidUtils.checkNotNull(example);
 		try {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
@@ -63,7 +63,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public void deleteByExample(BookmarkExample example) {
-		ValidKit.checkNotNull(example);
+		ValidUtils.checkNotNull(example);
 		try {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
@@ -74,7 +74,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public void deleteByPrimaryKey(Long id) {
-		ValidKit.checkPrimaryKey(id);
+		ValidUtils.checkPrimaryKey(id);
 		try {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
@@ -85,7 +85,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public void add(BookmarkVO vo) {
-		ValidKit.checkNotNull(vo);
+		ValidUtils.checkNotNull(vo);
 		try {
 			Bookmark record = new Bookmark();
 			record.setName(vo.getNameUUID());
@@ -106,7 +106,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public List<Bookmark> findByExample(BookmarkExample example) {
-		ValidKit.checkNotNull(example);
+		ValidUtils.checkNotNull(example);
 		try {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
@@ -117,7 +117,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public Bookmark findByPrimaryKey(Long id) {
-		ValidKit.checkPrimaryKey(id);
+		ValidUtils.checkPrimaryKey(id);
 		try {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
@@ -128,7 +128,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public void updateByExample(Bookmark record, BookmarkExample example) {
-		ValidKit.checkNotNull(record, example);
+		ValidUtils.checkNotNull(record, example);
 		try {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
@@ -139,8 +139,8 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public void updateByPrimaryKey(Long id, BookmarkVO vo) {
-		ValidKit.checkNotNull(vo);
-		ValidKit.checkPrimaryKey(id);
+		ValidUtils.checkNotNull(vo);
+		ValidUtils.checkPrimaryKey(id);
 		try {
 			Bookmark record = new Bookmark();
 			record.setId(id);
@@ -159,8 +159,8 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public void unfollow(Long uid, Long fid) {
-		ValidKit.checkPrimaryKey(uid);
-		ValidKit.checkPrimaryKey(fid);
+		ValidUtils.checkPrimaryKey(uid);
+		ValidUtils.checkPrimaryKey(fid);
 		try {
 			bfMapper.deleteByPrimaryKey(uid, fid);
 		} catch (Exception e) {
@@ -171,8 +171,8 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public void follow(Long uid, Long fid) {
-		ValidKit.checkPrimaryKey(uid);
-		ValidKit.checkPrimaryKey(fid);
+		ValidUtils.checkPrimaryKey(uid);
+		ValidUtils.checkPrimaryKey(fid);
 		try {
 			bfMapper.insert(uid, fid);
 		} catch (Exception e) {
@@ -183,7 +183,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public String hit(Long id) {
-		ValidKit.checkPrimaryKey(id);
+		ValidUtils.checkPrimaryKey(id);
 		try {
 			Bookmark record = findByPrimaryKey(id);
 			record.setHit(record.getHit() + 1);
@@ -197,7 +197,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public boolean isFollow(Long fid) {
-		ValidKit.checkPrimaryKey(fid);
+		ValidUtils.checkPrimaryKey(fid);
 		try {
 			List<Long> list = bfMapper.selectByUid(Administrator.getId());
 			return list.contains(fid);

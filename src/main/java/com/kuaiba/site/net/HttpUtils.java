@@ -60,9 +60,9 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.kuaiba.site.GlobalIds;
+
 public class HttpUtils {
-	
-	private final static String DEFAULT_CHARSET = "UTF-8";
 	
 	/**
 	 * Send a get request
@@ -150,8 +150,8 @@ public class HttpUtils {
 					body += "&";
 				}
 				String value = params.get(param);
-				body += URLEncoder.encode(param, DEFAULT_CHARSET) + "=";
-				body += URLEncoder.encode(value, DEFAULT_CHARSET);
+				body += URLEncoder.encode(param, GlobalIds.CHARSET) + "=";
+				body += URLEncoder.encode(value, GlobalIds.CHARSET);
 			}
 		}
 
@@ -225,8 +225,8 @@ public class HttpUtils {
 					fullUrl += '&';
 				}
 				String value = params.get(param);
-				fullUrl += URLEncoder.encode(param, DEFAULT_CHARSET) + '=';
-				fullUrl += URLEncoder.encode(value, DEFAULT_CHARSET);
+				fullUrl += URLEncoder.encode(param, GlobalIds.CHARSET) + '=';
+				fullUrl += URLEncoder.encode(value, GlobalIds.CHARSET);
 			}
 		}
 		
@@ -291,8 +291,8 @@ public class HttpUtils {
 				}
 			}
 			
-			params.put(URLDecoder.decode(param, DEFAULT_CHARSET), 
-				URLDecoder.decode(value, DEFAULT_CHARSET));
+			params.put(URLDecoder.decode(param, GlobalIds.CHARSET), 
+				URLDecoder.decode(value, GlobalIds.CHARSET));
 		}
 		
 		return params;

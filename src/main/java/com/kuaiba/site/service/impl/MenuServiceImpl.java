@@ -20,7 +20,7 @@ import com.kuaiba.site.front.vo.MenuVO;
 import com.kuaiba.site.security.Administrator;
 import com.kuaiba.site.service.MenuService;
 import com.kuaiba.site.service.kit.Pagination;
-import com.kuaiba.site.service.kit.ValidKit;
+import com.kuaiba.site.service.kit.ValidUtils;
 
 @Service
 public class MenuServiceImpl implements MenuService {
@@ -32,7 +32,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public PageInfo<Menu> findByExample(MenuExample example, Pagination p) {
-		ValidKit.checkNotNull(example, p);
+		ValidUtils.checkNotNull(example, p);
 		try {
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Menu> list = this.findByExample(example);
@@ -45,7 +45,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public int countByExample(MenuExample example) {
-		ValidKit.checkNotNull(example);
+		ValidUtils.checkNotNull(example);
 		try {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
@@ -56,7 +56,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public void deleteByExample(MenuExample example) {
-		ValidKit.checkNotNull(example);
+		ValidUtils.checkNotNull(example);
 		try {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
@@ -67,7 +67,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public void deleteByPrimaryKey(Long id) {
-		ValidKit.checkPrimaryKey(id);
+		ValidUtils.checkPrimaryKey(id);
 		try {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
@@ -78,7 +78,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public void add(MenuVO vo) {
-		ValidKit.checkNotNull(vo);
+		ValidUtils.checkNotNull(vo);
 		try {
 			Menu record = new Menu();
 			record.setCreator(Administrator.getName());
@@ -98,7 +98,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public List<Menu> findByExample(MenuExample example) {
-		ValidKit.checkNotNull(example);
+		ValidUtils.checkNotNull(example);
 		try {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
@@ -109,7 +109,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public Menu findByPrimaryKey(Long id) {
-		ValidKit.checkPrimaryKey(id);
+		ValidUtils.checkPrimaryKey(id);
 		try {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
@@ -120,7 +120,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public void updateByExample(Menu record, MenuExample example) {
-		ValidKit.checkNotNull(record, example);
+		ValidUtils.checkNotNull(record, example);
 		try {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
@@ -131,8 +131,8 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public void updateByPrimaryKey(Long id, MenuVO vo) {
-		ValidKit.checkNotNull(vo);
-		ValidKit.checkPrimaryKey(id);
+		ValidUtils.checkNotNull(vo);
+		ValidUtils.checkPrimaryKey(id);
 		try {
 			Menu record = new Menu();
 			record.setId(id);

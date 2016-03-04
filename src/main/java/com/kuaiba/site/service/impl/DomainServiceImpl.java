@@ -20,7 +20,7 @@ import com.kuaiba.site.front.vo.DomainVO;
 import com.kuaiba.site.security.Administrator;
 import com.kuaiba.site.service.DomainService;
 import com.kuaiba.site.service.kit.Pagination;
-import com.kuaiba.site.service.kit.ValidKit;
+import com.kuaiba.site.service.kit.ValidUtils;
 
 @Service
 public class DomainServiceImpl implements DomainService {
@@ -32,7 +32,7 @@ public class DomainServiceImpl implements DomainService {
 
 	@Override
 	public PageInfo<Domain> findByExample(DomainExample example, Pagination p) {
-		ValidKit.checkNotNull(example, p);
+		ValidUtils.checkNotNull(example, p);
 		try {
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Domain> list = this.findByExample(example);
@@ -45,7 +45,7 @@ public class DomainServiceImpl implements DomainService {
 
 	@Override
 	public int countByExample(DomainExample example) {
-		ValidKit.checkNotNull(example);
+		ValidUtils.checkNotNull(example);
 		try {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
@@ -56,7 +56,7 @@ public class DomainServiceImpl implements DomainService {
 
 	@Override
 	public void deleteByExample(DomainExample example) {
-		ValidKit.checkNotNull(example);
+		ValidUtils.checkNotNull(example);
 		try {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
@@ -67,7 +67,7 @@ public class DomainServiceImpl implements DomainService {
 
 	@Override
 	public void deleteByPrimaryKey(Long id) {
-		ValidKit.checkPrimaryKey(id);
+		ValidUtils.checkPrimaryKey(id);
 		try {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
@@ -78,7 +78,7 @@ public class DomainServiceImpl implements DomainService {
 
 	@Override
 	public void add(DomainVO vo) {
-		ValidKit.checkNotNull(vo);
+		ValidUtils.checkNotNull(vo);
 		try {
 			Domain record = new Domain();
 			record.setCreator(Administrator.getName());
@@ -96,7 +96,7 @@ public class DomainServiceImpl implements DomainService {
 
 	@Override
 	public List<Domain> findByExample(DomainExample example) {
-		ValidKit.checkNotNull(example);
+		ValidUtils.checkNotNull(example);
 		try {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
@@ -107,7 +107,7 @@ public class DomainServiceImpl implements DomainService {
 
 	@Override
 	public Domain findByPrimaryKey(Long id) {
-		ValidKit.checkPrimaryKey(id);
+		ValidUtils.checkPrimaryKey(id);
 		try {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
@@ -118,7 +118,7 @@ public class DomainServiceImpl implements DomainService {
 
 	@Override
 	public void updateByExample(Domain record, DomainExample example) {
-		ValidKit.checkNotNull(record, example);
+		ValidUtils.checkNotNull(record, example);
 		try {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
@@ -129,8 +129,8 @@ public class DomainServiceImpl implements DomainService {
 
 	@Override
 	public void updateByPrimaryKey(Long id, DomainVO vo) {
-		ValidKit.checkNotNull(vo);
-		ValidKit.checkPrimaryKey(id);
+		ValidUtils.checkNotNull(vo);
+		ValidUtils.checkPrimaryKey(id);
 		try {
 			Domain record = new Domain();
 			record.setId(id);
@@ -148,7 +148,7 @@ public class DomainServiceImpl implements DomainService {
 
 	@Override
 	public List<Domain> findByCollect(DomainExample example) {
-		ValidKit.checkNotNull(example);
+		ValidUtils.checkNotNull(example);
 		try {
 			return mapper.selectByCollect(example);
 		} catch (Exception e) {
