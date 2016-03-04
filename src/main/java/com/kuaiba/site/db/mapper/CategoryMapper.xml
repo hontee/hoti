@@ -8,14 +8,13 @@
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="avatar" property="avatar" jdbcType="VARCHAR" />
     <result column="cover" property="cover" jdbcType="VARCHAR" />
-    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="BIGINT" />
     <result column="state" property="state" jdbcType="TINYINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
-    <result column="organization" property="organization" jdbcType="BIGINT" />
+    <result column="domain" property="domain" jdbcType="BIGINT" />
     <result column="create_by" property="createBy" jdbcType="BIGINT" />
-    
-    <result column="ext_organization_title" property="extOrganizationTitle" jdbcType="VARCHAR" />
+    <result column="ext_domain_title" property="extDomainTitle" jdbcType="VARCHAR" />
     <result column="ext_create_name" property="extCreateName" jdbcType="VARCHAR" />
   </resultMap>
   
@@ -26,11 +25,11 @@
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="avatar" property="avatar" jdbcType="VARCHAR" />
     <result column="cover" property="cover" jdbcType="VARCHAR" />
-    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="BIGINT" />
     <result column="state" property="state" jdbcType="TINYINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
-    <result column="organization" property="organization" jdbcType="BIGINT" />
+    <result column="domain" property="domain" jdbcType="BIGINT" />
     <result column="create_by" property="createBy" jdbcType="BIGINT" />
     <collection property="websites" javaType="java.util.List" column="id" ofType="com.kuaiba.site.db.entity.Website" 
     select="com.kuaiba.site.db.dao.WebsiteMapper.selectByCategory" />
@@ -96,16 +95,16 @@
   </sql>
   <sql id="Base_Column_List" >
     id, name, title, description, avatar, cover, count, state, created, last_modified, 
-    organization, create_by
+    domain, create_by
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.CategoryExample" >
-  	SELECT a.*, b.title AS ext_organization_title, u.name AS ext_create_name FROM (
+  	SELECT a.*, b.title AS ext_domain_title, u.name AS ext_create_name FROM (
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from site_category
+    from t_category
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -113,7 +112,7 @@
       order by ${orderByClause}
     </if>
     ) a
-    JOIN site_organization b ON a.organization = b.id
+    JOIN t_domain b ON a.domain = b.id
 	JOIN t_users u ON a.create_by = u.id
   </select>
   
@@ -123,7 +122,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from site_category
+    from t_category
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -133,29 +132,29 @@
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-  	SELECT a.*, b.title AS ext_organization_title, u.name as ext_create_name FROM site_category a
-	JOIN site_organization b ON a.organization = b.id
+  	SELECT a.*, b.title AS ext_domain_title, u.name as ext_create_name FROM t_category a
+	JOIN t_domain b ON a.domain = b.id
 	JOIN t_users u ON a.create_by = u.id
     where a.id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="selectByOrganization" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByDomain" resultMap="BaseResultMap" parameterType="java.lang.Long" >
   	SELECT 
   	<include refid="Base_Column_List" /> 
-  	FROM site_category
-    WHERE organization = #{organization,jdbcType=BIGINT}
+  	FROM t_category
+    WHERE domain = #{domain,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from site_category
+    delete from t_category
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuaiba.site.db.entity.CategoryExample" >
-    delete from site_category
+    delete from t_category
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuaiba.site.db.entity.Category" >
-    insert into site_category
+    insert into t_category
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -187,8 +186,8 @@
       <if test="lastModified != null" >
         last_modified,
       </if>
-      <if test="organization != null" >
-        organization,
+      <if test="domain != null" >
+        domain,
       </if>
       <if test="createBy != null" >
         create_by,
@@ -225,8 +224,8 @@
       <if test="lastModified != null" >
         #{lastModified,jdbcType=TIMESTAMP},
       </if>
-      <if test="organization != null" >
-        #{organization,jdbcType=BIGINT},
+      <if test="domain != null" >
+        #{domain,jdbcType=BIGINT},
       </if>
       <if test="createBy != null" >
         #{createBy,jdbcType=BIGINT},
@@ -234,13 +233,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuaiba.site.db.entity.CategoryExample" resultType="java.lang.Integer" >
-    select count(*) from site_category
+    select count(*) from t_category
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExample" parameterType="map" >
-    update site_category
+    update t_category
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=BIGINT},
@@ -272,8 +271,8 @@
       <if test="record.lastModified != null" >
         last_modified = #{record.lastModified,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.organization != null" >
-        organization = #{record.organization,jdbcType=BIGINT},
+      <if test="record.domain != null" >
+        domain = #{record.domain,jdbcType=BIGINT},
       </if>
       <if test="record.createBy != null" >
         create_by = #{record.createBy,jdbcType=BIGINT},
@@ -284,7 +283,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuaiba.site.db.entity.Category" >
-    update site_category
+    update t_category
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -313,8 +312,8 @@
       <if test="lastModified != null" >
         last_modified = #{lastModified,jdbcType=TIMESTAMP},
       </if>
-      <if test="organization != null" >
-        organization = #{organization,jdbcType=BIGINT},
+      <if test="domain != null" >
+        domain = #{domain,jdbcType=BIGINT},
       </if>
       <if test="createBy != null" >
         create_by = #{createBy,jdbcType=BIGINT},

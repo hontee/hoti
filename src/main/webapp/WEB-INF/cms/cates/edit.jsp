@@ -12,9 +12,9 @@
       <input class="easyui-textbox" name="title" value="${record.title}" data-options="required:true, prompt:'唯一的标题'" style="width:100%;height:32px">
     </div>
     <div class="cms-mb20">
-      <div class="cms-mb5">所属分组:</div>
-      <input class="easyui-combobox" name="organization"
-    	data-options="panelHeight:'auto',editable: false, value: '${record.organization}', valueField:'id',textField:'title',url:'/cms/orgs/datalist'" 
+      <div class="cms-mb5">业务领域:</div>
+      <input class="easyui-combobox" name="domain"
+    	data-options="panelHeight:'auto',editable: false, value: '${record.domain}', valueField:'id',textField:'title',url:'/cms/domains/datalist'" 
     	style="width:100%; height:32px">
     </div>
     <div class="cms-mb20">

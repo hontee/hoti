@@ -91,7 +91,7 @@ public class CategoryServiceImpl implements CategoryService {
 			record.setTitle(vo.getTitle());
 			record.setDescription(vo.getDescription());
 			record.setState(vo.getState());
-			record.setOrganization(vo.getOrganization());
+			record.setDomain(vo.getDomain());
 			record.setCreateBy(Administrator.getId());
 			mapper.insert(record);
 		} catch (Exception e) {
@@ -144,7 +144,7 @@ public class CategoryServiceImpl implements CategoryService {
 			record.setTitle(vo.getTitle());
 			record.setDescription(vo.getDescription());
 			record.setState(vo.getState());
-			record.setOrganization(vo.getOrganization());
+			record.setDomain(vo.getDomain());
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
@@ -153,10 +153,10 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> findByOrganization(Long organization) {
-		ValidKit.checkNotNull(organization);
+	public List<Category> findByOrganization(Long domain) {
+		ValidKit.checkNotNull(domain);
 		try {
-			return mapper.selectByOrganization(organization);
+			return mapper.selectByDomain(domain);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
 			throw new BusinessException(BType.KB2003);

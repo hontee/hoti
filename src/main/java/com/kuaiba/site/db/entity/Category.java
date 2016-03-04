@@ -20,7 +20,7 @@ public class Category implements Serializable {
 
     private String cover;
 
-    private Integer count;
+    private Long count;
 
     private Byte state;
 
@@ -28,11 +28,11 @@ public class Category implements Serializable {
 
     private Date lastModified;
 
-    private Long organization;
+    private Long domain;
 
     private Long createBy;
     
-    private String extOrganizationTitle;
+    private String extDomainTitle;
     
 	private String extCreateName;
 	
@@ -86,15 +86,15 @@ public class Category implements Serializable {
         this.cover = cover;
     }
 
-    public Integer getCount() {
-        return count;
-    }
+    public Long getCount() {
+		return count;
+	}
 
-    public void setCount(Integer count) {
-        this.count = count;
-    }
+	public void setCount(Long count) {
+		this.count = count;
+	}
 
-    public Byte getState() {
+	public Byte getState() {
         return state;
     }
 
@@ -118,14 +118,6 @@ public class Category implements Serializable {
         this.lastModified = lastModified;
     }
 
-    public Long getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(Long organization) {
-        this.organization = organization;
-    }
-
     public Long getCreateBy() {
         return createBy;
     }
@@ -134,12 +126,20 @@ public class Category implements Serializable {
         this.createBy = createBy;
     }
 
-	public String getExtOrganizationTitle() {
-		return extOrganizationTitle;
+	public Long getDomain() {
+		return domain;
 	}
 
-	public void setExtOrganizationTitle(String extOrganizationTitle) {
-		this.extOrganizationTitle = extOrganizationTitle;
+	public void setDomain(Long domain) {
+		this.domain = domain;
+	}
+
+	public String getExtDomainTitle() {
+		return extDomainTitle;
+	}
+
+	public void setExtDomainTitle(String extDomainTitle) {
+		this.extDomainTitle = extDomainTitle;
 	}
 
 	public String getExtCreateName() {

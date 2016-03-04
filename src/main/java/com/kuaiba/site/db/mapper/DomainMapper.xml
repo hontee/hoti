@@ -27,7 +27,7 @@
     <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
     <collection property="cates" javaType="java.util.List" column="id" ofType="com.kuaiba.site.db.entity.Category" 
-    select="com.kuaiba.site.db.dao.CategoryMapper.selectByOrganization" />
+    select="com.kuaiba.site.db.dao.CategoryMapper.selectByDomain" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >

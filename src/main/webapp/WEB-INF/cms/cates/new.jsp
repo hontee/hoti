@@ -11,9 +11,9 @@
       <input class="easyui-textbox" name="title" data-options="required:true" style="width:100%;height:32px">
     </div>
     <div class="cms-mb20">
-      <div class="cms-mb5">所属分组:</div>
-      <input class="easyui-combobox" name="organization"
-    	data-options="required:true,panelHeight:'auto',editable: false, valueField:'id',textField:'title',url:'/cms/orgs/datalist'" 
+      <div class="cms-mb5">业务领域:</div>
+      <input class="easyui-combobox" name="domain"
+    	data-options="required:true,panelHeight:'auto',editable: false, valueField:'id',textField:'title',url:'/cms/domains/datalist'" 
     	style="width:100%; height:32px">
     </div>
     <div class="cms-mb20">

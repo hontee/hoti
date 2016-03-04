@@ -25,7 +25,7 @@ public interface CategoryService extends Pager<Category, CategoryExample> {
 
     void updateByPrimaryKey(Long id, CategoryVO vo);
     
-    List<Category> findByOrganization(Long organization);
+    List<Category> findByOrganization(Long domain);
     
     List<Category> findByCollect(CategoryExample example);
 	

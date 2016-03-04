@@ -25,7 +25,7 @@ public interface CategoryMapper {
 
     int updateByPrimaryKey(Category record);
     
-    List<Category> selectByOrganization(@Param("organization") Long organization);
+    List<Category> selectByDomain(@Param("domain") Long domain);
     
     List<Category> selectByCollect(CategoryExample example);
     

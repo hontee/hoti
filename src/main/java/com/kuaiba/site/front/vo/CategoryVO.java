@@ -3,14 +3,14 @@ package com.kuaiba.site.front.vo;
 public class CategoryVO extends BaseVO {
 
 	private static final long serialVersionUID = 4611166724116299154L;
-	private Long organization;
+	private Long domain;
 
-	public Long getOrganization() {
-		return organization;
+	public Long getDomain() {
+		return domain;
 	}
 
-	public void setOrganization(Long organization) {
-		this.organization = organization;
+	public void setDomain(Long domain) {
+		this.domain = domain;
 	}
 
 }

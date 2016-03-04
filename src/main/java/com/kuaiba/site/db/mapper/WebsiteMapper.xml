@@ -98,12 +98,12 @@
     </if>
     ) a
 	JOIN t_users u ON a.create_by = u.id
-	JOIN site_category c ON a.category = c.id
+	JOIN t_category c ON a.category = c.id
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     SELECT a.*, u.name AS ext_create_name, c.title AS ext_category_title FROM site_website a
 	JOIN t_users u ON a.create_by = u.id
-	JOIN site_category c ON a.category = c.id
+	JOIN t_category c ON a.category = c.id
     where a.id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectByCategory" resultMap="BaseResultMap" parameterType="java.lang.Long" >

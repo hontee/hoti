@@ -51,8 +51,8 @@ catesEL.dg.datagrid({
         {field:'avatar',title:'头像',width:100},
         {field:'cover',title:'封面',width:100},
         {field:'count',title:'计数',width:100, sortable: true},
-        {field:'organization',title:'所属分组',width:100, sortable: true, formatter: function(value,row,index) {
-        	return row.extOrganizationTitle;
+        {field:'domain',title:'业务领域',width:100, sortable: true, formatter: function(value,row,index) {
+        	return row.extDomainTitle;
         }},
         {field:'state',title:'状态',width:100, sortable: true, formatter: function(value,row,index) {
         	if (value == '1') {
@@ -70,7 +70,7 @@ catesEL.dg.datagrid({
         {field:'createBy',title:'创建人',width:100, sortable: true, formatter: function(value,row,index) {
         	return row.extCreateName;
         }},
-        {field:'extOrganizationTitle',title:'分组标题', hidden: true},
+        {field:'extDomainTitle',title:'业务领域', hidden: true},
         {field:'extCreateName',title:'用户名', hidden: true},
     ]],
  	// 当选择一行时触发
