@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kuaiba.site.db.dao.BookmarkFollowMapper" >
-  <resultMap id="BaseResultMap" type="com.kuaiba.site.db.entity.BookmarkFollow" >
+<mapper namespace="com.kuaiba.site.db.dao.GroupFollowMapper" >
+  <resultMap id="BaseResultMap" type="com.kuaiba.site.db.entity.GroupFollow" >
     <id column="uid" property="uid" jdbcType="BIGINT" />
     <id column="fid" property="fid" jdbcType="BIGINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="map" >
-    delete from t_bookmark_follow
+    delete from t_group_follow
     where uid = #{uid,jdbcType=BIGINT}
       and fid = #{fid,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.kuaiba.site.db.entity.BookmarkFollow" >
-    insert into t_bookmark_follow (uid, fid)
+  <insert id="insert" parameterType="map" >
+    insert into t_group_follow (uid, fid)
     values (#{uid,jdbcType=BIGINT}, #{fid,jdbcType=BIGINT})
   </insert>
-  <select id="selectByUid" parameterType="java.lang.Long" resultType="Long">
-  SELECT fid FROM t_bookmark_follow WHERE uid = #{uid} ORDER BY fid
-  </select>
 </mapper>

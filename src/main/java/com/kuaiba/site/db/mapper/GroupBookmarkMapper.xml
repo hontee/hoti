@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kuaiba.site.db.dao.GroupBookmarkMapper" >
+  <resultMap id="BaseResultMap" type="com.kuaiba.site.db.entity.GroupBookmark" >
+    <id column="gid" property="gid" jdbcType="BIGINT" />
+    <id column="bmid" property="bmid" jdbcType="BIGINT" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from t_group_bookmark
+    where gid = #{gid,jdbcType=BIGINT}
+      and bmid = #{bmid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="map" >
+    insert into t_group_bookmark (gid, bmid)
+    values (#{gid,jdbcType=BIGINT}, #{bmid,jdbcType=BIGINT})
+  </insert>
+</mapper>

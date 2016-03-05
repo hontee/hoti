@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kuaiba.site.db.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.kuaiba.site.db.entity.User" >
+<mapper namespace="com.kuaiba.site.db.dao.TrackMapper" >
+  <resultMap id="BaseResultMap" type="com.kuaiba.site.db.entity.Track" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="description" property="description" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="salt" property="salt" jdbcType="VARCHAR" />
-    <result column="user_type" property="userType" jdbcType="TINYINT" />
+    <result column="exception" property="exception" jdbcType="VARCHAR" />
+    <result column="message" property="message" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="TINYINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -72,16 +69,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, title, description, password, salt, user_type, state, 
-    created, last_modified
+    id, exception, message, state, created, last_modified, remark
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.UserExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.TrackExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_user
+    from t_track
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -92,42 +88,30 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from t_user
+    from t_track
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from t_user
+    delete from t_track
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.kuaiba.site.db.entity.UserExample" >
-    delete from t_user
+  <delete id="deleteByExample" parameterType="com.kuaiba.site.db.entity.TrackExample" >
+    delete from t_track
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kuaiba.site.db.entity.User" >
-    insert into t_user
+  <insert id="insert" parameterType="com.kuaiba.site.db.entity.Track" >
+    insert into t_track
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="name != null" >
-        name,
+      <if test="exception != null" >
+        exception,
       </if>
-      <if test="title != null" >
-        title,
-      </if>
-      <if test="description != null" >
-        description,
-      </if>
-      <if test="password != null" >
-        password,
-      </if>
-      <if test="salt != null" >
-        salt,
-      </if>
-      <if test="userType != null" >
-        user_type,
+      <if test="message != null" >
+        message,
       </if>
       <if test="state != null" >
         state,
@@ -138,28 +122,19 @@
       <if test="lastModified != null" >
         last_modified,
       </if>
+      <if test="remark != null" >
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
+      <if test="exception != null" >
+        #{exception,jdbcType=VARCHAR},
       </if>
-      <if test="title != null" >
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null" >
-        #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null" >
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="salt != null" >
-        #{salt,jdbcType=VARCHAR},
-      </if>
-      <if test="userType != null" >
-        #{userType,jdbcType=TINYINT},
+      <if test="message != null" >
+        #{message,jdbcType=VARCHAR},
       </if>
       <if test="state != null" >
         #{state,jdbcType=TINYINT},
@@ -170,37 +145,28 @@
       <if test="lastModified != null" >
         #{lastModified,jdbcType=TIMESTAMP},
       </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.kuaiba.site.db.entity.UserExample" resultType="java.lang.Integer" >
-    select count(*) from t_user
+  <select id="countByExample" parameterType="com.kuaiba.site.db.entity.TrackExample" resultType="java.lang.Integer" >
+    select count(*) from t_track
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExample" parameterType="map" >
-    update t_user
+    update t_track
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.exception != null" >
+        exception = #{record.exception,jdbcType=VARCHAR},
       </if>
-      <if test="record.title != null" >
-        title = #{record.title,jdbcType=VARCHAR},
-      </if>
-      <if test="record.description != null" >
-        description = #{record.description,jdbcType=VARCHAR},
-      </if>
-      <if test="record.password != null" >
-        password = #{record.password,jdbcType=VARCHAR},
-      </if>
-      <if test="record.salt != null" >
-        salt = #{record.salt,jdbcType=VARCHAR},
-      </if>
-      <if test="record.userType != null" >
-        user_type = #{record.userType,jdbcType=TINYINT},
+      <if test="record.message != null" >
+        message = #{record.message,jdbcType=VARCHAR},
       </if>
       <if test="record.state != null" >
         state = #{record.state,jdbcType=TINYINT},
@@ -211,31 +177,22 @@
       <if test="record.lastModified != null" >
         last_modified = #{record.lastModified,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.kuaiba.site.db.entity.User" >
-    update t_user
+  <update id="updateByPrimaryKey" parameterType="com.kuaiba.site.db.entity.Track" >
+    update t_track
     <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
+      <if test="exception != null" >
+        exception = #{exception,jdbcType=VARCHAR},
       </if>
-      <if test="title != null" >
-        title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null" >
-        description = #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null" >
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="salt != null" >
-        salt = #{salt,jdbcType=VARCHAR},
-      </if>
-      <if test="userType != null" >
-        user_type = #{userType,jdbcType=TINYINT},
+      <if test="message != null" >
+        message = #{message,jdbcType=VARCHAR},
       </if>
       <if test="state != null" >
         state = #{state,jdbcType=TINYINT},
@@ -246,14 +203,10 @@
       <if test="lastModified != null" >
         last_modified = #{lastModified,jdbcType=TIMESTAMP},
       </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <!-- 根据用户名查询用户记录 -->
-  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_user
-    where name = #{name}
-  </select>
 </mapper>

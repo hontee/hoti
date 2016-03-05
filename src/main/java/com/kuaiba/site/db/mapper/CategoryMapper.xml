@@ -112,7 +112,7 @@
     </if>
     ) a
     JOIN t_domain b ON a.domain = b.id
-	JOIN t_users u ON a.create_by = u.id
+	JOIN t_user u ON a.create_by = u.id
   </select>
   
   <select id="selectByCollect" resultMap="CollectResultMap" parameterType="com.kuaiba.site.db.entity.CategoryExample" >
@@ -133,7 +133,7 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
   	SELECT a.*, b.title AS ext_domain_title, u.name as ext_create_name FROM t_category a
 	JOIN t_domain b ON a.domain = b.id
-	JOIN t_users u ON a.create_by = u.id
+	JOIN t_user u ON a.create_by = u.id
     where a.id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectByDomain" resultMap="BaseResultMap" parameterType="java.lang.Long" >
