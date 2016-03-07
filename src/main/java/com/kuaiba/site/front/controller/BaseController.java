@@ -32,5 +32,9 @@ public abstract class BaseController {
 	protected MtypeService mtypeService;
 	@Resource
 	protected TrackService trackService;
+	
+	protected String redirect(String path) {
+		return "redirect:".concat(path);
+	}
 
 }

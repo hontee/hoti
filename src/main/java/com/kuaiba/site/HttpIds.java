@@ -13,12 +13,14 @@ public interface HttpIds {
 	String LOGOUT = "logout";
 	String USER_HOME = "/{name}/dashbord";
 	String USER_PROFILE = "/{name}/profile";
-	String GROUPS = "/groups";
-	String GROUPS_BY_ID = "/groups/{id}";
+	String GROUP = "/groups";
+	String GROUP_BY_ID = "/groups/{id}";
 	String HOME = "";
-	String WEBSITE_HIT = "/{id}/hit";
+	String BOOKMARK_HIT = "/bookmarks/{id}/hit";
 	String RECOMMEND = "/share";
 	String BOOKMARK_FOLLOW = "/bookmarks/{id}/follow";
 	String BOOKMARK_UNFOLLOW = "/bookmarks/{id}/unfollow";
+	String GROUP_FOLLOW = "/groups/{id}/follow";
+	String GROUP_UNFOLLOW = "/groups/{id}/unfollow";
 	
 }

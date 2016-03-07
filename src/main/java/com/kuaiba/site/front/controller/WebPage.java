@@ -41,8 +41,12 @@ public interface WebPage {
 	
 	Result recommend(String url);
 	
-	Result follow(Long id);
+	Result bookmarkFollow(Long id);
 	
-	Result unfollow(Long id);
+	Result bookmarkUnfollow(Long id);
+	
+	Result groupFollow(Long id);
+	
+	Result groupUnfollow(Long id);
 
 }

@@ -158,11 +158,10 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public void unfollow(Long uid, Long fid) {
-		ValidUtils.checkPrimaryKey(uid);
+	public void unfollow(Long fid) {
 		ValidUtils.checkPrimaryKey(fid);
 		try {
-			bfMapper.deleteByPrimaryKey(uid, fid);
+			bfMapper.deleteByPrimaryKey(Administrator.getId(), fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
 			throw new BusinessException(BType.KB2003);
@@ -170,11 +169,10 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public void follow(Long uid, Long fid) {
-		ValidUtils.checkPrimaryKey(uid);
+	public void follow(Long fid) {
 		ValidUtils.checkPrimaryKey(fid);
 		try {
-			bfMapper.insert(uid, fid);
+			bfMapper.insert(Administrator.getId(), fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
 			throw new BusinessException(BType.KB2003);

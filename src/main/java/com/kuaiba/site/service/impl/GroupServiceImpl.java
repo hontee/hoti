@@ -156,11 +156,10 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public void unfollow(Long uid, Long fid) {
-		ValidUtils.checkPrimaryKey(uid);
+	public void unfollow(Long fid) {
 		ValidUtils.checkPrimaryKey(fid);
 		try {
-			gfMapper.deleteByPrimaryKey(uid, fid);
+			gfMapper.deleteByPrimaryKey(Administrator.getId(), fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
 			throw new BusinessException(BType.KB2003);
@@ -168,11 +167,10 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public void follow(Long uid, Long fid) {
-		ValidUtils.checkPrimaryKey(uid);
+	public void follow(Long fid) {
 		ValidUtils.checkPrimaryKey(fid);
 		try {
-			gfMapper.insert(uid, fid);
+			gfMapper.insert(Administrator.getId(), fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
 			throw new BusinessException(BType.KB2003);

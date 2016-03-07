@@ -25,9 +25,9 @@ public interface BookmarkService extends Pager<Bookmark, BookmarkExample> {
 
 	void updateByPrimaryKey(Long id, BookmarkVO vo);
 	
-	void unfollow(Long uid, Long fid);
+	void unfollow(Long fid);
 
-	void follow(Long uid, Long fid);
+	void follow(Long fid);
 	
 	boolean isFollow(Long fid);
 	

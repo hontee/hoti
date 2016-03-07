@@ -25,9 +25,9 @@ public interface GroupService extends Pager<Group, GroupExample> {
 
     void updateByPrimaryKey(Long id, GroupVO vo);
     
-    void unfollow(Long uid, Long fid);
+    void unfollow(Long fid);
 
-	void follow(Long uid, Long fid);
+	void follow(Long fid);
 	
 	void removeBookmark(Long gid, Long bmid);
 
