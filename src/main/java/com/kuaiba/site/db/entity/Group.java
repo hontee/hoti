@@ -36,6 +36,10 @@ public class Group implements Serializable {
     private Long mtype;
 
     private Long category;
+    
+    private String extCategoryTitle;
+    
+    private String extCreateName;
 
     public Long getId() {
         return id;
@@ -156,4 +160,21 @@ public class Group implements Serializable {
     public void setCategory(Long category) {
         this.category = category;
     }
+
+	public String getExtCategoryTitle() {
+		return extCategoryTitle;
+	}
+
+	public void setExtCategoryTitle(String extCategoryTitle) {
+		this.extCategoryTitle = extCategoryTitle;
+	}
+
+	public String getExtCreateName() {
+		return extCreateName;
+	}
+
+	public void setExtCreateName(String extCreateName) {
+		this.extCreateName = extCreateName;
+	}
+    
 }
