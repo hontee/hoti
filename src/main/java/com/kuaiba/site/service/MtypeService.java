@@ -5,7 +5,7 @@ import java.util.List;
 import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.MtypeExample;
 import com.kuaiba.site.front.vo.MtypeVO;
-import com.kuaiba.site.service.kit.Pager;
+import com.kuaiba.site.service.utils.Pager;
 
 public interface MtypeService extends Pager<Mtype, MtypeExample> {
 	

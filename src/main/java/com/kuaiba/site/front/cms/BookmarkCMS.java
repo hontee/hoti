@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.CmsIds;
+import com.kuaiba.site.core.CmsIds;
+import com.kuaiba.site.core.utils.AjaxResponse;
+import com.kuaiba.site.core.utils.AjaxUtils;
+import com.kuaiba.site.core.utils.DataGrid;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
-import com.kuaiba.site.front.controller.BaseController;
+import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.BookmarkVO;
-import com.kuaiba.site.service.kit.Pagination;
-import com.kuaiba.site.utils.AjaxResponse;
-import com.kuaiba.site.utils.AjaxUtils;
-import com.kuaiba.site.utils.DataGrid;
+import com.kuaiba.site.service.utils.Pagination;
 
 @Controller
 @RequestMapping(CmsIds.CMS_BOOKMARKS)
-public class BookmarkCMS extends BaseController {
+public class BookmarkCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.HOME, method = RequestMethod.GET)

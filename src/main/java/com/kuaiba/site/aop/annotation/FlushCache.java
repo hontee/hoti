@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.kuaiba.site.cache.CacheIds;
+import com.kuaiba.site.core.cache.CacheIds;
 
 /**
  * 刷新缓存

@@ -11,20 +11,20 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
-import com.kuaiba.site.GlobalIds;
+import com.kuaiba.site.core.GlobalIds;
+import com.kuaiba.site.core.exceptions.BType;
+import com.kuaiba.site.core.exceptions.BusinessException;
+import com.kuaiba.site.core.security.Administrator;
+import com.kuaiba.site.core.utils.HttpUtils;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.BookmarkMapper;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
-import com.kuaiba.site.exceptions.BType;
-import com.kuaiba.site.exceptions.BusinessException;
 import com.kuaiba.site.front.vo.BookmarkVO;
-import com.kuaiba.site.security.Administrator;
 import com.kuaiba.site.service.BookmarkService;
-import com.kuaiba.site.service.kit.Pagination;
-import com.kuaiba.site.service.kit.RandomKit;
-import com.kuaiba.site.service.kit.ValidUtils;
-import com.kuaiba.site.utils.HttpUtils;
+import com.kuaiba.site.service.utils.Pagination;
+import com.kuaiba.site.service.utils.RandUtils;
+import com.kuaiba.site.service.utils.ValidUtils;
 
 @Service
 public class BookmarkServiceImpl implements BookmarkService {
@@ -95,7 +95,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			record.setState(vo.getState());
 			record.setCreateBy(Administrator.getId());
 			record.setCategory(vo.getCategory());
-			record.setHit(RandomKit.getRandomHit());
+			record.setHit(RandUtils.getRandomHit());
 			record.setReffer(GlobalIds.REFFER);
 			mapper.insert(record);
 		} catch (Exception e) {

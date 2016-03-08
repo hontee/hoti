@@ -5,8 +5,8 @@ import java.util.List;
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
 import com.kuaiba.site.front.vo.RecommendVO;
+import com.kuaiba.site.service.utils.Pager;
 import com.kuaiba.site.front.vo.BookmarkVO;
-import com.kuaiba.site.service.kit.Pager;
 
 public interface RecommendService extends Pager<Recommend, RecommendExample> {
 	

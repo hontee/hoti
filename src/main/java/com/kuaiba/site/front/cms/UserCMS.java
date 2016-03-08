@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.CmsIds;
+import com.kuaiba.site.core.CmsIds;
+import com.kuaiba.site.core.utils.AjaxResponse;
+import com.kuaiba.site.core.utils.AjaxUtils;
+import com.kuaiba.site.core.utils.DataGrid;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;
-import com.kuaiba.site.front.controller.BaseController;
+import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.UserVO;
-import com.kuaiba.site.service.kit.Pagination;
-import com.kuaiba.site.utils.AjaxResponse;
-import com.kuaiba.site.utils.AjaxUtils;
-import com.kuaiba.site.utils.DataGrid;
+import com.kuaiba.site.service.utils.Pagination;
 
 @Controller
 @RequestMapping(CmsIds.CMS_USERS)
-public class UserCMS extends BaseController {
+public class UserCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.HOME, method = RequestMethod.GET)

@@ -16,17 +16,17 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
-import com.kuaiba.site.GlobalIds;
+import com.kuaiba.site.core.GlobalIds;
+import com.kuaiba.site.core.exceptions.BType;
+import com.kuaiba.site.core.exceptions.BusinessException;
+import com.kuaiba.site.core.security.EncryptUtils;
 import com.kuaiba.site.db.dao.UserMapper;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;
-import com.kuaiba.site.exceptions.BType;
-import com.kuaiba.site.exceptions.BusinessException;
 import com.kuaiba.site.front.vo.UserVO;
-import com.kuaiba.site.security.EncryptUtils;
 import com.kuaiba.site.service.UserService;
-import com.kuaiba.site.service.kit.Pagination;
-import com.kuaiba.site.service.kit.ValidUtils;
+import com.kuaiba.site.service.utils.Pagination;
+import com.kuaiba.site.service.utils.ValidUtils;
 
 @Service
 public class UserServiceImpl implements UserService {

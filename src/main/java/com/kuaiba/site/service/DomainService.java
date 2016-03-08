@@ -5,7 +5,7 @@ import java.util.List;
 import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.front.vo.DomainVO;
-import com.kuaiba.site.service.kit.Pager;
+import com.kuaiba.site.service.utils.Pager;
 
 public interface DomainService extends Pager<Domain, DomainExample> {
 

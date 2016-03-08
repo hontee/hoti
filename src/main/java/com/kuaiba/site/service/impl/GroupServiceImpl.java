@@ -11,18 +11,18 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
+import com.kuaiba.site.core.exceptions.BType;
+import com.kuaiba.site.core.exceptions.BusinessException;
+import com.kuaiba.site.core.security.Administrator;
 import com.kuaiba.site.db.dao.GroupBookmarkMapper;
 import com.kuaiba.site.db.dao.GroupFollowMapper;
 import com.kuaiba.site.db.dao.GroupMapper;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
-import com.kuaiba.site.exceptions.BType;
-import com.kuaiba.site.exceptions.BusinessException;
 import com.kuaiba.site.front.vo.GroupVO;
-import com.kuaiba.site.security.Administrator;
 import com.kuaiba.site.service.GroupService;
-import com.kuaiba.site.service.kit.Pagination;
-import com.kuaiba.site.service.kit.ValidUtils;
+import com.kuaiba.site.service.utils.Pagination;
+import com.kuaiba.site.service.utils.ValidUtils;
 
 @Service
 public class GroupServiceImpl implements GroupService {

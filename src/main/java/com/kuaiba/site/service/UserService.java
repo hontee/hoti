@@ -5,7 +5,7 @@ import java.util.List;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;
 import com.kuaiba.site.front.vo.UserVO;
-import com.kuaiba.site.service.kit.Pager;
+import com.kuaiba.site.service.utils.Pager;
 
 public interface UserService extends Pager<User, UserExample> {
 	

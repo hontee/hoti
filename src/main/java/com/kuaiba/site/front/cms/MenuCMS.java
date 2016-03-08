@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.CmsIds;
+import com.kuaiba.site.core.CmsIds;
+import com.kuaiba.site.core.utils.AjaxResponse;
+import com.kuaiba.site.core.utils.AjaxUtils;
+import com.kuaiba.site.core.utils.DataGrid;
 import com.kuaiba.site.db.entity.Menu;
 import com.kuaiba.site.db.entity.MenuExample;
-import com.kuaiba.site.front.controller.BaseController;
+import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.MenuVO;
-import com.kuaiba.site.service.kit.Pagination;
-import com.kuaiba.site.utils.AjaxResponse;
-import com.kuaiba.site.utils.AjaxUtils;
-import com.kuaiba.site.utils.DataGrid;
+import com.kuaiba.site.service.utils.Pagination;
 
 @Controller
 @RequestMapping(CmsIds.CMS_MENUS)
-public class MenuCMS extends BaseController {
+public class MenuCMS extends BaseCO {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.HOME, method = RequestMethod.GET)
