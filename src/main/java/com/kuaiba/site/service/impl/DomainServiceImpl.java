@@ -13,7 +13,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
 import com.kuaiba.site.core.exceptions.BType;
 import com.kuaiba.site.core.exceptions.BusinessException;
-import com.kuaiba.site.core.security.Administrator;
+import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.DomainMapper;
 import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
@@ -39,7 +39,7 @@ public class DomainServiceImpl implements DomainService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -50,7 +50,7 @@ public class DomainServiceImpl implements DomainService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -61,7 +61,7 @@ public class DomainServiceImpl implements DomainService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}		
 	}
 
@@ -72,7 +72,7 @@ public class DomainServiceImpl implements DomainService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -81,7 +81,7 @@ public class DomainServiceImpl implements DomainService {
 		ValidUtils.checkNotNull(vo);
 		try {
 			Domain record = new Domain();
-			record.setCreator(Administrator.getName());
+			record.setCreator(CurrentUser.getCurrentUserName());
 			record.setDescription(vo.getDescription());
 			record.setName(vo.getName());
 			record.setState(vo.getState());
@@ -90,7 +90,7 @@ public class DomainServiceImpl implements DomainService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}		
 	}
 
@@ -101,7 +101,7 @@ public class DomainServiceImpl implements DomainService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -112,7 +112,7 @@ public class DomainServiceImpl implements DomainService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -123,7 +123,7 @@ public class DomainServiceImpl implements DomainService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -142,7 +142,7 @@ public class DomainServiceImpl implements DomainService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -153,7 +153,7 @@ public class DomainServiceImpl implements DomainService {
 			return mapper.selectByCollect(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 

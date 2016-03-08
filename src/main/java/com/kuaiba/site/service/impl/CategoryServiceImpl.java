@@ -14,7 +14,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
 import com.kuaiba.site.core.exceptions.BType;
 import com.kuaiba.site.core.exceptions.BusinessException;
-import com.kuaiba.site.core.security.Administrator;
+import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.CategoryMapper;
 import com.kuaiba.site.db.entity.Bookmark;
@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -56,7 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -67,7 +67,7 @@ public class CategoryServiceImpl implements CategoryService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -78,7 +78,7 @@ public class CategoryServiceImpl implements CategoryService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -92,11 +92,11 @@ public class CategoryServiceImpl implements CategoryService {
 			record.setDescription(vo.getDescription());
 			record.setState(vo.getState());
 			record.setDomain(vo.getDomain());
-			record.setCreateBy(Administrator.getId());
+			record.setCreateBy(CurrentUser.getCurrentUserId());
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -107,7 +107,7 @@ public class CategoryServiceImpl implements CategoryService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -118,7 +118,7 @@ public class CategoryServiceImpl implements CategoryService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -129,7 +129,7 @@ public class CategoryServiceImpl implements CategoryService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -148,7 +148,7 @@ public class CategoryServiceImpl implements CategoryService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -159,7 +159,7 @@ public class CategoryServiceImpl implements CategoryService {
 			return mapper.selectByDomain(domain);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -169,8 +169,7 @@ public class CategoryServiceImpl implements CategoryService {
 		try {
 			List<Category> cates = mapper.selectByCollect(example);
 			List<Category> list = new ArrayList<>();
-			Long uid = Administrator.isLogin() ? Administrator.getId(): 0L;
-			final List<Long> fids = bfMapper.selectByUid(uid);
+			final List<Long> fids = bfMapper.selectByUid(CurrentUser.getCurrentUserId());
 			
 			cates.forEach((c) -> {
 				List<Bookmark> ws = c.getBookmarks();
@@ -188,7 +187,7 @@ public class CategoryServiceImpl implements CategoryService {
 			return cates;
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 	

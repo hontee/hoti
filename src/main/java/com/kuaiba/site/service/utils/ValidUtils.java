@@ -29,7 +29,7 @@ public class ValidUtils {
 			}
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2001);
+			throw new BusinessException(BType.PARAMETERS_ERROR);
 		}
 	}
 	
@@ -43,7 +43,7 @@ public class ValidUtils {
 			Preconditions.checkArgument(id > 0);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2001);
+			throw new BusinessException(BType.PARAMETERS_ERROR);
 		}
 	}
 	

@@ -37,7 +37,7 @@ public class TrackServiceImpl implements TrackService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -48,7 +48,7 @@ public class TrackServiceImpl implements TrackService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -59,7 +59,7 @@ public class TrackServiceImpl implements TrackService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -70,7 +70,7 @@ public class TrackServiceImpl implements TrackService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -81,7 +81,7 @@ public class TrackServiceImpl implements TrackService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -92,7 +92,7 @@ public class TrackServiceImpl implements TrackService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -103,7 +103,7 @@ public class TrackServiceImpl implements TrackService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -114,7 +114,7 @@ public class TrackServiceImpl implements TrackService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -126,7 +126,7 @@ public class TrackServiceImpl implements TrackService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 

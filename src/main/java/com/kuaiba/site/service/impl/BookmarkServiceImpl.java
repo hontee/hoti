@@ -14,7 +14,7 @@ import com.google.common.base.Throwables;
 import com.kuaiba.site.core.GlobalIds;
 import com.kuaiba.site.core.exceptions.BType;
 import com.kuaiba.site.core.exceptions.BusinessException;
-import com.kuaiba.site.core.security.Administrator;
+import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.core.utils.HttpUtils;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.BookmarkMapper;
@@ -46,7 +46,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -57,7 +57,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -68,7 +68,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -79,7 +79,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -93,14 +93,14 @@ public class BookmarkServiceImpl implements BookmarkService {
 			record.setUrl(vo.getUrl());
 			record.setDescription(vo.getDescription());
 			record.setState(vo.getState());
-			record.setCreateBy(Administrator.getId());
+			record.setCreateBy(CurrentUser.getCurrentUserId());
 			record.setCategory(vo.getCategory());
 			record.setHit(RandUtils.getRandomHit());
 			record.setReffer(GlobalIds.REFFER);
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -111,7 +111,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -122,7 +122,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -133,7 +133,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -153,7 +153,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -161,10 +161,10 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public void unfollow(Long fid) {
 		ValidUtils.checkPrimaryKey(fid);
 		try {
-			bfMapper.deleteByPrimaryKey(Administrator.getId(), fid);
+			bfMapper.deleteByPrimaryKey(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -172,10 +172,10 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public void follow(Long fid) {
 		ValidUtils.checkPrimaryKey(fid);
 		try {
-			bfMapper.insert(Administrator.getId(), fid);
+			bfMapper.insert(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -189,7 +189,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			return HttpUtils.appendQueryParams(record.getUrl(), record.getReffer());
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -197,7 +197,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public boolean isFollow(Long fid) {
 		ValidUtils.checkPrimaryKey(fid);
 		try {
-			List<Long> list = bfMapper.selectByUid(Administrator.getId());
+			List<Long> list = bfMapper.selectByUid(CurrentUser.getCurrentUserId());
 			return list.contains(fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));

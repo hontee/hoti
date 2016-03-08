@@ -13,7 +13,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
 import com.kuaiba.site.core.exceptions.BType;
 import com.kuaiba.site.core.exceptions.BusinessException;
-import com.kuaiba.site.core.security.Administrator;
+import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.GroupBookmarkMapper;
 import com.kuaiba.site.db.dao.GroupFollowMapper;
 import com.kuaiba.site.db.dao.GroupMapper;
@@ -45,7 +45,7 @@ public class GroupServiceImpl implements GroupService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -56,7 +56,7 @@ public class GroupServiceImpl implements GroupService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -67,7 +67,7 @@ public class GroupServiceImpl implements GroupService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -78,7 +78,7 @@ public class GroupServiceImpl implements GroupService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -89,7 +89,7 @@ public class GroupServiceImpl implements GroupService {
 			Group record = new Group();
 			record.setCategory(vo.getCategory());
 			record.setCount(0);
-			record.setCreateBy(Administrator.getId());
+			record.setCreateBy(CurrentUser.getCurrentUserId());
 			record.setDescription(vo.getDescription());
 			record.setMtype(vo.getMtype());
 			record.setName(vo.getNameUUID());
@@ -99,7 +99,7 @@ public class GroupServiceImpl implements GroupService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -110,7 +110,7 @@ public class GroupServiceImpl implements GroupService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -121,7 +121,7 @@ public class GroupServiceImpl implements GroupService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -132,7 +132,7 @@ public class GroupServiceImpl implements GroupService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -151,7 +151,7 @@ public class GroupServiceImpl implements GroupService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -159,10 +159,10 @@ public class GroupServiceImpl implements GroupService {
 	public void unfollow(Long fid) {
 		ValidUtils.checkPrimaryKey(fid);
 		try {
-			gfMapper.deleteByPrimaryKey(Administrator.getId(), fid);
+			gfMapper.deleteByPrimaryKey(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -170,10 +170,10 @@ public class GroupServiceImpl implements GroupService {
 	public void follow(Long fid) {
 		ValidUtils.checkPrimaryKey(fid);
 		try {
-			gfMapper.insert(Administrator.getId(), fid);
+			gfMapper.insert(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -185,7 +185,7 @@ public class GroupServiceImpl implements GroupService {
 			gbMapper.insert(gid, bmid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -197,7 +197,7 @@ public class GroupServiceImpl implements GroupService {
 			gbMapper.insert(gid, bmid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 

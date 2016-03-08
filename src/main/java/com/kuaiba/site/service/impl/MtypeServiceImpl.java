@@ -13,7 +13,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
 import com.kuaiba.site.core.exceptions.BType;
 import com.kuaiba.site.core.exceptions.BusinessException;
-import com.kuaiba.site.core.security.Administrator;
+import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.MtypeMapper;
 import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.MtypeExample;
@@ -39,7 +39,7 @@ public class MtypeServiceImpl implements MtypeService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -50,7 +50,7 @@ public class MtypeServiceImpl implements MtypeService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -61,7 +61,7 @@ public class MtypeServiceImpl implements MtypeService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -72,7 +72,7 @@ public class MtypeServiceImpl implements MtypeService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -82,7 +82,7 @@ public class MtypeServiceImpl implements MtypeService {
 		try {
 			Mtype record = new Mtype();
 			record.setWeight(vo.getWeight());
-			record.setCreator(Administrator.getName());
+			record.setCreator(CurrentUser.getCurrentUserName());
 			record.setDescription(vo.getDescription());
 			record.setState(vo.getState());
 			record.setName(vo.getName());
@@ -90,7 +90,7 @@ public class MtypeServiceImpl implements MtypeService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -101,7 +101,7 @@ public class MtypeServiceImpl implements MtypeService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -112,7 +112,7 @@ public class MtypeServiceImpl implements MtypeService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -123,7 +123,7 @@ public class MtypeServiceImpl implements MtypeService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -142,7 +142,7 @@ public class MtypeServiceImpl implements MtypeService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 	

@@ -42,7 +42,7 @@ public class UserRealm extends AuthorizingRealm {
 		logger.info("为登录成功的用户：{}，添加角色和权限", principals.getPrimaryPrincipal());
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		Set<String> roles = new HashSet<>();
-		if (Administrator.isAdmin()) { // 登录用户是否为管理员
+		if (CurrentUser.isAdmin()) { // 登录用户是否为管理员
 			roles.add("admin");
 			info.setRoles(roles);
 		} else {

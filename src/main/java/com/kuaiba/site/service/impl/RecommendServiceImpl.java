@@ -1,7 +1,6 @@
 package com.kuaiba.site.service.impl;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -14,18 +13,19 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
 import com.kuaiba.site.core.exceptions.BType;
 import com.kuaiba.site.core.exceptions.BusinessException;
-import com.kuaiba.site.core.security.Administrator;
+import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.core.utils.FetchUtils;
 import com.kuaiba.site.core.utils.FetchUtils.WebModel;
 import com.kuaiba.site.db.dao.RecommendMapper;
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
-import com.kuaiba.site.front.vo.RecommendVO;
 import com.kuaiba.site.front.vo.BookmarkVO;
+import com.kuaiba.site.front.vo.RecommendVO;
+import com.kuaiba.site.service.BookmarkService;
 import com.kuaiba.site.service.RecommendService;
 import com.kuaiba.site.service.utils.Pagination;
+import com.kuaiba.site.service.utils.RandUtils;
 import com.kuaiba.site.service.utils.ValidUtils;
-import com.kuaiba.site.service.BookmarkService;
 
 @Service
 public class RecommendServiceImpl implements RecommendService {
@@ -47,7 +47,7 @@ public class RecommendServiceImpl implements RecommendService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -58,7 +58,7 @@ public class RecommendServiceImpl implements RecommendService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -69,7 +69,7 @@ public class RecommendServiceImpl implements RecommendService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -80,7 +80,7 @@ public class RecommendServiceImpl implements RecommendService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -90,11 +90,9 @@ public class RecommendServiceImpl implements RecommendService {
 		try {
 			WebModel wm = FetchUtils.connect(url);
 			Recommend record = new Recommend();
-			if (Administrator.isLogin()) {
-				record.setCreator(Administrator.getName());
-			}
+			record.setCreator(CurrentUser.getCurrentUserName());
 			record.setDescription(wm.getDescription());
-			record.setName(UUID.randomUUID().toString());
+			record.setName(RandUtils.getRandomUUID());
 			record.setState((byte)1); // 待审核
 			record.setTitle(wm.getTitle());
 			record.setUrl(url);
@@ -102,7 +100,7 @@ public class RecommendServiceImpl implements RecommendService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}		
 	}
 
@@ -113,7 +111,7 @@ public class RecommendServiceImpl implements RecommendService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -124,7 +122,7 @@ public class RecommendServiceImpl implements RecommendService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -135,7 +133,7 @@ public class RecommendServiceImpl implements RecommendService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -152,7 +150,7 @@ public class RecommendServiceImpl implements RecommendService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -168,7 +166,7 @@ public class RecommendServiceImpl implements RecommendService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
@@ -184,7 +182,7 @@ public class RecommendServiceImpl implements RecommendService {
 			webService.add(vo);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.KB2003);
+			throw new BusinessException(BType.BUSINESS_ERROR);
 		}
 	}
 
