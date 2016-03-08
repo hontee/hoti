@@ -15,11 +15,11 @@ import com.kuaiba.site.CmsIds;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.front.controller.BaseController;
-import com.kuaiba.site.front.result.DataGrid;
-import com.kuaiba.site.front.result.Result;
-import com.kuaiba.site.front.result.ResultBuilder;
 import com.kuaiba.site.front.vo.GroupVO;
 import com.kuaiba.site.service.kit.Pagination;
+import com.kuaiba.site.utils.AjaxResponse;
+import com.kuaiba.site.utils.AjaxUtils;
+import com.kuaiba.site.utils.DataGrid;
 
 @Controller
 @RequestMapping(CmsIds.CMS_GROUPS)
@@ -64,23 +64,23 @@ public class GroupCMS extends BaseController {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.CREATE, method = RequestMethod.POST)
-	public @ResponseBody Result add(GroupVO vo) {
+	public @ResponseBody AjaxResponse add(GroupVO vo) {
 		groupService.add(vo);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.DELETE, method = RequestMethod.POST)
-	public @ResponseBody Result delete(@PathVariable Long id) {
+	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
 		groupService.deleteByPrimaryKey(id);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.EDIT, method = RequestMethod.POST)
-	public @ResponseBody Result edit(@PathVariable Long id, GroupVO vo) {
+	public @ResponseBody AjaxResponse edit(@PathVariable Long id, GroupVO vo) {
 		groupService.updateByPrimaryKey(id, vo);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 	
 	private Group findByPrimaryKey(Long id) {

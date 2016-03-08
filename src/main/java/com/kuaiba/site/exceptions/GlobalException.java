@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kuaiba.site.front.result.Result;
-import com.kuaiba.site.front.result.ResultBuilder;
+import com.kuaiba.site.utils.AjaxResponse;
+import com.kuaiba.site.utils.AjaxUtils;
 
 @ControllerAdvice
 public class GlobalException {
@@ -17,8 +17,8 @@ public class GlobalException {
 	 * @return
 	 */
 	@ExceptionHandler({ BusinessException.class })
-	public @ResponseBody Result core(BusinessException e) {
-		return ResultBuilder.failed(e);
+	public @ResponseBody AjaxResponse core(BusinessException e) {
+		return AjaxUtils.failed(e);
 	}
 	
 	/**
@@ -27,8 +27,8 @@ public class GlobalException {
 	 * @return
 	 */
 	@ExceptionHandler({ UnauthorizedException.class })
-	public @ResponseBody Result authorization(UnauthorizedException e) {
-		return ResultBuilder.failed("没有权限");
+	public @ResponseBody AjaxResponse authorization(UnauthorizedException e) {
+		return AjaxUtils.failed("没有权限");
 	}
 	
 	/**
@@ -37,8 +37,8 @@ public class GlobalException {
 	 * @return
 	 */
 	@ExceptionHandler({ RuntimeException.class })
-	public @ResponseBody Result runtime(RuntimeException e) {
-		return ResultBuilder.failed("系统错误");
+	public @ResponseBody AjaxResponse runtime(RuntimeException e) {
+		return AjaxUtils.failed("系统错误");
 	}
 
 }

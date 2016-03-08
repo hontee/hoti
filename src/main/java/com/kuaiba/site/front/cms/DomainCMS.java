@@ -18,12 +18,12 @@ import com.kuaiba.site.CmsIds;
 import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.front.controller.BaseController;
-import com.kuaiba.site.front.result.ComboBox;
-import com.kuaiba.site.front.result.DataGrid;
-import com.kuaiba.site.front.result.Result;
-import com.kuaiba.site.front.result.ResultBuilder;
 import com.kuaiba.site.front.vo.DomainVO;
 import com.kuaiba.site.service.kit.Pagination;
+import com.kuaiba.site.utils.AjaxResponse;
+import com.kuaiba.site.utils.AjaxUtils;
+import com.kuaiba.site.utils.ComboBox;
+import com.kuaiba.site.utils.DataGrid;
 
 @Controller
 @RequestMapping(CmsIds.CMS_DOMAINS)
@@ -80,23 +80,23 @@ public class DomainCMS extends BaseController {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.CREATE, method = RequestMethod.POST)
-	public @ResponseBody Result add(DomainVO vo) {
+	public @ResponseBody AjaxResponse add(DomainVO vo) {
 		domainService.add(vo);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.DELETE, method = RequestMethod.POST)
-	public @ResponseBody Result delete(@PathVariable Long id) {
+	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
 		domainService.deleteByPrimaryKey(id);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.EDIT, method = RequestMethod.POST)
-	public @ResponseBody Result edit(@PathVariable Long id, DomainVO vo) {
+	public @ResponseBody AjaxResponse edit(@PathVariable Long id, DomainVO vo) {
 		domainService.updateByPrimaryKey(id, vo);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 	
 	private Domain findByPrimaryKey(Long id) {

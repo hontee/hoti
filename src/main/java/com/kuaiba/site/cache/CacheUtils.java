@@ -22,8 +22,6 @@ public abstract class CacheUtils {
 	
 	private static Logger logger = LoggerFactory.getLogger(CacheUtils.class);
 	
-	
-	
 	/**
 	 * 获取缓存对象
 	 * @return

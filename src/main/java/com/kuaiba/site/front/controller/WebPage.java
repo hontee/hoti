@@ -3,8 +3,8 @@ package com.kuaiba.site.front.controller;
 import org.springframework.ui.Model;
 
 import com.kuaiba.site.db.entity.User;
-import com.kuaiba.site.front.result.Result;
 import com.kuaiba.site.service.kit.Pagination;
+import com.kuaiba.site.utils.AjaxResponse;
 
 /**
  * 前端页面接口
@@ -19,7 +19,7 @@ public interface WebPage {
 	
 	String login();
 	
-	Result login(String username, String password);
+	AjaxResponse login(String username, String password);
 	
 	String logout();
 	
@@ -39,14 +39,14 @@ public interface WebPage {
 	
 	String recommend();
 	
-	Result recommend(String url);
+	AjaxResponse recommend(String url);
 	
-	Result bookmarkFollow(Long id);
+	AjaxResponse bookmarkFollow(Long id);
 	
-	Result bookmarkUnfollow(Long id);
+	AjaxResponse bookmarkUnfollow(Long id);
 	
-	Result groupFollow(Long id);
+	AjaxResponse groupFollow(Long id);
 	
-	Result groupUnfollow(Long id);
+	AjaxResponse groupUnfollow(Long id);
 
 }

@@ -15,12 +15,12 @@ import com.kuaiba.site.CmsIds;
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
 import com.kuaiba.site.front.controller.BaseController;
-import com.kuaiba.site.front.result.DataGrid;
-import com.kuaiba.site.front.result.Result;
-import com.kuaiba.site.front.result.ResultBuilder;
-import com.kuaiba.site.front.vo.RecommendVO;
 import com.kuaiba.site.front.vo.BookmarkVO;
+import com.kuaiba.site.front.vo.RecommendVO;
 import com.kuaiba.site.service.kit.Pagination;
+import com.kuaiba.site.utils.AjaxResponse;
+import com.kuaiba.site.utils.AjaxUtils;
+import com.kuaiba.site.utils.DataGrid;
 
 @Controller
 @RequestMapping(CmsIds.CMS_RECMDS)
@@ -79,37 +79,37 @@ public class RecommendCMS extends BaseController {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.CREATE, method = RequestMethod.POST)
-	public @ResponseBody Result add(@RequestParam String url) {
+	public @ResponseBody AjaxResponse add(@RequestParam String url) {
 		recommendService.add(url);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.DELETE, method = RequestMethod.POST)
-	public @ResponseBody Result delete(@PathVariable Long id) {
+	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
 		recommendService.deleteByPrimaryKey(id);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.EDIT, method = RequestMethod.POST)
-	public @ResponseBody Result edit(@PathVariable Long id, RecommendVO vo) {
+	public @ResponseBody AjaxResponse edit(@PathVariable Long id, RecommendVO vo) {
 		recommendService.updateByPrimaryKey(id, vo);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.AUDIT_OK, method = RequestMethod.POST)
-	public @ResponseBody Result auditOk(@PathVariable Long id, BookmarkVO vo) {
+	public @ResponseBody AjaxResponse auditOk(@PathVariable Long id, BookmarkVO vo) {
 		recommendService.audit(id, vo);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.AUDIT_NOT, method = RequestMethod.POST)
-	public @ResponseBody Result auditNot(@PathVariable Long id, @RequestParam String remark) {
+	public @ResponseBody AjaxResponse auditNot(@PathVariable Long id, @RequestParam String remark) {
 		recommendService.audit(id, remark);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 	
 	private Recommend findByPrimaryKey(Long id) {

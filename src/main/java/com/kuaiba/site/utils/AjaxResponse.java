@@ -1,8 +1,8 @@
-package com.kuaiba.site.front.result;
+package com.kuaiba.site.utils;
 
 import java.io.Serializable;
 
-public class Result implements Serializable {
+public class AjaxResponse implements Serializable {
 	
 	private static final long serialVersionUID = -8290882370006935102L;
 
@@ -12,13 +12,13 @@ public class Result implements Serializable {
 	
 	private Object result; // 成功
 	
-	protected Result() {}
+	protected AjaxResponse() {}
 	
-	protected Result(Object result) {
+	public AjaxResponse(Object result) {
 		this.setResult(result);
 	}
 	
-	protected Result(Integer code, String message) {
+	public AjaxResponse(Integer code, String message) {
 		this.setError(code, message);
 	}
 	

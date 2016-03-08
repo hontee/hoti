@@ -19,12 +19,12 @@ import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.exceptions.BType;
 import com.kuaiba.site.exceptions.BusinessException;
 import com.kuaiba.site.front.vo.BookmarkVO;
-import com.kuaiba.site.net.HttpUtils;
 import com.kuaiba.site.security.Administrator;
 import com.kuaiba.site.service.BookmarkService;
 import com.kuaiba.site.service.kit.Pagination;
 import com.kuaiba.site.service.kit.RandomKit;
 import com.kuaiba.site.service.kit.ValidUtils;
+import com.kuaiba.site.utils.HttpUtils;
 
 @Service
 public class BookmarkServiceImpl implements BookmarkService {

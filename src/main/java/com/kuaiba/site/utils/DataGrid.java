@@ -1,4 +1,4 @@
-package com.kuaiba.site.front.result;
+package com.kuaiba.site.utils;
 
 import java.io.Serializable;
 import java.util.List;

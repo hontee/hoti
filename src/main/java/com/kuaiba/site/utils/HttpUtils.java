@@ -48,7 +48,7 @@
  *
  * Copyright (c) 2012 Almende B.V.
  */
-package com.kuaiba.site.net;
+package com.kuaiba.site.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

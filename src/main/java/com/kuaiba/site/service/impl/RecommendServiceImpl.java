@@ -19,13 +19,13 @@ import com.kuaiba.site.exceptions.BType;
 import com.kuaiba.site.exceptions.BusinessException;
 import com.kuaiba.site.front.vo.RecommendVO;
 import com.kuaiba.site.front.vo.BookmarkVO;
-import com.kuaiba.site.net.FetchUtils;
-import com.kuaiba.site.net.FetchUtils.WebModel;
 import com.kuaiba.site.security.Administrator;
 import com.kuaiba.site.service.RecommendService;
 import com.kuaiba.site.service.BookmarkService;
 import com.kuaiba.site.service.kit.Pagination;
 import com.kuaiba.site.service.kit.ValidUtils;
+import com.kuaiba.site.utils.FetchUtils;
+import com.kuaiba.site.utils.FetchUtils.WebModel;
 
 @Service
 public class RecommendServiceImpl implements RecommendService {

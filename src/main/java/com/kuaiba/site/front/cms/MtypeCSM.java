@@ -18,12 +18,12 @@ import com.kuaiba.site.CmsIds;
 import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.MtypeExample;
 import com.kuaiba.site.front.controller.BaseController;
-import com.kuaiba.site.front.result.ComboBox;
-import com.kuaiba.site.front.result.DataGrid;
-import com.kuaiba.site.front.result.Result;
-import com.kuaiba.site.front.result.ResultBuilder;
 import com.kuaiba.site.front.vo.MtypeVO;
 import com.kuaiba.site.service.kit.Pagination;
+import com.kuaiba.site.utils.AjaxResponse;
+import com.kuaiba.site.utils.AjaxUtils;
+import com.kuaiba.site.utils.ComboBox;
+import com.kuaiba.site.utils.DataGrid;
 
 @Controller
 @RequestMapping(CmsIds.CMS_MTYPES)
@@ -80,23 +80,23 @@ public class MtypeCSM extends BaseController {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.CREATE, method = RequestMethod.POST)
-	public @ResponseBody Result add(MtypeVO vo) {
+	public @ResponseBody AjaxResponse add(MtypeVO vo) {
 		mtypeService.add(vo);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.DELETE, method = RequestMethod.POST)
-	public @ResponseBody Result delete(@PathVariable Long id) {
+	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
 		mtypeService.deleteByPrimaryKey(id);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.EDIT, method = RequestMethod.POST)
-	public @ResponseBody Result edit(@PathVariable Long id, MtypeVO vo) {
+	public @ResponseBody AjaxResponse edit(@PathVariable Long id, MtypeVO vo) {
 		mtypeService.updateByPrimaryKey(id, vo);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 	
 	private Mtype findByPrimaryKey(Long id) {

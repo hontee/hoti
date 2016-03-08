@@ -1,4 +1,4 @@
-package com.kuaiba.site.interceptor;
+package com.kuaiba.site.aop.interceptor;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -18,7 +18,7 @@ public class UseCacheInterceptor {
 	
 private Logger logger = LoggerFactory.getLogger(UseCacheInterceptor.class);
 	
-	@Pointcut("@annotation(com.kuaiba.site.annotation.UseCache)")
+	@Pointcut("@annotation(com.kuaiba.site.aop.annotation.UseCache)")
 	public void UseCache() {}
 	
 	@AfterReturning(value = "UseCache()", returning = "value")

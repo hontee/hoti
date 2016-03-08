@@ -17,11 +17,11 @@ import com.kuaiba.site.CmsIds;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
 import com.kuaiba.site.front.controller.BaseController;
-import com.kuaiba.site.front.result.DataGrid;
-import com.kuaiba.site.front.result.Result;
-import com.kuaiba.site.front.result.ResultBuilder;
 import com.kuaiba.site.front.vo.CategoryVO;
 import com.kuaiba.site.service.kit.Pagination;
+import com.kuaiba.site.utils.AjaxResponse;
+import com.kuaiba.site.utils.AjaxUtils;
+import com.kuaiba.site.utils.DataGrid;
 
 @Controller
 @RequestMapping(CmsIds.CMS_CATES)
@@ -74,23 +74,23 @@ public class CategoryCMS extends BaseController {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.CREATE, method = RequestMethod.POST)
-	public @ResponseBody Result add(CategoryVO vo) {
+	public @ResponseBody AjaxResponse add(CategoryVO vo) {
 		categoryService.add(vo);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.DELETE, method = RequestMethod.POST)
-	public @ResponseBody Result delete(@PathVariable Long id) {
+	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
 		categoryService.deleteByPrimaryKey(id);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIds.EDIT, method = RequestMethod.POST)
-	public @ResponseBody Result edit(@PathVariable Long id,  CategoryVO vo) {
+	public @ResponseBody AjaxResponse edit(@PathVariable Long id,  CategoryVO vo) {
 		categoryService.updateByPrimaryKey(id, vo);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 	
 	private Category findByPrimaryKey(Long id) {

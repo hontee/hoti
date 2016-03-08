@@ -23,9 +23,9 @@ import com.kuaiba.site.db.entity.CategoryExample;
 import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.User;
-import com.kuaiba.site.front.result.Result;
-import com.kuaiba.site.front.result.ResultBuilder;
 import com.kuaiba.site.service.kit.Pagination;
+import com.kuaiba.site.utils.AjaxResponse;
+import com.kuaiba.site.utils.AjaxUtils;
 
 @Controller
 public class WebController extends BaseController implements WebPage {
@@ -61,12 +61,12 @@ public class WebController extends BaseController implements WebPage {
 	
 	@RequestMapping(value = HttpIds.LOGIN, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody Result login(@RequestParam String username, @RequestParam String password) {
+	public @ResponseBody AjaxResponse login(@RequestParam String username, @RequestParam String password) {
 		try {
 			userService.login(username, password);
-			return ResultBuilder.ok();
+			return AjaxUtils.ok();
 		} catch (Exception e) { // 登录失败
-			return ResultBuilder.failed(e);
+			return AjaxUtils.failed(e);
 		}
 	}
 	
@@ -149,9 +149,9 @@ public class WebController extends BaseController implements WebPage {
 	 */
 	@RequestMapping(value = HttpIds.RECOMMEND, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody Result recommend(@RequestParam String url) {
+	public @ResponseBody AjaxResponse recommend(@RequestParam String url) {
 		recommendService.add(url);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 	
 	/**
@@ -162,9 +162,9 @@ public class WebController extends BaseController implements WebPage {
 	@RequiresRoles("user")
 	@RequestMapping(value = HttpIds.BOOKMARK_FOLLOW, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody Result bookmarkFollow(@PathVariable Long id) {
+	public @ResponseBody AjaxResponse bookmarkFollow(@PathVariable Long id) {
 		bookmarkService.follow(id);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 	
 	/**
@@ -175,25 +175,25 @@ public class WebController extends BaseController implements WebPage {
 	@RequiresRoles("user")
 	@RequestMapping(value = HttpIds.BOOKMARK_UNFOLLOW, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody Result bookmarkUnfollow(@PathVariable Long id) {
+	public @ResponseBody AjaxResponse bookmarkUnfollow(@PathVariable Long id) {
 		bookmarkService.unfollow(id);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles("user")
 	@RequestMapping(value = HttpIds.GROUP_FOLLOW, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody Result groupFollow(@PathVariable Long id) {
+	public @ResponseBody AjaxResponse groupFollow(@PathVariable Long id) {
 		groupService.follow(id);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles("user")
 	@RequestMapping(value = HttpIds.GROUP_UNFOLLOW, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody Result groupUnfollow(@PathVariable Long id) {
+	public @ResponseBody AjaxResponse groupUnfollow(@PathVariable Long id) {
 		groupService.unfollow(id);
-		return ResultBuilder.ok();
+		return AjaxUtils.ok();
 	}
 
 }

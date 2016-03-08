@@ -1,4 +1,4 @@
-package com.kuaiba.site.net;
+package com.kuaiba.site.utils;
 
 import javax.servlet.http.HttpServletRequest;
 

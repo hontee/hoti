@@ -1,4 +1,4 @@
-package com.kuaiba.site.interceptor;
+package com.kuaiba.site.aop.interceptor;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -18,7 +18,7 @@ public class FlushCacheInterceptor {
 
 	private Logger logger = LoggerFactory.getLogger(FlushCacheInterceptor.class);
 	
-	@Pointcut("@annotation(com.kuaiba.site.annotation.FlushCache)")
+	@Pointcut("@annotation(com.kuaiba.site.aop.annotation.FlushCache)")
 	public void FlushCache() {}
 	
 	@After("FlushCache()")
