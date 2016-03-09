@@ -32,5 +32,19 @@ public interface GroupService extends Pager<Group, GroupExample> {
 	void removeBookmark(Long gid, Long bmid);
 
     void addBookmark(Long gid, Long bmid);
+    
+    /**
+	 * 验证Group名称是否存在
+	 * @param name
+	 * @return
+	 */
+	boolean checkGroupName(String name);
+	
+	/**
+	 * 验证Group标题是否存在
+	 * @param title
+	 * @return
+	 */
+	boolean checkGroupTitle(String title);
 
 }

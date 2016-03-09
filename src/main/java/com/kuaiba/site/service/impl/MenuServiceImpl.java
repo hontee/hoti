@@ -148,5 +148,31 @@ public class MenuServiceImpl implements MenuService {
 			throw new LogicException();
 		}		
 	}
+	
+	@Override
+	public boolean checkMenuName(String name) {
+		try {
+			MenuExample example = new MenuExample();
+			example.createCriteria().andNameEqualTo(name);
+			List<Menu> list = mapper.selectByExample(example);
+			ValidUtils.checkNotNull(list);
+			return (list.isEmpty())? false: true;
+		} catch (Exception e) {
+		}
+		return false;
+	}
+
+	@Override
+	public boolean checkMenuTitle(String title) {
+		try {
+			MenuExample example = new MenuExample();
+			example.createCriteria().andTitleEqualTo(title);
+			List<Menu> list = mapper.selectByExample(example);
+			ValidUtils.checkNotNull(list);
+			return (list.isEmpty())? false: true;
+		} catch (Exception e) {
+		}
+		return false;
+	}
 
 }

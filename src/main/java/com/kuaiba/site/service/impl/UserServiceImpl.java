@@ -192,5 +192,18 @@ public class UserServiceImpl implements UserService {
 			throw new LogicException();
 		}
 	}
+	
+	@Override
+	public boolean checkUserName(String name) {
+		try {
+			UserExample example = new UserExample();
+			example.createCriteria().andNameEqualTo(name);
+			List<User> list = mapper.selectByExample(example);
+			ValidUtils.checkNotNull(list);
+			return (list.isEmpty())? false: true;
+		} catch (Exception e) {
+		}
+		return false;
+	}
 
 }

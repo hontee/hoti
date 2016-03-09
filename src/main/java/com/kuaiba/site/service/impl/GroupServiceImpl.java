@@ -199,5 +199,31 @@ public class GroupServiceImpl implements GroupService {
 			throw new LogicException();
 		}
 	}
+	
+	@Override
+	public boolean checkGroupName(String name) {
+		try {
+			GroupExample example = new GroupExample();
+			example.createCriteria().andNameEqualTo(name);
+			List<Group> list = mapper.selectByExample(example);
+			ValidUtils.checkNotNull(list);
+			return (list.isEmpty())? false: true;
+		} catch (Exception e) {
+		}
+		return false;
+	}
+
+	@Override
+	public boolean checkGroupTitle(String title) {
+		try {
+			GroupExample example = new GroupExample();
+			example.createCriteria().andTitleEqualTo(title);
+			List<Group> list = mapper.selectByExample(example);
+			ValidUtils.checkNotNull(list);
+			return (list.isEmpty())? false: true;
+		} catch (Exception e) {
+		}
+		return false;
+	}
 
 }

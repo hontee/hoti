@@ -145,4 +145,30 @@ public class MtypeServiceImpl implements MtypeService {
 		}
 	}
 	
+	@Override
+	public boolean checkMTypeName(String name) {
+		try {
+			MtypeExample example = new MtypeExample();
+			example.createCriteria().andNameEqualTo(name);
+			List<Mtype> list = mapper.selectByExample(example);
+			ValidUtils.checkNotNull(list);
+			return (list.isEmpty())? false: true;
+		} catch (Exception e) {
+		}
+		return false;
+	}
+
+	@Override
+	public boolean checkMTypeTitle(String title) {
+		try {
+			MtypeExample example = new MtypeExample();
+			example.createCriteria().andTitleEqualTo(title);
+			List<Mtype> list = mapper.selectByExample(example);
+			ValidUtils.checkNotNull(list);
+			return (list.isEmpty())? false: true;
+		} catch (Exception e) {
+		}
+		return false;
+	}
+	
 }

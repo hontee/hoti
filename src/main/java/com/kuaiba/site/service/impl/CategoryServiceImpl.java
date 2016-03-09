@@ -190,4 +190,17 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 	}
 	
+	@Override
+	public boolean checkCategoryName(String name) {
+		try {
+			CategoryExample example = new CategoryExample();
+			example.createCriteria().andNameEqualTo(name);
+			List<Category> list = mapper.selectByExample(example);
+			ValidUtils.checkNotNull(list);
+			return (list.isEmpty())? false: true;
+		} catch (Exception e) {
+		}
+		return false;
+	}
+	
 }

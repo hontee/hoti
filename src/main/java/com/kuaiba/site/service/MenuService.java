@@ -24,5 +24,19 @@ public interface MenuService extends Pager<Menu, MenuExample> {
     void updateByExample(Menu record, MenuExample example);
 
     void updateByPrimaryKey(Long id, MenuVO vo);
+    
+    /**
+	 * 验证Menu名称是否存在
+	 * @param name
+	 * @return
+	 */
+	boolean checkMenuName(String name);
+	
+	/**
+	 * 验证Menu标题是否存在
+	 * @param title
+	 * @return
+	 */
+	boolean checkMenuTitle(String title);
 
 }

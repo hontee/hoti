@@ -24,5 +24,19 @@ public interface MtypeService extends Pager<Mtype, MtypeExample> {
     void updateByExample(Mtype record, MtypeExample example);
 
     void updateByPrimaryKey(Long id, MtypeVO vo);
+    
+    /**
+	 * 验证MType名称是否存在
+	 * @param name
+	 * @return
+	 */
+	boolean checkMTypeName(String name);
+	
+	/**
+	 * 验证MType标题是否存在
+	 * @param title
+	 * @return
+	 */
+	boolean checkMTypeTitle(String title);
 
 }

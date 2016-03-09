@@ -245,4 +245,43 @@ public class BookmarkServiceImpl implements BookmarkService {
 		}
 	}
 	
+	@Override
+	public boolean checkBookmarkName(String name) {
+		try {
+			BookmarkExample example = new BookmarkExample();
+			example.createCriteria().andNameEqualTo(name);
+			List<Bookmark> list = mapper.selectByExample(example);
+			ValidUtils.checkNotNull(list);
+			return (list.isEmpty())? false: true;
+		} catch (Exception e) {
+		}
+		return false;
+	}
+
+	@Override
+	public boolean checkBookmarkURL(String url) {
+		try {
+			BookmarkExample example = new BookmarkExample();
+			example.createCriteria().andUrlEqualTo(url);
+			List<Bookmark> list = mapper.selectByExample(example);
+			ValidUtils.checkNotNull(list);
+			return (list.isEmpty())? false: true;
+		} catch (Exception e) {
+		}
+		return false;
+	}
+
+	@Override
+	public boolean checkBookmarkTitle(String title) {
+		try {
+			BookmarkExample example = new BookmarkExample();
+			example.createCriteria().andTitleEqualTo(title);
+			List<Bookmark> list = mapper.selectByExample(example);
+			ValidUtils.checkNotNull(list);
+			return (list.isEmpty())? false: true;
+		} catch (Exception e) {
+		}
+		return false;
+	}
+	
 }

@@ -27,4 +27,18 @@ public interface DomainService extends Pager<Domain, DomainExample> {
 
     void updateByPrimaryKey(Long id, DomainVO vo);
     
+    /**
+	 * 验证Domain名称是否存在
+	 * @param name
+	 * @return
+	 */
+	boolean checkDomainName(String name);
+	
+	/**
+	 * 验证Domain标题是否存在
+	 * @param title
+	 * @return
+	 */
+	boolean checkDomainTitle(String title);
+    
 }

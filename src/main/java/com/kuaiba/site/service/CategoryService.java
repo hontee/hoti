@@ -28,5 +28,12 @@ public interface CategoryService extends Pager<Category, CategoryExample> {
     List<Category> findByOrganization(Long domain);
     
     List<Category> findByCollect(CategoryExample example);
+    
+    /**
+	 * 验证Category名称是否存在
+	 * @param name
+	 * @return
+	 */
+	boolean checkCategoryName(String name);
 	
 }

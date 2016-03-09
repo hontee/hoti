@@ -155,5 +155,31 @@ public class DomainServiceImpl implements DomainService {
 			throw new LogicException();
 		}
 	}
+	
+	@Override
+	public boolean checkDomainName(String name) {
+		try {
+			DomainExample example = new DomainExample();
+			example.createCriteria().andNameEqualTo(name);
+			List<Domain> list = mapper.selectByExample(example);
+			ValidUtils.checkNotNull(list);
+			return (list.isEmpty())? false: true;
+		} catch (Exception e) {
+		}
+		return false;
+	}
+
+	@Override
+	public boolean checkDomainTitle(String title) {
+		try {
+			DomainExample example = new DomainExample();
+			example.createCriteria().andTitleEqualTo(title);
+			List<Domain> list = mapper.selectByExample(example);
+			ValidUtils.checkNotNull(list);
+			return (list.isEmpty())? false: true;
+		} catch (Exception e) {
+		}
+		return false;
+	}
 
 }

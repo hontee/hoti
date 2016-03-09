@@ -33,4 +33,25 @@ public interface BookmarkService extends Pager<Bookmark, BookmarkExample> {
 	
 	String hit(Long id);
 	
+	/**
+	 * 验证Bookmark名称是否存在
+	 * @param name
+	 * @return
+	 */
+	boolean checkBookmarkName(String name);
+	
+	/**
+	 * 验证BookmarkURL是否存在
+	 * @param url
+	 * @return
+	 */
+	boolean checkBookmarkURL(String url);
+	
+	/**
+	 * 验证Bookmark标题是否存在
+	 * @param title
+	 * @return
+	 */
+	boolean checkBookmarkTitle(String title);
+	
 }
