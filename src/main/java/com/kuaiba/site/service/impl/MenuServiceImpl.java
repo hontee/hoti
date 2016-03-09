@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
-import com.kuaiba.site.core.exceptions.BType;
-import com.kuaiba.site.core.exceptions.BusinessException;
+import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.MenuMapper;
 import com.kuaiba.site.db.entity.Menu;
@@ -39,7 +38,7 @@ public class MenuServiceImpl implements MenuService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -50,7 +49,7 @@ public class MenuServiceImpl implements MenuService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -61,7 +60,7 @@ public class MenuServiceImpl implements MenuService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -72,7 +71,7 @@ public class MenuServiceImpl implements MenuService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -92,7 +91,7 @@ public class MenuServiceImpl implements MenuService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -103,7 +102,7 @@ public class MenuServiceImpl implements MenuService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -114,7 +113,7 @@ public class MenuServiceImpl implements MenuService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -125,7 +124,7 @@ public class MenuServiceImpl implements MenuService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -146,7 +145,7 @@ public class MenuServiceImpl implements MenuService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}		
 	}
 

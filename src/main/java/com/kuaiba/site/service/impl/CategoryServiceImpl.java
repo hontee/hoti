@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
-import com.kuaiba.site.core.exceptions.BType;
-import com.kuaiba.site.core.exceptions.BusinessException;
+import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.CategoryMapper;
@@ -45,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -56,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -67,7 +66,7 @@ public class CategoryServiceImpl implements CategoryService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -78,7 +77,7 @@ public class CategoryServiceImpl implements CategoryService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -96,7 +95,7 @@ public class CategoryServiceImpl implements CategoryService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -107,7 +106,7 @@ public class CategoryServiceImpl implements CategoryService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -118,7 +117,7 @@ public class CategoryServiceImpl implements CategoryService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -129,7 +128,7 @@ public class CategoryServiceImpl implements CategoryService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -148,7 +147,7 @@ public class CategoryServiceImpl implements CategoryService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -159,7 +158,7 @@ public class CategoryServiceImpl implements CategoryService {
 			return mapper.selectByDomain(domain);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -187,7 +186,7 @@ public class CategoryServiceImpl implements CategoryService {
 			return cates;
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 	

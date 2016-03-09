@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
-import com.kuaiba.site.core.exceptions.BType;
-import com.kuaiba.site.core.exceptions.BusinessException;
+import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.GroupBookmarkMapper;
 import com.kuaiba.site.db.dao.GroupFollowMapper;
@@ -45,7 +44,7 @@ public class GroupServiceImpl implements GroupService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -56,7 +55,7 @@ public class GroupServiceImpl implements GroupService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -67,7 +66,7 @@ public class GroupServiceImpl implements GroupService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -78,7 +77,7 @@ public class GroupServiceImpl implements GroupService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -99,7 +98,7 @@ public class GroupServiceImpl implements GroupService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -110,7 +109,7 @@ public class GroupServiceImpl implements GroupService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -121,7 +120,7 @@ public class GroupServiceImpl implements GroupService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -132,7 +131,7 @@ public class GroupServiceImpl implements GroupService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -151,7 +150,7 @@ public class GroupServiceImpl implements GroupService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -162,7 +161,7 @@ public class GroupServiceImpl implements GroupService {
 			gfMapper.deleteByPrimaryKey(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -173,7 +172,7 @@ public class GroupServiceImpl implements GroupService {
 			gfMapper.insert(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -185,7 +184,7 @@ public class GroupServiceImpl implements GroupService {
 			gbMapper.insert(gid, bmid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 
@@ -197,7 +196,7 @@ public class GroupServiceImpl implements GroupService {
 			gbMapper.insert(gid, bmid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			throw new LogicException();
 		}
 	}
 

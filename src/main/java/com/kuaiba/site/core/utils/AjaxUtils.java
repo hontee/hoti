@@ -4,7 +4,7 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.web.context.request.WebRequest;
 
-import com.kuaiba.site.core.exceptions.BusinessException;
+import com.kuaiba.site.core.exceptions.CoreException;
 
 public class AjaxUtils {
 
@@ -54,7 +54,7 @@ public class AjaxUtils {
 	 */
 	public static AjaxResponse failed(Throwable e) {
 		String message = "系统错误";
-		if (e instanceof BusinessException) {
+		if (e instanceof CoreException) {
 			message = e.getMessage();
 		}
 		return failed(message);

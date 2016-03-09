@@ -9,15 +9,15 @@ import com.kuaiba.site.core.utils.AjaxResponse;
 import com.kuaiba.site.core.utils.AjaxUtils;
 
 @ControllerAdvice
-public class GlobalException {
+public class GlobalExceptionHandler {
 	
 	/**
 	 * 业务处理异常
 	 * @param e
 	 * @return
 	 */
-	@ExceptionHandler({ BusinessException.class })
-	public @ResponseBody AjaxResponse core(BusinessException e) {
+	@ExceptionHandler({ CoreException.class })
+	public @ResponseBody AjaxResponse core(CoreException e) {
 		return AjaxUtils.failed(e);
 	}
 	

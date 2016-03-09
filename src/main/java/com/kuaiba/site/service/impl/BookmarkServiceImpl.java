@@ -10,12 +10,13 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.common.base.Throwables;
 import com.kuaiba.site.core.GlobalIds;
-import com.kuaiba.site.core.exceptions.BType;
-import com.kuaiba.site.core.exceptions.BusinessException;
+import com.kuaiba.site.core.exceptions.CheckedException;
+import com.kuaiba.site.core.exceptions.ExceptionIds;
+import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.core.utils.HttpUtils;
+import com.kuaiba.site.core.utils.LogUtils;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.BookmarkMapper;
 import com.kuaiba.site.db.entity.Bookmark;
@@ -39,54 +40,66 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public PageInfo<Bookmark> findByExample(BookmarkExample example, Pagination p) {
-		ValidUtils.checkNotNull(example, p);
 		try {
+			ValidUtils.checkNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Bookmark> list = this.findByExample(example);
 			return new PageInfo<>(list);
+		} catch (CheckedException e) {
+			LogUtils.info(logger, e);
+			throw e;
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			LogUtils.info(logger, e);
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
 	@Override
 	public int countByExample(BookmarkExample example) {
-		ValidUtils.checkNotNull(example);
 		try {
+			ValidUtils.checkNotNull(example);
 			return mapper.countByExample(example);
+		} catch (CheckedException e) {
+			LogUtils.info(logger, e);
+			throw e;
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			LogUtils.info(logger, e);
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
 	@Override
 	public void deleteByExample(BookmarkExample example) {
-		ValidUtils.checkNotNull(example);
 		try {
+			ValidUtils.checkNotNull(example);
 			mapper.deleteByExample(example);
+		} catch (CheckedException e) {
+			LogUtils.info(logger, e);
+			throw e;
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			LogUtils.info(logger, e);
+			throw new LogicException(ExceptionIds.LOGIC_DELETE);
 		}
 	}
 
 	@Override
 	public void deleteByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
 		try {
+			ValidUtils.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
+		} catch (CheckedException e) {
+			LogUtils.info(logger, e);
+			throw e;
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			LogUtils.info(logger, e);
+			throw new LogicException(ExceptionIds.LOGIC_DELETE);
 		}
 	}
 
 	@Override
 	public void add(BookmarkVO vo) {
-		ValidUtils.checkNotNull(vo);
 		try {
+			ValidUtils.checkNotNull(vo);
 			Bookmark record = new Bookmark();
 			record.setName(vo.getNameUUID());
 			record.setTitle(vo.getTitle());
@@ -98,50 +111,62 @@ public class BookmarkServiceImpl implements BookmarkService {
 			record.setHit(RandUtils.getRandomHit());
 			record.setReffer(GlobalIds.REFFER);
 			mapper.insert(record);
+		} catch (CheckedException e) {
+			LogUtils.info(logger, e);
+			throw e;
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			LogUtils.info(logger, e);
+			throw new LogicException(ExceptionIds.LOGIC_ADD);
 		}
 	}
 
 	@Override
 	public List<Bookmark> findByExample(BookmarkExample example) {
-		ValidUtils.checkNotNull(example);
 		try {
+			ValidUtils.checkNotNull(example);
 			return mapper.selectByExample(example);
+		} catch (CheckedException e) {
+			LogUtils.info(logger, e);
+			throw e;
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			LogUtils.info(logger, e);
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
 	@Override
 	public Bookmark findByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
 		try {
+			ValidUtils.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
+		} catch (CheckedException e) {
+			LogUtils.info(logger, e);
+			throw e;
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			LogUtils.info(logger, e);
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
 	@Override
 	public void updateByExample(Bookmark record, BookmarkExample example) {
-		ValidUtils.checkNotNull(record, example);
 		try {
+			ValidUtils.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
+		} catch (CheckedException e) {
+			LogUtils.info(logger, e);
+			throw e;
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			LogUtils.info(logger, e);
+			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
 		}
 	}
 
 	@Override
 	public void updateByPrimaryKey(Long id, BookmarkVO vo) {
-		ValidUtils.checkNotNull(vo);
-		ValidUtils.checkPrimaryKey(id);
 		try {
+			ValidUtils.checkNotNull(vo);
+			ValidUtils.checkPrimaryKey(id);
 			Bookmark record = new Bookmark();
 			record.setId(id);
 			record.setTitle(vo.getTitle());
@@ -151,57 +176,72 @@ public class BookmarkServiceImpl implements BookmarkService {
 			record.setReffer(vo.getReffer());
 			record.setCategory(vo.getCategory());
 			mapper.updateByPrimaryKey(record);
+		} catch (CheckedException e) {
+			LogUtils.info(logger, e);
+			throw e;
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			LogUtils.info(logger, e);
+			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
 		}
 	}
 
 	@Override
 	public void unfollow(Long fid) {
-		ValidUtils.checkPrimaryKey(fid);
 		try {
+			ValidUtils.checkPrimaryKey(fid);
 			bfMapper.deleteByPrimaryKey(CurrentUser.getCurrentUserId(), fid);
+		} catch (CheckedException e) {
+			LogUtils.info(logger, e);
+			throw e;
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			LogUtils.info(logger, e);
+			throw new LogicException(ExceptionIds.LOGIC_UNFOLLOW);
 		}
 	}
 
 	@Override
 	public void follow(Long fid) {
-		ValidUtils.checkPrimaryKey(fid);
 		try {
+			ValidUtils.checkPrimaryKey(fid);
 			bfMapper.insert(CurrentUser.getCurrentUserId(), fid);
+		} catch (CheckedException e) {
+			LogUtils.info(logger, e);
+			throw e;
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			LogUtils.info(logger, e);
+			throw new LogicException(ExceptionIds.LOGIC_UNFOLLOW);
 		}
 	}
 
 	@Override
 	public String hit(Long id) {
-		ValidUtils.checkPrimaryKey(id);
 		try {
+			ValidUtils.checkPrimaryKey(id);
 			Bookmark record = findByPrimaryKey(id);
 			record.setHit(record.getHit() + 1);
 			mapper.updateByPrimaryKey(record);
 			return HttpUtils.appendQueryParams(record.getUrl(), record.getReffer());
+		} catch (CheckedException e) {
+			LogUtils.info(logger, e);
+			throw e;
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new BusinessException(BType.BUSINESS_ERROR);
+			LogUtils.info(logger, e);
+			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
 		}
 	}
 
 	@Override
 	public boolean isFollow(Long fid) {
-		ValidUtils.checkPrimaryKey(fid);
 		try {
+			ValidUtils.checkPrimaryKey(fid);
 			List<Long> list = bfMapper.selectByUid(CurrentUser.getCurrentUserId());
 			return list.contains(fid);
+		} catch (CheckedException e) {
+			LogUtils.info(logger, e);
+			throw e;
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			return false;
+			LogUtils.info(logger, e);
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 	
