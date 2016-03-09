@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.GlobalIds;
 import com.kuaiba.site.core.HttpIds;
+import com.kuaiba.site.core.exceptions.CheckedException;
 import com.kuaiba.site.core.utils.AjaxResponse;
 import com.kuaiba.site.core.utils.AjaxUtils;
 import com.kuaiba.site.db.entity.Bookmark;
@@ -35,7 +36,6 @@ public class SiteCO extends BaseCO implements ISite {
 	public String about() {
 		return "views/about";
 	}
-
 	
 	@RequestMapping(value = HttpIds.SEARCH, method = RequestMethod.GET)
 	@Override
@@ -66,7 +66,7 @@ public class SiteCO extends BaseCO implements ISite {
 			userService.login(username, password);
 			return AjaxUtils.ok();
 		} catch (Exception e) { // 登录失败
-			return AjaxUtils.failed(e);
+			return AjaxUtils.failure(e);
 		}
 	}
 	
@@ -194,6 +194,15 @@ public class SiteCO extends BaseCO implements ISite {
 	public @ResponseBody AjaxResponse groupUnfollow(@PathVariable Long id) {
 		groupService.unfollow(id);
 		return AjaxUtils.ok();
+	}
+	
+	@RequestMapping("/test")
+	public @ResponseBody AjaxResponse test(String title) {
+		if (!"123".equals(title)) {
+			throw new CheckedException();
+		}
+		
+		return AjaxUtils.ok(title);
 	}
 
 }

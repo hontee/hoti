@@ -18,7 +18,7 @@ public class AjaxResponse implements Serializable {
 		this.setResult(result);
 	}
 	
-	public AjaxResponse(Integer code, String message) {
+	public AjaxResponse(String code, String message) {
 		this.setError(code, message);
 	}
 	
@@ -39,7 +39,7 @@ public class AjaxResponse implements Serializable {
 		return error;
 	}
 
-	public void setError(Integer code, String message) {
+	public void setError(String code, String message) {
 		this.setSuccess(false);
 		this.error = new Error();
 		error.setCode(code);
@@ -63,15 +63,15 @@ public class AjaxResponse implements Serializable {
 
 		private static final long serialVersionUID = -4425094276756966685L;
 
-		private Integer code; // 错误码
+		private String code; // 错误码
 		
 		private String message; // 错误信息
 
-		public Integer getCode() {
+		public String getCode() {
 			return code;
 		}
 
-		public void setCode(Integer code) {
+		public void setCode(String code) {
 			this.code = code;
 		}
 

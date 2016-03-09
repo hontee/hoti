@@ -9,20 +9,9 @@ public class LogicException extends CoreException {
 
 	private static final long serialVersionUID = 4979290150393649066L;
 
+	// 默认：业务处理失败
 	public LogicException() {
-		super();
-	}
-
-	public LogicException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public LogicException(String message) {
-		super(message);
-	}
-
-	public LogicException(Throwable cause) {
-		super(cause);
+		super(ExceptionIds.LOGIC_DEFAULT);
 	}
 
 	public LogicException(ExceptionIds ex) {

@@ -4,7 +4,11 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.web.context.request.WebRequest;
 
+import com.kuaiba.site.core.exceptions.AccountException;
+import com.kuaiba.site.core.exceptions.CheckedException;
 import com.kuaiba.site.core.exceptions.CoreException;
+import com.kuaiba.site.core.exceptions.ExceptionIds;
+import com.kuaiba.site.core.exceptions.LogicException;
 
 public class AjaxUtils {
 
@@ -43,8 +47,17 @@ public class AjaxUtils {
 	 * @param message
 	 * @return
 	 */
-	public static AjaxResponse failed(String message) {
-		return new AjaxResponse(1001, message);
+	public static AjaxResponse failure(String message) {
+		return new AjaxResponse("LOGIC_CUSTOM", message);
+	}
+	
+	/**
+	 * 失败
+	 * @param message
+	 * @return
+	 */
+	public static AjaxResponse failure(ExceptionIds ex) {
+		return new AjaxResponse(ex.name(), ex.getMessage());
 	}
 	
 	/**
@@ -52,12 +65,18 @@ public class AjaxUtils {
 	 * @param e
 	 * @return
 	 */
-	public static AjaxResponse failed(Throwable e) {
-		String message = "系统错误";
-		if (e instanceof CoreException) {
-			message = e.getMessage();
+	public static AjaxResponse failure(Throwable t) {
+		CoreException e = new CoreException();
+		
+		if (t instanceof AccountException) {
+			e = (AccountException) t;
+		} else if (t instanceof CheckedException) {
+			e = (CheckedException) t;
+		} else if (t instanceof LogicException) {
+			e = (LogicException) t;
 		}
-		return failed(message);
+		
+		return new AjaxResponse(e.getCode(), e.getError());
 	}
 
 }

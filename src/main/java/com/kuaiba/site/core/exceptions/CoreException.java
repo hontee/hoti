@@ -13,26 +13,15 @@ public class CoreException extends RuntimeException {
 	
 	private String error;
 
+	// 默认：未知错误
 	public CoreException() {
-		super();
+		this(ExceptionIds.SYSTEM_DEFAULT);
 	}
 
-	public CoreException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public CoreException(String message) {
-		super(message);
-	}
-	
 	public CoreException(ExceptionIds ex) {
 		super(ex.name() + " (" + ex.getMessage() + ").");
 		this.code = ex.name();
 		this.error = ex.getMessage();
-	}
-
-	public CoreException(Throwable cause) {
-		super(cause);
 	}
 
 	public String getCode() {

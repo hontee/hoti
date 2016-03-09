@@ -9,20 +9,9 @@ public class CheckedException extends CoreException {
 
 	private static final long serialVersionUID = 5896783614065154728L;
 
+	// 默认：校验失败
 	public CheckedException() {
-		super();
-	}
-
-	public CheckedException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public CheckedException(String message) {
-		super(message);
-	}
-
-	public CheckedException(Throwable cause) {
-		super(cause);
+		super(ExceptionIds.CHECKED_DEFAULT);
 	}
 
 	public CheckedException(ExceptionIds ex) {
