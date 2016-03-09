@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
+import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.DomainMapper;
@@ -38,7 +39,7 @@ public class DomainServiceImpl implements DomainService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -49,7 +50,7 @@ public class DomainServiceImpl implements DomainService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -60,7 +61,7 @@ public class DomainServiceImpl implements DomainService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_DELETE);
 		}		
 	}
 
@@ -71,7 +72,7 @@ public class DomainServiceImpl implements DomainService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_DELETE);
 		}
 	}
 
@@ -89,7 +90,7 @@ public class DomainServiceImpl implements DomainService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_ADD);
 		}		
 	}
 
@@ -100,7 +101,7 @@ public class DomainServiceImpl implements DomainService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -111,7 +112,7 @@ public class DomainServiceImpl implements DomainService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -122,7 +123,7 @@ public class DomainServiceImpl implements DomainService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
 		}
 	}
 
@@ -141,7 +142,7 @@ public class DomainServiceImpl implements DomainService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
 		}
 	}
 
@@ -152,12 +153,13 @@ public class DomainServiceImpl implements DomainService {
 			return mapper.selectByCollect(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 	
 	@Override
 	public boolean checkDomainName(String name) {
+		ValidUtils.checkNotNull(name);
 		try {
 			DomainExample example = new DomainExample();
 			example.createCriteria().andNameEqualTo(name);
@@ -171,6 +173,7 @@ public class DomainServiceImpl implements DomainService {
 
 	@Override
 	public boolean checkDomainTitle(String title) {
+		ValidUtils.checkNotNull(title);
 		try {
 			DomainExample example = new DomainExample();
 			example.createCriteria().andTitleEqualTo(title);

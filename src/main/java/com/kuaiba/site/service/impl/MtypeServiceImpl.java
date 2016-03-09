@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
+import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.MtypeMapper;
@@ -38,7 +39,7 @@ public class MtypeServiceImpl implements MtypeService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -49,7 +50,7 @@ public class MtypeServiceImpl implements MtypeService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -60,7 +61,7 @@ public class MtypeServiceImpl implements MtypeService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_DELETE);
 		}
 	}
 
@@ -71,7 +72,7 @@ public class MtypeServiceImpl implements MtypeService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_DELETE);
 		}
 	}
 
@@ -89,7 +90,7 @@ public class MtypeServiceImpl implements MtypeService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_ADD);
 		}
 	}
 
@@ -100,7 +101,7 @@ public class MtypeServiceImpl implements MtypeService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -111,7 +112,7 @@ public class MtypeServiceImpl implements MtypeService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -122,7 +123,7 @@ public class MtypeServiceImpl implements MtypeService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
 		}
 	}
 
@@ -141,12 +142,13 @@ public class MtypeServiceImpl implements MtypeService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
 		}
 	}
 	
 	@Override
 	public boolean checkMTypeName(String name) {
+		ValidUtils.checkNotNull(name);
 		try {
 			MtypeExample example = new MtypeExample();
 			example.createCriteria().andNameEqualTo(name);
@@ -160,6 +162,7 @@ public class MtypeServiceImpl implements MtypeService {
 
 	@Override
 	public boolean checkMTypeTitle(String title) {
+		ValidUtils.checkNotNull(title);
 		try {
 			MtypeExample example = new MtypeExample();
 			example.createCriteria().andTitleEqualTo(title);

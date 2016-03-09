@@ -247,6 +247,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	
 	@Override
 	public boolean checkBookmarkName(String name) {
+		ValidUtils.checkNotNull(name);
 		try {
 			BookmarkExample example = new BookmarkExample();
 			example.createCriteria().andNameEqualTo(name);
@@ -260,6 +261,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public boolean checkBookmarkURL(String url) {
+		ValidUtils.checkNotNull(url);
 		try {
 			BookmarkExample example = new BookmarkExample();
 			example.createCriteria().andUrlEqualTo(url);
@@ -273,6 +275,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public boolean checkBookmarkTitle(String title) {
+		ValidUtils.checkNotNull(title);
 		try {
 			BookmarkExample example = new BookmarkExample();
 			example.createCriteria().andTitleEqualTo(title);

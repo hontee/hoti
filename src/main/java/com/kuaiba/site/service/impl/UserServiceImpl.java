@@ -17,6 +17,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
 import com.kuaiba.site.core.GlobalIds;
+import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.core.security.EncryptUtils;
 import com.kuaiba.site.db.dao.UserMapper;
@@ -44,7 +45,7 @@ public class UserServiceImpl implements UserService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -55,7 +56,7 @@ public class UserServiceImpl implements UserService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -66,7 +67,7 @@ public class UserServiceImpl implements UserService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_DELETE);
 		}
 	}
 
@@ -77,7 +78,7 @@ public class UserServiceImpl implements UserService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_DELETE);
 		}
 	}
 
@@ -95,7 +96,7 @@ public class UserServiceImpl implements UserService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_ADD);
 		}
 	}
 
@@ -106,7 +107,7 @@ public class UserServiceImpl implements UserService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -117,7 +118,7 @@ public class UserServiceImpl implements UserService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -128,7 +129,7 @@ public class UserServiceImpl implements UserService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
 		}
 	}
 
@@ -147,7 +148,7 @@ public class UserServiceImpl implements UserService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
 		}
 	}
 
@@ -158,7 +159,7 @@ public class UserServiceImpl implements UserService {
 			return mapper.selectByName(name);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -169,7 +170,7 @@ public class UserServiceImpl implements UserService {
 			return (mapper.selectByName(name) == null) ? false : true;
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -183,18 +184,19 @@ public class UserServiceImpl implements UserService {
 			subject.getSession().setAttribute(GlobalIds.LOGIN_USER, currentUser);
 		} catch (InvalidSessionException e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.ACCOUNT_UNKNOWN);
 		} catch (AuthenticationException e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.ACCOUNT_UNAUTHORIZATION);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.ACCOUNT_DEFAULT);
 		}
 	}
 	
 	@Override
 	public boolean checkUserName(String name) {
+		ValidUtils.checkNotNull(name);
 		try {
 			UserExample example = new UserExample();
 			example.createCriteria().andNameEqualTo(name);

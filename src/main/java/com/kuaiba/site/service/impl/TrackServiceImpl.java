@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
+import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.db.dao.TrackMapper;
 import com.kuaiba.site.db.entity.Track;
@@ -36,7 +37,7 @@ public class TrackServiceImpl implements TrackService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -47,7 +48,7 @@ public class TrackServiceImpl implements TrackService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -58,7 +59,7 @@ public class TrackServiceImpl implements TrackService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_DELETE);
 		}
 	}
 
@@ -69,7 +70,7 @@ public class TrackServiceImpl implements TrackService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_DELETE);
 		}
 	}
 
@@ -80,7 +81,7 @@ public class TrackServiceImpl implements TrackService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_ADD);
 		}
 	}
 
@@ -91,7 +92,7 @@ public class TrackServiceImpl implements TrackService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -102,7 +103,7 @@ public class TrackServiceImpl implements TrackService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -113,7 +114,7 @@ public class TrackServiceImpl implements TrackService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
 		}
 	}
 
@@ -125,7 +126,7 @@ public class TrackServiceImpl implements TrackService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
 		}
 	}
 

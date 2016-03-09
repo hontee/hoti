@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
+import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.MenuMapper;
@@ -38,7 +39,7 @@ public class MenuServiceImpl implements MenuService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -49,7 +50,7 @@ public class MenuServiceImpl implements MenuService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -60,7 +61,7 @@ public class MenuServiceImpl implements MenuService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_DELETE);
 		}
 	}
 
@@ -71,7 +72,7 @@ public class MenuServiceImpl implements MenuService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_DELETE);
 		}
 	}
 
@@ -91,7 +92,7 @@ public class MenuServiceImpl implements MenuService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_ADD);
 		}
 	}
 
@@ -102,7 +103,7 @@ public class MenuServiceImpl implements MenuService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -113,7 +114,7 @@ public class MenuServiceImpl implements MenuService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -124,7 +125,7 @@ public class MenuServiceImpl implements MenuService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
 		}
 	}
 
@@ -145,12 +146,13 @@ public class MenuServiceImpl implements MenuService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
 		}		
 	}
 	
 	@Override
 	public boolean checkMenuName(String name) {
+		ValidUtils.checkNotNull(name);
 		try {
 			MenuExample example = new MenuExample();
 			example.createCriteria().andNameEqualTo(name);
@@ -164,6 +166,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public boolean checkMenuTitle(String title) {
+		ValidUtils.checkNotNull(title);
 		try {
 			MenuExample example = new MenuExample();
 			example.createCriteria().andTitleEqualTo(title);

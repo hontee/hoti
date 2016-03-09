@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
+import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.GroupBookmarkMapper;
@@ -44,7 +45,7 @@ public class GroupServiceImpl implements GroupService {
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -55,7 +56,7 @@ public class GroupServiceImpl implements GroupService {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -66,7 +67,7 @@ public class GroupServiceImpl implements GroupService {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_DELETE);
 		}
 	}
 
@@ -77,7 +78,7 @@ public class GroupServiceImpl implements GroupService {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_DELETE);
 		}
 	}
 
@@ -98,7 +99,7 @@ public class GroupServiceImpl implements GroupService {
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_ADD);
 		}
 	}
 
@@ -109,7 +110,7 @@ public class GroupServiceImpl implements GroupService {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -120,7 +121,7 @@ public class GroupServiceImpl implements GroupService {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_QUERY);
 		}
 	}
 
@@ -131,7 +132,7 @@ public class GroupServiceImpl implements GroupService {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
 		}
 	}
 
@@ -150,7 +151,7 @@ public class GroupServiceImpl implements GroupService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
 		}
 	}
 
@@ -161,7 +162,7 @@ public class GroupServiceImpl implements GroupService {
 			gfMapper.deleteByPrimaryKey(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_UNFOLLOW);
 		}
 	}
 
@@ -172,7 +173,7 @@ public class GroupServiceImpl implements GroupService {
 			gfMapper.insert(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_FOLLOW);
 		}
 	}
 
@@ -184,7 +185,7 @@ public class GroupServiceImpl implements GroupService {
 			gbMapper.insert(gid, bmid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_DELETE);
 		}
 	}
 
@@ -196,12 +197,13 @@ public class GroupServiceImpl implements GroupService {
 			gbMapper.insert(gid, bmid);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException();
+			throw new LogicException(ExceptionIds.LOGIC_ADD);
 		}
 	}
 	
 	@Override
 	public boolean checkGroupName(String name) {
+		ValidUtils.checkNotNull(name);
 		try {
 			GroupExample example = new GroupExample();
 			example.createCriteria().andNameEqualTo(name);
@@ -215,6 +217,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public boolean checkGroupTitle(String title) {
+		ValidUtils.checkNotNull(title);
 		try {
 			GroupExample example = new GroupExample();
 			example.createCriteria().andTitleEqualTo(title);
