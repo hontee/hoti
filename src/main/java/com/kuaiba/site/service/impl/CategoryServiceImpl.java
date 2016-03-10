@@ -199,7 +199,7 @@ public class CategoryServiceImpl implements CategoryService {
 			example.createCriteria().andNameEqualTo(name);
 			List<Category> list = mapper.selectByExample(example);
 			ValidUtils.checkNotNull(list);
-			return (list.isEmpty())? false: true;
+			return !list.isEmpty();
 		} catch (Exception e) {
 		}
 		return false;

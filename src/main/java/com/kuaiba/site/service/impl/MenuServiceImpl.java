@@ -158,7 +158,7 @@ public class MenuServiceImpl implements MenuService {
 			example.createCriteria().andNameEqualTo(name);
 			List<Menu> list = mapper.selectByExample(example);
 			ValidUtils.checkNotNull(list);
-			return (list.isEmpty())? false: true;
+			return !list.isEmpty();
 		} catch (Exception e) {
 		}
 		return false;
@@ -172,7 +172,7 @@ public class MenuServiceImpl implements MenuService {
 			example.createCriteria().andTitleEqualTo(title);
 			List<Menu> list = mapper.selectByExample(example);
 			ValidUtils.checkNotNull(list);
-			return (list.isEmpty())? false: true;
+			return !list.isEmpty();
 		} catch (Exception e) {
 		}
 		return false;

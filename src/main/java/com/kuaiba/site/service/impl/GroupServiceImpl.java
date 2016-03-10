@@ -209,7 +209,7 @@ public class GroupServiceImpl implements GroupService {
 			example.createCriteria().andNameEqualTo(name);
 			List<Group> list = mapper.selectByExample(example);
 			ValidUtils.checkNotNull(list);
-			return (list.isEmpty())? false: true;
+			return !list.isEmpty();
 		} catch (Exception e) {
 		}
 		return false;
@@ -223,7 +223,7 @@ public class GroupServiceImpl implements GroupService {
 			example.createCriteria().andTitleEqualTo(title);
 			List<Group> list = mapper.selectByExample(example);
 			ValidUtils.checkNotNull(list);
-			return (list.isEmpty())? false: true;
+			return !list.isEmpty();
 		} catch (Exception e) {
 		}
 		return false;

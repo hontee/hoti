@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,25 +13,33 @@
 <div class="container">
   <a class="navbar-brand" href="/">快吧</a>
   <ul class="nav navbar-nav pull-left">
-    <li class="nav-item active">
+    <li class="nav-item">
       <form class="form-inline navbar-form" action="/search" method="get">
-	    <input name="q" value="${q}" class="form-control" placeholder="搜索站点">
+	    <input name="q" value="${q}" class="form-control" placeholder="搜索" autocomplete="off">
 	  </form>
     </li>
-  </ul>
-  <ul class="nav navbar-nav pull-right">
-  	<li class="nav-item">
-      <a class="nav-link" href="/groups">所有分类</a>
+    <li class="nav-item">
+      <a class="nav-link" href="/groups">类别</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/groups">群组</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="/share">推荐</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/about">关于我们</a>
+      <a class="nav-link" href="/about">关于</a>
     </li>
+  </ul>
+  <ul class="nav navbar-nav pull-right">
     <li class="nav-item">
-      <a class="btn btn-success-outline" href="/login">登录</a>
+      <a class="btn btn-primary" href="/login">登录</a>
     </li>
+    <c:if test="${admin}">
+    <li class="nav-item">
+      <a class="btn btn-warning" href="/cms" target="_blank">后台管理</a>
+    </li>
+    </c:if>
   </ul>
 </div>
 </nav>

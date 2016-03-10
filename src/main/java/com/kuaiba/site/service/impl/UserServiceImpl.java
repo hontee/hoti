@@ -8,6 +8,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.InvalidSessionException;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import com.google.common.base.Throwables;
 import com.kuaiba.site.core.GlobalIds;
 import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
+import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.core.security.EncryptUtils;
 import com.kuaiba.site.db.dao.UserMapper;
 import com.kuaiba.site.db.entity.User;
@@ -181,7 +183,9 @@ public class UserServiceImpl implements UserService {
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
 			User currentUser = this.findByName((String) subject.getPrincipal());
-			subject.getSession().setAttribute(GlobalIds.LOGIN_USER, currentUser);
+			Session session = subject.getSession();
+			session.setAttribute(GlobalIds.LOGIN_USER, currentUser);
+			session.setAttribute(GlobalIds.ADMIN_USER, CurrentUser.isAdmin());
 		} catch (InvalidSessionException e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
 			throw new LogicException(ExceptionIds.ACCOUNT_UNKNOWN);
@@ -202,7 +206,7 @@ public class UserServiceImpl implements UserService {
 			example.createCriteria().andNameEqualTo(name);
 			List<User> list = mapper.selectByExample(example);
 			ValidUtils.checkNotNull(list);
-			return (list.isEmpty())? false: true;
+			return !list.isEmpty();
 		} catch (Exception e) {
 		}
 		return false;

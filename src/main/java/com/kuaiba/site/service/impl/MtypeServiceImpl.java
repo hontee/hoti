@@ -154,7 +154,7 @@ public class MtypeServiceImpl implements MtypeService {
 			example.createCriteria().andNameEqualTo(name);
 			List<Mtype> list = mapper.selectByExample(example);
 			ValidUtils.checkNotNull(list);
-			return (list.isEmpty())? false: true;
+			return !list.isEmpty();
 		} catch (Exception e) {
 		}
 		return false;
@@ -168,7 +168,7 @@ public class MtypeServiceImpl implements MtypeService {
 			example.createCriteria().andTitleEqualTo(title);
 			List<Mtype> list = mapper.selectByExample(example);
 			ValidUtils.checkNotNull(list);
-			return (list.isEmpty())? false: true;
+			return !list.isEmpty();
 		} catch (Exception e) {
 		}
 		return false;

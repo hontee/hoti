@@ -8,6 +8,7 @@ public interface GlobalIds {
 	
 	String CHARSET = "UTF-8"; // 字符编码
 	String LOGIN_USER = "kbUser"; // 登录用户
+	String ADMIN_USER = "admin"; // 是否为管理员
 	String REFFER = "ref=kuaiba"; // 默认设置来源
 	String CFG_EHCACHE = "/META-INF/spring/ehcache.xml"; // EhCache
 	String CACHE_OBJECT = "objectCache"; // 对象缓存

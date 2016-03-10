@@ -68,7 +68,7 @@ public interface CurrentUser {
 	 * @return
 	 */
 	public static boolean isLogin() {
-		return (getCurrentUser() == null)? false: true;
+		return getCurrentUser() != null;
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public interface CurrentUser {
 			return false;
 		}
 		
-		return getCurrentUser().getState() == 2L; // 管理员
+		return getCurrentUser().getUserType() == 2L; // 管理员
 	}
 	
 }

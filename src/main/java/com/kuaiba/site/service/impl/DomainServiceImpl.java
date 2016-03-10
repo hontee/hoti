@@ -165,7 +165,7 @@ public class DomainServiceImpl implements DomainService {
 			example.createCriteria().andNameEqualTo(name);
 			List<Domain> list = mapper.selectByExample(example);
 			ValidUtils.checkNotNull(list);
-			return (list.isEmpty())? false: true;
+			return !list.isEmpty();
 		} catch (Exception e) {
 		}
 		return false;
@@ -179,7 +179,7 @@ public class DomainServiceImpl implements DomainService {
 			example.createCriteria().andTitleEqualTo(title);
 			List<Domain> list = mapper.selectByExample(example);
 			ValidUtils.checkNotNull(list);
-			return (list.isEmpty())? false: true;
+			return !list.isEmpty();
 		} catch (Exception e) {
 		}
 		return false;

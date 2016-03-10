@@ -253,7 +253,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			example.createCriteria().andNameEqualTo(name);
 			List<Bookmark> list = mapper.selectByExample(example);
 			ValidUtils.checkNotNull(list);
-			return (list.isEmpty())? false: true;
+			return !list.isEmpty();
 		} catch (Exception e) {
 		}
 		return false;
@@ -267,7 +267,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			example.createCriteria().andUrlEqualTo(url);
 			List<Bookmark> list = mapper.selectByExample(example);
 			ValidUtils.checkNotNull(list);
-			return (list.isEmpty())? false: true;
+			return !list.isEmpty();
 		} catch (Exception e) {
 		}
 		return false;
@@ -281,7 +281,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			example.createCriteria().andTitleEqualTo(title);
 			List<Bookmark> list = mapper.selectByExample(example);
 			ValidUtils.checkNotNull(list);
-			return (list.isEmpty())? false: true;
+			return !list.isEmpty();
 		} catch (Exception e) {
 		}
 		return false;
