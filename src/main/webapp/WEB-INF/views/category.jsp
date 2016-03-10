@@ -10,7 +10,7 @@
 		    ${org.title}
 		  </a>
 		  <c:forEach items="${org.cates}" var="c">
-		  <a href="/groups/${c.id}" title="${c.description}" class="list-group-item">${c.title}
+		  <a href="/cates/${c.id}" title="${c.description}" class="list-group-item">${c.title}
 		  <span class="label label-default label-pill pull-right">${c.count}</span>
 		  </a>
 		  </c:forEach>

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.GlobalIds;
 import com.kuaiba.site.core.HttpIds;
-import com.kuaiba.site.core.exceptions.CheckedException;
 import com.kuaiba.site.core.utils.AjaxResponse;
 import com.kuaiba.site.core.utils.AjaxUtils;
 import com.kuaiba.site.db.entity.Bookmark;
@@ -25,6 +24,8 @@ import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
 import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
+import com.kuaiba.site.db.entity.Group;
+import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.service.utils.Pagination;
 
@@ -98,9 +99,9 @@ public class SiteCO extends BaseCO implements ISite {
 		return "views/users/profile";
 	}
 	
-	@RequestMapping(value = HttpIds.GROUP, method = RequestMethod.GET)
+	@RequestMapping(value = HttpIds.CATEGORY, method = RequestMethod.GET)
 	@Override
-	public String group(Model model) {
+	public String category(Model model) {
 		DomainExample oe = new DomainExample();
 		oe.createCriteria().andStateEqualTo((byte)1);
 		oe.setOrderByClause("weight DESC");
@@ -109,9 +110,9 @@ public class SiteCO extends BaseCO implements ISite {
 		return "views/category";
 	}
 	
-	@RequestMapping(value = HttpIds.GROUP_BY_ID, method = RequestMethod.GET)
+	@RequestMapping(value = HttpIds.CATEGORY_BY_ID, method = RequestMethod.GET)
 	@Override
-	public String groupById(@PathVariable Long id, Model model) {
+	public String categoryById(@PathVariable Long id, Model model) {
 		CategoryExample example = new CategoryExample();
 		example.createCriteria().andIdEqualTo(id);
 		List<Category> cates = categoryService.findByCollect(example);
@@ -119,6 +120,22 @@ public class SiteCO extends BaseCO implements ISite {
 		return "views/home";
 	}
 	
+	@RequestMapping(value = HttpIds.GROUP, method = RequestMethod.GET)
+	@Override
+	public String group(Model model) {
+		List<Group> list = groupService.findByExample(new GroupExample());
+		model.addAttribute("groups", list);
+		return "views/group";
+	}
+
+	@RequestMapping(value = HttpIds.GROUP_BY_ID, method = RequestMethod.GET)
+	@Override
+	public String groupById(@PathVariable Long id, Model model) {
+		Group group = groupService.findByPrimaryKey(id);
+		model.addAttribute("record", group);
+		return "views/group-bookmark";
+	}
+
 	@RequestMapping(value = HttpIds.HOME, method = RequestMethod.GET)
 	@Override
 	public String home(Pagination p, Model model) throws Exception {
@@ -196,13 +213,4 @@ public class SiteCO extends BaseCO implements ISite {
 		return AjaxUtils.ok();
 	}
 	
-	@RequestMapping("/test")
-	public @ResponseBody AjaxResponse test(String title) {
-		if (!"123".equals(title)) {
-			throw new CheckedException();
-		}
-		
-		return AjaxUtils.ok(title);
-	}
-
 }

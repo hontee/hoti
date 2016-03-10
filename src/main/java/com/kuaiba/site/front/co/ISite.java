@@ -29,6 +29,10 @@ public interface ISite {
 	
 	String profile(String name, User u);
 	
+	String category(Model model);
+	
+	String categoryById(Long id, Model model);
+	
 	String group(Model model);
 	
 	String groupById(Long id, Model model);

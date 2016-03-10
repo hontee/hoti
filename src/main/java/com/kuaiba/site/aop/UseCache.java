@@ -1,4 +1,4 @@
-package com.kuaiba.site.aop.annotation;
+package com.kuaiba.site.aop;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

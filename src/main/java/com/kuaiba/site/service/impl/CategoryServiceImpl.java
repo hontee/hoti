@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
+import com.kuaiba.site.aop.UseCache;
+import com.kuaiba.site.core.cache.CacheIds;
 import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.core.security.CurrentUser;
@@ -164,11 +166,12 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	@UseCache(key = CacheIds.HOMEPAGE)
 	public List<Category> findByCollect(CategoryExample example) {
 		ValidUtils.checkNotNull(example);
 		try {
-			List<Category> cates = mapper.selectByCollect(example);
 			List<Category> list = new ArrayList<>();
+			List<Category> cates = mapper.selectByCollect(example);
 			final List<Long> fids = bfMapper.selectByUid(CurrentUser.getCurrentUserId());
 			
 			cates.forEach((c) -> {

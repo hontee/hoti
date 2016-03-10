@@ -13,6 +13,8 @@ public interface HttpIds {
 	String LOGOUT = "logout";
 	String USER_HOME = "/{name}/dashbord";
 	String USER_PROFILE = "/{name}/profile";
+	String CATEGORY = "/cates";
+	String CATEGORY_BY_ID = "/cates/{id}";
 	String GROUP = "/groups";
 	String GROUP_BY_ID = "/groups/{id}";
 	String HOME = "";

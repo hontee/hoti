@@ -19,7 +19,7 @@
 	  </form>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/groups">类别</a>
+      <a class="nav-link" href="/cates">类别</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="/groups">群组</a>
