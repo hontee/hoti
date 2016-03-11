@@ -7,7 +7,6 @@ package com.kuaiba.site.core;
  */
 public interface HttpIds {
 	
-	String ABOUT = "/about";
 	String SEARCH = "/search";
 	String LOGIN = "login";
 	String LOGOUT = "logout";

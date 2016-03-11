@@ -32,12 +32,6 @@ import com.kuaiba.site.service.utils.Pagination;
 @Controller
 public class SiteCO extends BaseCO implements ISite {
 	
-	@RequestMapping(value = HttpIds.ABOUT, method = RequestMethod.GET)
-	@Override
-	public String about() {
-		return "views/about";
-	}
-	
 	@RequestMapping(value = HttpIds.SEARCH, method = RequestMethod.GET)
 	@Override
 	public String search(@RequestParam String q, Pagination p, Model model) throws Exception {

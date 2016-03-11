@@ -13,8 +13,6 @@ import com.kuaiba.site.service.utils.Pagination;
  */
 public interface ISite {
 	
-	String about();
-	
 	String search(String q, Pagination p, Model model) throws Exception;
 	
 	String login();
