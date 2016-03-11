@@ -10,6 +10,7 @@ import com.kuaiba.site.service.GroupService;
 import com.kuaiba.site.service.RecommendService;
 import com.kuaiba.site.service.TrackService;
 import com.kuaiba.site.service.UserService;
+import com.kuaiba.site.service.ActivityService;
 import com.kuaiba.site.service.BookmarkService;
 
 public abstract class BaseCO {
@@ -32,6 +33,8 @@ public abstract class BaseCO {
 	protected MtypeService mtypeService;
 	@Resource
 	protected TrackService trackService;
+	@Resource
+	protected ActivityService activityService;
 	
 	protected String redirect(String path) {
 		return "redirect:".concat(path);

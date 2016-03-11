@@ -8,6 +8,7 @@ public interface CmsIds {
 	
 	// URI
 	String CMS_HOME = "/cms";
+	String CMS_ACTIVITIES = "/cms/activities";
 	String CMS_BOOKMARKS = "/cms/bookmarks";
 	String CMS_CATES = "/cms/cates";
 	String CMS_DOMAINS = "/cms/domains";
