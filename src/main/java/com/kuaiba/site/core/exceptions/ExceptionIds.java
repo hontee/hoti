@@ -11,6 +11,17 @@ public enum ExceptionIds {
 	SYSTEM_DEFAULT("未知错误"),
 	SYSTEM_ERROR("系统错误"),
 	
+	/*缓存*/
+	CACHE_DEFAULT("缓存异常"),
+	CACHE_CREATE_INSTANCE_ERROR("创建缓存实例错误"),
+	CACHE_CONSTRUCTOR_NULL("构造函数为空"),
+	CACHE_KEY_NULL("缓存名称为空"),
+	CACHE_GET_ERROR("获取缓存错误"),
+	CACHE_PUT_ERROR("添加缓存错误"),
+	CACHE_CLEAR_ERROR("清除缓存错误"),
+	CACHE_CHECK_ERROR("校验缓存错误"),
+	CACHE_FLUSH_ERROR("刷新缓存错误"),
+	
 	/*Account*/
 	ACCOUNT_DEFAULT("登录失败"),
 	ACCOUNT_UNKNOWN("用户名或密码错误"),

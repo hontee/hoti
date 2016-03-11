@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ehcache name="kb">
+<ehcache name="kuaiba" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="true" monitoring="autodetect"
+         dynamicConfig="true">
 
-  <diskStore path="java.io.tmpdir"/>
+    <diskStore path="java.io.tmpdir"/>
+  
+     <!--
+    Default Cache configuration. These settings will be applied to caches
+    created programmatically using CacheManager.add(String cacheName).
+    This element is optional, and using CacheManager.add(String cacheName) when
+    its not present will throw CacheException
+
+    The defaultCache has an implicit name "default" which is a reserved cache name.
+    -->
+    <defaultCache
+      eternal="false"
+      overflowToDisk="false"
+      timeToIdleSeconds="120"
+      timeToLiveSeconds="120"
+      diskSpoolBufferSizeMB="30"
+      maxElementsOnDisk="10"
+      diskPersistent="false"
+      diskExpiryThreadIntervalSeconds="120"
+      memoryStoreEvictionPolicy="LRU"
+      />
   
   <!-- 
         配置自定义缓存
@@ -17,7 +40,7 @@
     -->
 
   <!-- 登录记录缓存 锁定10分钟 -->
-  <cache name="passwordRetryCache"
+  <cache name="kuaiba.passwordRetryCache"
     maxEntriesLocalHeap="2000"
     eternal="false"
     timeToIdleSeconds="3600"
@@ -26,41 +49,42 @@
     statistics="true">
   </cache>
   
-  <!-- 对象缓存 -->
-  <cache name="objectCache"
+  <!-- Objects -->
+  <cache name="kuaiba.objects"
     maxEntriesLocalHeap="200000"
     eternal="false"
     timeToIdleSeconds="360000"
     timeToLiveSeconds="0"
     overflowToDisk="true"
+    maxElementsInMemory="10"
+    maxElementsOnDisk="10"
+    diskSpoolBufferSizeMB="2"
+    memoryStoreEvictionPolicy="LFU"
     statistics="true">
   </cache>
 
-  <cache name="authorizationCache"
-    maxEntriesLocalHeap="2000"
-    eternal="false"
-    timeToIdleSeconds="3600"
-    timeToLiveSeconds="0"
-    overflowToDisk="false"
-    statistics="true">
-  </cache>
+	<!-- Users -->
+    <cache name="kuaiba.tests"
+       maxElementsInMemory="2"
+       maxElementsOnDisk="2"
+       eternal="false"
+       overflowToDisk="false"
+       diskSpoolBufferSizeMB="2"
+       timeToIdleSeconds="600"
+       timeToLiveSeconds="600"
+       memoryStoreEvictionPolicy="LFU">
+    </cache>
 
-  <cache name="authenticationCache"
-    maxEntriesLocalHeap="2000"
-    eternal="false"
-    timeToIdleSeconds="3600"
-    timeToLiveSeconds="0"
-    overflowToDisk="false"
-    statistics="true">
-  </cache>
-
-  <cache name="shiro-activeSessionCache"
-    maxEntriesLocalHeap="2000"
-    eternal="false"
-    timeToIdleSeconds="3600"
-    timeToLiveSeconds="0"
-    overflowToDisk="false"
-    statistics="true">
-  </cache>
+	<!-- Tests -->
+    <cache name="kuaiba.tests"
+       maxElementsInMemory="2"
+       maxElementsOnDisk="2"
+       eternal="false"
+       overflowToDisk="false"
+       diskSpoolBufferSizeMB="2"
+       timeToIdleSeconds="600"
+       timeToLiveSeconds="600"
+       memoryStoreEvictionPolicy="LFU">
+    </cache>
 
 </ehcache>

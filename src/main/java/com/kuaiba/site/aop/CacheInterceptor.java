@@ -11,8 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
-import com.kuaiba.site.core.cache.CacheIds;
-import com.kuaiba.site.core.cache.CacheUtils;
 
 /**
  * 设置缓存
@@ -32,10 +30,7 @@ public class CacheInterceptor {
 			Method method = signature.getMethod();
 			UseCache cache = method.getAnnotation(UseCache.class);
 			if (cache != null) {
-				CacheIds key = cache.key();
-				if (!CacheUtils.contains(key)) {
-					CacheUtils.put(key, returnValue);
-				}
+				
 			}
 		} catch (Exception e) {
 			logger.warn("添加缓存异常：" + JSON.toJSONString(returnValue));
