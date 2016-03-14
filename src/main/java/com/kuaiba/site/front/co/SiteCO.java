@@ -57,7 +57,7 @@ public class SiteCO extends BaseCO implements ISite {
 	}
 	
 	@RequestMapping(value = HttpURLs.LOGIN, method = RequestMethod.POST)
-	@Log(action = "用户登录", table = TableIDs.USER)
+	@Log(action = "用户登录", table = TableIDs.USER, clazz = String.class)
 	@Override
 	public @ResponseBody AjaxResponse login(@RequestParam String username, @RequestParam String password) {
 		try {

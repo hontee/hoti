@@ -3,6 +3,8 @@ package com.kuaiba.site.front.cms;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
@@ -82,7 +84,7 @@ public class MtypeCSM extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
-	@Log(action = "后台添加类型", table = TableIDs.MTYPE)
+	@Log(action = "后台添加类型", table = TableIDs.MTYPE, clazz = MtypeVO.class)
 	public @ResponseBody AjaxResponse add(MtypeVO vo) {
 		mtypeService.add(vo);
 		return AjaxUtils.ok();
@@ -91,15 +93,15 @@ public class MtypeCSM extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除类型", table = TableIDs.MTYPE)
-	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
+	public @ResponseBody AjaxResponse delete(@PathVariable Long id, HttpServletRequest request) {
 		mtypeService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
-	@Log(action = "后台编辑类型", table = TableIDs.MTYPE)
-	public @ResponseBody AjaxResponse edit(@PathVariable Long id, MtypeVO vo) {
+	@Log(action = "后台编辑类型", table = TableIDs.MTYPE, clazz = MtypeVO.class)
+	public @ResponseBody AjaxResponse edit(@PathVariable Long id, MtypeVO vo, HttpServletRequest request) {
 		mtypeService.updateByPrimaryKey(id, vo);
 		return AjaxUtils.ok();
 	}

@@ -18,7 +18,7 @@ public interface ActivityService extends Pager<Activity, ActivityExample> {
 
 	void add(Activity record);
 	
-	void logger(String action, String tbl, String desc, HttpServletRequest request);
+	void logger(String action, String tbl, String desc, Byte state, HttpServletRequest request);
 
 	List<Activity> findByExample(ActivityExample example);
 

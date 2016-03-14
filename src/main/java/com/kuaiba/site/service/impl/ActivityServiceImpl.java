@@ -95,13 +95,14 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	@Override
-	public void logger(String action, String tbl, String desc, HttpServletRequest request) {
+	public void logger(String action, String tbl, String desc, Byte state, HttpServletRequest request) {
 		try {
 			Activity record = new Activity();
 			record.setCreator(CurrentUser.getCurrentUserName());
 			record.setUserType(CurrentUser.isAdmin()? "admin": "user");
 			record.setDescription(desc);
 			record.setIpAddr(IPUtils.getIpAddr(request));
+			record.setState(state);
 			record.setName(action);
 			record.setTbl(tbl);
 			this.add(record);

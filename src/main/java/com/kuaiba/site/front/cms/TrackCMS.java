@@ -1,5 +1,7 @@
 package com.kuaiba.site.front.cms;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
@@ -53,7 +55,7 @@ public class TrackCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除异常追踪", table = TableIDs.TRACK)
-	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
+	public @ResponseBody AjaxResponse delete(@PathVariable Long id, HttpServletRequest request) {
 		trackService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
 	}

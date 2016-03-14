@@ -1,5 +1,7 @@
 package com.kuaiba.site.front.cms;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
@@ -53,7 +55,7 @@ public class ActivityCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除操作记录", table = TableIDs.ACTIVITY)
-	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
+	public @ResponseBody AjaxResponse delete(@PathVariable Long id, HttpServletRequest request) {
 		activityService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
 	}

@@ -1,7 +1,8 @@
 package com.kuaiba.site.aop;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
-import com.kuaiba.site.front.vo.BaseVO;
 import com.kuaiba.site.service.ActivityService;
+import com.kuaiba.site.service.utils.AjaxResponse;
 
 /**
  * 记录操作
@@ -31,35 +32,44 @@ public class ActivityInterceptor {
 	@Resource
 	private ActivityService as;
 
-	@AfterReturning(pointcut = "@annotation(com.kuaiba.site.aop.Activity)", returning = "returnValue")
-	public void activity(JoinPoint joinPoint, Object returnValue) throws Throwable {
+	@AfterReturning(pointcut = "@annotation(com.kuaiba.site.aop.Log)", returning = "returnValue")
+	public void logger(JoinPoint joinPoint, Object returnValue) throws Throwable {
 		try {
 			logger.info("returnValue: " + JSON.toJSONString(returnValue));
 			MethodSignature signature = (MethodSignature)joinPoint.getSignature();
 			Method method = signature.getMethod();
+			byte state = 1;
 			
-			// 拿到注解
+			// 判断返回状态
+			if (returnValue instanceof AjaxResponse) {
+				AjaxResponse response = (AjaxResponse) returnValue;
+				state = response.isSuccess()? (byte)1: 0;
+			}
+			
+			// 获取注解
 			Log activity = method.getAnnotation(Log.class);
 			if (activity != null) {
 				String action = activity.action();
 				String table = activity.table();
+				Class<?> clazz = activity.clazz();
 
 				// 获取参数
 				HttpServletRequest request = null;
-				String json = null;
-				Parameter[] params = method.getParameters();
-				for (Parameter p : params) {
-					Object object = p.getType();
+				String json = "";
+				boolean flag = true;
+				List<Object> args = Arrays.asList(joinPoint.getArgs());
+				
+				for (Object object : args) {
 					if (object instanceof HttpServletRequest) {
 						request = (HttpServletRequest) object;
-					} else if (object instanceof BaseVO) {
+					} else if (object.getClass().equals(clazz) && flag) {
 						json = JSON.toJSONString(object);
-					} else if (object instanceof Long) {
-						json = object.toString();
+						flag = false;
 					}
 				}
 				
-				as.logger(action, table, json, request);
+				// 记录日志
+				as.logger(action, table, json, state, request);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

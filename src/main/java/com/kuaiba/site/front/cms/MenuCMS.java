@@ -2,6 +2,8 @@ package com.kuaiba.site.front.cms;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
@@ -77,8 +79,8 @@ public class MenuCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
-	@Log(action = "后台添加菜单", table = TableIDs.MENU)
-	public @ResponseBody AjaxResponse add(MenuVO vo) {
+	@Log(action = "后台添加菜单", table = TableIDs.MENU, clazz = MenuVO.class)
+	public @ResponseBody AjaxResponse add(MenuVO vo, HttpServletRequest request) {
 		menuService.add(vo);
 		return AjaxUtils.ok();
 	}
@@ -86,15 +88,15 @@ public class MenuCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除菜单", table = TableIDs.MENU)
-	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
+	public @ResponseBody AjaxResponse delete(@PathVariable Long id, HttpServletRequest request) {
 		menuService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
-	@Log(action = "后台编辑菜单", table = TableIDs.MENU)
-	public @ResponseBody AjaxResponse edit(@PathVariable Long id, MenuVO vo) {
+	@Log(action = "后台编辑菜单", table = TableIDs.MENU, clazz = MenuVO.class)
+	public @ResponseBody AjaxResponse edit(@PathVariable Long id, MenuVO vo, HttpServletRequest request) {
 		menuService.updateByPrimaryKey(id, vo);
 		return AjaxUtils.ok();
 	}

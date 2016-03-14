@@ -3,6 +3,8 @@ package com.kuaiba.site.front.cms;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
@@ -82,8 +84,8 @@ public class DomainCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
-	@Log(action = "后台添加领域", table = TableIDs.DOMAIN)
-	public @ResponseBody AjaxResponse add(DomainVO vo) {
+	@Log(action = "后台添加领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
+	public @ResponseBody AjaxResponse add(DomainVO vo, HttpServletRequest request) {
 		domainService.add(vo);
 		return AjaxUtils.ok();
 	}
@@ -91,15 +93,15 @@ public class DomainCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除领域", table = TableIDs.DOMAIN)
-	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
+	public @ResponseBody AjaxResponse delete(@PathVariable Long id, HttpServletRequest request) {
 		domainService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
-	@Log(action = "后台编辑领域", table = TableIDs.DOMAIN)
-	public @ResponseBody AjaxResponse edit(@PathVariable Long id, DomainVO vo) {
+	@Log(action = "后台编辑领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
+	public @ResponseBody AjaxResponse edit(@PathVariable Long id, DomainVO vo, HttpServletRequest request) {
 		domainService.updateByPrimaryKey(id, vo);
 		return AjaxUtils.ok();
 	}

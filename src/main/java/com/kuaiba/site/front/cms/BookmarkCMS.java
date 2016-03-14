@@ -1,5 +1,7 @@
 package com.kuaiba.site.front.cms;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
@@ -66,8 +68,8 @@ public class BookmarkCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
-	@Log(action = "后台添加书签", table = TableIDs.BOOKMARK)
-	public @ResponseBody AjaxResponse add(BookmarkVO vo) {
+	@Log(action = "后台添加书签", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
+	public @ResponseBody AjaxResponse add(BookmarkVO vo, HttpServletRequest request) {
 		bookmarkService.add(vo);
 		return AjaxUtils.ok();
 	}
@@ -75,15 +77,15 @@ public class BookmarkCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除书签", table = TableIDs.BOOKMARK)
-	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
+	public @ResponseBody AjaxResponse delete(@PathVariable Long id, HttpServletRequest request) {
 		bookmarkService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
-	@Log(action = "后台编辑书签", table = TableIDs.BOOKMARK)
-	public @ResponseBody AjaxResponse edit(@PathVariable Long id, BookmarkVO vo) {
+	@Log(action = "后台编辑书签", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
+	public @ResponseBody AjaxResponse edit(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) {
 		bookmarkService.updateByPrimaryKey(id, vo);
 		return AjaxUtils.ok();
 	}

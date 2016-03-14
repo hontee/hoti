@@ -22,6 +22,12 @@ public @interface Log {
 	String action();
 	
 	/**
+	 * 指定用于序列化的对象
+	 * @return
+	 */
+	Class<?> clazz() default Long.class;
+	
+	/**
 	 * 操作主表名称
 	 * @return
 	 */
