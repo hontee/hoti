@@ -5,7 +5,7 @@ package com.kuaiba.site.core;
  * @author larry.qi
  *
  */
-public interface HttpIds {
+public interface HttpURLs {
 	
 	String SEARCH = "/search";
 	String LOGIN = "login";

@@ -20,7 +20,7 @@ class EhCacheImpl implements Cache {
     }
 
 	@Override
-	public Object get(CacheIds key) throws CacheException {
+	public Object get(CacheIDs key) throws CacheException {
 		
 		if (key == null) {
 			throw new CacheException(ExceptionIds.CACHE_KEY_NULL);
@@ -39,7 +39,7 @@ class EhCacheImpl implements Cache {
 	}
 
 	@Override
-	public void put(CacheIds key, Object value) throws CacheException {
+	public void put(CacheIDs key, Object value) throws CacheException {
 		
 		if (cache == null) {
 			throw new CacheException(ExceptionIds.CACHE_KEY_NULL);
@@ -54,7 +54,7 @@ class EhCacheImpl implements Cache {
 	}
 
 	@Override
-	public boolean clear(CacheIds key) throws CacheException {
+	public boolean clear(CacheIDs key) throws CacheException {
 		
 		if (cache == null) {
 			throw new CacheException(ExceptionIds.CACHE_KEY_NULL);
@@ -68,7 +68,7 @@ class EhCacheImpl implements Cache {
 	}
 
 	@Override
-	public boolean contains(CacheIds key) throws CacheException {
+	public boolean contains(CacheIDs key) throws CacheException {
 		if (cache == null) {
 			throw new CacheException(ExceptionIds.CACHE_KEY_NULL);
 		}

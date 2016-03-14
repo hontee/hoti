@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.kuaiba.site.core.cache.CacheIds;
+import com.kuaiba.site.core.cache.CacheIDs;
 
 /**
  * 设置缓存
@@ -21,6 +21,6 @@ public @interface UseCache {
 	 * 需要设置的缓存key
 	 * @return
 	 */
-	CacheIds key();
+	CacheIDs key();
 
 }

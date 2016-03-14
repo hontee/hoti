@@ -48,7 +48,7 @@
  *
  * Copyright (c) 2012 Almende B.V.
  */
-package com.kuaiba.site.core.utils;
+package com.kuaiba.site.service.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,7 +60,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.kuaiba.site.core.GlobalIds;
+import com.kuaiba.site.core.GlobalIDs;
 
 public class HttpUtils {
 	
@@ -150,8 +150,8 @@ public class HttpUtils {
 					body += "&";
 				}
 				String value = params.get(param);
-				body += URLEncoder.encode(param, GlobalIds.CHARSET) + "=";
-				body += URLEncoder.encode(value, GlobalIds.CHARSET);
+				body += URLEncoder.encode(param, GlobalIDs.CHARSET) + "=";
+				body += URLEncoder.encode(value, GlobalIDs.CHARSET);
 			}
 		}
 
@@ -225,8 +225,8 @@ public class HttpUtils {
 					fullUrl += '&';
 				}
 				String value = params.get(param);
-				fullUrl += URLEncoder.encode(param, GlobalIds.CHARSET) + '=';
-				fullUrl += URLEncoder.encode(value, GlobalIds.CHARSET);
+				fullUrl += URLEncoder.encode(param, GlobalIDs.CHARSET) + '=';
+				fullUrl += URLEncoder.encode(value, GlobalIDs.CHARSET);
 			}
 		}
 		
@@ -291,8 +291,8 @@ public class HttpUtils {
 				}
 			}
 			
-			params.put(URLDecoder.decode(param, GlobalIds.CHARSET), 
-				URLDecoder.decode(value, GlobalIds.CHARSET));
+			params.put(URLDecoder.decode(param, GlobalIDs.CHARSET), 
+				URLDecoder.decode(value, GlobalIDs.CHARSET));
 		}
 		
 		return params;

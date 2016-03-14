@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
-import com.kuaiba.site.core.GlobalIds;
+import com.kuaiba.site.core.GlobalIDs;
 import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.core.security.CurrentUser;
@@ -184,8 +184,8 @@ public class UserServiceImpl implements UserService {
 			subject.login(token);
 			User currentUser = this.findByName((String) subject.getPrincipal());
 			Session session = subject.getSession();
-			session.setAttribute(GlobalIds.LOGIN_USER, currentUser);
-			session.setAttribute(GlobalIds.ADMIN_USER, CurrentUser.isAdmin());
+			session.setAttribute(GlobalIDs.LOGIN_USER, currentUser);
+			session.setAttribute(GlobalIDs.ADMIN_USER, CurrentUser.isAdmin());
 		} catch (InvalidSessionException e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
 			throw new LogicException(ExceptionIds.ACCOUNT_UNKNOWN);

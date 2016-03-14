@@ -10,19 +10,19 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.core.GlobalIds;
+import com.kuaiba.site.core.GlobalIDs;
 import com.kuaiba.site.core.exceptions.CheckedException;
 import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.core.security.CurrentUser;
-import com.kuaiba.site.core.utils.HttpUtils;
-import com.kuaiba.site.core.utils.LogUtils;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.BookmarkMapper;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.service.BookmarkService;
+import com.kuaiba.site.service.utils.HttpUtils;
+import com.kuaiba.site.service.utils.LogUtils;
 import com.kuaiba.site.service.utils.Pagination;
 import com.kuaiba.site.service.utils.RandUtils;
 import com.kuaiba.site.service.utils.ValidUtils;
@@ -109,7 +109,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			record.setCreateBy(CurrentUser.getCurrentUserId());
 			record.setCategory(vo.getCategory());
 			record.setHit(RandUtils.getRandomHit());
-			record.setReffer(GlobalIds.REFFER);
+			record.setReffer(GlobalIDs.REFFER);
 			mapper.insert(record);
 		} catch (CheckedException e) {
 			LogUtils.info(logger, e);

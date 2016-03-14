@@ -3,21 +3,26 @@ package com.kuaiba.site.service.impl;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.base.Throwables;
 import com.kuaiba.site.core.exceptions.CheckedException;
 import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
-import com.kuaiba.site.core.utils.LogUtils;
+import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.ActivityMapper;
 import com.kuaiba.site.db.entity.Activity;
 import com.kuaiba.site.db.entity.ActivityExample;
 import com.kuaiba.site.service.ActivityService;
+import com.kuaiba.site.service.utils.IPUtils;
+import com.kuaiba.site.service.utils.LogUtils;
 import com.kuaiba.site.service.utils.Pagination;
 import com.kuaiba.site.service.utils.ValidUtils;
 
@@ -81,12 +86,34 @@ public class ActivityServiceImpl implements ActivityService {
 	@Override
 	public void add(Activity record) {
 		ValidUtils.checkNotNull(record);
+		
 		try {
 			mapper.insert(record);
 		} catch (Exception e) {
 			LogUtils.info(logger, e);
 			throw new LogicException(ExceptionIds.LOGIC_ADD);
 		}
+	}
+
+	@Override
+	public void logger(String action, String tbl, String description, HttpServletRequest request) {
+		try {
+			Activity record = new Activity();
+			record.setCreator(CurrentUser.getCurrentUserName());
+			record.setUserType(CurrentUser.isAdmin()? "admin": "user");
+			record.setDescription(description);
+			record.setIpAddr(IPUtils.getIpAddr(request));
+			record.setName(action);
+			record.setTbl(tbl);
+			this.add(record);
+		} catch (Exception e) {
+			logger.debug(Throwables.getStackTraceAsString(e));
+		}
+	}
+
+	@Override
+	public void logger(String action, String tbl, Object obj, HttpServletRequest request) {
+		this.logger(action, tbl, JSON.toJSONString(obj), request);
 	}
 
 	@Override

@@ -1,10 +1,10 @@
-package com.kuaiba.site.core.utils;
+package com.kuaiba.site.service.utils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kuaiba.site.core.GlobalIds;
+import com.kuaiba.site.core.GlobalIDs;
  
 /**
  * Cookie工具类,封装Cookie常用操作
@@ -90,7 +90,7 @@ public class CookieUtils {
      * @param value
      */
 	public static void setCookie(HttpServletResponse response, String name, String value) {
-		setCookie(response, name, value, GlobalIds.COOKIE_MAX_AGE);
+		setCookie(response, name, value, GlobalIDs.COOKIE_MAX_AGE);
 	}
  
     /**
@@ -108,7 +108,7 @@ public class CookieUtils {
 		if (maxAge != 0) {
 			cookie.setMaxAge(maxAge);
 		} else {
-			cookie.setMaxAge(GlobalIds.COOKIE_MAX_AGE);
+			cookie.setMaxAge(GlobalIDs.COOKIE_MAX_AGE);
 		}
 		cookie.setPath("/");
 		response.addCookie(cookie);

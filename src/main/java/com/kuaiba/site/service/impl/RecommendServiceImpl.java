@@ -14,8 +14,6 @@ import com.google.common.base.Throwables;
 import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.core.security.CurrentUser;
-import com.kuaiba.site.core.utils.FetchUtils;
-import com.kuaiba.site.core.utils.FetchUtils.WebModel;
 import com.kuaiba.site.db.dao.RecommendMapper;
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
@@ -23,9 +21,11 @@ import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.front.vo.RecommendVO;
 import com.kuaiba.site.service.BookmarkService;
 import com.kuaiba.site.service.RecommendService;
+import com.kuaiba.site.service.utils.FetchUtils;
 import com.kuaiba.site.service.utils.Pagination;
 import com.kuaiba.site.service.utils.RandUtils;
 import com.kuaiba.site.service.utils.ValidUtils;
+import com.kuaiba.site.service.utils.FetchUtils.WebModel;
 
 @Service
 public class RecommendServiceImpl implements RecommendService {

@@ -11,7 +11,7 @@ public interface Cache
      * @return entry stored in the cache.
      * @throws CacheException will wraps the implementation's exception.
      */
-    Object get( CacheIds key ) throws CacheException;
+    Object get( CacheIDs key ) throws CacheException;
 
 
     /**
@@ -21,7 +21,7 @@ public interface Cache
      * @param value object that is stored.
      * @throws CacheException will wraps the implementation's exception.
      */
-    void put( CacheIds key, Object value ) throws CacheException;
+    void put( CacheIDs key, Object value ) throws CacheException;
 
 
     /**
@@ -31,7 +31,7 @@ public interface Cache
      * @return boolean value will be false if entry not found and true if entry was found and removed.
      * @throws CacheException will wraps the implementation's exception.
      */
-    boolean clear( CacheIds key ) throws CacheException;
+    boolean clear( CacheIDs key ) throws CacheException;
     
     /**
      * Contain a cache entry for a given name.
@@ -40,7 +40,7 @@ public interface Cache
      * @return boolean value will be false if entry not found and true if entry was found.
      * @throws CacheException will wraps the implementation's exception.
      */
-    boolean contains( CacheIds key ) throws CacheException;
+    boolean contains( CacheIDs key ) throws CacheException;
 
 
     /**

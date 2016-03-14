@@ -11,48 +11,48 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.core.CmsIds;
-import com.kuaiba.site.core.utils.AjaxResponse;
-import com.kuaiba.site.core.utils.AjaxUtils;
-import com.kuaiba.site.core.utils.DataGrid;
+import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.GroupVO;
+import com.kuaiba.site.service.utils.AjaxResponse;
+import com.kuaiba.site.service.utils.AjaxUtils;
+import com.kuaiba.site.service.utils.DataGrid;
 import com.kuaiba.site.service.utils.Pagination;
 
 @Controller
-@RequestMapping(CmsIds.CMS_GROUPS)
+@RequestMapping(CmsURLs.CMS_GROUPS)
 public class GroupCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIds.HOME, method = RequestMethod.GET)
+	@RequestMapping(value = CmsURLs.HOME, method = RequestMethod.GET)
 	public String index() {
 		return "cms/groups/index";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIds.CREATE, method = RequestMethod.GET)
+	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.GET)
 	public String addPage() {
 		return "cms/groups/new";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIds.EDIT, method = RequestMethod.GET)
+	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/groups/edit";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIds.VIEW, method = RequestMethod.GET)
+	@RequestMapping(value = CmsURLs.VIEW, method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/groups/view";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIds.LIST)
+	@RequestMapping(value = CmsURLs.LIST)
 	public @ResponseBody DataGrid<Group> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
 		GroupExample example = new GroupExample();
 		if (StringUtils.isNotBlank(title)) {
@@ -63,21 +63,21 @@ public class GroupCMS extends BaseCO {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIds.CREATE, method = RequestMethod.POST)
+	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	public @ResponseBody AjaxResponse add(GroupVO vo) {
 		groupService.add(vo);
 		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIds.DELETE, method = RequestMethod.POST)
+	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
 		groupService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIds.EDIT, method = RequestMethod.POST)
+	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	public @ResponseBody AjaxResponse edit(@PathVariable Long id, GroupVO vo) {
 		groupService.updateByPrimaryKey(id, vo);
 		return AjaxUtils.ok();

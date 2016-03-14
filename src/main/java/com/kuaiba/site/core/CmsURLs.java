@@ -4,7 +4,7 @@ package com.kuaiba.site.core;
  * CMS请求URL
  * @author larry.qi
  */
-public interface CmsIds {
+public interface CmsURLs {
 	
 	// URI
 	String CMS_HOME = "/cms";

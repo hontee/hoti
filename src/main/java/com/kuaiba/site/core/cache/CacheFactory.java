@@ -2,7 +2,7 @@ package com.kuaiba.site.core.cache;
 
 import java.net.URL;
 
-import com.kuaiba.site.core.GlobalIds;
+import com.kuaiba.site.core.GlobalIDs;
 import com.kuaiba.site.core.exceptions.CacheException;
 import com.kuaiba.site.core.exceptions.ExceptionIds;
 
@@ -20,7 +20,7 @@ public class CacheFactory
     public static Cache createInstance(String name)
     {
     	try {
-			URL url = CacheFactory.class.getResource(GlobalIds.CFG_EHCACHE);
+			URL url = CacheFactory.class.getResource(GlobalIDs.CFG_EHCACHE);
 			CacheManager cacheManager = CacheManager.create(url);
 			Ehcache cache = cacheManager.getEhcache(name);
 			BlockingCache blockingCache = new BlockingCache(cache);

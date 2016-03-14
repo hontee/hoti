@@ -1,4 +1,4 @@
-package com.kuaiba.site.core.utils;
+package com.kuaiba.site.service.utils;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -8,7 +8,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import com.google.common.base.Preconditions;
-import com.kuaiba.site.core.GlobalIds;
+import com.kuaiba.site.core.GlobalIDs;
 
 /**
  * URL自动抓取工具类
@@ -58,8 +58,8 @@ public final class FetchUtils {
 	private static Document build(String url) throws IOException {
 		try {
 			return Jsoup.connect(url)
-					.userAgent(GlobalIds.USER_AGENT)
-					.timeout(GlobalIds.TIMEOUT)
+					.userAgent(GlobalIDs.USER_AGENT)
+					.timeout(GlobalIDs.TIMEOUT)
 					.followRedirects(true)
 					.ignoreContentType(true)
 					.ignoreHttpErrors(true)

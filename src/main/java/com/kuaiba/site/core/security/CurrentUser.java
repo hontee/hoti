@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Throwables;
-import com.kuaiba.site.core.GlobalIds;
+import com.kuaiba.site.core.GlobalIDs;
 import com.kuaiba.site.db.entity.User;
 
 /**
@@ -26,7 +26,7 @@ public interface CurrentUser {
 	public static User getCurrentUser() {
 		try {
 			Subject subject = SecurityUtils.getSubject();
-			Object principal = subject.getSession().getAttribute(GlobalIds.LOGIN_USER);
+			Object principal = subject.getSession().getAttribute(GlobalIDs.LOGIN_USER);
 			
 			if (principal == null || !(principal instanceof User)) {
 				return null;

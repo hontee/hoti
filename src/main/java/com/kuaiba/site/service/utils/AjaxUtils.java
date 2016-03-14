@@ -1,4 +1,4 @@
-package com.kuaiba.site.core.utils;
+package com.kuaiba.site.service.utils;
 
 import javax.ws.rs.core.Response;
 

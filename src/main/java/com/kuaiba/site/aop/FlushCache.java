@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.kuaiba.site.core.cache.CacheIds;
+import com.kuaiba.site.core.cache.CacheIDs;
 
 /**
  * 刷新缓存
@@ -21,7 +21,7 @@ public @interface FlushCache {
 	 * 需要刷新的缓存key
 	 * @return
 	 */
-	CacheIds key();
+	CacheIDs key();
 	
 
 }

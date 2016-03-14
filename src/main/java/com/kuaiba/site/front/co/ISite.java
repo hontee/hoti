@@ -2,8 +2,8 @@ package com.kuaiba.site.front.co;
 
 import org.springframework.ui.Model;
 
-import com.kuaiba.site.core.utils.AjaxResponse;
 import com.kuaiba.site.db.entity.User;
+import com.kuaiba.site.service.utils.AjaxResponse;
 import com.kuaiba.site.service.utils.Pagination;
 
 /**

@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kuaiba.site.core.thread.ThreadPool;
-import com.kuaiba.site.core.utils.AjaxResponse;
-import com.kuaiba.site.core.utils.AjaxUtils;
 import com.kuaiba.site.db.entity.Track;
 import com.kuaiba.site.service.TrackService;
+import com.kuaiba.site.service.utils.AjaxResponse;
+import com.kuaiba.site.service.utils.AjaxUtils;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

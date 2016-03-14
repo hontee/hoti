@@ -12,7 +12,7 @@ import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.util.ByteSource;
 
-import com.kuaiba.site.core.GlobalIds;
+import com.kuaiba.site.core.GlobalIDs;
 
 /**
  * 自定义密码匹配规则<br>
@@ -28,7 +28,7 @@ public class RetryLimitSimpleCredentialsMatcher extends SimpleCredentialsMatcher
 	 * @param cacheManager
 	 */
 	public RetryLimitSimpleCredentialsMatcher(CacheManager cacheManager) {
-		passwordRetryCache = cacheManager.getCache(GlobalIds.CACHE_PRC);
+		passwordRetryCache = cacheManager.getCache(GlobalIDs.CACHE_PRC);
 	}
 
 	@Override

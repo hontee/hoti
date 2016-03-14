@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.core.GlobalIds;
-import com.kuaiba.site.core.HttpIds;
-import com.kuaiba.site.core.utils.AjaxResponse;
-import com.kuaiba.site.core.utils.AjaxUtils;
+import com.kuaiba.site.core.GlobalIDs;
+import com.kuaiba.site.core.HttpURLs;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Category;
@@ -27,12 +25,14 @@ import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.User;
+import com.kuaiba.site.service.utils.AjaxResponse;
+import com.kuaiba.site.service.utils.AjaxUtils;
 import com.kuaiba.site.service.utils.Pagination;
 
 @Controller
 public class SiteCO extends BaseCO implements ISite {
 	
-	@RequestMapping(value = HttpIds.SEARCH, method = RequestMethod.GET)
+	@RequestMapping(value = HttpURLs.SEARCH, method = RequestMethod.GET)
 	@Override
 	public String search(@RequestParam String q, Pagination p, Model model) throws Exception {
 		BookmarkExample example = new BookmarkExample();
@@ -44,17 +44,17 @@ public class SiteCO extends BaseCO implements ISite {
 		return "views/search";
 	}
 	
-	@RequestMapping(value = HttpIds.LOGIN, method = RequestMethod.GET)
+	@RequestMapping(value = HttpURLs.LOGIN, method = RequestMethod.GET)
 	@Override
 	public String login() {
-		boolean flag = (SecurityUtils.getSubject().getSession().getAttribute(GlobalIds.LOGIN_USER) != null);
+		boolean flag = (SecurityUtils.getSubject().getSession().getAttribute(GlobalIDs.LOGIN_USER) != null);
 		if (flag) {
 			return redirect("/");
 		}
 		return "views/login";
 	}
 	
-	@RequestMapping(value = HttpIds.LOGIN, method = RequestMethod.POST)
+	@RequestMapping(value = HttpURLs.LOGIN, method = RequestMethod.POST)
 	@Override
 	public @ResponseBody AjaxResponse login(@RequestParam String username, @RequestParam String password) {
 		try {
@@ -65,7 +65,7 @@ public class SiteCO extends BaseCO implements ISite {
 		}
 	}
 	
-	@RequestMapping(value = HttpIds.LOGOUT, method = RequestMethod.GET)
+	@RequestMapping(value = HttpURLs.LOGOUT, method = RequestMethod.GET)
 	@Override
 	public String logout() {
 		SecurityUtils.getSubject().logout();
@@ -73,27 +73,27 @@ public class SiteCO extends BaseCO implements ISite {
 	}
 	
 	
-	@RequestMapping(value = HttpIds.USER_HOME, method = RequestMethod.GET)
+	@RequestMapping(value = HttpURLs.USER_HOME, method = RequestMethod.GET)
 	@Override
 	public String dashbord(@PathVariable String name) {
 		return "views/users/index";
 	}
 	
 	
-	@RequestMapping(value = HttpIds.USER_PROFILE, method = RequestMethod.GET)
+	@RequestMapping(value = HttpURLs.USER_PROFILE, method = RequestMethod.GET)
 	@Override
 	public String profilePage(@PathVariable String name) {
 		return "views/users/profile";
 	}
 	
 	
-	@RequestMapping(value = HttpIds.USER_PROFILE, method = RequestMethod.POST)
+	@RequestMapping(value = HttpURLs.USER_PROFILE, method = RequestMethod.POST)
 	@Override
 	public String profile(@PathVariable String name, User u) {
 		return "views/users/profile";
 	}
 	
-	@RequestMapping(value = HttpIds.CATEGORY, method = RequestMethod.GET)
+	@RequestMapping(value = HttpURLs.CATEGORY, method = RequestMethod.GET)
 	@Override
 	public String category(Model model) {
 		DomainExample oe = new DomainExample();
@@ -104,7 +104,7 @@ public class SiteCO extends BaseCO implements ISite {
 		return "views/category";
 	}
 	
-	@RequestMapping(value = HttpIds.CATEGORY_BY_ID, method = RequestMethod.GET)
+	@RequestMapping(value = HttpURLs.CATEGORY_BY_ID, method = RequestMethod.GET)
 	@Override
 	public String categoryById(@PathVariable Long id, Model model) {
 		CategoryExample example = new CategoryExample();
@@ -114,7 +114,7 @@ public class SiteCO extends BaseCO implements ISite {
 		return "views/home";
 	}
 	
-	@RequestMapping(value = HttpIds.GROUP, method = RequestMethod.GET)
+	@RequestMapping(value = HttpURLs.GROUP, method = RequestMethod.GET)
 	@Override
 	public String group(Model model) {
 		List<Group> list = groupService.findByExample(new GroupExample());
@@ -122,7 +122,7 @@ public class SiteCO extends BaseCO implements ISite {
 		return "views/group";
 	}
 
-	@RequestMapping(value = HttpIds.GROUP_BY_ID, method = RequestMethod.GET)
+	@RequestMapping(value = HttpURLs.GROUP_BY_ID, method = RequestMethod.GET)
 	@Override
 	public String groupById(@PathVariable Long id, Model model) {
 		Group group = groupService.findByPrimaryKey(id);
@@ -130,7 +130,7 @@ public class SiteCO extends BaseCO implements ISite {
 		return "views/group-bookmark";
 	}
 
-	@RequestMapping(value = HttpIds.HOME, method = RequestMethod.GET)
+	@RequestMapping(value = HttpURLs.HOME, method = RequestMethod.GET)
 	@Override
 	public String home(Pagination p, Model model) throws Exception {
 		List<Category> cates = categoryService.findByCollect(new CategoryExample());
@@ -138,7 +138,7 @@ public class SiteCO extends BaseCO implements ISite {
 		return "views/home";
 	}
 	
-	@RequestMapping(value = HttpIds.BOOKMARK_HIT, method = RequestMethod.GET)
+	@RequestMapping(value = HttpURLs.BOOKMARK_HIT, method = RequestMethod.GET)
 	@Override
 	public String hit(@PathVariable Long id, Model model) throws Exception {
 		return redirect(bookmarkService.hit(id));
@@ -148,7 +148,7 @@ public class SiteCO extends BaseCO implements ISite {
 	 * 分享站点
 	 * @return
 	 */
-	@RequestMapping(value = HttpIds.RECOMMEND, method = RequestMethod.GET)
+	@RequestMapping(value = HttpURLs.RECOMMEND, method = RequestMethod.GET)
 	@Override
 	public String recommend() {
 		return "views/recommend";
@@ -158,7 +158,7 @@ public class SiteCO extends BaseCO implements ISite {
 	 * 分享站点
 	 * @return
 	 */
-	@RequestMapping(value = HttpIds.RECOMMEND, method = RequestMethod.POST)
+	@RequestMapping(value = HttpURLs.RECOMMEND, method = RequestMethod.POST)
 	@Override
 	public @ResponseBody AjaxResponse recommend(@RequestParam String url) {
 		recommendService.add(url);
@@ -171,7 +171,7 @@ public class SiteCO extends BaseCO implements ISite {
 	 * @return
 	 */
 	@RequiresRoles("user")
-	@RequestMapping(value = HttpIds.BOOKMARK_FOLLOW, method = RequestMethod.POST)
+	@RequestMapping(value = HttpURLs.BOOKMARK_FOLLOW, method = RequestMethod.POST)
 	@Override
 	public @ResponseBody AjaxResponse bookmarkFollow(@PathVariable Long id) {
 		bookmarkService.follow(id);
@@ -184,7 +184,7 @@ public class SiteCO extends BaseCO implements ISite {
 	 * @return
 	 */
 	@RequiresRoles("user")
-	@RequestMapping(value = HttpIds.BOOKMARK_UNFOLLOW, method = RequestMethod.POST)
+	@RequestMapping(value = HttpURLs.BOOKMARK_UNFOLLOW, method = RequestMethod.POST)
 	@Override
 	public @ResponseBody AjaxResponse bookmarkUnfollow(@PathVariable Long id) {
 		bookmarkService.unfollow(id);
@@ -192,7 +192,7 @@ public class SiteCO extends BaseCO implements ISite {
 	}
 
 	@RequiresRoles("user")
-	@RequestMapping(value = HttpIds.GROUP_FOLLOW, method = RequestMethod.POST)
+	@RequestMapping(value = HttpURLs.GROUP_FOLLOW, method = RequestMethod.POST)
 	@Override
 	public @ResponseBody AjaxResponse groupFollow(@PathVariable Long id) {
 		groupService.follow(id);
@@ -200,7 +200,7 @@ public class SiteCO extends BaseCO implements ISite {
 	}
 
 	@RequiresRoles("user")
-	@RequestMapping(value = HttpIds.GROUP_UNFOLLOW, method = RequestMethod.POST)
+	@RequestMapping(value = HttpURLs.GROUP_UNFOLLOW, method = RequestMethod.POST)
 	@Override
 	public @ResponseBody AjaxResponse groupUnfollow(@PathVariable Long id) {
 		groupService.unfollow(id);

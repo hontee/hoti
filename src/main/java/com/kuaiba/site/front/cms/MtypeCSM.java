@@ -14,49 +14,49 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.core.CmsIds;
-import com.kuaiba.site.core.utils.AjaxResponse;
-import com.kuaiba.site.core.utils.AjaxUtils;
-import com.kuaiba.site.core.utils.ComboBox;
-import com.kuaiba.site.core.utils.DataGrid;
+import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.MtypeExample;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.MtypeVO;
+import com.kuaiba.site.service.utils.AjaxResponse;
+import com.kuaiba.site.service.utils.AjaxUtils;
+import com.kuaiba.site.service.utils.ComboBox;
+import com.kuaiba.site.service.utils.DataGrid;
 import com.kuaiba.site.service.utils.Pagination;
 
 @Controller
-@RequestMapping(CmsIds.CMS_MTYPES)
+@RequestMapping(CmsURLs.CMS_MTYPES)
 public class MtypeCSM extends BaseCO {
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIds.HOME, method = RequestMethod.GET)
+	@RequestMapping(value = CmsURLs.HOME, method = RequestMethod.GET)
 	public String index() {
 		return "cms/mtypes/index";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIds.CREATE, method = RequestMethod.GET)
+	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.GET)
 	public String addPage() {
 		return "cms/mtypes/new";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIds.EDIT, method = RequestMethod.GET)
+	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/mtypes/edit";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIds.VIEW, method = RequestMethod.GET)
+	@RequestMapping(value = CmsURLs.VIEW, method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/mtypes/view";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIds.DATALIST)
+	@RequestMapping(value = CmsURLs.DATALIST)
 	public @ResponseBody List<ComboBox> datalist() throws Exception {
 		MtypeExample example = new MtypeExample();
 		example.createCriteria().andStateEqualTo((byte)1);
@@ -68,7 +68,7 @@ public class MtypeCSM extends BaseCO {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIds.LIST)
+	@RequestMapping(value = CmsURLs.LIST)
 	public @ResponseBody DataGrid<Mtype> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
 		MtypeExample example = new MtypeExample();
 		if (StringUtils.isNotBlank(title)) {
@@ -79,21 +79,21 @@ public class MtypeCSM extends BaseCO {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIds.CREATE, method = RequestMethod.POST)
+	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	public @ResponseBody AjaxResponse add(MtypeVO vo) {
 		mtypeService.add(vo);
 		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIds.DELETE, method = RequestMethod.POST)
+	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
 		mtypeService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIds.EDIT, method = RequestMethod.POST)
+	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	public @ResponseBody AjaxResponse edit(@PathVariable Long id, MtypeVO vo) {
 		mtypeService.updateByPrimaryKey(id, vo);
 		return AjaxUtils.ok();

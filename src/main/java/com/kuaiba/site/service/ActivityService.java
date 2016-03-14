@@ -2,6 +2,8 @@ package com.kuaiba.site.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.kuaiba.site.db.entity.Activity;
 import com.kuaiba.site.db.entity.ActivityExample;
 import com.kuaiba.site.service.utils.Pager;
@@ -15,6 +17,10 @@ public interface ActivityService extends Pager<Activity, ActivityExample> {
 	void deleteByPrimaryKey(Long id);
 
 	void add(Activity record);
+	
+	void logger(String action, String tbl, String description, HttpServletRequest request);
+	
+	void logger(String action, String tbl, Object obj, HttpServletRequest request);
 
 	List<Activity> findByExample(ActivityExample example);
 

@@ -64,7 +64,7 @@
   </cache>
 
 	<!-- Users -->
-    <cache name="kuaiba.tests"
+    <cache name="kuaiba.users"
        maxElementsInMemory="2"
        maxElementsOnDisk="2"
        eternal="false"
