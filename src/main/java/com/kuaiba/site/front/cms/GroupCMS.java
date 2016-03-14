@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.kuaiba.site.aop.Log;
 import com.kuaiba.site.core.CmsURLs;
+import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.front.co.BaseCO;
@@ -64,6 +66,7 @@ public class GroupCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
+	@Log(action = "后台添加群组", table = TableIDs.GROUP)
 	public @ResponseBody AjaxResponse add(GroupVO vo) {
 		groupService.add(vo);
 		return AjaxUtils.ok();
@@ -71,6 +74,7 @@ public class GroupCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
+	@Log(action = "后台删除群组", table = TableIDs.GROUP)
 	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
 		groupService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
@@ -78,6 +82,7 @@ public class GroupCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
+	@Log(action = "后台编辑群组", table = TableIDs.GROUP)
 	public @ResponseBody AjaxResponse edit(@PathVariable Long id, GroupVO vo) {
 		groupService.updateByPrimaryKey(id, vo);
 		return AjaxUtils.ok();

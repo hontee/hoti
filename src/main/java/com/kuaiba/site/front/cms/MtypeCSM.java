@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.kuaiba.site.aop.Log;
 import com.kuaiba.site.core.CmsURLs;
+import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.MtypeExample;
 import com.kuaiba.site.front.co.BaseCO;
@@ -80,6 +82,7 @@ public class MtypeCSM extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
+	@Log(action = "后台添加类型", table = TableIDs.MTYPE)
 	public @ResponseBody AjaxResponse add(MtypeVO vo) {
 		mtypeService.add(vo);
 		return AjaxUtils.ok();
@@ -87,6 +90,7 @@ public class MtypeCSM extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
+	@Log(action = "后台删除类型", table = TableIDs.MTYPE)
 	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
 		mtypeService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
@@ -94,6 +98,7 @@ public class MtypeCSM extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
+	@Log(action = "后台编辑类型", table = TableIDs.MTYPE)
 	public @ResponseBody AjaxResponse edit(@PathVariable Long id, MtypeVO vo) {
 		mtypeService.updateByPrimaryKey(id, vo);
 		return AjaxUtils.ok();

@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.kuaiba.site.aop.Log;
 import com.kuaiba.site.core.CmsURLs;
+import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
 import com.kuaiba.site.front.co.BaseCO;
@@ -74,6 +76,7 @@ public class CategoryCMS extends BaseCO {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
+	@Log(action = "后台添加分类", table = TableIDs.CATEGORY)
 	public @ResponseBody AjaxResponse add(CategoryVO vo) {
 		categoryService.add(vo);
 		return AjaxUtils.ok();
@@ -81,6 +84,7 @@ public class CategoryCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
+	@Log(action = "后台删除分类", table = TableIDs.CATEGORY)
 	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
 		categoryService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
@@ -88,6 +92,7 @@ public class CategoryCMS extends BaseCO {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
+	@Log(action = "后台编辑分类", table = TableIDs.CATEGORY)
 	public @ResponseBody AjaxResponse edit(@PathVariable Long id,  CategoryVO vo) {
 		categoryService.updateByPrimaryKey(id, vo);
 		return AjaxUtils.ok();

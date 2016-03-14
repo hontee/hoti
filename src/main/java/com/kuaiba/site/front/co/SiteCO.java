@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.kuaiba.site.aop.Log;
 import com.kuaiba.site.core.GlobalIDs;
 import com.kuaiba.site.core.HttpURLs;
+import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Category;
@@ -55,6 +57,7 @@ public class SiteCO extends BaseCO implements ISite {
 	}
 	
 	@RequestMapping(value = HttpURLs.LOGIN, method = RequestMethod.POST)
+	@Log(action = "用户登录", table = TableIDs.USER)
 	@Override
 	public @ResponseBody AjaxResponse login(@RequestParam String username, @RequestParam String password) {
 		try {
@@ -66,6 +69,7 @@ public class SiteCO extends BaseCO implements ISite {
 	}
 	
 	@RequestMapping(value = HttpURLs.LOGOUT, method = RequestMethod.GET)
+	@Log(action = "用户登出", table = TableIDs.USER)
 	@Override
 	public String logout() {
 		SecurityUtils.getSubject().logout();
@@ -88,6 +92,7 @@ public class SiteCO extends BaseCO implements ISite {
 	
 	
 	@RequestMapping(value = HttpURLs.USER_PROFILE, method = RequestMethod.POST)
+	@Log(action = "用户更新信息", table = TableIDs.USER)
 	@Override
 	public String profile(@PathVariable String name, User u) {
 		return "views/users/profile";

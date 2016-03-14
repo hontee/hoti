@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.kuaiba.site.aop.Log;
 import com.kuaiba.site.core.CmsURLs;
+import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
 import com.kuaiba.site.front.co.BaseCO;
@@ -81,6 +83,7 @@ public class RecommendCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
+	@Log(action = "后台添加推荐", table = TableIDs.RECOMMEND)
 	public @ResponseBody AjaxResponse add(@RequestParam String url) {
 		recommendService.add(url);
 		return AjaxUtils.ok();
@@ -88,6 +91,7 @@ public class RecommendCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
+	@Log(action = "后台删除推荐", table = TableIDs.RECOMMEND)
 	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
 		recommendService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
@@ -95,6 +99,7 @@ public class RecommendCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
+	@Log(action = "后台编辑推荐", table = TableIDs.RECOMMEND)
 	public @ResponseBody AjaxResponse edit(@PathVariable Long id, RecommendVO vo) {
 		recommendService.updateByPrimaryKey(id, vo);
 		return AjaxUtils.ok();
@@ -102,14 +107,15 @@ public class RecommendCMS extends BaseCO {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.AUDIT_OK, method = RequestMethod.POST)
+	@Log(action = "后台审核推荐通过", table = TableIDs.RECOMMEND)
 	public @ResponseBody AjaxResponse auditOk(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) {
-		activityService.logger("审核站点", "t_bookmark", vo, request);
 		recommendService.audit(id, vo);
 		return AjaxUtils.ok();
 	}
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.AUDIT_NOT, method = RequestMethod.POST)
+	@Log(action = "后台审核推荐不通过", table = TableIDs.RECOMMEND)
 	public @ResponseBody AjaxResponse auditNot(@PathVariable Long id, @RequestParam String remark) {
 		recommendService.audit(id, remark);
 		return AjaxUtils.ok();

@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.kuaiba.site.aop.Log;
 import com.kuaiba.site.core.CmsURLs;
+import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.Activity;
 import com.kuaiba.site.db.entity.ActivityExample;
 import com.kuaiba.site.front.co.BaseCO;
@@ -50,6 +52,7 @@ public class ActivityCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
+	@Log(action = "后台删除操作记录", table = TableIDs.ACTIVITY)
 	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
 		activityService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();

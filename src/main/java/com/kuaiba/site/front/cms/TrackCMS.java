@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.kuaiba.site.aop.Log;
 import com.kuaiba.site.core.CmsURLs;
+import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.Track;
 import com.kuaiba.site.db.entity.TrackExample;
 import com.kuaiba.site.front.co.BaseCO;
@@ -50,6 +52,7 @@ public class TrackCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
+	@Log(action = "后台删除异常追踪", table = TableIDs.TRACK)
 	public @ResponseBody AjaxResponse delete(@PathVariable Long id) {
 		trackService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
