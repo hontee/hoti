@@ -2,6 +2,8 @@ package com.kuaiba.site.front.co;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -59,7 +61,10 @@ public class SiteCO extends BaseCO implements ISite {
 	@RequestMapping(value = HttpURLs.LOGIN, method = RequestMethod.POST)
 	@Log(action = "用户登录", table = TableIDs.USER, clazz = String.class)
 	@Override
-	public @ResponseBody AjaxResponse login(@RequestParam String username, @RequestParam String password) {
+	public @ResponseBody AjaxResponse login(
+			@RequestParam String username, 
+			@RequestParam String password,
+			HttpServletRequest request) {
 		try {
 			userService.login(username, password);
 			return AjaxUtils.ok();

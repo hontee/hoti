@@ -3,29 +3,35 @@ package com.kuaiba.site.db.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class User implements Serializable {
+public class Activity implements Serializable {
 
-	private static final long serialVersionUID = -6588021396758305496L;
+	private static final long serialVersionUID = 2396896112944949584L;
 	
+	/**
+     * 用户类型
+     * @author larry.qi
+     */
+    public enum UserType {
+    	user, admin
+    }
+
 	private Long id;
 
     private String name;
 
-    private String title;
-
     private String description;
 
-    private String password;
+    private String tbl;
 
-    private String salt;
-
-    private Byte userType;
+    private String ipAddr;
 
     private Byte state;
 
     private Date created;
 
-    private Date lastModified;
+    private String creator;
+
+    private String userType;
 
     public Long getId() {
         return id;
@@ -43,14 +49,6 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -59,28 +57,20 @@ public class User implements Serializable {
         this.description = description;
     }
 
-    public String getPassword() {
-        return password;
+    public String getTbl() {
+        return tbl;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setTbl(String tbl) {
+        this.tbl = tbl;
     }
 
-    public String getSalt() {
-        return salt;
+    public String getIpAddr() {
+        return ipAddr;
     }
 
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    public Byte getUserType() {
-        return userType;
-    }
-
-    public void setUserType(Byte userType) {
-        this.userType = userType;
+    public void setIpAddr(String ipAddr) {
+        this.ipAddr = ipAddr;
     }
 
     public Byte getState() {
@@ -99,12 +89,24 @@ public class User implements Serializable {
         this.created = created;
     }
 
-    public Date getLastModified() {
-        return lastModified;
+    public String getCreator() {
+        return creator;
     }
 
-    public void setLastModified(Date lastModified) {
-        this.lastModified = lastModified;
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+    
+    public void setUserType(UserType userType) {
+        this.userType = userType.toString();
     }
     
 }

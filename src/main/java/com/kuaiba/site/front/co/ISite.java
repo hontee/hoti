@@ -1,5 +1,7 @@
 package com.kuaiba.site.front.co;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.ui.Model;
 
 import com.kuaiba.site.db.entity.User;
@@ -17,7 +19,7 @@ public interface ISite {
 	
 	String login();
 	
-	AjaxResponse login(String username, String password);
+	AjaxResponse login(String username, String password, HttpServletRequest request);
 	
 	String logout();
 	
