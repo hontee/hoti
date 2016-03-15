@@ -21,7 +21,6 @@ import com.kuaiba.site.core.GlobalIDs;
 import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.core.security.CurrentUser;
-import com.kuaiba.site.core.security.EncryptUtils;
 import com.kuaiba.site.db.dao.UserMapper;
 import com.kuaiba.site.db.entity.ContraintValidator;
 import com.kuaiba.site.db.entity.Pagination;
@@ -89,8 +88,8 @@ public class UserServiceImpl implements UserService {
 		ContraintValidator.checkNotNull(vo);
 		try {
 			User record = new User();
-			record.setSalt(EncryptUtils.getRandomSalt()); // 随机盐值
-			record.setPassword(EncryptUtils.encrypt(vo.getPassword(), record.getSalt())); // 密码加密
+			record.setSaltRandom();
+			record.setPasswordEncrypt(vo.getPassword(), record.getSalt()); // 密码加密
 			record.setUserType(vo.getUserType());
 			record.setName(vo.getName());
 			record.setState(vo.getState());
