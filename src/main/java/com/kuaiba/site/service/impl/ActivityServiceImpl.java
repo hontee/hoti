@@ -19,11 +19,11 @@ import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.ActivityMapper;
 import com.kuaiba.site.db.entity.Activity;
 import com.kuaiba.site.db.entity.ActivityExample;
+import com.kuaiba.site.db.model.IPUtils;
+import com.kuaiba.site.db.model.LogUtils;
+import com.kuaiba.site.db.model.Pagination;
+import com.kuaiba.site.db.model.ValidUtils;
 import com.kuaiba.site.service.ActivityService;
-import com.kuaiba.site.service.utils.IPUtils;
-import com.kuaiba.site.service.utils.LogUtils;
-import com.kuaiba.site.service.utils.Pagination;
-import com.kuaiba.site.service.utils.ValidUtils;
 
 @Service
 public class ActivityServiceImpl implements ActivityService {

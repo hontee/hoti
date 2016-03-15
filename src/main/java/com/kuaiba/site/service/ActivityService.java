@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.kuaiba.site.db.entity.Activity;
 import com.kuaiba.site.db.entity.ActivityExample;
-import com.kuaiba.site.service.utils.Pager;
+import com.kuaiba.site.db.model.Pager;
 
 public interface ActivityService extends Pager<Activity, ActivityExample> {
 

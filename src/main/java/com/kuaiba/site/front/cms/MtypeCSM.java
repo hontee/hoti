@@ -21,13 +21,13 @@ import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.MtypeExample;
+import com.kuaiba.site.db.model.ResponseEntity;
+import com.kuaiba.site.db.model.AjaxUtils;
+import com.kuaiba.site.db.model.ComboBox;
+import com.kuaiba.site.db.model.DataGrid;
+import com.kuaiba.site.db.model.Pagination;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.MtypeVO;
-import com.kuaiba.site.service.utils.AjaxResponse;
-import com.kuaiba.site.service.utils.AjaxUtils;
-import com.kuaiba.site.service.utils.ComboBox;
-import com.kuaiba.site.service.utils.DataGrid;
-import com.kuaiba.site.service.utils.Pagination;
 
 @Controller
 @RequestMapping(CmsURLs.CMS_MTYPES)
@@ -85,7 +85,7 @@ public class MtypeCSM extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	@Log(action = "后台添加类型", table = TableIDs.MTYPE, clazz = MtypeVO.class)
-	public @ResponseBody AjaxResponse add(MtypeVO vo) {
+	public @ResponseBody ResponseEntity add(MtypeVO vo) {
 		mtypeService.add(vo);
 		return AjaxUtils.ok();
 	}
@@ -93,7 +93,7 @@ public class MtypeCSM extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除类型", table = TableIDs.MTYPE)
-	public @ResponseBody AjaxResponse delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity delete(@PathVariable Long id, HttpServletRequest request) {
 		mtypeService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
 	}
@@ -101,7 +101,7 @@ public class MtypeCSM extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	@Log(action = "后台编辑类型", table = TableIDs.MTYPE, clazz = MtypeVO.class)
-	public @ResponseBody AjaxResponse edit(@PathVariable Long id, MtypeVO vo, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity edit(@PathVariable Long id, MtypeVO vo, HttpServletRequest request) {
 		mtypeService.updateByPrimaryKey(id, vo);
 		return AjaxUtils.ok();
 	}

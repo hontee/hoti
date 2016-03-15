@@ -48,7 +48,7 @@
  *
  * Copyright (c) 2012 Almende B.V.
  */
-package com.kuaiba.site.service.utils;
+package com.kuaiba.site.db.model;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -380,10 +380,6 @@ public class HttpUtils {
 			out.append(new String(b, 0, n));
 		}
 		return out.toString();
-	}
-	
-	public static void main(String[] args) throws IOException {
-		
 	}
 	
 }

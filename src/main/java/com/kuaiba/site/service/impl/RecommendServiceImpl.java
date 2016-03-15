@@ -17,15 +17,14 @@ import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.RecommendMapper;
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
+import com.kuaiba.site.db.model.FetchUtils;
+import com.kuaiba.site.db.model.FetchUtils.WebModel;
+import com.kuaiba.site.db.model.Pagination;
+import com.kuaiba.site.db.model.ValidUtils;
 import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.front.vo.RecommendVO;
 import com.kuaiba.site.service.BookmarkService;
 import com.kuaiba.site.service.RecommendService;
-import com.kuaiba.site.service.utils.FetchUtils;
-import com.kuaiba.site.service.utils.Pagination;
-import com.kuaiba.site.service.utils.RandUtils;
-import com.kuaiba.site.service.utils.ValidUtils;
-import com.kuaiba.site.service.utils.FetchUtils.WebModel;
 
 @Service
 public class RecommendServiceImpl implements RecommendService {
@@ -92,7 +91,7 @@ public class RecommendServiceImpl implements RecommendService {
 			Recommend record = new Recommend();
 			record.setCreator(CurrentUser.getCurrentUserName());
 			record.setDescription(wm.getDescription());
-			record.setName(RandUtils.getRandomUUID());
+			record.setNameByUUID();
 			record.setState((byte)1); // 待审核
 			record.setTitle(wm.getTitle());
 			record.setUrl(url);

@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
+import com.kuaiba.site.db.model.Pager;
 import com.kuaiba.site.front.vo.GroupVO;
-import com.kuaiba.site.service.utils.Pager;
 
 public interface GroupService extends Pager<Group, GroupExample> {
 	

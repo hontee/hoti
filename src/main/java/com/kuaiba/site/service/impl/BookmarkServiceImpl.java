@@ -19,13 +19,12 @@ import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.BookmarkMapper;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
+import com.kuaiba.site.db.model.HttpUtils;
+import com.kuaiba.site.db.model.LogUtils;
+import com.kuaiba.site.db.model.Pagination;
+import com.kuaiba.site.db.model.ValidUtils;
 import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.service.BookmarkService;
-import com.kuaiba.site.service.utils.HttpUtils;
-import com.kuaiba.site.service.utils.LogUtils;
-import com.kuaiba.site.service.utils.Pagination;
-import com.kuaiba.site.service.utils.RandUtils;
-import com.kuaiba.site.service.utils.ValidUtils;
 
 @Service
 public class BookmarkServiceImpl implements BookmarkService {
@@ -108,7 +107,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			record.setState(vo.getState());
 			record.setCreateBy(CurrentUser.getCurrentUserId());
 			record.setCategory(vo.getCategory());
-			record.setHit(RandUtils.getRandomHit());
+			record.setHitRandom();
 			record.setReffer(GlobalIDs.REFFER);
 			mapper.insert(record);
 		} catch (CheckedException e) {

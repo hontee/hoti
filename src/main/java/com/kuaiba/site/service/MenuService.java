@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.kuaiba.site.db.entity.Menu;
 import com.kuaiba.site.db.entity.MenuExample;
+import com.kuaiba.site.db.model.Pager;
 import com.kuaiba.site.front.vo.MenuVO;
-import com.kuaiba.site.service.utils.Pager;
 
 public interface MenuService extends Pager<Menu, MenuExample> {
 	

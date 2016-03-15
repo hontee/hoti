@@ -17,10 +17,10 @@ import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.DomainMapper;
 import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
+import com.kuaiba.site.db.model.Pagination;
+import com.kuaiba.site.db.model.ValidUtils;
 import com.kuaiba.site.front.vo.DomainVO;
 import com.kuaiba.site.service.DomainService;
-import com.kuaiba.site.service.utils.Pagination;
-import com.kuaiba.site.service.utils.ValidUtils;
 
 @Service
 public class DomainServiceImpl implements DomainService {

@@ -18,11 +18,11 @@ import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.Activity;
 import com.kuaiba.site.db.entity.ActivityExample;
+import com.kuaiba.site.db.model.ResponseEntity;
+import com.kuaiba.site.db.model.AjaxUtils;
+import com.kuaiba.site.db.model.DataGrid;
+import com.kuaiba.site.db.model.Pagination;
 import com.kuaiba.site.front.co.BaseCO;
-import com.kuaiba.site.service.utils.AjaxResponse;
-import com.kuaiba.site.service.utils.AjaxUtils;
-import com.kuaiba.site.service.utils.DataGrid;
-import com.kuaiba.site.service.utils.Pagination;
 
 @Controller
 @RequestMapping(CmsURLs.CMS_ACTIVITIES)
@@ -55,7 +55,7 @@ public class ActivityCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除操作记录", table = TableIDs.ACTIVITY)
-	public @ResponseBody AjaxResponse delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity delete(@PathVariable Long id, HttpServletRequest request) {
 		activityService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
 	}

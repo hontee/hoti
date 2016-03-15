@@ -20,12 +20,12 @@ import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
+import com.kuaiba.site.db.model.ResponseEntity;
+import com.kuaiba.site.db.model.AjaxUtils;
+import com.kuaiba.site.db.model.DataGrid;
+import com.kuaiba.site.db.model.Pagination;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.CategoryVO;
-import com.kuaiba.site.service.utils.AjaxResponse;
-import com.kuaiba.site.service.utils.AjaxUtils;
-import com.kuaiba.site.service.utils.DataGrid;
-import com.kuaiba.site.service.utils.Pagination;
 
 @Controller
 @RequestMapping(CmsURLs.CMS_CATES)
@@ -79,7 +79,7 @@ public class CategoryCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	@Log(action = "后台添加分类", table = TableIDs.CATEGORY, clazz = CategoryVO.class)
-	public @ResponseBody AjaxResponse add(CategoryVO vo, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity add(CategoryVO vo, HttpServletRequest request) {
 		categoryService.add(vo);
 		return AjaxUtils.ok();
 	}
@@ -87,7 +87,7 @@ public class CategoryCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除分类", table = TableIDs.CATEGORY)
-	public @ResponseBody AjaxResponse delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity delete(@PathVariable Long id, HttpServletRequest request) {
 		categoryService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
 	}
@@ -95,7 +95,7 @@ public class CategoryCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	@Log(action = "后台编辑分类", table = TableIDs.CATEGORY, clazz = CategoryVO.class)
-	public @ResponseBody AjaxResponse edit(@PathVariable Long id, CategoryVO vo, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity edit(@PathVariable Long id, CategoryVO vo, HttpServletRequest request) {
 		categoryService.updateByPrimaryKey(id, vo);
 		return AjaxUtils.ok();
 	}

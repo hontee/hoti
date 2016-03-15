@@ -17,10 +17,10 @@ import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.MtypeMapper;
 import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.MtypeExample;
+import com.kuaiba.site.db.model.Pagination;
+import com.kuaiba.site.db.model.ValidUtils;
 import com.kuaiba.site.front.vo.MtypeVO;
 import com.kuaiba.site.service.MtypeService;
-import com.kuaiba.site.service.utils.Pagination;
-import com.kuaiba.site.service.utils.ValidUtils;
 
 @Service
 public class MtypeServiceImpl implements MtypeService {

@@ -20,12 +20,12 @@ import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.Menu;
 import com.kuaiba.site.db.entity.MenuExample;
+import com.kuaiba.site.db.model.ResponseEntity;
+import com.kuaiba.site.db.model.AjaxUtils;
+import com.kuaiba.site.db.model.DataGrid;
+import com.kuaiba.site.db.model.Pagination;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.MenuVO;
-import com.kuaiba.site.service.utils.AjaxResponse;
-import com.kuaiba.site.service.utils.AjaxUtils;
-import com.kuaiba.site.service.utils.DataGrid;
-import com.kuaiba.site.service.utils.Pagination;
 
 @Controller
 @RequestMapping(CmsURLs.CMS_MENUS)
@@ -80,7 +80,7 @@ public class MenuCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	@Log(action = "后台添加菜单", table = TableIDs.MENU, clazz = MenuVO.class)
-	public @ResponseBody AjaxResponse add(MenuVO vo, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity add(MenuVO vo, HttpServletRequest request) {
 		menuService.add(vo);
 		return AjaxUtils.ok();
 	}
@@ -88,7 +88,7 @@ public class MenuCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除菜单", table = TableIDs.MENU)
-	public @ResponseBody AjaxResponse delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity delete(@PathVariable Long id, HttpServletRequest request) {
 		menuService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
 	}
@@ -96,7 +96,7 @@ public class MenuCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	@Log(action = "后台编辑菜单", table = TableIDs.MENU, clazz = MenuVO.class)
-	public @ResponseBody AjaxResponse edit(@PathVariable Long id, MenuVO vo, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity edit(@PathVariable Long id, MenuVO vo, HttpServletRequest request) {
 		menuService.updateByPrimaryKey(id, vo);
 		return AjaxUtils.ok();
 	}

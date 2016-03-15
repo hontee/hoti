@@ -5,8 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.ui.Model;
 
 import com.kuaiba.site.db.entity.User;
-import com.kuaiba.site.service.utils.AjaxResponse;
-import com.kuaiba.site.service.utils.Pagination;
+import com.kuaiba.site.db.model.ResponseEntity;
+import com.kuaiba.site.db.model.Pagination;
 
 /**
  * 前端页面接口
@@ -19,7 +19,7 @@ public interface ISite {
 	
 	String login();
 	
-	AjaxResponse login(String username, String password, HttpServletRequest request);
+	ResponseEntity login(String username, String password, HttpServletRequest request);
 	
 	String logout();
 	
@@ -43,14 +43,14 @@ public interface ISite {
 	
 	String recommend();
 	
-	AjaxResponse recommend(String url);
+	ResponseEntity recommend(String url);
 	
-	AjaxResponse bookmarkFollow(Long id);
+	ResponseEntity bookmarkFollow(Long id);
 	
-	AjaxResponse bookmarkUnfollow(Long id);
+	ResponseEntity bookmarkUnfollow(Long id);
 	
-	AjaxResponse groupFollow(Long id);
+	ResponseEntity groupFollow(Long id);
 	
-	AjaxResponse groupUnfollow(Long id);
+	ResponseEntity groupUnfollow(Long id);
 
 }

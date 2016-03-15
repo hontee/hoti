@@ -25,10 +25,10 @@ import com.kuaiba.site.core.security.EncryptUtils;
 import com.kuaiba.site.db.dao.UserMapper;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;
+import com.kuaiba.site.db.model.Pagination;
+import com.kuaiba.site.db.model.ValidUtils;
 import com.kuaiba.site.front.vo.UserVO;
 import com.kuaiba.site.service.UserService;
-import com.kuaiba.site.service.utils.Pagination;
-import com.kuaiba.site.service.utils.ValidUtils;
 
 @Service
 public class UserServiceImpl implements UserService {

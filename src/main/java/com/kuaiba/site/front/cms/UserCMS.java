@@ -18,12 +18,12 @@ import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;
+import com.kuaiba.site.db.model.ResponseEntity;
+import com.kuaiba.site.db.model.AjaxUtils;
+import com.kuaiba.site.db.model.DataGrid;
+import com.kuaiba.site.db.model.Pagination;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.UserVO;
-import com.kuaiba.site.service.utils.AjaxResponse;
-import com.kuaiba.site.service.utils.AjaxUtils;
-import com.kuaiba.site.service.utils.DataGrid;
-import com.kuaiba.site.service.utils.Pagination;
 
 @Controller
 @RequestMapping(CmsURLs.CMS_USERS)
@@ -69,7 +69,7 @@ public class UserCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	@Log(action = "后台添加用户", table = TableIDs.USER, clazz = UserVO.class)
-	public @ResponseBody AjaxResponse add(UserVO vo, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity add(UserVO vo, HttpServletRequest request) {
 		userService.add(vo);
 		return AjaxUtils.ok();
 	}
@@ -77,7 +77,7 @@ public class UserCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除用户", table = TableIDs.USER)
-	public @ResponseBody AjaxResponse delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity delete(@PathVariable Long id, HttpServletRequest request) {
 		userService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
 	}
@@ -85,7 +85,7 @@ public class UserCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	@Log(action = "后台编辑用户", table = TableIDs.USER, clazz = UserVO.class)
-	public @ResponseBody AjaxResponse edit(@PathVariable Long id, UserVO vo, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity edit(@PathVariable Long id, UserVO vo, HttpServletRequest request) {
 		userService.updateByPrimaryKey(id, vo);
 		return AjaxUtils.ok();
 	}

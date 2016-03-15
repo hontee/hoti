@@ -2,6 +2,7 @@ package com.kuaiba.site.db.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 public class Recommend implements Serializable {
 
@@ -43,6 +44,13 @@ public class Recommend implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    /**
+     * 设置UUID值
+     */
+    public void setNameByUUID() {
+        this.name = UUID.randomUUID().toString();
     }
 
     public String getTitle() {

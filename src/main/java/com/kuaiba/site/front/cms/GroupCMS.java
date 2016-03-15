@@ -18,12 +18,12 @@ import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
+import com.kuaiba.site.db.model.ResponseEntity;
+import com.kuaiba.site.db.model.AjaxUtils;
+import com.kuaiba.site.db.model.DataGrid;
+import com.kuaiba.site.db.model.Pagination;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.GroupVO;
-import com.kuaiba.site.service.utils.AjaxResponse;
-import com.kuaiba.site.service.utils.AjaxUtils;
-import com.kuaiba.site.service.utils.DataGrid;
-import com.kuaiba.site.service.utils.Pagination;
 
 @Controller
 @RequestMapping(CmsURLs.CMS_GROUPS)
@@ -69,7 +69,7 @@ public class GroupCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	@Log(action = "后台添加群组", table = TableIDs.GROUP, clazz = GroupVO.class)
-	public @ResponseBody AjaxResponse add(GroupVO vo, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity add(GroupVO vo, HttpServletRequest request) {
 		groupService.add(vo);
 		return AjaxUtils.ok();
 	}
@@ -77,7 +77,7 @@ public class GroupCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除群组", table = TableIDs.GROUP)
-	public @ResponseBody AjaxResponse delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity delete(@PathVariable Long id, HttpServletRequest request) {
 		groupService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
 	}
@@ -85,7 +85,7 @@ public class GroupCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	@Log(action = "后台编辑群组", table = TableIDs.GROUP, clazz = GroupVO.class)
-	public @ResponseBody AjaxResponse edit(@PathVariable Long id, GroupVO vo, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity edit(@PathVariable Long id, GroupVO vo, HttpServletRequest request) {
 		groupService.updateByPrimaryKey(id, vo);
 		return AjaxUtils.ok();
 	}

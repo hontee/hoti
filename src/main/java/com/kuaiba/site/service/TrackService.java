@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.kuaiba.site.db.entity.Track;
 import com.kuaiba.site.db.entity.TrackExample;
-import com.kuaiba.site.service.utils.Pager;
+import com.kuaiba.site.db.model.Pager;
 
 public interface TrackService extends Pager<Track, TrackExample> {
 

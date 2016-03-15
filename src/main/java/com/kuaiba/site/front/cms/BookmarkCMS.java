@@ -18,12 +18,12 @@ import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
+import com.kuaiba.site.db.model.ResponseEntity;
+import com.kuaiba.site.db.model.AjaxUtils;
+import com.kuaiba.site.db.model.DataGrid;
+import com.kuaiba.site.db.model.Pagination;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.BookmarkVO;
-import com.kuaiba.site.service.utils.AjaxResponse;
-import com.kuaiba.site.service.utils.AjaxUtils;
-import com.kuaiba.site.service.utils.DataGrid;
-import com.kuaiba.site.service.utils.Pagination;
 
 @Controller
 @RequestMapping(CmsURLs.CMS_BOOKMARKS)
@@ -69,7 +69,7 @@ public class BookmarkCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	@Log(action = "后台添加书签", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
-	public @ResponseBody AjaxResponse add(BookmarkVO vo, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity add(BookmarkVO vo, HttpServletRequest request) {
 		bookmarkService.add(vo);
 		return AjaxUtils.ok();
 	}
@@ -77,7 +77,7 @@ public class BookmarkCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除书签", table = TableIDs.BOOKMARK)
-	public @ResponseBody AjaxResponse delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity delete(@PathVariable Long id, HttpServletRequest request) {
 		bookmarkService.deleteByPrimaryKey(id);
 		return AjaxUtils.ok();
 	}
@@ -85,7 +85,7 @@ public class BookmarkCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	@Log(action = "后台编辑书签", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
-	public @ResponseBody AjaxResponse edit(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity edit(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) {
 		bookmarkService.updateByPrimaryKey(id, vo);
 		return AjaxUtils.ok();
 	}

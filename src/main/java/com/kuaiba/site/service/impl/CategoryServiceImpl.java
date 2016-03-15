@@ -22,10 +22,10 @@ import com.kuaiba.site.db.dao.CategoryMapper;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
+import com.kuaiba.site.db.model.Pagination;
+import com.kuaiba.site.db.model.ValidUtils;
 import com.kuaiba.site.front.vo.CategoryVO;
 import com.kuaiba.site.service.CategoryService;
-import com.kuaiba.site.service.utils.Pagination;
-import com.kuaiba.site.service.utils.ValidUtils;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {

@@ -1,4 +1,4 @@
-package com.kuaiba.site.service.utils;
+package com.kuaiba.site.db.model;
 
 import com.github.pagehelper.PageInfo;
 

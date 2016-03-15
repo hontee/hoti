@@ -1,8 +1,8 @@
-package com.kuaiba.site.service.utils;
+package com.kuaiba.site.db.model;
 
 import java.io.Serializable;
 
-public class AjaxResponse implements Serializable {
+public class ResponseEntity implements Serializable {
 	
 	private static final long serialVersionUID = -8290882370006935102L;
 
@@ -12,13 +12,13 @@ public class AjaxResponse implements Serializable {
 	
 	private Object result; // 成功
 	
-	protected AjaxResponse() {}
+	protected ResponseEntity() {}
 	
-	public AjaxResponse(Object result) {
+	public ResponseEntity(Object result) {
 		this.setResult(result);
 	}
 	
-	public AjaxResponse(String code, String message) {
+	public ResponseEntity(String code, String message) {
 		this.setError(code, message);
 	}
 	

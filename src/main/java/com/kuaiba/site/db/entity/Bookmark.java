@@ -3,6 +3,8 @@ package com.kuaiba.site.db.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.apache.commons.lang3.RandomUtils;
+
 public class Bookmark implements Serializable {
 
 	private static final long serialVersionUID = 4078788641734464984L;
@@ -115,6 +117,13 @@ public class Bookmark implements Serializable {
 
     public void setHit(Integer hit) {
         this.hit = hit;
+    }
+    
+    /**
+     * 生成一个随机点击率
+     */
+    public void setHitRandom() {
+        this.hit = RandomUtils.nextInt(0, 1000);
     }
 
     public Byte getState() {

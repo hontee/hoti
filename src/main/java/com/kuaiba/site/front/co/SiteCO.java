@@ -29,9 +29,9 @@ import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.User;
-import com.kuaiba.site.service.utils.AjaxResponse;
-import com.kuaiba.site.service.utils.AjaxUtils;
-import com.kuaiba.site.service.utils.Pagination;
+import com.kuaiba.site.db.model.ResponseEntity;
+import com.kuaiba.site.db.model.AjaxUtils;
+import com.kuaiba.site.db.model.Pagination;
 
 @Controller
 public class SiteCO extends BaseCO implements ISite {
@@ -61,7 +61,7 @@ public class SiteCO extends BaseCO implements ISite {
 	@RequestMapping(value = HttpURLs.LOGIN, method = RequestMethod.POST)
 	@Log(action = "用户登录", table = TableIDs.USER, clazz = String.class)
 	@Override
-	public @ResponseBody AjaxResponse login(
+	public @ResponseBody ResponseEntity login(
 			@RequestParam String username, 
 			@RequestParam String password,
 			HttpServletRequest request) {
@@ -170,7 +170,7 @@ public class SiteCO extends BaseCO implements ISite {
 	 */
 	@RequestMapping(value = HttpURLs.RECOMMEND, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody AjaxResponse recommend(@RequestParam String url) {
+	public @ResponseBody ResponseEntity recommend(@RequestParam String url) {
 		recommendService.add(url);
 		return AjaxUtils.ok();
 	}
@@ -183,7 +183,7 @@ public class SiteCO extends BaseCO implements ISite {
 	@RequiresRoles("user")
 	@RequestMapping(value = HttpURLs.BOOKMARK_FOLLOW, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody AjaxResponse bookmarkFollow(@PathVariable Long id) {
+	public @ResponseBody ResponseEntity bookmarkFollow(@PathVariable Long id) {
 		bookmarkService.follow(id);
 		return AjaxUtils.ok();
 	}
@@ -196,7 +196,7 @@ public class SiteCO extends BaseCO implements ISite {
 	@RequiresRoles("user")
 	@RequestMapping(value = HttpURLs.BOOKMARK_UNFOLLOW, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody AjaxResponse bookmarkUnfollow(@PathVariable Long id) {
+	public @ResponseBody ResponseEntity bookmarkUnfollow(@PathVariable Long id) {
 		bookmarkService.unfollow(id);
 		return AjaxUtils.ok();
 	}
@@ -204,7 +204,7 @@ public class SiteCO extends BaseCO implements ISite {
 	@RequiresRoles("user")
 	@RequestMapping(value = HttpURLs.GROUP_FOLLOW, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody AjaxResponse groupFollow(@PathVariable Long id) {
+	public @ResponseBody ResponseEntity groupFollow(@PathVariable Long id) {
 		groupService.follow(id);
 		return AjaxUtils.ok();
 	}
@@ -212,7 +212,7 @@ public class SiteCO extends BaseCO implements ISite {
 	@RequiresRoles("user")
 	@RequestMapping(value = HttpURLs.GROUP_UNFOLLOW, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody AjaxResponse groupUnfollow(@PathVariable Long id) {
+	public @ResponseBody ResponseEntity groupUnfollow(@PathVariable Long id) {
 		groupService.unfollow(id);
 		return AjaxUtils.ok();
 	}

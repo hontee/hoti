@@ -16,9 +16,9 @@ import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.db.dao.TrackMapper;
 import com.kuaiba.site.db.entity.Track;
 import com.kuaiba.site.db.entity.TrackExample;
+import com.kuaiba.site.db.model.Pagination;
+import com.kuaiba.site.db.model.ValidUtils;
 import com.kuaiba.site.service.TrackService;
-import com.kuaiba.site.service.utils.Pagination;
-import com.kuaiba.site.service.utils.ValidUtils;
 
 @Service
 public class TrackServiceImpl implements TrackService {

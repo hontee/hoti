@@ -1,4 +1,4 @@
-package com.kuaiba.site.service.utils;
+package com.kuaiba.site.db.model;
 
 import javax.ws.rs.core.Response;
 
@@ -27,9 +27,9 @@ public class AjaxUtils {
 	 * 成功
 	 * @return
 	 */
-	public static AjaxResponse ok() {
+	public static ResponseEntity ok() {
 		Response response = Response.ok().build();
-		return new AjaxResponse(response.getStatusInfo());
+		return new ResponseEntity(response.getStatusInfo());
 	}
 	
 	/**
@@ -37,9 +37,9 @@ public class AjaxUtils {
 	 * @param entity
 	 * @return
 	 */
-	public static AjaxResponse ok(Object entity) {
+	public static ResponseEntity ok(Object entity) {
 		Response response = Response.ok(entity).build();
-		return new AjaxResponse(response.getEntity());
+		return new ResponseEntity(response.getEntity());
 	}
 	
 	/**
@@ -47,8 +47,8 @@ public class AjaxUtils {
 	 * @param message
 	 * @return
 	 */
-	public static AjaxResponse failure(String message) {
-		return new AjaxResponse("LOGIC_CUSTOM", message);
+	public static ResponseEntity failure(String message) {
+		return new ResponseEntity("LOGIC_CUSTOM", message);
 	}
 	
 	/**
@@ -56,8 +56,8 @@ public class AjaxUtils {
 	 * @param message
 	 * @return
 	 */
-	public static AjaxResponse failure(ExceptionIds ex) {
-		return new AjaxResponse(ex.name(), ex.getMessage());
+	public static ResponseEntity failure(ExceptionIds ex) {
+		return new ResponseEntity(ex.name(), ex.getMessage());
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class AjaxUtils {
 	 * @param e
 	 * @return
 	 */
-	public static AjaxResponse failure(Throwable t) {
+	public static ResponseEntity failure(Throwable t) {
 		CoreException e = new CoreException();
 		
 		if (t instanceof AccountException) {
@@ -76,7 +76,7 @@ public class AjaxUtils {
 			e = (LogicException) t;
 		}
 		
-		return new AjaxResponse(e.getCode(), e.getError());
+		return new ResponseEntity(e.getCode(), e.getError());
 	}
 
 }

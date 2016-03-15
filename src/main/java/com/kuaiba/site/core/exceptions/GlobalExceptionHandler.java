@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kuaiba.site.core.thread.ThreadPool;
 import com.kuaiba.site.db.entity.Track;
+import com.kuaiba.site.db.model.ResponseEntity;
+import com.kuaiba.site.db.model.AjaxUtils;
 import com.kuaiba.site.service.TrackService;
-import com.kuaiba.site.service.utils.AjaxResponse;
-import com.kuaiba.site.service.utils.AjaxUtils;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
 	 * @return
 	 */
 	@ExceptionHandler({ Exception.class })
-	public @ResponseBody AjaxResponse handle(Exception e) {
+	public @ResponseBody ResponseEntity handle(Exception e) {
 		ThreadPool.getInstance().execute(new Runnable() {
 			@Override
 			public void run() {

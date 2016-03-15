@@ -19,10 +19,10 @@ import com.kuaiba.site.db.dao.GroupFollowMapper;
 import com.kuaiba.site.db.dao.GroupMapper;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
+import com.kuaiba.site.db.model.Pagination;
+import com.kuaiba.site.db.model.ValidUtils;
 import com.kuaiba.site.front.vo.GroupVO;
 import com.kuaiba.site.service.GroupService;
-import com.kuaiba.site.service.utils.Pagination;
-import com.kuaiba.site.service.utils.ValidUtils;
 
 @Service
 public class GroupServiceImpl implements GroupService {

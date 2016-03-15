@@ -1,4 +1,4 @@
-package com.kuaiba.site.service.utils;
+package com.kuaiba.site.db.model;
 
 import java.io.IOException;
 import java.io.Serializable;
