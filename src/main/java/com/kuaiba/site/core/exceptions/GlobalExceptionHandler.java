@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kuaiba.site.core.AjaxUtils;
 import com.kuaiba.site.core.thread.ThreadPool;
+import com.kuaiba.site.db.entity.ResponseEntity;
 import com.kuaiba.site.db.entity.Track;
-import com.kuaiba.site.db.model.ResponseEntity;
-import com.kuaiba.site.db.model.AjaxUtils;
 import com.kuaiba.site.service.TrackService;
 
 @ControllerAdvice

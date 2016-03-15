@@ -1,4 +1,4 @@
-package com.kuaiba.site.db.model;
+package com.kuaiba.site.core;
 
 import javax.ws.rs.core.Response;
 
@@ -9,6 +9,7 @@ import com.kuaiba.site.core.exceptions.CheckedException;
 import com.kuaiba.site.core.exceptions.CoreException;
 import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
+import com.kuaiba.site.db.entity.ResponseEntity;
 
 public class AjaxUtils {
 

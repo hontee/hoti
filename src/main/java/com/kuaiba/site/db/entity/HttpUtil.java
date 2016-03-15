@@ -48,7 +48,7 @@
  *
  * Copyright (c) 2012 Almende B.V.
  */
-package com.kuaiba.site.db.model;
+package com.kuaiba.site.db.entity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,9 +60,11 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.kuaiba.site.core.GlobalIDs;
 
-public class HttpUtils {
+public class HttpUtil {
 	
 	/**
 	 * Send a get request
@@ -249,7 +251,7 @@ public class HttpUtils {
 				params.put(r[0], r[1]);
 			}
 			
-			return HttpUtils.appendQueryParams(url, params);
+			return HttpUtil.appendQueryParams(url, params);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -380,6 +382,29 @@ public class HttpUtils {
 			out.append(new String(b, 0, n));
 		}
 		return out.toString();
+	}
+	
+	/**
+	 * 根据请求获取真实的IP地址
+	 * @param request
+	 * @return
+	 */
+	public static String getIpAddr(HttpServletRequest request) {
+		if (request != null) {
+			String ip = request.getHeader("x-forwarded-for");
+			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+				ip = request.getHeader("Proxy-Client-IP");
+			}
+			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+				ip = request.getHeader("WL-Proxy-Client-IP");
+			}
+			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+				ip = request.getRemoteAddr();
+			}
+			return ip;
+		}
+		
+		return null;
 	}
 	
 }

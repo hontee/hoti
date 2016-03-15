@@ -17,10 +17,10 @@ import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.GroupBookmarkMapper;
 import com.kuaiba.site.db.dao.GroupFollowMapper;
 import com.kuaiba.site.db.dao.GroupMapper;
+import com.kuaiba.site.db.entity.ContraintValidator;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
-import com.kuaiba.site.db.model.Pagination;
-import com.kuaiba.site.db.model.ValidUtils;
+import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.front.vo.GroupVO;
 import com.kuaiba.site.service.GroupService;
 
@@ -38,7 +38,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public PageInfo<Group> findByExample(GroupExample example, Pagination p) {
-		ValidUtils.checkNotNull(example, p);
+		ContraintValidator.checkNotNull(example, p);
 		try {
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Group> list = this.findByExample(example);
@@ -51,7 +51,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public int countByExample(GroupExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
@@ -62,7 +62,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public void deleteByExample(GroupExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
@@ -73,7 +73,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public void deleteByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public void add(GroupVO vo) {
-		ValidUtils.checkNotNull(vo);
+		ContraintValidator.checkNotNull(vo);
 		try {
 			Group record = new Group();
 			record.setCategory(vo.getCategory());
@@ -105,7 +105,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public List<Group> findByExample(GroupExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
@@ -116,7 +116,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public Group findByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
@@ -127,7 +127,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public void updateByExample(Group record, GroupExample example) {
-		ValidUtils.checkNotNull(record, example);
+		ContraintValidator.checkNotNull(record, example);
 		try {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
@@ -138,8 +138,8 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public void updateByPrimaryKey(Long id,GroupVO vo) {
-		ValidUtils.checkNotNull(vo);
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkNotNull(vo);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			Group record = new Group();
 			record.setId(id);
@@ -157,7 +157,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public void unfollow(Long fid) {
-		ValidUtils.checkPrimaryKey(fid);
+		ContraintValidator.checkPrimaryKey(fid);
 		try {
 			gfMapper.deleteByPrimaryKey(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
@@ -168,7 +168,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public void follow(Long fid) {
-		ValidUtils.checkPrimaryKey(fid);
+		ContraintValidator.checkPrimaryKey(fid);
 		try {
 			gfMapper.insert(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
@@ -179,8 +179,8 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public void removeBookmark(Long gid, Long bmid) {
-		ValidUtils.checkPrimaryKey(gid);
-		ValidUtils.checkPrimaryKey(bmid);
+		ContraintValidator.checkPrimaryKey(gid);
+		ContraintValidator.checkPrimaryKey(bmid);
 		try {
 			gbMapper.insert(gid, bmid);
 		} catch (Exception e) {
@@ -191,8 +191,8 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public void addBookmark(Long gid, Long bmid) {
-		ValidUtils.checkPrimaryKey(gid);
-		ValidUtils.checkPrimaryKey(bmid);
+		ContraintValidator.checkPrimaryKey(gid);
+		ContraintValidator.checkPrimaryKey(bmid);
 		try {
 			gbMapper.insert(gid, bmid);
 		} catch (Exception e) {
@@ -203,12 +203,12 @@ public class GroupServiceImpl implements GroupService {
 	
 	@Override
 	public boolean checkGroupName(String name) {
-		ValidUtils.checkNotNull(name);
+		ContraintValidator.checkNotNull(name);
 		try {
 			GroupExample example = new GroupExample();
 			example.createCriteria().andNameEqualTo(name);
 			List<Group> list = mapper.selectByExample(example);
-			ValidUtils.checkNotNull(list);
+			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
 		}
@@ -217,12 +217,12 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public boolean checkGroupTitle(String title) {
-		ValidUtils.checkNotNull(title);
+		ContraintValidator.checkNotNull(title);
 		try {
 			GroupExample example = new GroupExample();
 			example.createCriteria().andTitleEqualTo(title);
 			List<Group> list = mapper.selectByExample(example);
-			ValidUtils.checkNotNull(list);
+			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
 		}

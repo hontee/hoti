@@ -4,9 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
 
+import com.kuaiba.site.db.entity.Pagination;
+import com.kuaiba.site.db.entity.ResponseEntity;
 import com.kuaiba.site.db.entity.User;
-import com.kuaiba.site.db.model.ResponseEntity;
-import com.kuaiba.site.db.model.Pagination;
 
 /**
  * 前端页面接口

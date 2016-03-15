@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
+import com.kuaiba.site.core.LogUtils;
 import com.kuaiba.site.core.exceptions.CheckedException;
 import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
@@ -19,10 +20,9 @@ import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.ActivityMapper;
 import com.kuaiba.site.db.entity.Activity;
 import com.kuaiba.site.db.entity.ActivityExample;
-import com.kuaiba.site.db.model.IPUtils;
-import com.kuaiba.site.db.model.LogUtils;
-import com.kuaiba.site.db.model.Pagination;
-import com.kuaiba.site.db.model.ValidUtils;
+import com.kuaiba.site.db.entity.ContraintValidator;
+import com.kuaiba.site.db.entity.HttpUtil;
+import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.service.ActivityService;
 
 @Service
@@ -36,7 +36,7 @@ public class ActivityServiceImpl implements ActivityService {
 	@Override
 	public PageInfo<Activity> findByExample(ActivityExample example, Pagination p) {
 		try {
-			ValidUtils.checkNotNull(example, p);
+			ContraintValidator.checkNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Activity> list = this.findByExample(example);
 			return new PageInfo<>(list);
@@ -51,7 +51,7 @@ public class ActivityServiceImpl implements ActivityService {
 
 	@Override
 	public int countByExample(ActivityExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
@@ -62,7 +62,7 @@ public class ActivityServiceImpl implements ActivityService {
 
 	@Override
 	public void deleteByExample(ActivityExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
@@ -73,7 +73,7 @@ public class ActivityServiceImpl implements ActivityService {
 
 	@Override
 	public void deleteByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class ActivityServiceImpl implements ActivityService {
 
 	@Override
 	public void add(Activity record) {
-		ValidUtils.checkNotNull(record);
+		ContraintValidator.checkNotNull(record);
 		
 		try {
 			mapper.insert(record);
@@ -101,7 +101,7 @@ public class ActivityServiceImpl implements ActivityService {
 			record.setCreator(CurrentUser.getCurrentUserName());
 			record.setUserType(CurrentUser.isAdmin()? "admin": "user");
 			record.setDescription(desc);
-			record.setIpAddr(IPUtils.getIpAddr(request));
+			record.setIpAddr(HttpUtil.getIpAddr(request));
 			record.setState(state);
 			record.setName(action);
 			record.setTbl(tbl);
@@ -113,7 +113,7 @@ public class ActivityServiceImpl implements ActivityService {
 
 	@Override
 	public List<Activity> findByExample(ActivityExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
@@ -124,7 +124,7 @@ public class ActivityServiceImpl implements ActivityService {
 
 	@Override
 	public Activity findByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {

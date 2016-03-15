@@ -1,4 +1,4 @@
-package com.kuaiba.site.db.model;
+package com.kuaiba.site.core;
 
 import org.slf4j.Logger;
 

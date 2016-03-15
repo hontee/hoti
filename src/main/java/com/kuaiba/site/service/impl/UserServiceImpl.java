@@ -23,10 +23,10 @@ import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.core.security.EncryptUtils;
 import com.kuaiba.site.db.dao.UserMapper;
+import com.kuaiba.site.db.entity.ContraintValidator;
+import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;
-import com.kuaiba.site.db.model.Pagination;
-import com.kuaiba.site.db.model.ValidUtils;
 import com.kuaiba.site.front.vo.UserVO;
 import com.kuaiba.site.service.UserService;
 
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public PageInfo<User> findByExample(UserExample example, Pagination p) {
-		ValidUtils.checkNotNull(example, p);
+		ContraintValidator.checkNotNull(example, p);
 		try {
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<User> list = this.findByExample(example);
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int countByExample(UserExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void deleteByExample(UserExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void deleteByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void add(UserVO vo) {
-		ValidUtils.checkNotNull(vo);
+		ContraintValidator.checkNotNull(vo);
 		try {
 			User record = new User();
 			record.setSalt(EncryptUtils.getRandomSalt()); // 随机盐值
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> findByExample(UserExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void updateByExample(User record, UserExample example) {
-		ValidUtils.checkNotNull(record, example);
+		ContraintValidator.checkNotNull(record, example);
 		try {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
@@ -137,8 +137,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void updateByPrimaryKey(Long id, UserVO vo) {
-		ValidUtils.checkNotNull(vo);
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkNotNull(vo);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			User record = new User();
 			record.setId(id);
@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findByName(String name) {
-		ValidUtils.checkNotNull(name);
+		ContraintValidator.checkNotNull(name);
 		try {
 			return mapper.selectByName(name);
 		} catch (Exception e) {
@@ -167,7 +167,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean existsName(String name) {
-		ValidUtils.checkNotNull(name);
+		ContraintValidator.checkNotNull(name);
 		try {
 			return (mapper.selectByName(name) == null) ? false : true;
 		} catch (Exception e) {
@@ -200,12 +200,12 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public boolean checkUserName(String name) {
-		ValidUtils.checkNotNull(name);
+		ContraintValidator.checkNotNull(name);
 		try {
 			UserExample example = new UserExample();
 			example.createCriteria().andNameEqualTo(name);
 			List<User> list = mapper.selectByExample(example);
-			ValidUtils.checkNotNull(list);
+			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
 		}

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.GlobalIDs;
+import com.kuaiba.site.core.LogUtils;
 import com.kuaiba.site.core.exceptions.CheckedException;
 import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
@@ -19,10 +20,9 @@ import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.BookmarkMapper;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
-import com.kuaiba.site.db.model.HttpUtils;
-import com.kuaiba.site.db.model.LogUtils;
-import com.kuaiba.site.db.model.Pagination;
-import com.kuaiba.site.db.model.ValidUtils;
+import com.kuaiba.site.db.entity.ContraintValidator;
+import com.kuaiba.site.db.entity.HttpUtil;
+import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.service.BookmarkService;
 
@@ -40,7 +40,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public PageInfo<Bookmark> findByExample(BookmarkExample example, Pagination p) {
 		try {
-			ValidUtils.checkNotNull(example, p);
+			ContraintValidator.checkNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Bookmark> list = this.findByExample(example);
 			return new PageInfo<>(list);
@@ -56,7 +56,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public int countByExample(BookmarkExample example) {
 		try {
-			ValidUtils.checkNotNull(example);
+			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
 		} catch (CheckedException e) {
 			LogUtils.info(logger, e);
@@ -70,7 +70,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public void deleteByExample(BookmarkExample example) {
 		try {
-			ValidUtils.checkNotNull(example);
+			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (CheckedException e) {
 			LogUtils.info(logger, e);
@@ -84,7 +84,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public void deleteByPrimaryKey(Long id) {
 		try {
-			ValidUtils.checkPrimaryKey(id);
+			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (CheckedException e) {
 			LogUtils.info(logger, e);
@@ -98,7 +98,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public void add(BookmarkVO vo) {
 		try {
-			ValidUtils.checkNotNull(vo);
+			ContraintValidator.checkNotNull(vo);
 			Bookmark record = new Bookmark();
 			record.setName(vo.getNameUUID());
 			record.setTitle(vo.getTitle());
@@ -122,7 +122,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public List<Bookmark> findByExample(BookmarkExample example) {
 		try {
-			ValidUtils.checkNotNull(example);
+			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (CheckedException e) {
 			LogUtils.info(logger, e);
@@ -136,7 +136,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public Bookmark findByPrimaryKey(Long id) {
 		try {
-			ValidUtils.checkPrimaryKey(id);
+			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (CheckedException e) {
 			LogUtils.info(logger, e);
@@ -150,7 +150,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public void updateByExample(Bookmark record, BookmarkExample example) {
 		try {
-			ValidUtils.checkNotNull(record, example);
+			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (CheckedException e) {
 			LogUtils.info(logger, e);
@@ -164,8 +164,8 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public void updateByPrimaryKey(Long id, BookmarkVO vo) {
 		try {
-			ValidUtils.checkNotNull(vo);
-			ValidUtils.checkPrimaryKey(id);
+			ContraintValidator.checkNotNull(vo);
+			ContraintValidator.checkPrimaryKey(id);
 			Bookmark record = new Bookmark();
 			record.setId(id);
 			record.setTitle(vo.getTitle());
@@ -187,7 +187,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public void unfollow(Long fid) {
 		try {
-			ValidUtils.checkPrimaryKey(fid);
+			ContraintValidator.checkPrimaryKey(fid);
 			bfMapper.deleteByPrimaryKey(CurrentUser.getCurrentUserId(), fid);
 		} catch (CheckedException e) {
 			LogUtils.info(logger, e);
@@ -201,7 +201,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public void follow(Long fid) {
 		try {
-			ValidUtils.checkPrimaryKey(fid);
+			ContraintValidator.checkPrimaryKey(fid);
 			bfMapper.insert(CurrentUser.getCurrentUserId(), fid);
 		} catch (CheckedException e) {
 			LogUtils.info(logger, e);
@@ -215,11 +215,11 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public String hit(Long id) {
 		try {
-			ValidUtils.checkPrimaryKey(id);
+			ContraintValidator.checkPrimaryKey(id);
 			Bookmark record = findByPrimaryKey(id);
 			record.setHit(record.getHit() + 1);
 			mapper.updateByPrimaryKey(record);
-			return HttpUtils.appendQueryParams(record.getUrl(), record.getReffer());
+			return HttpUtil.appendQueryParams(record.getUrl(), record.getReffer());
 		} catch (CheckedException e) {
 			LogUtils.info(logger, e);
 			throw e;
@@ -232,7 +232,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public boolean isFollow(Long fid) {
 		try {
-			ValidUtils.checkPrimaryKey(fid);
+			ContraintValidator.checkPrimaryKey(fid);
 			List<Long> list = bfMapper.selectByUid(CurrentUser.getCurrentUserId());
 			return list.contains(fid);
 		} catch (CheckedException e) {
@@ -246,12 +246,12 @@ public class BookmarkServiceImpl implements BookmarkService {
 	
 	@Override
 	public boolean checkBookmarkName(String name) {
-		ValidUtils.checkNotNull(name);
+		ContraintValidator.checkNotNull(name);
 		try {
 			BookmarkExample example = new BookmarkExample();
 			example.createCriteria().andNameEqualTo(name);
 			List<Bookmark> list = mapper.selectByExample(example);
-			ValidUtils.checkNotNull(list);
+			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
 		}
@@ -260,12 +260,12 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public boolean checkBookmarkURL(String url) {
-		ValidUtils.checkNotNull(url);
+		ContraintValidator.checkNotNull(url);
 		try {
 			BookmarkExample example = new BookmarkExample();
 			example.createCriteria().andUrlEqualTo(url);
 			List<Bookmark> list = mapper.selectByExample(example);
-			ValidUtils.checkNotNull(list);
+			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
 		}
@@ -274,12 +274,12 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public boolean checkBookmarkTitle(String title) {
-		ValidUtils.checkNotNull(title);
+		ContraintValidator.checkNotNull(title);
 		try {
 			BookmarkExample example = new BookmarkExample();
 			example.createCriteria().andTitleEqualTo(title);
 			List<Bookmark> list = mapper.selectByExample(example);
-			ValidUtils.checkNotNull(list);
+			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
 		}

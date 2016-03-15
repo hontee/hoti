@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
-import com.kuaiba.site.db.model.ResponseEntity;
+import com.kuaiba.site.db.entity.ResponseEntity;
 import com.kuaiba.site.service.ActivityService;
 
 /**

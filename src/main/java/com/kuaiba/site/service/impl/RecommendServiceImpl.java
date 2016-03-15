@@ -13,14 +13,12 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.base.Throwables;
 import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
-import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.RecommendMapper;
+import com.kuaiba.site.db.entity.ContraintValidator;
+import com.kuaiba.site.db.entity.FetchFactory;
+import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
-import com.kuaiba.site.db.model.FetchUtils;
-import com.kuaiba.site.db.model.FetchUtils.WebModel;
-import com.kuaiba.site.db.model.Pagination;
-import com.kuaiba.site.db.model.ValidUtils;
 import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.front.vo.RecommendVO;
 import com.kuaiba.site.service.BookmarkService;
@@ -39,7 +37,7 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Override
 	public PageInfo<Recommend> findByExample(RecommendExample example, Pagination p) {
-		ValidUtils.checkNotNull(example, p);
+		ContraintValidator.checkNotNull(example, p);
 		try {
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Recommend> list = this.findByExample(example);
@@ -52,7 +50,7 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Override
 	public int countByExample(RecommendExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
@@ -63,7 +61,7 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Override
 	public void deleteByExample(RecommendExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
@@ -74,7 +72,7 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Override
 	public void deleteByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
@@ -85,17 +83,9 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Override
 	public void add(String url) {
-		ValidUtils.checkNotNull(url);
+		ContraintValidator.checkNotNull(url);
 		try {
-			WebModel wm = FetchUtils.connect(url);
-			Recommend record = new Recommend();
-			record.setCreator(CurrentUser.getCurrentUserName());
-			record.setDescription(wm.getDescription());
-			record.setNameByUUID();
-			record.setState((byte)1); // 待审核
-			record.setTitle(wm.getTitle());
-			record.setUrl(url);
-			record.setKeywords(wm.getKeywords());
+			Recommend record = FetchFactory.get(url);
 			mapper.insert(record);
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
@@ -105,7 +95,7 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Override
 	public List<Recommend> findByExample(RecommendExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
@@ -116,7 +106,7 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Override
 	public Recommend findByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
@@ -127,7 +117,7 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Override
 	public void updateByExample(Recommend record, RecommendExample example) {
-		ValidUtils.checkNotNull(record, example);
+		ContraintValidator.checkNotNull(record, example);
 		try {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
@@ -138,8 +128,8 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Override
 	public void updateByPrimaryKey(Long id, RecommendVO vo) {
-		ValidUtils.checkNotNull(vo);
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkNotNull(vo);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			Recommend record = new Recommend();
 			record.setId(id);
@@ -155,8 +145,8 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Override
 	public void audit(Long id, String remark) {
-		ValidUtils.checkNotNull(remark);
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkNotNull(remark);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			Recommend record = new Recommend();
 			record.setId(id);
@@ -171,8 +161,8 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Override
 	public void audit(Long id, BookmarkVO vo) {
-		ValidUtils.checkNotNull(vo);
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkNotNull(vo);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			Recommend record = new Recommend();
 			record.setId(id);

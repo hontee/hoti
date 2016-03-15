@@ -1,4 +1,4 @@
-package com.kuaiba.site.db.model;
+package com.kuaiba.site.db.entity;
 
 import java.io.Serializable;
 
@@ -11,14 +11,7 @@ public class ComboBox implements Serializable {
 
 	private static final long serialVersionUID = -1253013244364461209L;
 	
-	/**
-	 * 下拉框的隐藏值
-	 */
 	private Long id;
-	
-	/**
-	 * 下拉框的显示文本
-	 */
 	private String title;
 
 	public ComboBox(Long id, String title) {

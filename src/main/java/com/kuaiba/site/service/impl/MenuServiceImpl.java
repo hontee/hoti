@@ -15,10 +15,10 @@ import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.MenuMapper;
+import com.kuaiba.site.db.entity.ContraintValidator;
 import com.kuaiba.site.db.entity.Menu;
 import com.kuaiba.site.db.entity.MenuExample;
-import com.kuaiba.site.db.model.Pagination;
-import com.kuaiba.site.db.model.ValidUtils;
+import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.front.vo.MenuVO;
 import com.kuaiba.site.service.MenuService;
 
@@ -32,7 +32,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public PageInfo<Menu> findByExample(MenuExample example, Pagination p) {
-		ValidUtils.checkNotNull(example, p);
+		ContraintValidator.checkNotNull(example, p);
 		try {
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Menu> list = this.findByExample(example);
@@ -45,7 +45,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public int countByExample(MenuExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
@@ -56,7 +56,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public void deleteByExample(MenuExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
@@ -67,7 +67,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public void deleteByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
@@ -78,7 +78,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public void add(MenuVO vo) {
-		ValidUtils.checkNotNull(vo);
+		ContraintValidator.checkNotNull(vo);
 		try {
 			Menu record = new Menu();
 			record.setCreator(CurrentUser.getCurrentUserName());
@@ -98,7 +98,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public List<Menu> findByExample(MenuExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
@@ -109,7 +109,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public Menu findByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
@@ -120,7 +120,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public void updateByExample(Menu record, MenuExample example) {
-		ValidUtils.checkNotNull(record, example);
+		ContraintValidator.checkNotNull(record, example);
 		try {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
@@ -131,8 +131,8 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public void updateByPrimaryKey(Long id, MenuVO vo) {
-		ValidUtils.checkNotNull(vo);
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkNotNull(vo);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			Menu record = new Menu();
 			record.setId(id);
@@ -152,12 +152,12 @@ public class MenuServiceImpl implements MenuService {
 	
 	@Override
 	public boolean checkMenuName(String name) {
-		ValidUtils.checkNotNull(name);
+		ContraintValidator.checkNotNull(name);
 		try {
 			MenuExample example = new MenuExample();
 			example.createCriteria().andNameEqualTo(name);
 			List<Menu> list = mapper.selectByExample(example);
-			ValidUtils.checkNotNull(list);
+			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
 		}
@@ -166,12 +166,12 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public boolean checkMenuTitle(String title) {
-		ValidUtils.checkNotNull(title);
+		ContraintValidator.checkNotNull(title);
 		try {
 			MenuExample example = new MenuExample();
 			example.createCriteria().andTitleEqualTo(title);
 			List<Menu> list = mapper.selectByExample(example);
-			ValidUtils.checkNotNull(list);
+			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
 		}

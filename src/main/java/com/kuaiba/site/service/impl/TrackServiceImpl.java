@@ -14,10 +14,10 @@ import com.google.common.base.Throwables;
 import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.db.dao.TrackMapper;
+import com.kuaiba.site.db.entity.ContraintValidator;
+import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.Track;
 import com.kuaiba.site.db.entity.TrackExample;
-import com.kuaiba.site.db.model.Pagination;
-import com.kuaiba.site.db.model.ValidUtils;
 import com.kuaiba.site.service.TrackService;
 
 @Service
@@ -30,7 +30,7 @@ public class TrackServiceImpl implements TrackService {
 
 	@Override
 	public PageInfo<Track> findByExample(TrackExample example, Pagination p) {
-		ValidUtils.checkNotNull(example, p);
+		ContraintValidator.checkNotNull(example, p);
 		try {
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Track> list = this.findByExample(example);
@@ -43,7 +43,7 @@ public class TrackServiceImpl implements TrackService {
 
 	@Override
 	public int countByExample(TrackExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
@@ -54,7 +54,7 @@ public class TrackServiceImpl implements TrackService {
 
 	@Override
 	public void deleteByExample(TrackExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
@@ -65,7 +65,7 @@ public class TrackServiceImpl implements TrackService {
 
 	@Override
 	public void deleteByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
@@ -76,7 +76,7 @@ public class TrackServiceImpl implements TrackService {
 
 	@Override
 	public void add(Track record) {
-		ValidUtils.checkNotNull(record);
+		ContraintValidator.checkNotNull(record);
 		try {
 			mapper.insert(record);
 		} catch (Exception e) {
@@ -87,7 +87,7 @@ public class TrackServiceImpl implements TrackService {
 
 	@Override
 	public List<Track> findByExample(TrackExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
@@ -98,7 +98,7 @@ public class TrackServiceImpl implements TrackService {
 
 	@Override
 	public Track findByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
@@ -109,7 +109,7 @@ public class TrackServiceImpl implements TrackService {
 
 	@Override
 	public void updateByExample(Track record, TrackExample example) {
-		ValidUtils.checkNotNull(record, example);
+		ContraintValidator.checkNotNull(record, example);
 		try {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
@@ -120,8 +120,8 @@ public class TrackServiceImpl implements TrackService {
 
 	@Override
 	public void updateByPrimaryKey(Long id, Track record) {
-		ValidUtils.checkNotNull(record);
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkNotNull(record);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {

@@ -1,6 +1,7 @@
-package com.kuaiba.site.db.model;
+package com.kuaiba.site.db.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
@@ -15,14 +16,7 @@ public class DataGrid<T> implements Serializable {
 	
 	private static final long serialVersionUID = 6855401753433772729L;
 
-	/**
-	 * 总行数
-	 */
 	private long total;
-	
-	/**
-	 * 数据集
-	 */
 	private List<T> rows;
 
 	public DataGrid(PageInfo<T> p) {
@@ -44,6 +38,9 @@ public class DataGrid<T> implements Serializable {
 	}
 
 	public List<T> getRows() {
+		if (rows == null) {
+			rows = new ArrayList<T>();
+		}
 		return rows;
 	}
 

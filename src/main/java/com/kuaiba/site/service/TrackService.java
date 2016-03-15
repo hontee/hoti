@@ -2,9 +2,9 @@ package com.kuaiba.site.service;
 
 import java.util.List;
 
+import com.kuaiba.site.db.entity.Pager;
 import com.kuaiba.site.db.entity.Track;
 import com.kuaiba.site.db.entity.TrackExample;
-import com.kuaiba.site.db.model.Pager;
 
 public interface TrackService extends Pager<Track, TrackExample> {
 

@@ -15,10 +15,10 @@ import com.kuaiba.site.core.exceptions.ExceptionIds;
 import com.kuaiba.site.core.exceptions.LogicException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.MtypeMapper;
+import com.kuaiba.site.db.entity.ContraintValidator;
 import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.MtypeExample;
-import com.kuaiba.site.db.model.Pagination;
-import com.kuaiba.site.db.model.ValidUtils;
+import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.front.vo.MtypeVO;
 import com.kuaiba.site.service.MtypeService;
 
@@ -32,7 +32,7 @@ public class MtypeServiceImpl implements MtypeService {
 
 	@Override
 	public PageInfo<Mtype> findByExample(MtypeExample example, Pagination p) {
-		ValidUtils.checkNotNull(example, p);
+		ContraintValidator.checkNotNull(example, p);
 		try {
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Mtype> list = this.findByExample(example);
@@ -45,7 +45,7 @@ public class MtypeServiceImpl implements MtypeService {
 
 	@Override
 	public int countByExample(MtypeExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			return mapper.countByExample(example);
 		} catch (Exception e) {
@@ -56,7 +56,7 @@ public class MtypeServiceImpl implements MtypeService {
 
 	@Override
 	public void deleteByExample(MtypeExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
@@ -67,7 +67,7 @@ public class MtypeServiceImpl implements MtypeService {
 
 	@Override
 	public void deleteByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
@@ -78,7 +78,7 @@ public class MtypeServiceImpl implements MtypeService {
 
 	@Override
 	public void add(MtypeVO vo) {
-		ValidUtils.checkNotNull(vo);
+		ContraintValidator.checkNotNull(vo);
 		try {
 			Mtype record = new Mtype();
 			record.setWeight(vo.getWeight());
@@ -96,7 +96,7 @@ public class MtypeServiceImpl implements MtypeService {
 
 	@Override
 	public List<Mtype> findByExample(MtypeExample example) {
-		ValidUtils.checkNotNull(example);
+		ContraintValidator.checkNotNull(example);
 		try {
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
@@ -107,7 +107,7 @@ public class MtypeServiceImpl implements MtypeService {
 
 	@Override
 	public Mtype findByPrimaryKey(Long id) {
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
@@ -118,7 +118,7 @@ public class MtypeServiceImpl implements MtypeService {
 
 	@Override
 	public void updateByExample(Mtype record, MtypeExample example) {
-		ValidUtils.checkNotNull(record, example);
+		ContraintValidator.checkNotNull(record, example);
 		try {
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
@@ -129,8 +129,8 @@ public class MtypeServiceImpl implements MtypeService {
 
 	@Override
 	public void updateByPrimaryKey(Long id, MtypeVO vo) {
-		ValidUtils.checkNotNull(vo);
-		ValidUtils.checkPrimaryKey(id);
+		ContraintValidator.checkNotNull(vo);
+		ContraintValidator.checkPrimaryKey(id);
 		try {
 			Mtype record = new Mtype();
 			record.setId(id);
@@ -148,12 +148,12 @@ public class MtypeServiceImpl implements MtypeService {
 	
 	@Override
 	public boolean checkMTypeName(String name) {
-		ValidUtils.checkNotNull(name);
+		ContraintValidator.checkNotNull(name);
 		try {
 			MtypeExample example = new MtypeExample();
 			example.createCriteria().andNameEqualTo(name);
 			List<Mtype> list = mapper.selectByExample(example);
-			ValidUtils.checkNotNull(list);
+			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
 		}
@@ -162,12 +162,12 @@ public class MtypeServiceImpl implements MtypeService {
 
 	@Override
 	public boolean checkMTypeTitle(String title) {
-		ValidUtils.checkNotNull(title);
+		ContraintValidator.checkNotNull(title);
 		try {
 			MtypeExample example = new MtypeExample();
 			example.createCriteria().andTitleEqualTo(title);
 			List<Mtype> list = mapper.selectByExample(example);
-			ValidUtils.checkNotNull(list);
+			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
 		}

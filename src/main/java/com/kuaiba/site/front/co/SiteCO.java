@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.aop.Log;
+import com.kuaiba.site.core.AjaxUtils;
 import com.kuaiba.site.core.GlobalIDs;
 import com.kuaiba.site.core.HttpURLs;
 import com.kuaiba.site.core.TableIDs;
@@ -28,10 +29,9 @@ import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
+import com.kuaiba.site.db.entity.Pagination;
+import com.kuaiba.site.db.entity.ResponseEntity;
 import com.kuaiba.site.db.entity.User;
-import com.kuaiba.site.db.model.ResponseEntity;
-import com.kuaiba.site.db.model.AjaxUtils;
-import com.kuaiba.site.db.model.Pagination;
 
 @Controller
 public class SiteCO extends BaseCO implements ISite {

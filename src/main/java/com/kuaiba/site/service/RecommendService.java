@@ -2,9 +2,9 @@ package com.kuaiba.site.service;
 
 import java.util.List;
 
+import com.kuaiba.site.db.entity.Pager;
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
-import com.kuaiba.site.db.model.Pager;
 import com.kuaiba.site.front.vo.RecommendVO;
 import com.kuaiba.site.front.vo.BookmarkVO;
 

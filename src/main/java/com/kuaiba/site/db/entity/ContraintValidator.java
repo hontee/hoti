@@ -1,4 +1,4 @@
-package com.kuaiba.site.db.model;
+package com.kuaiba.site.db.entity;
 
 import java.util.Arrays;
 
@@ -12,7 +12,7 @@ import com.kuaiba.site.core.exceptions.ExceptionIds;
  * @author larry.qi
  *
  */
-public class ValidUtils {
+public class ContraintValidator {
 
 	/**
 	 * 请求参数不能为空
