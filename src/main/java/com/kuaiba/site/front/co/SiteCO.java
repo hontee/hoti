@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.aop.Log;
-import com.kuaiba.site.core.AjaxUtils;
 import com.kuaiba.site.core.GlobalIDs;
 import com.kuaiba.site.core.HttpURLs;
 import com.kuaiba.site.core.TableIDs;
@@ -30,7 +29,7 @@ import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.Pagination;
-import com.kuaiba.site.db.entity.ResponseEntity;
+import com.kuaiba.site.db.entity.Response;
 import com.kuaiba.site.db.entity.User;
 
 @Controller
@@ -61,15 +60,15 @@ public class SiteCO extends BaseCO implements ISite {
 	@RequestMapping(value = HttpURLs.LOGIN, method = RequestMethod.POST)
 	@Log(action = "用户登录", table = TableIDs.USER, clazz = String.class)
 	@Override
-	public @ResponseBody ResponseEntity login(
+	public @ResponseBody Response login(
 			@RequestParam String username, 
 			@RequestParam String password,
 			HttpServletRequest request) {
 		try {
 			userService.login(username, password);
-			return AjaxUtils.ok();
+			return ok();
 		} catch (Exception e) { // 登录失败
-			return AjaxUtils.failure(e);
+			return failure(e);
 		}
 	}
 	
@@ -170,9 +169,9 @@ public class SiteCO extends BaseCO implements ISite {
 	 */
 	@RequestMapping(value = HttpURLs.RECOMMEND, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody ResponseEntity recommend(@RequestParam String url) {
+	public @ResponseBody Response recommend(@RequestParam String url) {
 		recommendService.add(url);
-		return AjaxUtils.ok();
+		return ok();
 	}
 	
 	/**
@@ -183,9 +182,9 @@ public class SiteCO extends BaseCO implements ISite {
 	@RequiresRoles("user")
 	@RequestMapping(value = HttpURLs.BOOKMARK_FOLLOW, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody ResponseEntity bookmarkFollow(@PathVariable Long id) {
+	public @ResponseBody Response bookmarkFollow(@PathVariable Long id) {
 		bookmarkService.follow(id);
-		return AjaxUtils.ok();
+		return ok();
 	}
 	
 	/**
@@ -196,25 +195,25 @@ public class SiteCO extends BaseCO implements ISite {
 	@RequiresRoles("user")
 	@RequestMapping(value = HttpURLs.BOOKMARK_UNFOLLOW, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody ResponseEntity bookmarkUnfollow(@PathVariable Long id) {
+	public @ResponseBody Response bookmarkUnfollow(@PathVariable Long id) {
 		bookmarkService.unfollow(id);
-		return AjaxUtils.ok();
+		return ok();
 	}
 
 	@RequiresRoles("user")
 	@RequestMapping(value = HttpURLs.GROUP_FOLLOW, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody ResponseEntity groupFollow(@PathVariable Long id) {
+	public @ResponseBody Response groupFollow(@PathVariable Long id) {
 		groupService.follow(id);
-		return AjaxUtils.ok();
+		return ok();
 	}
 
 	@RequiresRoles("user")
 	@RequestMapping(value = HttpURLs.GROUP_UNFOLLOW, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody ResponseEntity groupUnfollow(@PathVariable Long id) {
+	public @ResponseBody Response groupUnfollow(@PathVariable Long id) {
 		groupService.unfollow(id);
-		return AjaxUtils.ok();
+		return ok();
 	}
 	
 }

@@ -2,7 +2,7 @@ package com.kuaiba.site.db.entity;
 
 import java.io.Serializable;
 
-public class ResponseEntity implements Serializable {
+public class Response implements Serializable {
 	
 	private static final long serialVersionUID = -8290882370006935102L;
 
@@ -12,13 +12,13 @@ public class ResponseEntity implements Serializable {
 	
 	private Object result; // 成功
 	
-	protected ResponseEntity() {}
+	protected Response() {}
 	
-	public ResponseEntity(Object result) {
+	public Response(Object result) {
 		this.setResult(result);
 	}
 	
-	public ResponseEntity(String code, String message) {
+	public Response(String code, String message) {
 		this.setError(code, message);
 	}
 	

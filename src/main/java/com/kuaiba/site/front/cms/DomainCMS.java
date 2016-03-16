@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.aop.Log;
-import com.kuaiba.site.core.AjaxUtils;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.ComboBox;
@@ -25,7 +24,7 @@ import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Pagination;
-import com.kuaiba.site.db.entity.ResponseEntity;
+import com.kuaiba.site.db.entity.Response;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.DomainVO;
 
@@ -85,25 +84,25 @@ public class DomainCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	@Log(action = "后台添加领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
-	public @ResponseBody ResponseEntity add(DomainVO vo, HttpServletRequest request) {
+	public @ResponseBody Response add(DomainVO vo, HttpServletRequest request) {
 		domainService.add(vo);
-		return AjaxUtils.ok();
+		return ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除领域", table = TableIDs.DOMAIN)
-	public @ResponseBody ResponseEntity delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody Response delete(@PathVariable Long id, HttpServletRequest request) {
 		domainService.deleteByPrimaryKey(id);
-		return AjaxUtils.ok();
+		return ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	@Log(action = "后台编辑领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
-	public @ResponseBody ResponseEntity edit(@PathVariable Long id, DomainVO vo, HttpServletRequest request) {
+	public @ResponseBody Response edit(@PathVariable Long id, DomainVO vo, HttpServletRequest request) {
 		domainService.updateByPrimaryKey(id, vo);
-		return AjaxUtils.ok();
+		return ok();
 	}
 	
 	private Domain findByPrimaryKey(Long id) {

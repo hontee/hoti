@@ -16,14 +16,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.aop.Log;
-import com.kuaiba.site.core.AjaxUtils;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
-import com.kuaiba.site.db.entity.ResponseEntity;
+import com.kuaiba.site.db.entity.Response;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.CategoryVO;
 
@@ -79,25 +78,25 @@ public class CategoryCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	@Log(action = "后台添加分类", table = TableIDs.CATEGORY, clazz = CategoryVO.class)
-	public @ResponseBody ResponseEntity add(CategoryVO vo, HttpServletRequest request) {
+	public @ResponseBody Response add(CategoryVO vo, HttpServletRequest request) {
 		categoryService.add(vo);
-		return AjaxUtils.ok();
+		return ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除分类", table = TableIDs.CATEGORY)
-	public @ResponseBody ResponseEntity delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody Response delete(@PathVariable Long id, HttpServletRequest request) {
 		categoryService.deleteByPrimaryKey(id);
-		return AjaxUtils.ok();
+		return ok();
 	}
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	@Log(action = "后台编辑分类", table = TableIDs.CATEGORY, clazz = CategoryVO.class)
-	public @ResponseBody ResponseEntity edit(@PathVariable Long id, CategoryVO vo, HttpServletRequest request) {
+	public @ResponseBody Response edit(@PathVariable Long id, CategoryVO vo, HttpServletRequest request) {
 		categoryService.updateByPrimaryKey(id, vo);
-		return AjaxUtils.ok();
+		return ok();
 	}
 	
 	private Category findByPrimaryKey(Long id) {

@@ -16,14 +16,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.aop.Log;
-import com.kuaiba.site.core.AjaxUtils;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Menu;
 import com.kuaiba.site.db.entity.MenuExample;
 import com.kuaiba.site.db.entity.Pagination;
-import com.kuaiba.site.db.entity.ResponseEntity;
+import com.kuaiba.site.db.entity.Response;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.MenuVO;
 
@@ -80,25 +79,25 @@ public class MenuCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	@Log(action = "后台添加菜单", table = TableIDs.MENU, clazz = MenuVO.class)
-	public @ResponseBody ResponseEntity add(MenuVO vo, HttpServletRequest request) {
+	public @ResponseBody Response add(MenuVO vo, HttpServletRequest request) {
 		menuService.add(vo);
-		return AjaxUtils.ok();
+		return ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除菜单", table = TableIDs.MENU)
-	public @ResponseBody ResponseEntity delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody Response delete(@PathVariable Long id, HttpServletRequest request) {
 		menuService.deleteByPrimaryKey(id);
-		return AjaxUtils.ok();
+		return ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	@Log(action = "后台编辑菜单", table = TableIDs.MENU, clazz = MenuVO.class)
-	public @ResponseBody ResponseEntity edit(@PathVariable Long id, MenuVO vo, HttpServletRequest request) {
+	public @ResponseBody Response edit(@PathVariable Long id, MenuVO vo, HttpServletRequest request) {
 		menuService.updateByPrimaryKey(id, vo);
-		return AjaxUtils.ok();
+		return ok();
 	}
 	
 	private Menu findByPrimaryKey(Long id) {

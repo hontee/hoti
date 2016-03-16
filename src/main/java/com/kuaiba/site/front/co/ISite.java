@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.ui.Model;
 
 import com.kuaiba.site.db.entity.Pagination;
-import com.kuaiba.site.db.entity.ResponseEntity;
+import com.kuaiba.site.db.entity.Response;
 import com.kuaiba.site.db.entity.User;
 
 /**
@@ -19,7 +19,7 @@ public interface ISite {
 	
 	String login();
 	
-	ResponseEntity login(String username, String password, HttpServletRequest request);
+	Response login(String username, String password, HttpServletRequest request);
 	
 	String logout();
 	
@@ -43,14 +43,14 @@ public interface ISite {
 	
 	String recommend();
 	
-	ResponseEntity recommend(String url);
+	Response recommend(String url);
 	
-	ResponseEntity bookmarkFollow(Long id);
+	Response bookmarkFollow(Long id);
 	
-	ResponseEntity bookmarkUnfollow(Long id);
+	Response bookmarkUnfollow(Long id);
 	
-	ResponseEntity groupFollow(Long id);
+	Response groupFollow(Long id);
 	
-	ResponseEntity groupUnfollow(Long id);
+	Response groupUnfollow(Long id);
 
 }

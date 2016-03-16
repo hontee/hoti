@@ -6,9 +6,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kuaiba.site.core.AjaxUtils;
 import com.kuaiba.site.core.thread.ThreadPool;
-import com.kuaiba.site.db.entity.ResponseEntity;
+import com.kuaiba.site.db.entity.Response;
 import com.kuaiba.site.db.entity.Track;
 import com.kuaiba.site.service.TrackService;
 
@@ -24,7 +23,7 @@ public class GlobalExceptionHandler {
 	 * @return
 	 */
 	@ExceptionHandler({ Exception.class })
-	public @ResponseBody ResponseEntity handle(Exception e) {
+	public @ResponseBody Response handle(Exception e) {
 		ThreadPool.getInstance().execute(new Runnable() {
 			@Override
 			public void run() {
@@ -40,7 +39,7 @@ public class GlobalExceptionHandler {
 			}
 		});
 		
-		return AjaxUtils.failure(e);
+		return new Response("1001", e.getMessage());
 	}
 
 }

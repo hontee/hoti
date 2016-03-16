@@ -14,14 +14,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.aop.Log;
-import com.kuaiba.site.core.AjaxUtils;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
-import com.kuaiba.site.db.entity.ResponseEntity;
+import com.kuaiba.site.db.entity.Response;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.front.vo.RecommendVO;
@@ -84,41 +83,41 @@ public class RecommendCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	@Log(action = "后台添加推荐", table = TableIDs.RECOMMEND, clazz = String.class)
-	public @ResponseBody ResponseEntity add(@RequestParam String url, HttpServletRequest request) {
+	public @ResponseBody Response add(@RequestParam String url, HttpServletRequest request) {
 		recommendService.add(url);
-		return AjaxUtils.ok();
+		return ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除推荐", table = TableIDs.RECOMMEND)
-	public @ResponseBody ResponseEntity delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody Response delete(@PathVariable Long id, HttpServletRequest request) {
 		recommendService.deleteByPrimaryKey(id);
-		return AjaxUtils.ok();
+		return ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	@Log(action = "后台编辑推荐", table = TableIDs.RECOMMEND, clazz = Recommend.class)
-	public @ResponseBody ResponseEntity edit(@PathVariable Long id, RecommendVO vo, HttpServletRequest request) {
+	public @ResponseBody Response edit(@PathVariable Long id, RecommendVO vo, HttpServletRequest request) {
 		recommendService.updateByPrimaryKey(id, vo);
-		return AjaxUtils.ok();
+		return ok();
 	}
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.AUDIT_OK, method = RequestMethod.POST)
 	@Log(action = "后台审核推荐通过", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
-	public @ResponseBody ResponseEntity auditOk(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) {
+	public @ResponseBody Response auditOk(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) {
 		recommendService.audit(id, vo);
-		return AjaxUtils.ok();
+		return ok();
 	}
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.AUDIT_NOT, method = RequestMethod.POST)
 	@Log(action = "后台审核推荐不通过", table = TableIDs.RECOMMEND, clazz = String.class)
-	public @ResponseBody ResponseEntity auditNot(@PathVariable Long id, @RequestParam String remark, HttpServletRequest request) {
+	public @ResponseBody Response auditNot(@PathVariable Long id, @RequestParam String remark, HttpServletRequest request) {
 		recommendService.audit(id, remark);
-		return AjaxUtils.ok();
+		return ok();
 	}
 	
 	private Recommend findByPrimaryKey(Long id) {

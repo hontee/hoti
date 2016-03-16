@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.aop.Log;
-import com.kuaiba.site.core.AjaxUtils;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.ComboBox;
@@ -25,7 +24,7 @@ import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.MtypeExample;
 import com.kuaiba.site.db.entity.Pagination;
-import com.kuaiba.site.db.entity.ResponseEntity;
+import com.kuaiba.site.db.entity.Response;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.MtypeVO;
 
@@ -85,25 +84,25 @@ public class MtypeCSM extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	@Log(action = "后台添加类型", table = TableIDs.MTYPE, clazz = MtypeVO.class)
-	public @ResponseBody ResponseEntity add(MtypeVO vo) {
+	public @ResponseBody Response add(MtypeVO vo) {
 		mtypeService.add(vo);
-		return AjaxUtils.ok();
+		return ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除类型", table = TableIDs.MTYPE)
-	public @ResponseBody ResponseEntity delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody Response delete(@PathVariable Long id, HttpServletRequest request) {
 		mtypeService.deleteByPrimaryKey(id);
-		return AjaxUtils.ok();
+		return ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	@Log(action = "后台编辑类型", table = TableIDs.MTYPE, clazz = MtypeVO.class)
-	public @ResponseBody ResponseEntity edit(@PathVariable Long id, MtypeVO vo, HttpServletRequest request) {
+	public @ResponseBody Response edit(@PathVariable Long id, MtypeVO vo, HttpServletRequest request) {
 		mtypeService.updateByPrimaryKey(id, vo);
-		return AjaxUtils.ok();
+		return ok();
 	}
 	
 	private Mtype findByPrimaryKey(Long id) {

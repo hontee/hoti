@@ -14,14 +14,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.aop.Log;
-import com.kuaiba.site.core.AjaxUtils;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
-import com.kuaiba.site.db.entity.ResponseEntity;
+import com.kuaiba.site.db.entity.Response;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.BookmarkVO;
 
@@ -69,25 +68,25 @@ public class BookmarkCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	@Log(action = "后台添加书签", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
-	public @ResponseBody ResponseEntity add(BookmarkVO vo, HttpServletRequest request) {
+	public @ResponseBody Response add(BookmarkVO vo, HttpServletRequest request) {
 		bookmarkService.add(vo);
-		return AjaxUtils.ok();
+		return ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除书签", table = TableIDs.BOOKMARK)
-	public @ResponseBody ResponseEntity delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody Response delete(@PathVariable Long id, HttpServletRequest request) {
 		bookmarkService.deleteByPrimaryKey(id);
-		return AjaxUtils.ok();
+		return ok();
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	@Log(action = "后台编辑书签", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
-	public @ResponseBody ResponseEntity edit(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) {
+	public @ResponseBody Response edit(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) {
 		bookmarkService.updateByPrimaryKey(id, vo);
-		return AjaxUtils.ok();
+		return ok();
 	}
 	
 	private Bookmark findByPrimaryKey(Long id) {
