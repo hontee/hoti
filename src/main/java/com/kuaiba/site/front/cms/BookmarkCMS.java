@@ -16,11 +16,12 @@ import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.aop.Log;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
+import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
-import com.kuaiba.site.db.entity.Response;
+import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.BookmarkVO;
 
@@ -42,14 +43,14 @@ public class BookmarkCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.GET)
-	public String editPage(@PathVariable Long id, Model model) {
+	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/bookmarks/edit";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.VIEW, method = RequestMethod.GET)
-	public String view(@PathVariable Long id, Model model) {
+	public String view(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/bookmarks/view";
 	}
@@ -68,7 +69,7 @@ public class BookmarkCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	@Log(action = "后台添加书签", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
-	public @ResponseBody Response add(BookmarkVO vo, HttpServletRequest request) {
+	public @ResponseBody SiteResponse add(BookmarkVO vo, HttpServletRequest request) throws SecurityException {
 		bookmarkService.add(vo);
 		return ok();
 	}
@@ -76,7 +77,7 @@ public class BookmarkCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除书签", table = TableIDs.BOOKMARK)
-	public @ResponseBody Response delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		bookmarkService.deleteByPrimaryKey(id);
 		return ok();
 	}
@@ -84,12 +85,12 @@ public class BookmarkCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	@Log(action = "后台编辑书签", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
-	public @ResponseBody Response edit(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) {
+	public @ResponseBody SiteResponse edit(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) throws SecurityException {
 		bookmarkService.updateByPrimaryKey(id, vo);
 		return ok();
 	}
 	
-	private Bookmark findByPrimaryKey(Long id) {
+	private Bookmark findByPrimaryKey(Long id) throws SecurityException {
 		return bookmarkService.findByPrimaryKey(id);
 	}
 

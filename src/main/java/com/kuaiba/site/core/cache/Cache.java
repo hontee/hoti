@@ -1,6 +1,6 @@
 package com.kuaiba.site.core.cache;
 
-import com.kuaiba.site.core.exceptions.CacheException;
+import com.kuaiba.site.core.exception.SecurityException;
 
 public interface Cache
 {
@@ -9,9 +9,9 @@ public interface Cache
      *
      * @param key is the name used to store the entry.
      * @return entry stored in the cache.
-     * @throws CacheException will wraps the implementation's exception.
+     * @throws SecurityException will wraps the implementation's exception.
      */
-    Object get( CacheIDs key ) throws CacheException;
+    Object get( CacheIDs key ) throws SecurityException;
 
 
     /**
@@ -19,9 +19,9 @@ public interface Cache
      *
      * @param key name to be used for the entry.
      * @param value object that is stored.
-     * @throws CacheException will wraps the implementation's exception.
+     * @throws SecurityException will wraps the implementation's exception.
      */
-    void put( CacheIDs key, Object value ) throws CacheException;
+    void put( CacheIDs key, Object value ) throws SecurityException;
 
 
     /**
@@ -29,25 +29,25 @@ public interface Cache
      *
      * @param key name that entry is stored as.
      * @return boolean value will be false if entry not found and true if entry was found and removed.
-     * @throws CacheException will wraps the implementation's exception.
+     * @throws SecurityException will wraps the implementation's exception.
      */
-    boolean clear( CacheIDs key ) throws CacheException;
+    boolean clear( CacheIDs key ) throws SecurityException;
     
     /**
      * Contain a cache entry for a given name.
      *
      * @param key name that entry is stored as.
      * @return boolean value will be false if entry not found and true if entry was found.
-     * @throws CacheException will wraps the implementation's exception.
+     * @throws SecurityException will wraps the implementation's exception.
      */
-    boolean contains( CacheIDs key ) throws CacheException;
+    boolean contains( CacheIDs key ) throws SecurityException;
 
 
     /**
      * Remove all entries from the cache.
      *
-     * @throws CacheException will wraps the implementation's exception.
+     * @throws SecurityException will wraps the implementation's exception.
      */
-    void flush() throws CacheException;
+    void flush() throws SecurityException;
     
 }

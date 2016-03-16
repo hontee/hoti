@@ -1,15 +1,17 @@
 package com.kuaiba.site.db.entity;
 
 import com.github.pagehelper.PageInfo;
+import com.kuaiba.site.core.exception.SecurityException;
 
 public interface Pager<T, S> {
 	
 	/**
-	 * 带分页的条件查询
+	 * * 带分页的条件查询
 	 * @param example
 	 * @param p
-	 * @return
+	 * @return PageInfo
+	 * @throws SecurityException
 	 */
-	PageInfo<T> findByExample(S example, Pagination p);
+	PageInfo<T> findByExample(S example, Pagination p) throws SecurityException;
 
 }

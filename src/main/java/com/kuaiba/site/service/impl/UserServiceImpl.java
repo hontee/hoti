@@ -5,21 +5,22 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.common.base.Throwables;
 import com.kuaiba.site.core.GlobalIDs;
-import com.kuaiba.site.core.exceptions.ExceptionIds;
-import com.kuaiba.site.core.exceptions.LogicException;
+import com.kuaiba.site.core.exception.AuthzException;
+import com.kuaiba.site.core.exception.CreateException;
+import com.kuaiba.site.core.exception.DeleteException;
+import com.kuaiba.site.core.exception.ReadException;
+import com.kuaiba.site.core.exception.SecurityException;
+import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.UserMapper;
 import com.kuaiba.site.db.entity.ContraintValidator;
@@ -32,61 +33,55 @@ import com.kuaiba.site.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 
-	private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
 	@Resource
 	private UserMapper mapper;
 
 	@Override
-	public PageInfo<User> findByExample(UserExample example, Pagination p) {
-		ContraintValidator.checkNotNull(example, p);
+	public PageInfo<User> findByExample(UserExample example, Pagination p) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<User> list = this.findByExample(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("分页读取数据失败", e);
 		}
 	}
 
 	@Override
-	public int countByExample(UserExample example) {
-		ContraintValidator.checkNotNull(example);
+	public int countByExample(UserExample example) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("统计数据失败", e);
 		}
 	}
 
 	@Override
-	public void deleteByExample(UserExample example) {
-		ContraintValidator.checkNotNull(example);
+	public void deleteByExample(UserExample example) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_DELETE);
+			throw new DeleteException("删除数据失败", e);
 		}
 	}
 
 	@Override
-	public void deleteByPrimaryKey(Long id) {
-		ContraintValidator.checkPrimaryKey(id);
+	public void deleteByPrimaryKey(Long id) throws SecurityException { 
 		try {
+			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_DELETE);
+			throw new DeleteException("删除数据失败", e);
 		}
 	}
 
 	@Override
-	public void add(UserVO vo) {
-		ContraintValidator.checkNotNull(vo);
+	public void add(UserVO vo) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(vo);
 			User record = new User();
 			record.setSaltRandom();
 			record.setPasswordEncrypt(vo.getPassword(), record.getSalt()); // 密码加密
@@ -96,49 +91,45 @@ public class UserServiceImpl implements UserService {
 			record.setTitle(vo.getName());
 			mapper.insert(record);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_ADD);
+			throw new CreateException("添加数据失败", e);
 		}
 	}
 
 	@Override
-	public List<User> findByExample(UserExample example) {
-		ContraintValidator.checkNotNull(example);
+	public List<User> findByExample(UserExample example) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("读取数据失败", e);
 		}
 	}
 
 	@Override
-	public User findByPrimaryKey(Long id) {
-		ContraintValidator.checkPrimaryKey(id);
+	public User findByPrimaryKey(Long id) throws SecurityException { 
 		try {
+			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("读取数据失败", e);
 		}
 	}
 
 	@Override
-	public void updateByExample(User record, UserExample example) {
-		ContraintValidator.checkNotNull(record, example);
+	public void updateByExample(User record, UserExample example) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
+			throw new UpdateException("更新数据失败", e);
 		}
 	}
 
 	@Override
-	public void updateByPrimaryKey(Long id, UserVO vo) {
-		ContraintValidator.checkNotNull(vo);
-		ContraintValidator.checkPrimaryKey(id);
+	public void updateByPrimaryKey(Long id, UserVO vo) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(vo);
+			ContraintValidator.checkPrimaryKey(id);
 			User record = new User();
 			record.setId(id);
 			record.setUserType(vo.getUserType());
@@ -148,35 +139,32 @@ public class UserServiceImpl implements UserService {
 			record.setDescription(vo.getDescription());
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
+			throw new UpdateException("更新数据失败", e);
 		}
 	}
 
 	@Override
-	public User findByName(String name) {
-		ContraintValidator.checkNotNull(name);
+	public User findByName(String name) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(name);
 			return mapper.selectByName(name);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("根据用户名查询失败", e);
 		}
 	}
 
 	@Override
-	public boolean existsName(String name) {
-		ContraintValidator.checkNotNull(name);
+	public boolean existsName(String name) throws SecurityException { 
 		try {
-			return (mapper.selectByName(name) == null) ? false : true;
+			ContraintValidator.checkNotNull(name);
+			return mapper.selectByName(name) != null;
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new UpdateException("检测用户名失败", e);
 		}
 	}
 
 	@Override
-	public void login(String username, String password) throws Exception {
+	public void login(String username, String password) throws SecurityException {
 		try {
 			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 			Subject subject = SecurityUtils.getSubject();
@@ -185,30 +173,25 @@ public class UserServiceImpl implements UserService {
 			Session session = subject.getSession();
 			session.setAttribute(GlobalIDs.LOGIN_USER, currentUser);
 			session.setAttribute(GlobalIDs.ADMIN_USER, CurrentUser.isAdmin());
-		} catch (InvalidSessionException e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.ACCOUNT_UNKNOWN);
 		} catch (AuthenticationException e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.ACCOUNT_UNAUTHORIZATION);
+			throw new AuthzException("用户权限认证失败", e);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.ACCOUNT_DEFAULT);
+			throw new AccountException("用户名或密码错误", e);
 		}
 	}
 	
 	@Override
-	public boolean checkUserName(String name) {
-		ContraintValidator.checkNotNull(name);
+	public boolean checkUserName(String name) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(name);
 			UserExample example = new UserExample();
 			example.createCriteria().andNameEqualTo(name);
 			List<User> list = mapper.selectByExample(example);
 			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
+			throw new UpdateException("检测用户名失败", e);
 		}
-		return false;
 	}
 
 }

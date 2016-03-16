@@ -3,8 +3,7 @@ package com.kuaiba.site.db.entity;
 import java.util.Arrays;
 
 import com.google.common.base.Preconditions;
-import com.kuaiba.site.core.exceptions.CheckedException;
-import com.kuaiba.site.core.exceptions.ExceptionIds;
+import com.kuaiba.site.core.exception.ValidationException;
 
 /**
  * 服务层工具
@@ -19,14 +18,11 @@ public class ContraintValidator {
 	 * 
 	 * @param objects
 	 */
-	public static void checkNotNull(Object... objects) 
-			throws CheckedException {
+	public static void checkNotNull(Object... objects) throws ValidationException {
 		try {
-			Arrays.asList(objects).forEach((o) -> 
-				Preconditions.checkNotNull(o)
-			);
+			Arrays.asList(objects).forEach((o) -> Preconditions.checkNotNull(o));
 		} catch (Exception e) {
-			throw new CheckedException(ExceptionIds.CHECKED_PARAMS_ERROR);
+			throw new ValidationException("检验参数为空", e);
 		}
 	}
 
@@ -35,12 +31,11 @@ public class ContraintValidator {
 	 * 
 	 * @param id
 	 */
-	public static void checkPrimaryKey(Long id) 
-			throws CheckedException {
+	public static void checkPrimaryKey(Long id) throws ValidationException {
 		try {
 			Preconditions.checkArgument(id != null && id > 0);
 		} catch (Exception e) {
-			throw new CheckedException(ExceptionIds.CHECKED_ID_ILLEGAL);
+			throw new ValidationException("无效的ID", e);
 		}
 	}
 

@@ -20,6 +20,7 @@ import com.kuaiba.site.core.GlobalIDs;
 import com.kuaiba.site.core.cache.Cache;
 import com.kuaiba.site.core.cache.CacheFactory;
 import com.kuaiba.site.core.cache.CacheIDs;
+import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.service.UserService;
 
@@ -45,13 +46,23 @@ public class UserRealm extends AuthorizingRealm {
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		logger.info("为登录成功的用户：{}，添加角色和权限", principals.getPrimaryPrincipal());
 		
+		Object obj = null;
+		try {
+			Cache cache = CacheFactory.createInstance(GlobalIDs.CACHE_USERS);
+			obj = cache.get(CacheIDs.USER_ROLES);
+		} catch (SecurityException e) {
+			logger.debug("获取缓存数据失败：" + e.getMessage(), e);
+		}
+		
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		Cache cache = CacheFactory.createInstance(GlobalIDs.CACHE_USERS);
-		Object obj = cache.get(CacheIDs.USER_ROLES);
-		if (obj instanceof SimpleAuthorizationInfo) {
+		
+		if (obj != null && obj instanceof SimpleAuthorizationInfo) {
+			
 			info = (SimpleAuthorizationInfo) obj;
 		} else {
+			
 			Set<String> roles = new HashSet<>();
+			
 			if (CurrentUser.isAdmin()) { // 登录用户是否为管理员
 				roles.add("admin");
 				info.setRoles(roles);
@@ -71,7 +82,14 @@ public class UserRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		String username = (String)token.getPrincipal();
 		logger.info("用户身份验证：{}", username);
-		User currentUser = service.findByName(username);
+		
+		User currentUser = null;
+		try {
+			currentUser = service.findByName(username);
+		} catch (SecurityException e) {
+			logger.info("用户名或密码错误：{}", e.getMessage());
+		}
+		
 		if (currentUser == null) {
 			throw new UnknownAccountException("用户名或密码错误");
 		}

@@ -16,11 +16,12 @@ import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.aop.Log;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
+import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
-import com.kuaiba.site.db.entity.Response;
+import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.front.vo.RecommendVO;
@@ -43,28 +44,28 @@ public class RecommendCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.GET)
-	public String editPage(@PathVariable Long id, Model model) {
+	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/recmds/edit";
 	}
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.AUDIT_OK, method = RequestMethod.GET)
-	public String auditOKPage(@PathVariable Long id, Model model) {
+	public String auditOKPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/recmds/audit-ok";
 	}
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.AUDIT_NOT, method = RequestMethod.GET)
-	public String auditNotPage(@PathVariable Long id, Model model) {
+	public String auditNotPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/recmds/audit-not";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.VIEW, method = RequestMethod.GET)
-	public String view(@PathVariable Long id, Model model) {
+	public String view(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/recmds/view";
 	}
@@ -83,7 +84,7 @@ public class RecommendCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	@Log(action = "后台添加推荐", table = TableIDs.RECOMMEND, clazz = String.class)
-	public @ResponseBody Response add(@RequestParam String url, HttpServletRequest request) {
+	public @ResponseBody SiteResponse add(@RequestParam String url, HttpServletRequest request) throws SecurityException {
 		recommendService.add(url);
 		return ok();
 	}
@@ -91,7 +92,7 @@ public class RecommendCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除推荐", table = TableIDs.RECOMMEND)
-	public @ResponseBody Response delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		recommendService.deleteByPrimaryKey(id);
 		return ok();
 	}
@@ -99,7 +100,7 @@ public class RecommendCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	@Log(action = "后台编辑推荐", table = TableIDs.RECOMMEND, clazz = Recommend.class)
-	public @ResponseBody Response edit(@PathVariable Long id, RecommendVO vo, HttpServletRequest request) {
+	public @ResponseBody SiteResponse edit(@PathVariable Long id, RecommendVO vo, HttpServletRequest request) throws SecurityException {
 		recommendService.updateByPrimaryKey(id, vo);
 		return ok();
 	}
@@ -107,7 +108,7 @@ public class RecommendCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.AUDIT_OK, method = RequestMethod.POST)
 	@Log(action = "后台审核推荐通过", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
-	public @ResponseBody Response auditOk(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) {
+	public @ResponseBody SiteResponse auditOk(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) throws SecurityException {
 		recommendService.audit(id, vo);
 		return ok();
 	}
@@ -115,12 +116,12 @@ public class RecommendCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.AUDIT_NOT, method = RequestMethod.POST)
 	@Log(action = "后台审核推荐不通过", table = TableIDs.RECOMMEND, clazz = String.class)
-	public @ResponseBody Response auditNot(@PathVariable Long id, @RequestParam String remark, HttpServletRequest request) {
+	public @ResponseBody SiteResponse auditNot(@PathVariable Long id, @RequestParam String remark, HttpServletRequest request) throws SecurityException {
 		recommendService.audit(id, remark);
 		return ok();
 	}
 	
-	private Recommend findByPrimaryKey(Long id) {
+	private Recommend findByPrimaryKey(Long id) throws SecurityException {
 		return recommendService.findByPrimaryKey(id);
 	}
 

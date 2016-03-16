@@ -2,7 +2,10 @@ package com.kuaiba.site.db.entity;
 
 import java.io.Serializable;
 
-public class Response implements Serializable {
+import com.kuaiba.site.core.exception.BaseException;
+import com.kuaiba.site.core.exception.BaseRuntimeException;
+
+public class SiteResponse implements Serializable {
 	
 	private static final long serialVersionUID = -8290882370006935102L;
 
@@ -12,14 +15,18 @@ public class Response implements Serializable {
 	
 	private Object result; // 成功
 	
-	protected Response() {}
+	protected SiteResponse() {}
 	
-	public Response(Object result) {
+	public SiteResponse(Object result) {
 		this.setResult(result);
 	}
 	
-	public Response(String code, String message) {
-		this.setError(code, message);
+	public SiteResponse(BaseException e) {
+		this.setError(e.getErrorId().name(), e.getMessage());
+	}
+	
+	public SiteResponse(BaseRuntimeException e) {
+		this.setError(e.getErrorId().name(), e.getMessage());
 	}
 	
 	public boolean isSuccess() {

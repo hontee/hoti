@@ -20,6 +20,7 @@ import com.kuaiba.site.aop.Log;
 import com.kuaiba.site.core.GlobalIDs;
 import com.kuaiba.site.core.HttpURLs;
 import com.kuaiba.site.core.TableIDs;
+import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Category;
@@ -29,7 +30,7 @@ import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.Pagination;
-import com.kuaiba.site.db.entity.Response;
+import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.User;
 
 @Controller
@@ -37,7 +38,7 @@ public class SiteCO extends BaseCO implements ISite {
 	
 	@RequestMapping(value = HttpURLs.SEARCH, method = RequestMethod.GET)
 	@Override
-	public String search(@RequestParam String q, Pagination p, Model model) throws Exception {
+	public String search(@RequestParam String q, Pagination p, Model model) throws SecurityException {
 		BookmarkExample example = new BookmarkExample();
 		if (StringUtils.isNotEmpty(q)) {
 			example.createCriteria().andTitleLike("%" + q + "q");
@@ -60,16 +61,12 @@ public class SiteCO extends BaseCO implements ISite {
 	@RequestMapping(value = HttpURLs.LOGIN, method = RequestMethod.POST)
 	@Log(action = "用户登录", table = TableIDs.USER, clazz = String.class)
 	@Override
-	public @ResponseBody Response login(
+	public @ResponseBody SiteResponse login(
 			@RequestParam String username, 
 			@RequestParam String password,
-			HttpServletRequest request) {
-		try {
+			HttpServletRequest request) throws SecurityException {
 			userService.login(username, password);
 			return ok();
-		} catch (Exception e) { // 登录失败
-			return failure(e);
-		}
 	}
 	
 	@RequestMapping(value = HttpURLs.LOGOUT, method = RequestMethod.GET)
@@ -104,7 +101,7 @@ public class SiteCO extends BaseCO implements ISite {
 	
 	@RequestMapping(value = HttpURLs.CATEGORY, method = RequestMethod.GET)
 	@Override
-	public String category(Model model) {
+	public String category(Model model) throws SecurityException {
 		DomainExample oe = new DomainExample();
 		oe.createCriteria().andStateEqualTo((byte)1);
 		oe.setOrderByClause("weight DESC");
@@ -115,7 +112,7 @@ public class SiteCO extends BaseCO implements ISite {
 	
 	@RequestMapping(value = HttpURLs.CATEGORY_BY_ID, method = RequestMethod.GET)
 	@Override
-	public String categoryById(@PathVariable Long id, Model model) {
+	public String categoryById(@PathVariable Long id, Model model) throws SecurityException {
 		CategoryExample example = new CategoryExample();
 		example.createCriteria().andIdEqualTo(id);
 		List<Category> cates = categoryService.findByCollect(example);
@@ -125,7 +122,7 @@ public class SiteCO extends BaseCO implements ISite {
 	
 	@RequestMapping(value = HttpURLs.GROUP, method = RequestMethod.GET)
 	@Override
-	public String group(Model model) {
+	public String group(Model model) throws SecurityException {
 		List<Group> list = groupService.findByExample(new GroupExample());
 		model.addAttribute("groups", list);
 		return "views/group";
@@ -133,7 +130,7 @@ public class SiteCO extends BaseCO implements ISite {
 
 	@RequestMapping(value = HttpURLs.GROUP_BY_ID, method = RequestMethod.GET)
 	@Override
-	public String groupById(@PathVariable Long id, Model model) {
+	public String groupById(@PathVariable Long id, Model model) throws SecurityException {
 		Group group = groupService.findByPrimaryKey(id);
 		model.addAttribute("record", group);
 		return "views/group-bookmark";
@@ -141,7 +138,7 @@ public class SiteCO extends BaseCO implements ISite {
 
 	@RequestMapping(value = HttpURLs.HOME, method = RequestMethod.GET)
 	@Override
-	public String home(Pagination p, Model model) throws Exception {
+	public String home(Pagination p, Model model) throws SecurityException {
 		List<Category> cates = categoryService.findByCollect(new CategoryExample());
 		model.addAttribute("cates", cates);
 		return "views/home";
@@ -149,7 +146,7 @@ public class SiteCO extends BaseCO implements ISite {
 	
 	@RequestMapping(value = HttpURLs.BOOKMARK_HIT, method = RequestMethod.GET)
 	@Override
-	public String hit(@PathVariable Long id, Model model) throws Exception {
+	public String hit(@PathVariable Long id, Model model) throws SecurityException {
 		return redirect(bookmarkService.hit(id));
 	}
 	
@@ -166,10 +163,11 @@ public class SiteCO extends BaseCO implements ISite {
 	/**
 	 * 分享站点
 	 * @return
+	 * @throws SecurityException 
 	 */
 	@RequestMapping(value = HttpURLs.RECOMMEND, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody Response recommend(@RequestParam String url) {
+	public @ResponseBody SiteResponse recommend(@RequestParam String url) throws SecurityException {
 		recommendService.add(url);
 		return ok();
 	}
@@ -178,11 +176,12 @@ public class SiteCO extends BaseCO implements ISite {
 	 * 添加关注
 	 * @param id
 	 * @return
+	 * @throws SecurityException 
 	 */
 	@RequiresRoles("user")
 	@RequestMapping(value = HttpURLs.BOOKMARK_FOLLOW, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody Response bookmarkFollow(@PathVariable Long id) {
+	public @ResponseBody SiteResponse bookmarkFollow(@PathVariable Long id) throws SecurityException {
 		bookmarkService.follow(id);
 		return ok();
 	}
@@ -191,11 +190,12 @@ public class SiteCO extends BaseCO implements ISite {
 	 * 取消关注
 	 * @param id
 	 * @return
+	 * @throws SecurityException 
 	 */
 	@RequiresRoles("user")
 	@RequestMapping(value = HttpURLs.BOOKMARK_UNFOLLOW, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody Response bookmarkUnfollow(@PathVariable Long id) {
+	public @ResponseBody SiteResponse bookmarkUnfollow(@PathVariable Long id) throws SecurityException {
 		bookmarkService.unfollow(id);
 		return ok();
 	}
@@ -203,7 +203,7 @@ public class SiteCO extends BaseCO implements ISite {
 	@RequiresRoles("user")
 	@RequestMapping(value = HttpURLs.GROUP_FOLLOW, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody Response groupFollow(@PathVariable Long id) {
+	public @ResponseBody SiteResponse groupFollow(@PathVariable Long id) throws SecurityException {
 		groupService.follow(id);
 		return ok();
 	}
@@ -211,7 +211,7 @@ public class SiteCO extends BaseCO implements ISite {
 	@RequiresRoles("user")
 	@RequestMapping(value = HttpURLs.GROUP_UNFOLLOW, method = RequestMethod.POST)
 	@Override
-	public @ResponseBody Response groupUnfollow(@PathVariable Long id) {
+	public @ResponseBody SiteResponse groupUnfollow(@PathVariable Long id) throws SecurityException {
 		groupService.unfollow(id);
 		return ok();
 	}

@@ -4,17 +4,18 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.GlobalIDs;
-import com.kuaiba.site.core.LogUtils;
-import com.kuaiba.site.core.exceptions.CheckedException;
-import com.kuaiba.site.core.exceptions.ExceptionIds;
-import com.kuaiba.site.core.exceptions.LogicException;
+import com.kuaiba.site.core.exception.CreateException;
+import com.kuaiba.site.core.exception.DeleteException;
+import com.kuaiba.site.core.exception.FollowException;
+import com.kuaiba.site.core.exception.ReadException;
+import com.kuaiba.site.core.exception.SecurityException;
+import com.kuaiba.site.core.exception.UnfollowException;
+import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.BookmarkMapper;
@@ -29,8 +30,6 @@ import com.kuaiba.site.service.BookmarkService;
 @Service
 public class BookmarkServiceImpl implements BookmarkService {
 	
-	private Logger logger = LoggerFactory.getLogger(BookmarkServiceImpl.class);
-	
 	@Resource
 	private BookmarkMapper mapper;
 	
@@ -38,65 +37,49 @@ public class BookmarkServiceImpl implements BookmarkService {
 	private BookmarkFollowMapper bfMapper;
 
 	@Override
-	public PageInfo<Bookmark> findByExample(BookmarkExample example, Pagination p) {
+	public PageInfo<Bookmark> findByExample(BookmarkExample example, Pagination p) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Bookmark> list = this.findByExample(example);
 			return new PageInfo<>(list);
-		} catch (CheckedException e) {
-			LogUtils.info(logger, e);
-			throw e;
 		} catch (Exception e) {
-			LogUtils.info(logger, e);
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("分页读取数据失败", e);
 		}
 	}
 
 	@Override
-	public int countByExample(BookmarkExample example) {
+	public int countByExample(BookmarkExample example) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
-		} catch (CheckedException e) {
-			LogUtils.info(logger, e);
-			throw e;
 		} catch (Exception e) {
-			LogUtils.info(logger, e);
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("统计数据失败", e);
 		}
 	}
 
 	@Override
-	public void deleteByExample(BookmarkExample example) {
+	public void deleteByExample(BookmarkExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
-		} catch (CheckedException e) {
-			LogUtils.info(logger, e);
-			throw e;
 		} catch (Exception e) {
-			LogUtils.info(logger, e);
-			throw new LogicException(ExceptionIds.LOGIC_DELETE);
+			throw new DeleteException("删除数据失败", e);
 		}
 	}
 
 	@Override
-	public void deleteByPrimaryKey(Long id) {
+	public void deleteByPrimaryKey(Long id) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
-		} catch (CheckedException e) {
-			LogUtils.info(logger, e);
-			throw e;
 		} catch (Exception e) {
-			LogUtils.info(logger, e);
-			throw new LogicException(ExceptionIds.LOGIC_DELETE);
+			throw new DeleteException("删除数据失败", e);
 		}
 	}
 
 	@Override
-	public void add(BookmarkVO vo) {
+	public void add(BookmarkVO vo) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(vo);
 			Bookmark record = new Bookmark();
@@ -110,59 +93,43 @@ public class BookmarkServiceImpl implements BookmarkService {
 			record.setHitRandom();
 			record.setReffer(GlobalIDs.REFFER);
 			mapper.insert(record);
-		} catch (CheckedException e) {
-			LogUtils.info(logger, e);
-			throw e;
 		} catch (Exception e) {
-			LogUtils.info(logger, e);
-			throw new LogicException(ExceptionIds.LOGIC_ADD);
+			throw new CreateException("添加数据失败", e);
 		}
 	}
 
 	@Override
-	public List<Bookmark> findByExample(BookmarkExample example) {
+	public List<Bookmark> findByExample(BookmarkExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
-		} catch (CheckedException e) {
-			LogUtils.info(logger, e);
-			throw e;
 		} catch (Exception e) {
-			LogUtils.info(logger, e);
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("读取数据失败", e);
 		}
 	}
 
 	@Override
-	public Bookmark findByPrimaryKey(Long id) {
+	public Bookmark findByPrimaryKey(Long id) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
-		} catch (CheckedException e) {
-			LogUtils.info(logger, e);
-			throw e;
 		} catch (Exception e) {
-			LogUtils.info(logger, e);
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("读取数据失败", e);
 		}
 	}
 
 	@Override
-	public void updateByExample(Bookmark record, BookmarkExample example) {
+	public void updateByExample(Bookmark record, BookmarkExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
-		} catch (CheckedException e) {
-			LogUtils.info(logger, e);
-			throw e;
 		} catch (Exception e) {
-			LogUtils.info(logger, e);
-			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
+			throw new UpdateException("更新数据失败", e);
 		}
 	}
 
 	@Override
-	public void updateByPrimaryKey(Long id, BookmarkVO vo) {
+	public void updateByPrimaryKey(Long id, BookmarkVO vo) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(vo);
 			ContraintValidator.checkPrimaryKey(id);
@@ -175,115 +142,95 @@ public class BookmarkServiceImpl implements BookmarkService {
 			record.setReffer(vo.getReffer());
 			record.setCategory(vo.getCategory());
 			mapper.updateByPrimaryKey(record);
-		} catch (CheckedException e) {
-			LogUtils.info(logger, e);
-			throw e;
 		} catch (Exception e) {
-			LogUtils.info(logger, e);
-			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
+			throw new UpdateException("更新数据失败", e);
 		}
 	}
 
 	@Override
-	public void unfollow(Long fid) {
+	public void unfollow(Long fid) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(fid);
 			bfMapper.deleteByPrimaryKey(CurrentUser.getCurrentUserId(), fid);
-		} catch (CheckedException e) {
-			LogUtils.info(logger, e);
-			throw e;
 		} catch (Exception e) {
-			LogUtils.info(logger, e);
-			throw new LogicException(ExceptionIds.LOGIC_UNFOLLOW);
+			throw new UnfollowException("取消关注失败", e);
 		}
 	}
 
 	@Override
-	public void follow(Long fid) {
+	public void follow(Long fid) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(fid);
 			bfMapper.insert(CurrentUser.getCurrentUserId(), fid);
-		} catch (CheckedException e) {
-			LogUtils.info(logger, e);
-			throw e;
 		} catch (Exception e) {
-			LogUtils.info(logger, e);
-			throw new LogicException(ExceptionIds.LOGIC_UNFOLLOW);
+			throw new FollowException("关注失败", e);
 		}
 	}
 
 	@Override
-	public String hit(Long id) {
+	public String hit(Long id) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			Bookmark record = findByPrimaryKey(id);
 			record.setHit(record.getHit() + 1);
 			mapper.updateByPrimaryKey(record);
 			return HttpUtil.appendQueryParams(record.getUrl(), record.getReffer());
-		} catch (CheckedException e) {
-			LogUtils.info(logger, e);
-			throw e;
 		} catch (Exception e) {
-			LogUtils.info(logger, e);
-			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
+			throw new ReadException("点击获取URL失败", e);
 		}
 	}
 
 	@Override
-	public boolean isFollow(Long fid) {
+	public boolean isFollow(Long fid) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(fid);
 			List<Long> list = bfMapper.selectByUid(CurrentUser.getCurrentUserId());
 			return list.contains(fid);
-		} catch (CheckedException e) {
-			LogUtils.info(logger, e);
-			throw e;
 		} catch (Exception e) {
-			LogUtils.info(logger, e);
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("判断用户是否关注站点失败", e);
 		}
 	}
 	
 	@Override
-	public boolean checkBookmarkName(String name) {
-		ContraintValidator.checkNotNull(name);
+	public boolean checkBookmarkName(String name) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(name);
 			BookmarkExample example = new BookmarkExample();
 			example.createCriteria().andNameEqualTo(name);
 			List<Bookmark> list = mapper.selectByExample(example);
 			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
+			throw new ReadException("检测站点名称失败", e);
 		}
-		return false;
 	}
 
 	@Override
-	public boolean checkBookmarkURL(String url) {
-		ContraintValidator.checkNotNull(url);
+	public boolean checkBookmarkURL(String url) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(url);
 			BookmarkExample example = new BookmarkExample();
 			example.createCriteria().andUrlEqualTo(url);
 			List<Bookmark> list = mapper.selectByExample(example);
 			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
+			throw new ReadException("检测站点URL失败", e);
 		}
-		return false;
 	}
 
 	@Override
-	public boolean checkBookmarkTitle(String title) {
-		ContraintValidator.checkNotNull(title);
+	public boolean checkBookmarkTitle(String title) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(title);
 			BookmarkExample example = new BookmarkExample();
 			example.createCriteria().andTitleEqualTo(title);
 			List<Bookmark> list = mapper.selectByExample(example);
 			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
+			throw new ReadException("检测站点标题失败", e);
 		}
-		return false;
 	}
 	
 }

@@ -4,8 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
 
+import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Pagination;
-import com.kuaiba.site.db.entity.Response;
+import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.User;
 
 /**
@@ -15,42 +16,42 @@ import com.kuaiba.site.db.entity.User;
  */
 public interface ISite {
 	
-	String search(String q, Pagination p, Model model) throws Exception;
+	String search(String q, Pagination p, Model model) throws SecurityException;;
 	
-	String login();
+	String login() throws SecurityException;
 	
-	Response login(String username, String password, HttpServletRequest request);
+	SiteResponse login(String username, String password, HttpServletRequest request) throws SecurityException;
 	
-	String logout();
+	String logout() throws SecurityException;
 	
-	String dashbord(String name);
+	String dashbord(String name) throws SecurityException;
 	
-	String profilePage(String name);
+	String profilePage(String name) throws SecurityException;
 	
-	String profile(String name, User u);
+	String profile(String name, User u) throws SecurityException;
 	
-	String category(Model model);
+	String category(Model model) throws SecurityException;
 	
-	String categoryById(Long id, Model model);
+	String categoryById(Long id, Model model) throws SecurityException;
 	
-	String group(Model model);
+	String group(Model model) throws SecurityException;
 	
-	String groupById(Long id, Model model);
+	String groupById(Long id, Model model) throws SecurityException;
 	
-	String home(Pagination p, Model model) throws Exception;
+	String home(Pagination p, Model model) throws SecurityException;
 	
-	String hit(Long id, Model model) throws Exception;
+	String hit(Long id, Model model) throws SecurityException;;
 	
-	String recommend();
+	String recommend() throws SecurityException;
 	
-	Response recommend(String url);
+	SiteResponse recommend(String url) throws SecurityException;
 	
-	Response bookmarkFollow(Long id);
+	SiteResponse bookmarkFollow(Long id) throws SecurityException;
 	
-	Response bookmarkUnfollow(Long id);
+	SiteResponse bookmarkUnfollow(Long id) throws SecurityException;
 	
-	Response groupFollow(Long id);
+	SiteResponse groupFollow(Long id) throws SecurityException;
 	
-	Response groupUnfollow(Long id);
+	SiteResponse groupUnfollow(Long id) throws SecurityException;
 
 }

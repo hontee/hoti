@@ -18,11 +18,12 @@ import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.aop.Log;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
+import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Menu;
 import com.kuaiba.site.db.entity.MenuExample;
 import com.kuaiba.site.db.entity.Pagination;
-import com.kuaiba.site.db.entity.Response;
+import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.MenuVO;
 
@@ -44,14 +45,14 @@ public class MenuCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.GET)
-	public String editPage(@PathVariable Long id, Model model) {
+	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/menus/edit";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.VIEW, method = RequestMethod.GET)
-	public String view(@PathVariable Long id, Model model) {
+	public String view(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/menus/view";
 	}
@@ -79,7 +80,7 @@ public class MenuCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	@Log(action = "后台添加菜单", table = TableIDs.MENU, clazz = MenuVO.class)
-	public @ResponseBody Response add(MenuVO vo, HttpServletRequest request) {
+	public @ResponseBody SiteResponse add(MenuVO vo, HttpServletRequest request) throws SecurityException {
 		menuService.add(vo);
 		return ok();
 	}
@@ -87,7 +88,7 @@ public class MenuCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除菜单", table = TableIDs.MENU)
-	public @ResponseBody Response delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		menuService.deleteByPrimaryKey(id);
 		return ok();
 	}
@@ -95,12 +96,12 @@ public class MenuCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	@Log(action = "后台编辑菜单", table = TableIDs.MENU, clazz = MenuVO.class)
-	public @ResponseBody Response edit(@PathVariable Long id, MenuVO vo, HttpServletRequest request) {
+	public @ResponseBody SiteResponse edit(@PathVariable Long id, MenuVO vo, HttpServletRequest request) throws SecurityException {
 		menuService.updateByPrimaryKey(id, vo);
 		return ok();
 	}
 	
-	private Menu findByPrimaryKey(Long id) {
+	private Menu findByPrimaryKey(Long id) throws SecurityException {
 		return menuService.findByPrimaryKey(id);
 	}
 

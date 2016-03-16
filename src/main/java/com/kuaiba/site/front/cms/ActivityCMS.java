@@ -16,11 +16,12 @@ import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.aop.Log;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
+import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Activity;
 import com.kuaiba.site.db.entity.ActivityExample;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
-import com.kuaiba.site.db.entity.Response;
+import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.front.co.BaseCO;
 
 @Controller
@@ -35,7 +36,7 @@ public class ActivityCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.VIEW, method = RequestMethod.GET)
-	public String view(@PathVariable Long id, Model model) {
+	public String view(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/activities/view";
 	}
@@ -54,12 +55,12 @@ public class ActivityCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除操作记录", table = TableIDs.ACTIVITY)
-	public @ResponseBody Response delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		activityService.deleteByPrimaryKey(id);
 		return ok();
 	}
 	
-	private Activity findByPrimaryKey(Long id) {
+	private Activity findByPrimaryKey(Long id) throws SecurityException {
 		return activityService.findByPrimaryKey(id);
 	}
 

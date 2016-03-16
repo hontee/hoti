@@ -16,9 +16,10 @@ import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.aop.Log;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
+import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
-import com.kuaiba.site.db.entity.Response;
+import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.Track;
 import com.kuaiba.site.db.entity.TrackExample;
 import com.kuaiba.site.front.co.BaseCO;
@@ -35,7 +36,7 @@ public class TrackCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.VIEW, method = RequestMethod.GET)
-	public String view(@PathVariable Long id, Model model) {
+	public String view(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/tracks/view";
 	}
@@ -54,12 +55,12 @@ public class TrackCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除异常追踪", table = TableIDs.TRACK)
-	public @ResponseBody Response delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		trackService.deleteByPrimaryKey(id);
 		return ok();
 	}
 	
-	private Track findByPrimaryKey(Long id) {
+	private Track findByPrimaryKey(Long id) throws SecurityException {
 		return trackService.findByPrimaryKey(id);
 	}
 

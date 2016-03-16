@@ -1,7 +1,10 @@
 package com.kuaiba.site.core.cache;
 
-import com.kuaiba.site.core.exceptions.CacheException;
-import com.kuaiba.site.core.exceptions.ExceptionIds;
+import com.kuaiba.site.core.exception.BaseRuntimeException;
+import com.kuaiba.site.core.exception.CacheException;
+import com.kuaiba.site.core.exception.ErrorIDs;
+import com.kuaiba.site.core.exception.SecurityException;
+import com.kuaiba.site.core.exception.ValidationException;
 
 import net.sf.ehcache.Element;
 import net.sf.ehcache.constructs.blocking.BlockingCache;
@@ -10,87 +13,84 @@ class EhCacheImpl implements Cache {
 	
 	private BlockingCache cache;
 	
-	EhCacheImpl( BlockingCache blockingCache )
-    {
-        if ( blockingCache == null )
-        {
-        	throw new CacheException(ExceptionIds.CACHE_CONSTRUCTOR_NULL);
-        }
-        this.cache = blockingCache;
-    }
+	EhCacheImpl(BlockingCache blockingCache) {
+		
+		if (blockingCache == null) {
+			throw new BaseRuntimeException(ErrorIDs.CACHE_ERROR, "BlockingCache为空");
+		}
+		
+		this.cache = blockingCache;
+	}
 
 	@Override
-	public Object get(CacheIDs key) throws CacheException {
+	public Object get(CacheIDs key) throws SecurityException {
 		
 		if (key == null) {
-			throw new CacheException(ExceptionIds.CACHE_KEY_NULL);
+			throw new ValidationException("获取缓存失败：CacheID为空");
 		}
 
 		try {
 			Element element = cache.get(key);
-			if (element != null) {
-				return element.getObjectValue();
-			} else {
-				return null;
-			}
+			return (element != null)? element.getObjectValue(): null;
 		} catch (Exception e) {
-			throw new CacheException(ExceptionIds.CACHE_GET_ERROR);
+			throw new CacheException("获取缓存失败", e);
 		}
 	}
 
 	@Override
-	public void put(CacheIDs key, Object value) throws CacheException {
+	public void put(CacheIDs key, Object value) throws SecurityException {
 		
-		if (cache == null) {
-			throw new CacheException(ExceptionIds.CACHE_KEY_NULL);
+		if (key == null) {
+			throw new ValidationException("设置缓存失败：CacheID为空");
 		}
 		
 		try {
+			// 如果已存在缓存，先清除再设置
+			if (contains(key)) {
+				clear(key);
+			}
 			cache.put(new Element(key, value));
 		} catch (Exception e) {
-			throw new CacheException(ExceptionIds.CACHE_GET_ERROR);
+			throw new CacheException("设置缓存失败", e);
 		}
 
 	}
 
 	@Override
-	public boolean clear(CacheIDs key) throws CacheException {
+	public boolean clear(CacheIDs key) throws SecurityException {
 		
-		if (cache == null) {
-			throw new CacheException(ExceptionIds.CACHE_KEY_NULL);
+		if (key == null) {
+			throw new ValidationException("移除缓存失败：CacheID为空");
 		}
 		
 		try {
 			return cache.remove(key);
-		} catch (Exception ce) {
-			throw new CacheException(ExceptionIds.CACHE_CLEAR_ERROR);
+		} catch (Exception e) {
+			throw new CacheException("移除缓存失败", e);
 		}
 	}
 
 	@Override
-	public boolean contains(CacheIDs key) throws CacheException {
-		if (cache == null) {
-			throw new CacheException(ExceptionIds.CACHE_KEY_NULL);
+	public boolean contains(CacheIDs key) throws SecurityException {
+
+		if (key == null) {
+			throw new ValidationException("检查缓存失败：CacheID为空");
 		}
 		
 		try {
 			return cache.getKeys().contains(key);
-		} catch (Exception ce) {
-			throw new CacheException(ExceptionIds.CACHE_CHECK_ERROR);
+		} catch (Exception e) {
+			throw new CacheException("检查缓存失败", e);
 		}
 	}
 
 	@Override
-	public void flush() throws CacheException {
-		
-		if (cache == null) {
-			throw new CacheException(ExceptionIds.CACHE_KEY_NULL);
-		}
+	public void flush() throws SecurityException {
 		
 		try {
 			cache.removeAll();
-		} catch (Exception ce) {
-			throw new CacheException(ExceptionIds.CACHE_FLUSH_ERROR);
+		} catch (Exception e) {
+			throw new CacheException("刷新缓存失败", e);
 		}
 
 	}

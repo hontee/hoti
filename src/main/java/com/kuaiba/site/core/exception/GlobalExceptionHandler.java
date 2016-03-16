@@ -1,4 +1,4 @@
-package com.kuaiba.site.core.exceptions;
+package com.kuaiba.site.core.exception;
 
 import javax.annotation.Resource;
 
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kuaiba.site.core.thread.ThreadPool;
-import com.kuaiba.site.db.entity.Response;
+import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.Track;
 import com.kuaiba.site.service.TrackService;
 
@@ -18,12 +18,40 @@ public class GlobalExceptionHandler {
 	private TrackService trackService;
 	
 	/**
-	 * 业务处理异常
+	 * 业务异常
+	 * @param e
+	 * @return
+	 */
+	@ExceptionHandler({ BaseException.class })
+	public @ResponseBody SiteResponse handle(BaseException e) {
+		track(e);
+		return new SiteResponse(e);
+	}
+	
+	/**
+	 * 运行时异常
+	 * @param e
+	 * @return
+	 */
+	@ExceptionHandler({ BaseRuntimeException.class })
+	public @ResponseBody SiteResponse handle(BaseRuntimeException e) {
+		track(e);
+		return new SiteResponse(e);
+	}
+	
+	/**
+	 * 未知错误
 	 * @param e
 	 * @return
 	 */
 	@ExceptionHandler({ Exception.class })
-	public @ResponseBody Response handle(Exception e) {
+	public @ResponseBody SiteResponse handle(Exception e) {
+		track(e);
+		SecurityException ex = new SecurityException(ErrorIDs.UNKNOWN, "未知错误");
+		return new SiteResponse(ex);
+	}
+	
+	private void track(Exception e) {
 		ThreadPool.getInstance().execute(new Runnable() {
 			@Override
 			public void run() {
@@ -38,8 +66,6 @@ public class GlobalExceptionHandler {
 				}
 			}
 		});
-		
-		return new Response("1001", e.getMessage());
 	}
 
 }

@@ -5,17 +5,18 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.common.base.Throwables;
 import com.kuaiba.site.aop.UseCache;
 import com.kuaiba.site.core.cache.CacheIDs;
-import com.kuaiba.site.core.exceptions.ExceptionIds;
-import com.kuaiba.site.core.exceptions.LogicException;
+import com.kuaiba.site.core.exception.CreateException;
+import com.kuaiba.site.core.exception.DeleteException;
+import com.kuaiba.site.core.exception.NotFoundException;
+import com.kuaiba.site.core.exception.ReadException;
+import com.kuaiba.site.core.exception.SecurityException;
+import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.CategoryMapper;
@@ -30,8 +31,6 @@ import com.kuaiba.site.service.CategoryService;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 	
-	private Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
-	
 	@Resource
 	private BookmarkFollowMapper bfMapper;
 	
@@ -39,55 +38,51 @@ public class CategoryServiceImpl implements CategoryService {
 	private CategoryMapper mapper;
 
 	@Override
-	public PageInfo<Category> findByExample(CategoryExample example, Pagination p) {
-		ContraintValidator.checkNotNull(example, p);
+	public PageInfo<Category> findByExample(CategoryExample example, Pagination p) throws SecurityException {
 		try {
+			ContraintValidator.checkNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Category> list = this.findByExample(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("分页读取数据失败", e);
 		}
 	}
 
 	@Override
-	public int countByExample(CategoryExample example) {
-		ContraintValidator.checkNotNull(example);
+	public int countByExample(CategoryExample example) throws SecurityException {
 		try {
+			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("统计数据失败", e);
 		}
 	}
 
 	@Override
-	public void deleteByExample(CategoryExample example) {
-		ContraintValidator.checkNotNull(example);
+	public void deleteByExample(CategoryExample example) throws SecurityException {
 		try {
+			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_DELETE);
+			throw new DeleteException("删除数据失败", e);
 		}
 	}
 
 	@Override
-	public void deleteByPrimaryKey(Long id) {
-		ContraintValidator.checkPrimaryKey(id);
+	public void deleteByPrimaryKey(Long id) throws SecurityException {
 		try {
+			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_DELETE);
+			throw new DeleteException("删除数据失败", e);
 		}
 	}
 
 	@Override
-	public void add(CategoryVO vo) {
-		ContraintValidator.checkNotNull(vo);
+	public void add(CategoryVO vo) throws SecurityException {
 		try {
+			ContraintValidator.checkNotNull(vo);
 			Category record = new Category();
 			record.setName(vo.getName());
 			record.setTitle(vo.getTitle());
@@ -97,49 +92,45 @@ public class CategoryServiceImpl implements CategoryService {
 			record.setCreateBy(CurrentUser.getCurrentUserId());
 			mapper.insert(record);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_ADD);
+			throw new CreateException("添加数据失败", e);
 		}
 	}
 
 	@Override
-	public List<Category> findByExample(CategoryExample example) {
-		ContraintValidator.checkNotNull(example);
+	public List<Category> findByExample(CategoryExample example) throws SecurityException {
 		try {
+			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("读取数据失败", e);
 		}
 	}
 
 	@Override
-	public Category findByPrimaryKey(Long id) {
-		ContraintValidator.checkPrimaryKey(id);
+	public Category findByPrimaryKey(Long id) throws SecurityException {
 		try {
+			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("读取数据失败", e);
 		}
 	}
 
 	@Override
-	public void updateByExample(Category record, CategoryExample example) {
-		ContraintValidator.checkNotNull(record, example);
+	public void updateByExample(Category record, CategoryExample example) throws SecurityException {
 		try {
+			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
+			throw new UpdateException("更新数据失败", e);
 		}
 	}
 
 	@Override
-	public void updateByPrimaryKey(Long id, CategoryVO vo) {
-		ContraintValidator.checkNotNull(vo);
-		ContraintValidator.checkPrimaryKey(id);
+	public void updateByPrimaryKey(Long id, CategoryVO vo) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(vo);
+			ContraintValidator.checkPrimaryKey(id);
 			Category record = new Category();
 			record.setId(id);
 			record.setName(vo.getName());
@@ -149,31 +140,29 @@ public class CategoryServiceImpl implements CategoryService {
 			record.setDomain(vo.getDomain());
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
+			throw new UpdateException("更新数据失败", e);
 		}
 	}
 
 	@Override
-	public List<Category> findByOrganization(Long domain) {
-		ContraintValidator.checkNotNull(domain);
+	public List<Category> findByOrganization(Long domain) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(domain);
 			return mapper.selectByDomain(domain);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("读取数据失败", e);
 		}
 	}
 
 	@Override
 	@UseCache(key = CacheIDs.HOMEPAGE)
-	public List<Category> findByCollect(CategoryExample example) {
-		ContraintValidator.checkNotNull(example);
+	public List<Category> findByCollect(CategoryExample example) throws SecurityException {
 		try {
+			ContraintValidator.checkNotNull(example);
 			List<Category> list = new ArrayList<>();
 			List<Category> cates = mapper.selectByCollect(example);
 			final List<Long> fids = bfMapper.selectByUid(CurrentUser.getCurrentUserId());
-			
+
 			cates.forEach((c) -> {
 				List<Bookmark> ws = c.getBookmarks();
 				if (ws.isEmpty()) {
@@ -189,23 +178,22 @@ public class CategoryServiceImpl implements CategoryService {
 			cates.removeAll(list);
 			return cates;
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("读取数据失败", e);
 		}
 	}
 	
 	@Override
-	public boolean checkCategoryName(String name) {
-		ContraintValidator.checkNotNull(name);
+	public boolean checkCategoryName(String name) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(name);
 			CategoryExample example = new CategoryExample();
 			example.createCriteria().andNameEqualTo(name);
 			List<Category> list = mapper.selectByExample(example);
 			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
+			throw new NotFoundException("检测分类名称失败", e);
 		}
-		return false;
 	}
 	
 }

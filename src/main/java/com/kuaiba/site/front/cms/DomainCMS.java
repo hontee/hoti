@@ -19,12 +19,13 @@ import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.aop.Log;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
+import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.ComboBox;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Pagination;
-import com.kuaiba.site.db.entity.Response;
+import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.DomainVO;
 
@@ -46,14 +47,14 @@ public class DomainCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.GET)
-	public String editPage(@PathVariable Long id, Model model) {
+	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/domains/edit";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.VIEW, method = RequestMethod.GET)
-	public String view(@PathVariable Long id, Model model) {
+	public String view(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/domains/view";
 	}
@@ -84,7 +85,7 @@ public class DomainCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
 	@Log(action = "后台添加领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
-	public @ResponseBody Response add(DomainVO vo, HttpServletRequest request) {
+	public @ResponseBody SiteResponse add(DomainVO vo, HttpServletRequest request) throws SecurityException {
 		domainService.add(vo);
 		return ok();
 	}
@@ -92,7 +93,7 @@ public class DomainCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
 	@Log(action = "后台删除领域", table = TableIDs.DOMAIN)
-	public @ResponseBody Response delete(@PathVariable Long id, HttpServletRequest request) {
+	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		domainService.deleteByPrimaryKey(id);
 		return ok();
 	}
@@ -100,12 +101,12 @@ public class DomainCMS extends BaseCO {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
 	@Log(action = "后台编辑领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
-	public @ResponseBody Response edit(@PathVariable Long id, DomainVO vo, HttpServletRequest request) {
+	public @ResponseBody SiteResponse edit(@PathVariable Long id, DomainVO vo, HttpServletRequest request) throws SecurityException {
 		domainService.updateByPrimaryKey(id, vo);
 		return ok();
 	}
 	
-	private Domain findByPrimaryKey(Long id) {
+	private Domain findByPrimaryKey(Long id) throws SecurityException {
 		return domainService.findByPrimaryKey(id);
 	}
 }

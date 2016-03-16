@@ -4,15 +4,15 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.common.base.Throwables;
-import com.kuaiba.site.core.exceptions.ExceptionIds;
-import com.kuaiba.site.core.exceptions.LogicException;
+import com.kuaiba.site.core.exception.CreateException;
+import com.kuaiba.site.core.exception.DeleteException;
+import com.kuaiba.site.core.exception.ReadException;
+import com.kuaiba.site.core.exception.SecurityException;
+import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.db.dao.RecommendMapper;
 import com.kuaiba.site.db.entity.ContraintValidator;
 import com.kuaiba.site.db.entity.FetchFactory;
@@ -27,8 +27,6 @@ import com.kuaiba.site.service.RecommendService;
 @Service
 public class RecommendServiceImpl implements RecommendService {
 	
-	private Logger logger = LoggerFactory.getLogger(RecommendServiceImpl.class);
-	
 	@Resource
 	private RecommendMapper mapper;
 	
@@ -36,101 +34,93 @@ public class RecommendServiceImpl implements RecommendService {
 	private BookmarkService webService;
 
 	@Override
-	public PageInfo<Recommend> findByExample(RecommendExample example, Pagination p) {
-		ContraintValidator.checkNotNull(example, p);
+	public PageInfo<Recommend> findByExample(RecommendExample example, Pagination p) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Recommend> list = this.findByExample(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("分页读取数据失败", e);
 		}
 	}
 
 	@Override
-	public int countByExample(RecommendExample example) {
-		ContraintValidator.checkNotNull(example);
+	public int countByExample(RecommendExample example) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("统计数据失败", e);
 		}
 	}
 
 	@Override
-	public void deleteByExample(RecommendExample example) {
-		ContraintValidator.checkNotNull(example);
+	public void deleteByExample(RecommendExample example) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_DELETE);
+			throw new DeleteException("删除数据失败", e);
 		}
 	}
 
 	@Override
-	public void deleteByPrimaryKey(Long id) {
-		ContraintValidator.checkPrimaryKey(id);
+	public void deleteByPrimaryKey(Long id) throws SecurityException { 
 		try {
+			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_DELETE);
+			throw new DeleteException("删除数据失败", e);
 		}
 	}
 
 	@Override
-	public void add(String url) {
-		ContraintValidator.checkNotNull(url);
+	public void add(String url) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(url);
 			Recommend record = FetchFactory.get(url);
 			mapper.insert(record);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_ADD);
-		}		
+			throw new CreateException("添加数据失败", e);
+		}
 	}
 
 	@Override
-	public List<Recommend> findByExample(RecommendExample example) {
-		ContraintValidator.checkNotNull(example);
+	public List<Recommend> findByExample(RecommendExample example) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("读取数据失败", e);
 		}
 	}
 
 	@Override
-	public Recommend findByPrimaryKey(Long id) {
-		ContraintValidator.checkPrimaryKey(id);
+	public Recommend findByPrimaryKey(Long id) throws SecurityException { 
 		try {
+			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_QUERY);
+			throw new ReadException("读取数据失败", e);
 		}
 	}
 
 	@Override
-	public void updateByExample(Recommend record, RecommendExample example) {
-		ContraintValidator.checkNotNull(record, example);
+	public void updateByExample(Recommend record, RecommendExample example) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
+			throw new UpdateException("更新数据失败", e);
 		}
 	}
 
 	@Override
-	public void updateByPrimaryKey(Long id, RecommendVO vo) {
-		ContraintValidator.checkNotNull(vo);
-		ContraintValidator.checkPrimaryKey(id);
+	public void updateByPrimaryKey(Long id, RecommendVO vo) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(vo);
+			ContraintValidator.checkPrimaryKey(id);
 			Recommend record = new Recommend();
 			record.setId(id);
 			record.setDescription(vo.getDescription());
@@ -138,40 +128,37 @@ public class RecommendServiceImpl implements RecommendService {
 			record.setKeywords(vo.getKeywords());
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
+			throw new UpdateException("更新数据失败", e);
 		}
 	}
 
 	@Override
-	public void audit(Long id, String remark) {
-		ContraintValidator.checkNotNull(remark);
-		ContraintValidator.checkPrimaryKey(id);
+	public void audit(Long id, String remark) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(remark);
+			ContraintValidator.checkPrimaryKey(id);
 			Recommend record = new Recommend();
 			record.setId(id);
-			record.setState((byte)3); // 审核拒绝
+			record.setState((byte) 3); // 审核拒绝
 			record.setRemark(remark);
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
+			throw new UpdateException("推荐站点审核不通过失败", e);
 		}
 	}
 
 	@Override
-	public void audit(Long id, BookmarkVO vo) {
-		ContraintValidator.checkNotNull(vo);
-		ContraintValidator.checkPrimaryKey(id);
+	public void audit(Long id, BookmarkVO vo) throws SecurityException { 
 		try {
+			ContraintValidator.checkNotNull(vo);
+			ContraintValidator.checkPrimaryKey(id);
 			Recommend record = new Recommend();
 			record.setId(id);
-			record.setState((byte)2); // 审核通过
+			record.setState((byte) 2); // 审核通过
 			mapper.updateByPrimaryKey(record);
 			webService.add(vo);
 		} catch (Exception e) {
-			logger.debug(Throwables.getStackTraceAsString(e));
-			throw new LogicException(ExceptionIds.LOGIC_UPDATE);
+			throw new UpdateException("推荐站点审核通过失败", e);
 		}
 	}
 

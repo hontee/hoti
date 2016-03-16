@@ -3,23 +3,23 @@ package com.kuaiba.site.core.cache;
 import java.net.URL;
 
 import com.kuaiba.site.core.GlobalIDs;
-import com.kuaiba.site.core.exceptions.CacheException;
-import com.kuaiba.site.core.exceptions.ExceptionIds;
+import com.kuaiba.site.core.exception.BaseRuntimeException;
+import com.kuaiba.site.core.exception.ErrorIDs;
 
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.constructs.blocking.BlockingCache;
 
-public class CacheFactory
-{
-    /**
-     * Create and return a reference to {@link Cache} object.
-     *
-     * @return instance of {@link Cache}.
-     */
-    public static Cache createInstance(String name)
-    {
-    	try {
+public class CacheFactory {
+	
+	/**
+	 * Create and return a reference to {@link Cache} object.
+	 *
+	 * @return instance of {@link Cache}.
+	 */
+	public static Cache createInstance(String name) {
+		
+		try {
 			URL url = CacheFactory.class.getResource(GlobalIDs.CFG_EHCACHE);
 			CacheManager cacheManager = CacheManager.create(url);
 			Ehcache cache = cacheManager.getEhcache(name);
@@ -27,8 +27,8 @@ public class CacheFactory
 			cacheManager.replaceCacheWithDecoratedCache(cache, blockingCache);
 			return new EhCacheImpl(blockingCache);
 		} catch (Exception e) {
-			throw new CacheException(ExceptionIds.CACHE_CREATE_INSTANCE_ERROR);
+			throw new BaseRuntimeException(ErrorIDs.CACHE_ERROR, "创建缓存实例失败", e);
 		}
-    }
-    
+	}
+
 }

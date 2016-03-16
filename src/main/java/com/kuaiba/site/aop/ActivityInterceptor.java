@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
-import com.kuaiba.site.db.entity.Response;
+import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.service.ActivityService;
 
 /**
@@ -41,8 +41,8 @@ public class ActivityInterceptor {
 			byte state = 1;
 			
 			// 判断返回状态
-			if (returnValue instanceof Response) {
-				Response response = (Response) returnValue;
+			if (returnValue instanceof SiteResponse) {
+				SiteResponse response = (SiteResponse) returnValue;
 				state = response.isSuccess()? (byte)1: 0;
 			}
 			

@@ -1,25 +1,24 @@
 package com.kuaiba.site.front.co;
 
 import javax.annotation.Resource;
+import javax.ws.rs.core.Response;
 
 import org.springframework.web.context.request.WebRequest;
 
+import com.kuaiba.site.core.exception.BaseException;
+import com.kuaiba.site.core.exception.ErrorIDs;
+import com.kuaiba.site.core.exception.SecurityException;
+import com.kuaiba.site.db.entity.SiteResponse;
+import com.kuaiba.site.service.ActivityService;
+import com.kuaiba.site.service.BookmarkService;
 import com.kuaiba.site.service.CategoryService;
-import com.kuaiba.site.service.MenuService;
-import com.kuaiba.site.service.MtypeService;
 import com.kuaiba.site.service.DomainService;
 import com.kuaiba.site.service.GroupService;
+import com.kuaiba.site.service.MenuService;
+import com.kuaiba.site.service.MtypeService;
 import com.kuaiba.site.service.RecommendService;
 import com.kuaiba.site.service.TrackService;
 import com.kuaiba.site.service.UserService;
-import com.kuaiba.site.core.exceptions.AccountException;
-import com.kuaiba.site.core.exceptions.CheckedException;
-import com.kuaiba.site.core.exceptions.CoreException;
-import com.kuaiba.site.core.exceptions.ExceptionIds;
-import com.kuaiba.site.core.exceptions.LogicException;
-import com.kuaiba.site.db.entity.Response;
-import com.kuaiba.site.service.ActivityService;
-import com.kuaiba.site.service.BookmarkService;
 
 public abstract class BaseCO {
 	
@@ -61,9 +60,9 @@ public abstract class BaseCO {
 	 * 成功
 	 * @return
 	 */
-	protected Response ok() {
-		javax.ws.rs.core.Response response = javax.ws.rs.core.Response.ok().build();
-		return new Response(response.getStatusInfo());
+	protected SiteResponse ok() {
+		Response response = Response.ok().build();
+		return new SiteResponse(response.getStatusInfo());
 	}
 	
 	/**
@@ -71,9 +70,9 @@ public abstract class BaseCO {
 	 * @param entity
 	 * @return
 	 */
-	protected Response ok(Object entity) {
-		javax.ws.rs.core.Response response = javax.ws.rs.core.Response.ok(entity).build();
-		return new Response(response.getEntity());
+	protected SiteResponse ok(Object entity) {
+		Response response = Response.ok(entity).build();
+		return new SiteResponse(response.getEntity());
 	}
 	
 	/**
@@ -81,17 +80,9 @@ public abstract class BaseCO {
 	 * @param message
 	 * @return
 	 */
-	protected Response failure(String message) {
-		return new Response("LOGIC_CUSTOM", message);
-	}
-	
-	/**
-	 * 失败
-	 * @param message
-	 * @return
-	 */
-	protected Response failure(ExceptionIds ex) {
-		return new Response(ex.name(), ex.getMessage());
+	protected SiteResponse error(ErrorIDs errorId, String message) {
+		SecurityException ex = new SecurityException(errorId, message);
+		return new SiteResponse(ex);
 	}
 	
 	/**
@@ -99,18 +90,8 @@ public abstract class BaseCO {
 	 * @param e
 	 * @return
 	 */
-	protected Response failure(Throwable t) {
-		CoreException e = new CoreException();
-		
-		if (t instanceof AccountException) {
-			e = (AccountException) t;
-		} else if (t instanceof CheckedException) {
-			e = (CheckedException) t;
-		} else if (t instanceof LogicException) {
-			e = (LogicException) t;
-		}
-		
-		return new Response(e.getCode(), e.getError());
+	protected SiteResponse error(BaseException e) {
+		return new SiteResponse(e);
 	}
 
 }
