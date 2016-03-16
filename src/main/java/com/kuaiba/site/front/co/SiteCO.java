@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.aop.Log;
-import com.kuaiba.site.core.GlobalIDs;
 import com.kuaiba.site.core.HttpURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.core.exception.SecurityException;
+import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Category;
@@ -51,8 +51,8 @@ public class SiteCO extends BaseCO implements ISite {
 	@RequestMapping(value = HttpURLs.LOGIN, method = RequestMethod.GET)
 	@Override
 	public String login() {
-		boolean flag = (SecurityUtils.getSubject().getSession().getAttribute(GlobalIDs.LOGIN_USER) != null);
-		if (flag) {
+		
+		if (CurrentUser.isLogin()) {
 			return redirect("/");
 		}
 		return "views/login";

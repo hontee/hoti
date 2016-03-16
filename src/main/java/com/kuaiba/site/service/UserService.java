@@ -32,11 +32,5 @@ public interface UserService extends Pager<User, UserExample> {
     
     void login(String username, String password) throws SecurityException;
     
-    /**
-	 * 验证User名称是否存在
-	 * @param name
-	 * @return
-	 */
-	boolean checkUserName(String name) throws SecurityException;
     
 }

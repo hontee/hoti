@@ -155,12 +155,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean existsName(String name) throws SecurityException { 
-		try {
-			ContraintValidator.checkNotNull(name);
-			return mapper.selectByName(name) != null;
-		} catch (Exception e) {
-			throw new UpdateException("检测用户名失败", e);
-		}
+		return this.findByName(name) != null;
 	}
 
 	@Override
@@ -169,28 +164,16 @@ public class UserServiceImpl implements UserService {
 			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
-			User currentUser = this.findByName((String) subject.getPrincipal());
+			String principal = (String) subject.getPrincipal();
+			User currentUser = this.findByName(principal);
 			Session session = subject.getSession();
 			session.setAttribute(GlobalIDs.LOGIN_USER, currentUser);
 			session.setAttribute(GlobalIDs.ADMIN_USER, CurrentUser.isAdmin());
 		} catch (AuthenticationException e) {
+			e.printStackTrace();
 			throw new AuthzException("用户权限认证失败", e);
 		} catch (Exception e) {
 			throw new AccountException("用户名或密码错误", e);
-		}
-	}
-	
-	@Override
-	public boolean checkUserName(String name) throws SecurityException { 
-		try {
-			ContraintValidator.checkNotNull(name);
-			UserExample example = new UserExample();
-			example.createCriteria().andNameEqualTo(name);
-			List<User> list = mapper.selectByExample(example);
-			ContraintValidator.checkNotNull(list);
-			return !list.isEmpty();
-		} catch (Exception e) {
-			throw new UpdateException("检测用户名失败", e);
 		}
 	}
 

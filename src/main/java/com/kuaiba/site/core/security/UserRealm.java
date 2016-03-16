@@ -16,10 +16,6 @@ import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kuaiba.site.core.GlobalIDs;
-import com.kuaiba.site.core.cache.Cache;
-import com.kuaiba.site.core.cache.CacheFactory;
-import com.kuaiba.site.core.cache.CacheIDs;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.service.UserService;
@@ -45,33 +41,16 @@ public class UserRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		logger.info("为登录成功的用户：{}，添加角色和权限", principals.getPrimaryPrincipal());
-		
-		Object obj = null;
-		try {
-			Cache cache = CacheFactory.createInstance(GlobalIDs.CACHE_USERS);
-			obj = cache.get(CacheIDs.USER_ROLES);
-		} catch (SecurityException e) {
-			logger.debug("获取缓存数据失败：" + e.getMessage(), e);
-		}
-		
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		
-		if (obj != null && obj instanceof SimpleAuthorizationInfo) {
-			
-			info = (SimpleAuthorizationInfo) obj;
+		Set<String> roles = new HashSet<>();
+		if (CurrentUser.isAdmin()) { // 登录用户是否为管理员
+			roles.add("admin");
+			info.setRoles(roles);
 		} else {
-			
-			Set<String> roles = new HashSet<>();
-			
-			if (CurrentUser.isAdmin()) { // 登录用户是否为管理员
-				roles.add("admin");
-				info.setRoles(roles);
-			} else {
-				roles.add("user");
-				info.setRoles(roles);
-			}
+			roles.add("user");
+			info.setRoles(roles);
 		}
-		
+
 		return info;
 	}
 

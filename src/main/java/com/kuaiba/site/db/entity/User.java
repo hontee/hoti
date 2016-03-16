@@ -100,7 +100,7 @@ public class User implements Serializable {
      */
     public void setUserType(Byte userType) {
     	this.userType = userType;
-    	if (Arrays.asList(userTypes).contains(userType)) {
+    	if (!Arrays.asList(userTypes).contains(userType)) {
 			setUserType(UserType.USER);
 		}
     }
@@ -124,7 +124,7 @@ public class User implements Serializable {
      */
     public void setState(Byte state) {
         this.state = state;
-        if (Arrays.asList(states).contains(state)) {
+        if (!Arrays.asList(states).contains(state)) {
         	setState(UserState.ACTIVE);
 		}
     }
