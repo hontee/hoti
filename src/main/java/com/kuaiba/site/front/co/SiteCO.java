@@ -70,7 +70,6 @@ public class SiteCO extends BaseCO implements ISite {
 	}
 	
 	@RequestMapping(value = HttpURLs.LOGOUT, method = RequestMethod.GET)
-	@Log(action = "用户登出", table = TableIDs.USER)
 	@Override
 	public String logout() {
 		SecurityUtils.getSubject().logout();
