@@ -30,7 +30,6 @@ tracksEL.dg.datagrid({
     pagination: true,
     pageSize: 20,
     pageList:[20, 50, 100],
-    title:'异常管理',
     header: '#tracks-header',
     fit: true,
     columns:[[

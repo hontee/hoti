@@ -77,7 +77,7 @@ public class ActivityCMS extends BaseCO {
 	@SiteLog(action = "后台批量删除记录", table = TableIDs.ACTIVITY, clazz = String.class)
 	public @ResponseBody SiteResponse delete(@RequestParam String ids, HttpServletRequest request) throws SecurityException {
 		activityService.deleteByPrimaryKey(ids.split(","));
-		return ok(ids);
+		return ok();
 	}
 	
 	private Activity findByPrimaryKey(Long id) throws SecurityException {

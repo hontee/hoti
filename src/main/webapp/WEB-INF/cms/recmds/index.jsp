@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../_header.jsp" %>
-<title>推荐站点</title>
+<title>推荐管理</title>
 </head>
 <body>
 <header id="recmds-header" class="cms-dg-header">
@@ -44,32 +44,31 @@ recmdsEL.dg.datagrid({
     pagination: true,
     pageSize: 20,
     pageList:[20, 50, 100],
-    title:'推荐站点',
     header: '#recmds-header',
     fit: true,
     columns:[[
         {field:'id', checkbox: true},
         {field:'name',title:'名称',width:100, hidden: true},
-        {field:'title',title:'标题',width:100, sortable: true},
-        {field:'keywords',title:'关键词',width:100},
-        {field:'description',title:'描述',width:100},
+        {field:'title',title:'标题',width:200, sortable: true},
+        {field:'keywords',title:'关键词',width:100, hidden: true},
+        {field:'description',title:'描述',width:100, hidden: true},
         {field:'url',title:'网址',width:100, sortable: true},
-        {field:'state',title:'状态',width:100, sortable: true, formatter: function(value,row,index) {
+        {field:'state',title:'状态',width:50, sortable: true, formatter: function(value,row,index) {
         	if (value == '2') {
 				return '审核通过';
 			} if (value == '3') {
-				return '审核未通过';
+				return '审核拒绝';
 			} else {
 				return '待审核';
 			}
         }},
-        {field:'created',title:'创建时间',width:100, sortable: true, formatter: function(value,row,index) {
+        {field:'created',title:'创建时间',width:80, sortable: true, formatter: function(value,row,index) {
         	return new Date(value).format();  
         }},
-        {field:'lastModified',title:'最后更新时间',width:100, sortable: true, formatter: function(value,row,index) {
+        {field:'lastModified',title:'最后更新时间',width:80, sortable: true, formatter: function(value,row,index) {
         	return new Date(value).format();  
         }},
-        {field:'creator',title:'创建人',width:100, sortable: true},
+        {field:'creator',title:'推荐人',width:50, sortable: true},
         {field:'remark',title:'备注',width:100}
     ]],
  	// 当选择一行时触发
@@ -127,7 +126,7 @@ recmdsEL.add.click(function() {
 		width: 480,
 		height: 650,
 		modal: true,
-		title: '新建',
+		title: '新建推荐',
 		collapsible: false,
 		minimizable: false,
 		maximizable: false,
@@ -145,7 +144,7 @@ recmdsEL.edit.click(function() {
 			width: 480,
 			height: 650,
 			modal: true,
-			title: '编辑',
+			title: '编辑推荐',
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
@@ -168,7 +167,7 @@ recmdsEL.auditOk.click(function() {
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
-			href: '/cms/recmds/' + row.id + '/auditOk',
+			href: '/cms/recmds/' + row.id + '/ok',
 			method: 'get',
 			cache: false
 		});
@@ -187,7 +186,7 @@ recmdsEL.auditNot.click(function() {
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
-			href: '/cms/recmds/' + row.id + '/auditNot',
+			href: '/cms/recmds/' + row.id + '/refuse',
 			method: 'get',
 			cache: false
 		});

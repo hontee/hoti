@@ -40,7 +40,6 @@ bookmarksEL.dg.datagrid({
     pagination: true,
     pageSize: 20,
     pageList:[20, 50, 100],
-    title:'站点管理',
     header: '#bookmarks-header',
     fit: true,
     columns:[[

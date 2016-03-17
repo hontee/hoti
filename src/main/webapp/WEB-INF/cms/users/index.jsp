@@ -40,7 +40,6 @@ usersEL.dg.datagrid({
     pagination: true,
     pageSize: 20,
     pageList:[20, 50, 100],
-    title:'用户管理',
     header: '#users-header',
     fit: true,
     columns:[[

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../_header.jsp" %>
-<title>群组</title>
+<title>群组管理</title>
 </head>
 <body>
 <header id="groups-header" class="cms-dg-header">
@@ -40,7 +40,6 @@ groupsEL.dg.datagrid({
     pagination: true,
     pageSize: 20,
     pageList:[20, 50, 100],
-    title:'群组',
     header: '#groups-header',
     fit: true,
     columns:[[

@@ -53,14 +53,14 @@ public class RecommendCMS extends BaseCO {
 	@RequestMapping(value = CmsURLs.AUDIT_OK, method = RequestMethod.GET)
 	public String auditOKPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
-		return "cms/recmds/audit-ok";
+		return "cms/recmds/ok";
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.AUDIT_NOT, method = RequestMethod.GET)
-	public String auditNotPage(@PathVariable Long id, Model model) throws SecurityException {
+	@RequestMapping(value = CmsURLs.AUDIT_REFUSE, method = RequestMethod.GET)
+	public String auditRefusePage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
-		return "cms/recmds/audit-not";
+		return "cms/recmds/refuse";
 	}
 
 	@RequiresRoles(value = "admin")
@@ -109,15 +109,15 @@ public class RecommendCMS extends BaseCO {
 	@RequestMapping(value = CmsURLs.AUDIT_OK, method = RequestMethod.POST)
 	@SiteLog(action = "后台审核推荐通过", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
 	public @ResponseBody SiteResponse auditOk(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) throws SecurityException {
-		recommendService.audit(id, vo);
+		auditable.auditRecommend(id, vo);
 		return ok();
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.AUDIT_NOT, method = RequestMethod.POST)
+	@RequestMapping(value = CmsURLs.AUDIT_REFUSE, method = RequestMethod.POST)
 	@SiteLog(action = "后台审核推荐拒绝", table = TableIDs.RECOMMEND, clazz = String.class)
-	public @ResponseBody SiteResponse auditNot(@PathVariable Long id, @RequestParam String remark, HttpServletRequest request) throws SecurityException {
-		recommendService.audit(id, remark);
+	public @ResponseBody SiteResponse auditRefuse(@PathVariable Long id, @RequestParam String remark, HttpServletRequest request) throws SecurityException {
+		auditable.auditRecommend(id, remark);
 		return ok();
 	}
 	

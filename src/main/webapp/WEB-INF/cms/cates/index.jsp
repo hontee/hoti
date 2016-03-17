@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../_header.jsp" %>
-<title>类别管理</title>
+<title>分类管理</title>
 </head>
 <body>
 <header id="cates-header" class="cms-dg-header">
@@ -40,7 +40,6 @@ catesEL.dg.datagrid({
     pagination: true,
     pageSize: 20,
     pageList:[20, 50, 100],
-    title:'类别管理',
     header: '#cates-header',
     fit: true,
     columns:[[
@@ -126,7 +125,7 @@ catesEL.add.click(function() {
 		width: 480,
 		height: 500,
 		modal: true,
-		title: '新建类别',
+		title: '新建分类',
 		collapsible: false,
 		minimizable: false,
 		maximizable: false,
@@ -144,7 +143,7 @@ catesEL.edit.click(function() {
 			width: 480,
 			height: 500,
 			modal: true,
-			title: '编辑类别',
+			title: '编辑分类',
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,

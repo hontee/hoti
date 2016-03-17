@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../_header.jsp" %>
-<title>媒体类型</title>
+<title>类型管理</title>
 </head>
 <body>
 <header id="mtypes-header" class="cms-dg-header">
@@ -40,7 +40,6 @@ mtypesEL.dg.datagrid({
     pagination: true,
     pageSize: 20,
     pageList:[20, 50, 100],
-    title:'媒体类型',
     header: '#mtypes-header',
     fit: true,
     columns:[[

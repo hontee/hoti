@@ -10,6 +10,7 @@ import com.kuaiba.site.core.exception.ErrorIDs;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.service.ActivityService;
+import com.kuaiba.site.service.Auditable;
 import com.kuaiba.site.service.BookmarkService;
 import com.kuaiba.site.service.CategoryService;
 import com.kuaiba.site.service.DomainService;
@@ -42,6 +43,8 @@ public abstract class BaseCO {
 	protected TrackService trackService;
 	@Resource
 	protected ActivityService activityService;
+	@Resource
+	protected Auditable auditable;
 	
 	protected String redirect(String path) {
 		return "redirect:".concat(path);

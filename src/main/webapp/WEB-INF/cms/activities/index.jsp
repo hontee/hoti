@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../_header.jsp" %>
-<title>操作管理</title>
+<title>操作日志</title>
 </head>
 <body>
 <header id="activities-header" class="cms-dg-header">
@@ -39,7 +39,6 @@ activitiesEL.dg.datagrid({
     pagination: true,
     pageSize: 20,
     pageList:[20, 50, 100],
-    title:'操作管理',
     header: '#activities-header',
     fit: true,
     columns:[[
