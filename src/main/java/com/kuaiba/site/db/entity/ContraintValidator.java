@@ -38,5 +38,16 @@ public class ContraintValidator {
 			throw new ValidationException("无效的ID", e);
 		}
 	}
-
+	
+	/**
+	 * 检测数组是否为空
+	 * @param ids
+	 * @throws ValidationException
+	 */
+	public static void checkArrays(String[] ids) throws ValidationException {
+		if (ids == null || Arrays.asList(ids).isEmpty()) {
+			throw new ValidationException("数组为空");
+		}
+	}
+	
 }

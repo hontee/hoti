@@ -1,5 +1,10 @@
 package com.kuaiba.site.core;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 使用Activity记录表操作
  * @author larry.qi
@@ -20,5 +25,22 @@ public interface TableIDs {
 	String RECOMMEND = "t_recommend";
 	String TRACK = "t_track";
 	String USER = "t_user";
+	
+	/**
+	 * 获取表名信息
+	 * @return
+	 */
+	public static List<String> getList() {
+		List<String> list = new ArrayList<>();
+		Field[] fields = TableIDs.class.getFields();
+		Arrays.asList(fields).forEach((f) -> {
+			try {
+				list.add((String) f.get(f.getName()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		return list;
+	}
 	
 }

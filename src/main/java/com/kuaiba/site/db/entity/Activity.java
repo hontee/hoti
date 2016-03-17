@@ -23,7 +23,7 @@ public class Activity implements Serializable {
 
     private String tbl;
 
-    private String ipAddr;
+    private String ip;
 
     private Byte state;
 
@@ -65,15 +65,15 @@ public class Activity implements Serializable {
         this.tbl = tbl;
     }
 
-    public String getIpAddr() {
-        return ipAddr;
-    }
+    public String getIp() {
+		return ip;
+	}
 
-    public void setIpAddr(String ipAddr) {
-        this.ipAddr = ipAddr;
-    }
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 
-    public Byte getState() {
+	public Byte getState() {
         return state;
     }
 

@@ -12,6 +12,8 @@ public interface ActivityMapper {
     int deleteByExample(ActivityExample example);
 
     int deleteByPrimaryKey(Long id);
+    
+    int deleteByIds(String[] ids);
 
     int insert(Activity record);
 

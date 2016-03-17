@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
 			List<Category> list = this.findByExample(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
-			throw new ReadException("分页读取数据失败", e);
+			throw new ReadException("分页读取分类失败", e);
 		}
 	}
 
@@ -55,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("统计数据失败", e);
+			throw new ReadException("统计分类失败", e);
 		}
 	}
 
@@ -65,7 +65,7 @@ public class CategoryServiceImpl implements CategoryService {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除分类失败", e);
 		}
 	}
 
@@ -75,7 +75,7 @@ public class CategoryServiceImpl implements CategoryService {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除分类失败", e);
 		}
 	}
 
@@ -92,7 +92,7 @@ public class CategoryServiceImpl implements CategoryService {
 			record.setCreateBy(CurrentUser.getCurrentUserId());
 			mapper.insert(record);
 		} catch (Exception e) {
-			throw new CreateException("添加数据失败", e);
+			throw new CreateException("添加分类失败", e);
 		}
 	}
 
@@ -102,7 +102,7 @@ public class CategoryServiceImpl implements CategoryService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取分类失败", e);
 		}
 	}
 
@@ -112,7 +112,7 @@ public class CategoryServiceImpl implements CategoryService {
 			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取分类失败", e);
 		}
 	}
 
@@ -122,7 +122,7 @@ public class CategoryServiceImpl implements CategoryService {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新分类失败", e);
 		}
 	}
 
@@ -140,7 +140,7 @@ public class CategoryServiceImpl implements CategoryService {
 			record.setDomain(vo.getDomain());
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新分类失败", e);
 		}
 	}
 
@@ -150,7 +150,7 @@ public class CategoryServiceImpl implements CategoryService {
 			ContraintValidator.checkNotNull(domain);
 			return mapper.selectByDomain(domain);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取分类失败", e);
 		}
 	}
 
@@ -178,7 +178,7 @@ public class CategoryServiceImpl implements CategoryService {
 			cates.removeAll(list);
 			return cates;
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取分类失败", e);
 		}
 	}
 	

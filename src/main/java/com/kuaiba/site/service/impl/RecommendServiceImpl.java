@@ -41,7 +41,7 @@ public class RecommendServiceImpl implements RecommendService {
 			List<Recommend> list = this.findByExample(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
-			throw new ReadException("分页读取数据失败", e);
+			throw new ReadException("分页读取推荐失败", e);
 		}
 	}
 
@@ -51,7 +51,7 @@ public class RecommendServiceImpl implements RecommendService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("统计数据失败", e);
+			throw new ReadException("统计推荐失败", e);
 		}
 	}
 
@@ -61,7 +61,7 @@ public class RecommendServiceImpl implements RecommendService {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除推荐失败", e);
 		}
 	}
 
@@ -71,7 +71,7 @@ public class RecommendServiceImpl implements RecommendService {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除推荐失败", e);
 		}
 	}
 
@@ -82,7 +82,7 @@ public class RecommendServiceImpl implements RecommendService {
 			Recommend record = FetchFactory.get(url);
 			mapper.insert(record);
 		} catch (Exception e) {
-			throw new CreateException("添加数据失败", e);
+			throw new CreateException("添加推荐失败", e);
 		}
 	}
 
@@ -92,7 +92,7 @@ public class RecommendServiceImpl implements RecommendService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取推荐失败", e);
 		}
 	}
 
@@ -102,7 +102,7 @@ public class RecommendServiceImpl implements RecommendService {
 			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取推荐失败", e);
 		}
 	}
 
@@ -112,7 +112,7 @@ public class RecommendServiceImpl implements RecommendService {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新推荐失败", e);
 		}
 	}
 
@@ -128,7 +128,7 @@ public class RecommendServiceImpl implements RecommendService {
 			record.setKeywords(vo.getKeywords());
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新推荐失败", e);
 		}
 	}
 
@@ -143,7 +143,7 @@ public class RecommendServiceImpl implements RecommendService {
 			record.setRemark(remark);
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
-			throw new UpdateException("推荐站点审核不通过失败", e);
+			throw new UpdateException("推荐审核拒绝失败", e);
 		}
 	}
 
@@ -158,7 +158,7 @@ public class RecommendServiceImpl implements RecommendService {
 			mapper.updateByPrimaryKey(record);
 			webService.add(vo);
 		} catch (Exception e) {
-			throw new UpdateException("推荐站点审核通过失败", e);
+			throw new UpdateException("推荐审核通过失败", e);
 		}
 	}
 

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.Log;
+import com.kuaiba.site.aop.SiteLog;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.core.exception.SecurityException;
@@ -30,7 +30,9 @@ public class ActivityCMS extends BaseCO {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.HOME, method = RequestMethod.GET)
-	public String index() {
+	public String index(Model model) {
+		// 初始化ComboBox
+		model.addAttribute("tableIds", TableIDs.getList());
 		return "cms/activities/index";
 	}
 
@@ -43,21 +45,39 @@ public class ActivityCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.LIST)
-	public @ResponseBody DataGrid<Activity> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
+	public @ResponseBody DataGrid<Activity> dataGrid(
+			@RequestParam(required = false) String name, 
+			@RequestParam(required = false) String tbl, 
+			Pagination p) throws Exception {
+		
 		ActivityExample example = new ActivityExample();
-		if (StringUtils.isNotBlank(title)) {
-			example.createCriteria().andNameLike("%" + title + "%"); // 模糊查询
+		
+		if (StringUtils.isNotBlank(name)) {
+			example.createCriteria().andNameLike("%" + name + "%"); // 模糊查询
 		}
+		
+		if (StringUtils.isNoneBlank(tbl) && !"全部".equals(tbl)) {
+			example.createCriteria().andTblEqualTo(tbl);
+		}
+		
 		PageInfo<Activity> pageInfo = activityService.findByExample(example, p);
 		return new DataGrid<>(pageInfo);
 	}
-
+	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
-	@Log(action = "后台删除操作记录", table = TableIDs.ACTIVITY)
+	@SiteLog(action = "后台删除记录", table = TableIDs.ACTIVITY)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		activityService.deleteByPrimaryKey(id);
 		return ok();
+	}
+	
+	@RequiresRoles(value = "admin")
+	@RequestMapping(value = CmsURLs.BATCH_DELETE, method = RequestMethod.POST)
+	@SiteLog(action = "后台批量删除记录", table = TableIDs.ACTIVITY, clazz = String.class)
+	public @ResponseBody SiteResponse delete(@RequestParam String ids, HttpServletRequest request) throws SecurityException {
+		activityService.deleteByPrimaryKey(ids.split(","));
+		return ok(ids);
 	}
 	
 	private Activity findByPrimaryKey(Long id) throws SecurityException {

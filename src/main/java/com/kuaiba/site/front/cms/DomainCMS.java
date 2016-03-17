@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.Log;
+import com.kuaiba.site.aop.SiteLog;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.core.exception.SecurityException;
@@ -84,7 +84,7 @@ public class DomainCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
-	@Log(action = "后台添加领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
+	@SiteLog(action = "后台添加领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
 	public @ResponseBody SiteResponse add(DomainVO vo, HttpServletRequest request) throws SecurityException {
 		domainService.add(vo);
 		return ok();
@@ -92,7 +92,7 @@ public class DomainCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
-	@Log(action = "后台删除领域", table = TableIDs.DOMAIN)
+	@SiteLog(action = "后台删除领域", table = TableIDs.DOMAIN)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		domainService.deleteByPrimaryKey(id);
 		return ok();
@@ -100,7 +100,7 @@ public class DomainCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
-	@Log(action = "后台编辑领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
+	@SiteLog(action = "后台编辑领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, DomainVO vo, HttpServletRequest request) throws SecurityException {
 		domainService.updateByPrimaryKey(id, vo);
 		return ok();

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.Log;
+import com.kuaiba.site.aop.SiteLog;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.core.exception.SecurityException;
@@ -68,7 +68,7 @@ public class GroupCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
-	@Log(action = "后台添加群组", table = TableIDs.GROUP, clazz = GroupVO.class)
+	@SiteLog(action = "后台添加群组", table = TableIDs.GROUP, clazz = GroupVO.class)
 	public @ResponseBody SiteResponse add(GroupVO vo, HttpServletRequest request) throws SecurityException {
 		groupService.add(vo);
 		return ok();
@@ -76,7 +76,7 @@ public class GroupCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
-	@Log(action = "后台删除群组", table = TableIDs.GROUP)
+	@SiteLog(action = "后台删除群组", table = TableIDs.GROUP)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		groupService.deleteByPrimaryKey(id);
 		return ok();
@@ -84,7 +84,7 @@ public class GroupCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
-	@Log(action = "后台编辑群组", table = TableIDs.GROUP, clazz = GroupVO.class)
+	@SiteLog(action = "后台编辑群组", table = TableIDs.GROUP, clazz = GroupVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, GroupVO vo, HttpServletRequest request) throws SecurityException {
 		groupService.updateByPrimaryKey(id, vo);
 		return ok();

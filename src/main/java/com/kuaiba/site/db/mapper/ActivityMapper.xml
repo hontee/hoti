@@ -6,7 +6,7 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="tbl" property="tbl" jdbcType="VARCHAR" />
-    <result column="ip_addr" property="ipAddr" jdbcType="VARCHAR" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="TINYINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, description, tbl, ip_addr, state, created, creator, user_type
+    id, name, description, tbl, ip, state, created, creator, user_type
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.ActivityExample" >
     select
@@ -103,6 +103,16 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  <!-- 批量删除 -->
+  <delete id="deleteByIds">
+    delete from t_activity
+    <where>
+    	id in
+    	<foreach collection="array" item="id" open="(" separator="," close=")">
+    	<trim>#{id}</trim>
+    	</foreach>
+    </where>
+  </delete>
   <insert id="insert" parameterType="com.kuaiba.site.db.entity.Activity" >
     insert into t_activity
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -118,8 +128,8 @@
       <if test="tbl != null" >
         tbl,
       </if>
-      <if test="ipAddr != null" >
-        ip_addr,
+      <if test="ip != null" >
+        ip,
       </if>
       <if test="state != null" >
         state,
@@ -147,8 +157,8 @@
       <if test="tbl != null" >
         #{tbl,jdbcType=VARCHAR},
       </if>
-      <if test="ipAddr != null" >
-        #{ipAddr,jdbcType=VARCHAR},
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
       </if>
       <if test="state != null" >
         #{state,jdbcType=TINYINT},
@@ -185,8 +195,8 @@
       <if test="record.tbl != null" >
         tbl = #{record.tbl,jdbcType=VARCHAR},
       </if>
-      <if test="record.ipAddr != null" >
-        ip_addr = #{record.ipAddr,jdbcType=VARCHAR},
+      <if test="record.ip != null" >
+        ip = #{record.ip,jdbcType=VARCHAR},
       </if>
       <if test="record.state != null" >
         state = #{record.state,jdbcType=TINYINT},
@@ -217,8 +227,8 @@
       <if test="tbl != null" >
         tbl = #{tbl,jdbcType=VARCHAR},
       </if>
-      <if test="ipAddr != null" >
-        ip_addr = #{ipAddr,jdbcType=VARCHAR},
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
       </if>
       <if test="state != null" >
         state = #{state,jdbcType=TINYINT},

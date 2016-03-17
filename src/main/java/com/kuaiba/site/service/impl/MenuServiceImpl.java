@@ -36,7 +36,7 @@ public class MenuServiceImpl implements MenuService {
 			List<Menu> list = this.findByExample(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
-			throw new ReadException("分页读取数据失败", e);
+			throw new ReadException("分页读取菜单失败", e);
 		}
 	}
 
@@ -46,7 +46,7 @@ public class MenuServiceImpl implements MenuService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("统计数据失败", e);
+			throw new ReadException("统计菜单失败", e);
 		}
 	}
 
@@ -56,7 +56,7 @@ public class MenuServiceImpl implements MenuService {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除菜单失败", e);
 		}
 	}
 
@@ -66,7 +66,7 @@ public class MenuServiceImpl implements MenuService {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除菜单失败", e);
 		}
 	}
 
@@ -85,7 +85,7 @@ public class MenuServiceImpl implements MenuService {
 			record.setOrganization(vo.getOrganization());
 			mapper.insert(record);
 		} catch (Exception e) {
-			throw new CreateException("添加数据失败", e);
+			throw new CreateException("添加菜单失败", e);
 		}
 	}
 
@@ -95,7 +95,7 @@ public class MenuServiceImpl implements MenuService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取菜单失败", e);
 		}
 	}
 
@@ -105,7 +105,7 @@ public class MenuServiceImpl implements MenuService {
 			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取菜单失败", e);
 		}
 	}
 
@@ -115,7 +115,7 @@ public class MenuServiceImpl implements MenuService {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新菜单失败", e);
 		}
 	}
 
@@ -135,7 +135,7 @@ public class MenuServiceImpl implements MenuService {
 			record.setOrganization(vo.getOrganization());
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新菜单失败", e);
 		}
 	}
 	
@@ -149,7 +149,7 @@ public class MenuServiceImpl implements MenuService {
 			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
-			throw new ReadException("检测名称失败", e);
+			throw new ReadException("检测菜单名称失败", e);
 		}
 	}
 
@@ -163,7 +163,7 @@ public class MenuServiceImpl implements MenuService {
 			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
-			throw new ReadException("检测标题失败", e);
+			throw new ReadException("检测菜单标题失败", e);
 		}
 	}
 

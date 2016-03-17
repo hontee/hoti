@@ -375,73 +375,73 @@ public class ActivityExample {
             return (Criteria) this;
         }
 
-        public Criteria andIpAddrIsNull() {
-            addCriterion("ip_addr is null");
+        public Criteria andIPIsNull() {
+            addCriterion("ip is null");
             return (Criteria) this;
         }
 
-        public Criteria andIpAddrIsNotNull() {
-            addCriterion("ip_addr is not null");
+        public Criteria andIPIsNotNull() {
+            addCriterion("ip is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIpAddrEqualTo(String value) {
-            addCriterion("ip_addr =", value, "ipAddr");
+        public Criteria andIPEqualTo(String value) {
+            addCriterion("ip =", value, "ip");
             return (Criteria) this;
         }
 
-        public Criteria andIpAddrNotEqualTo(String value) {
-            addCriterion("ip_addr <>", value, "ipAddr");
+        public Criteria andIPNotEqualTo(String value) {
+            addCriterion("ip <>", value, "ip");
             return (Criteria) this;
         }
 
-        public Criteria andIpAddrGreaterThan(String value) {
-            addCriterion("ip_addr >", value, "ipAddr");
+        public Criteria andIPGreaterThan(String value) {
+            addCriterion("ip >", value, "ip");
             return (Criteria) this;
         }
 
-        public Criteria andIpAddrGreaterThanOrEqualTo(String value) {
-            addCriterion("ip_addr >=", value, "ipAddr");
+        public Criteria andIPGreaterThanOrEqualTo(String value) {
+            addCriterion("ip >=", value, "ip");
             return (Criteria) this;
         }
 
-        public Criteria andIpAddrLessThan(String value) {
-            addCriterion("ip_addr <", value, "ipAddr");
+        public Criteria andIPLessThan(String value) {
+            addCriterion("ip <", value, "ip");
             return (Criteria) this;
         }
 
-        public Criteria andIpAddrLessThanOrEqualTo(String value) {
-            addCriterion("ip_addr <=", value, "ipAddr");
+        public Criteria andIPLessThanOrEqualTo(String value) {
+            addCriterion("ip <=", value, "ip");
             return (Criteria) this;
         }
 
-        public Criteria andIpAddrLike(String value) {
-            addCriterion("ip_addr like", value, "ipAddr");
+        public Criteria andIPLike(String value) {
+            addCriterion("ip like", value, "ip");
             return (Criteria) this;
         }
 
-        public Criteria andIpAddrNotLike(String value) {
-            addCriterion("ip_addr not like", value, "ipAddr");
+        public Criteria andIPNotLike(String value) {
+            addCriterion("ip not like", value, "ip");
             return (Criteria) this;
         }
 
-        public Criteria andIpAddrIn(List<String> values) {
-            addCriterion("ip_addr in", values, "ipAddr");
+        public Criteria andIPIn(List<String> values) {
+            addCriterion("ip in", values, "ip");
             return (Criteria) this;
         }
 
-        public Criteria andIpAddrNotIn(List<String> values) {
-            addCriterion("ip_addr not in", values, "ipAddr");
+        public Criteria andIPNotIn(List<String> values) {
+            addCriterion("ip not in", values, "ip");
             return (Criteria) this;
         }
 
-        public Criteria andIpAddrBetween(String value1, String value2) {
-            addCriterion("ip_addr between", value1, value2, "ipAddr");
+        public Criteria andIPBetween(String value1, String value2) {
+            addCriterion("ip between", value1, value2, "ip");
             return (Criteria) this;
         }
 
-        public Criteria andIpAddrNotBetween(String value1, String value2) {
-            addCriterion("ip_addr not between", value1, value2, "ipAddr");
+        public Criteria andIPNotBetween(String value1, String value2) {
+            addCriterion("ip not between", value1, value2, "ip");
             return (Criteria) this;
         }
 

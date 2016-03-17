@@ -36,7 +36,7 @@ public class MtypeServiceImpl implements MtypeService {
 			List<Mtype> list = this.findByExample(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
-			throw new ReadException("分页读取数据失败", e);
+			throw new ReadException("分页读取类型失败", e);
 		}
 	}
 
@@ -46,7 +46,7 @@ public class MtypeServiceImpl implements MtypeService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("统计数据失败", e);
+			throw new ReadException("统计类型失败", e);
 		}
 	}
 
@@ -56,7 +56,7 @@ public class MtypeServiceImpl implements MtypeService {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除类型失败", e);
 		}
 	}
 
@@ -66,7 +66,7 @@ public class MtypeServiceImpl implements MtypeService {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除类型失败", e);
 		}
 	}
 
@@ -83,7 +83,7 @@ public class MtypeServiceImpl implements MtypeService {
 			record.setTitle(vo.getTitle());
 			mapper.insert(record);
 		} catch (Exception e) {
-			throw new CreateException("添加数据失败", e);
+			throw new CreateException("添加类型失败", e);
 		}
 	}
 
@@ -93,7 +93,7 @@ public class MtypeServiceImpl implements MtypeService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取类型失败", e);
 		}
 	}
 
@@ -103,7 +103,7 @@ public class MtypeServiceImpl implements MtypeService {
 			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取类型失败", e);
 		}
 	}
 
@@ -113,7 +113,7 @@ public class MtypeServiceImpl implements MtypeService {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新类型失败", e);
 		}
 	}
 
@@ -131,7 +131,7 @@ public class MtypeServiceImpl implements MtypeService {
 			record.setTitle(vo.getTitle());
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新类型失败", e);
 		}
 	}
 	
@@ -145,7 +145,7 @@ public class MtypeServiceImpl implements MtypeService {
 			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
-			throw new ReadException("检测名称失败", e);
+			throw new ReadException("检测类型名称失败", e);
 		}
 	}
 
@@ -159,7 +159,7 @@ public class MtypeServiceImpl implements MtypeService {
 			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
-			throw new ReadException("检测标题失败", e);
+			throw new ReadException("检测类型标题失败", e);
 		}
 	}
 	

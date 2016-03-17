@@ -44,7 +44,7 @@ public class GroupServiceImpl implements GroupService {
 			List<Group> list = this.findByExample(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
-			throw new ReadException("分页读取数据失败", e);
+			throw new ReadException("分页读取群组失败", e);
 		}
 	}
 
@@ -54,7 +54,7 @@ public class GroupServiceImpl implements GroupService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("统计数据失败", e);
+			throw new ReadException("统计群组失败", e);
 		}
 	}
 
@@ -64,7 +64,7 @@ public class GroupServiceImpl implements GroupService {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除群组失败", e);
 		}
 	}
 
@@ -74,7 +74,7 @@ public class GroupServiceImpl implements GroupService {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除群组失败", e);
 		}
 	}
 
@@ -94,7 +94,7 @@ public class GroupServiceImpl implements GroupService {
 			record.setTitle(vo.getTitle());
 			mapper.insert(record);
 		} catch (Exception e) {
-			throw new CreateException("添加数据失败", e);
+			throw new CreateException("添加群组失败", e);
 		}
 	}
 
@@ -104,7 +104,7 @@ public class GroupServiceImpl implements GroupService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取群组失败", e);
 		}
 	}
 
@@ -114,7 +114,7 @@ public class GroupServiceImpl implements GroupService {
 			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取群组失败", e);
 		}
 	}
 
@@ -124,7 +124,7 @@ public class GroupServiceImpl implements GroupService {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新群组失败", e);
 		}
 	}
 
@@ -142,7 +142,7 @@ public class GroupServiceImpl implements GroupService {
 			record.setTitle(vo.getTitle());
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新群组失败", e);
 		}
 	}
 
@@ -152,7 +152,7 @@ public class GroupServiceImpl implements GroupService {
 			ContraintValidator.checkPrimaryKey(fid);
 			gfMapper.deleteByPrimaryKey(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
-			throw new UnfollowException("取消关注失败", e);
+			throw new UnfollowException("取消关注群组失败", e);
 		}
 	}
 
@@ -162,7 +162,7 @@ public class GroupServiceImpl implements GroupService {
 			ContraintValidator.checkPrimaryKey(fid);
 			gfMapper.insert(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
-			throw new FollowException("关注失败", e);
+			throw new FollowException("关注群组失败", e);
 		}
 	}
 
@@ -198,7 +198,7 @@ public class GroupServiceImpl implements GroupService {
 			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
-			throw new ReadException("检测名称失败", e);
+			throw new ReadException("检测群组名称失败", e);
 		}
 	}
 
@@ -212,7 +212,7 @@ public class GroupServiceImpl implements GroupService {
 			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
-			throw new ReadException("检测标题失败", e);
+			throw new ReadException("检测群组标题失败", e);
 		}
 	}
 

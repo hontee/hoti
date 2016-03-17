@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.Log;
+import com.kuaiba.site.aop.SiteLog;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.core.exception.SecurityException;
@@ -78,7 +78,7 @@ public class CategoryCMS extends BaseCO {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
-	@Log(action = "后台添加分类", table = TableIDs.CATEGORY, clazz = CategoryVO.class)
+	@SiteLog(action = "后台添加分类", table = TableIDs.CATEGORY, clazz = CategoryVO.class)
 	public @ResponseBody SiteResponse add(CategoryVO vo, HttpServletRequest request) throws SecurityException {
 		categoryService.add(vo);
 		return ok();
@@ -86,7 +86,7 @@ public class CategoryCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
-	@Log(action = "后台删除分类", table = TableIDs.CATEGORY)
+	@SiteLog(action = "后台删除分类", table = TableIDs.CATEGORY)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		categoryService.deleteByPrimaryKey(id);
 		return ok();
@@ -94,7 +94,7 @@ public class CategoryCMS extends BaseCO {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
-	@Log(action = "后台编辑分类", table = TableIDs.CATEGORY, clazz = CategoryVO.class)
+	@SiteLog(action = "后台编辑分类", table = TableIDs.CATEGORY, clazz = CategoryVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, CategoryVO vo, HttpServletRequest request) throws SecurityException {
 		categoryService.updateByPrimaryKey(id, vo);
 		return ok();

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.Log;
+import com.kuaiba.site.aop.SiteLog;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.core.exception.SecurityException;
@@ -79,7 +79,7 @@ public class MenuCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
-	@Log(action = "后台添加菜单", table = TableIDs.MENU, clazz = MenuVO.class)
+	@SiteLog(action = "后台添加菜单", table = TableIDs.MENU, clazz = MenuVO.class)
 	public @ResponseBody SiteResponse add(MenuVO vo, HttpServletRequest request) throws SecurityException {
 		menuService.add(vo);
 		return ok();
@@ -87,7 +87,7 @@ public class MenuCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
-	@Log(action = "后台删除菜单", table = TableIDs.MENU)
+	@SiteLog(action = "后台删除菜单", table = TableIDs.MENU)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		menuService.deleteByPrimaryKey(id);
 		return ok();
@@ -95,7 +95,7 @@ public class MenuCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
-	@Log(action = "后台编辑菜单", table = TableIDs.MENU, clazz = MenuVO.class)
+	@SiteLog(action = "后台编辑菜单", table = TableIDs.MENU, clazz = MenuVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, MenuVO vo, HttpServletRequest request) throws SecurityException {
 		menuService.updateByPrimaryKey(id, vo);
 		return ok();

@@ -11,7 +11,7 @@ public class Pagination {
 	public static final int PAGE = 1;
 	public static final int ROWS = 20;
 	public static final String SORT = "id";
-	public static final String ORDER = "ASC";
+	public static final String ORDER = "DESC";
 	public static final Pagination DEFAULT = new Pagination();
 
 	/**

@@ -44,7 +44,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			List<Bookmark> list = this.findByExample(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
-			throw new ReadException("分页读取数据失败", e);
+			throw new ReadException("分页读取站点失败", e);
 		}
 	}
 
@@ -54,7 +54,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("统计数据失败", e);
+			throw new ReadException("统计站点失败", e);
 		}
 	}
 
@@ -64,7 +64,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除站点失败", e);
 		}
 	}
 
@@ -74,7 +74,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除站点失败", e);
 		}
 	}
 
@@ -94,7 +94,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			record.setReffer(GlobalIDs.REFFER);
 			mapper.insert(record);
 		} catch (Exception e) {
-			throw new CreateException("添加数据失败", e);
+			throw new CreateException("添加站点失败", e);
 		}
 	}
 
@@ -104,7 +104,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取站点失败", e);
 		}
 	}
 
@@ -114,7 +114,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取站点失败", e);
 		}
 	}
 
@@ -124,7 +124,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新站点失败", e);
 		}
 	}
 
@@ -143,7 +143,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			record.setCategory(vo.getCategory());
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新站点失败", e);
 		}
 	}
 
@@ -153,7 +153,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			ContraintValidator.checkPrimaryKey(fid);
 			bfMapper.deleteByPrimaryKey(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
-			throw new UnfollowException("取消关注失败", e);
+			throw new UnfollowException("取消关注站点失败", e);
 		}
 	}
 
@@ -163,7 +163,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			ContraintValidator.checkPrimaryKey(fid);
 			bfMapper.insert(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
-			throw new FollowException("关注失败", e);
+			throw new FollowException("关注站点失败", e);
 		}
 	}
 

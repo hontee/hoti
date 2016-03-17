@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 			List<User> list = this.findByExample(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
-			throw new ReadException("分页读取数据失败", e);
+			throw new ReadException("分页读取用户失败", e);
 		}
 	}
 
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("统计数据失败", e);
+			throw new ReadException("统计用户失败", e);
 		}
 	}
 
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除用户失败", e);
 		}
 	}
 
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除用户失败", e);
 		}
 	}
 
@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
 			record.setTitle(vo.getName());
 			mapper.insert(record);
 		} catch (Exception e) {
-			throw new CreateException("添加数据失败", e);
+			throw new CreateException("添加用户失败", e);
 		}
 	}
 
@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取用户失败", e);
 		}
 	}
 
@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
 			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取用户失败", e);
 		}
 	}
 
@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新用户失败", e);
 		}
 	}
 
@@ -139,7 +139,7 @@ public class UserServiceImpl implements UserService {
 			record.setDescription(vo.getDescription());
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新用户失败", e);
 		}
 	}
 
@@ -149,7 +149,7 @@ public class UserServiceImpl implements UserService {
 			ContraintValidator.checkNotNull(name);
 			return mapper.selectByName(name);
 		} catch (Exception e) {
-			throw new ReadException("根据用户名查询失败", e);
+			throw new ReadException("查询用户名失败", e);
 		}
 	}
 
@@ -171,7 +171,7 @@ public class UserServiceImpl implements UserService {
 			session.setAttribute(GlobalIDs.ADMIN_USER, CurrentUser.isAdmin());
 		} catch (AuthenticationException e) {
 			e.printStackTrace();
-			throw new AuthzException("用户权限认证失败", e);
+			throw new AuthzException("用户授权失败", e);
 		} catch (Exception e) {
 			throw new AccountException("用户名或密码错误", e);
 		}

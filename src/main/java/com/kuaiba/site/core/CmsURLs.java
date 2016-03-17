@@ -27,6 +27,7 @@ public interface CmsURLs {
 	String LIST = "/list";
 	String DATALIST = "/datalist";
 	String DELETE = "/{id}/delete";
+	String BATCH_DELETE = "/delete";
 	String AUDIT_OK = "/{id}/auditOk";
 	String AUDIT_NOT = "/{id}/auditNOT";
 }

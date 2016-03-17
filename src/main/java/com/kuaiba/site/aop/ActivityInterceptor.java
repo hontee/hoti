@@ -1,8 +1,6 @@
 package com.kuaiba.site.aop;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
+import com.kuaiba.site.core.security.CurrentUser;
+import com.kuaiba.site.db.entity.Activity;
+import com.kuaiba.site.db.entity.HttpUtil;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.service.ActivityService;
 
@@ -32,44 +33,45 @@ public class ActivityInterceptor {
 	@Resource
 	private ActivityService as;
 
-	@AfterReturning(pointcut = "@annotation(com.kuaiba.site.aop.Log)", returning = "returnValue")
-	public void logger(JoinPoint joinPoint, Object returnValue) throws Throwable {
+	@AfterReturning(pointcut = "@annotation(com.kuaiba.site.aop.SiteLog)", returning = "returnValue")
+	public void siteLog(JoinPoint joinPoint, Object returnValue) throws Throwable {
 		try {
 			logger.info("returnValue: " + JSON.toJSONString(returnValue));
 			MethodSignature signature = (MethodSignature)joinPoint.getSignature();
 			Method method = signature.getMethod();
-			byte state = 1;
+			
+			// 记录操作日志
+			Activity record = new Activity();
+			record.setCreator(CurrentUser.getCurrentUserName());
+			record.setUserType(CurrentUser.isAdmin() ? "admin" : "user");
 			
 			// 判断返回状态
 			if (returnValue instanceof SiteResponse) {
 				SiteResponse response = (SiteResponse) returnValue;
-				state = response.isSuccess()? (byte)1: 0;
+				record.setState(response.isSuccess()? (byte)1: 0);
 			}
 			
 			// 获取注解
-			Log activity = method.getAnnotation(Log.class);
+			SiteLog activity = method.getAnnotation(SiteLog.class);
+			
 			if (activity != null) {
-				String action = activity.action();
-				String table = activity.table();
-				Class<?> clazz = activity.clazz();
-
-				// 获取参数
-				HttpServletRequest request = null;
-				String json = "";
+				record.setName(activity.action());
+				record.setTbl(activity.table());
 				boolean flag = true;
-				List<Object> args = Arrays.asList(joinPoint.getArgs());
 				
-				for (Object object : args) {
+				// 获取IP和具体的描述信息
+				for (Object object : joinPoint.getArgs()) {
 					if (object instanceof HttpServletRequest) {
-						request = (HttpServletRequest) object;
-					} else if (object.getClass().equals(clazz) && flag) {
-						json = JSON.toJSONString(object);
+						HttpServletRequest request = (HttpServletRequest) object;
+						record.setIp(HttpUtil.getIpAddr(request));
+					} else if (object.getClass().equals(activity.clazz()) && flag) {
+						record.setDescription(JSON.toJSONString(object));
 						flag = false;
 					}
 				}
 				
-				// 记录日志
-				as.logger(action, table, json, state, request);
+				// 保存数据
+				as.add(record);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

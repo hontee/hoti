@@ -34,7 +34,7 @@ public class TrackServiceImpl implements TrackService {
 			List<Track> list = this.findByExample(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
-			throw new ReadException("分页读取数据失败", e);
+			throw new ReadException("分页读取异常失败", e);
 		}
 	}
 
@@ -44,7 +44,7 @@ public class TrackServiceImpl implements TrackService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("统计数据失败", e);
+			throw new ReadException("统计异常失败", e);
 		}
 	}
 
@@ -54,7 +54,7 @@ public class TrackServiceImpl implements TrackService {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除异常失败", e);
 		}
 	}
 
@@ -64,7 +64,7 @@ public class TrackServiceImpl implements TrackService {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除异常失败", e);
 		}
 	}
 
@@ -74,7 +74,7 @@ public class TrackServiceImpl implements TrackService {
 			ContraintValidator.checkNotNull(record);
 			mapper.insert(record);
 		} catch (Exception e) {
-			throw new CreateException("添加数据失败", e);
+			throw new CreateException("添加异常失败", e);
 		}
 	}
 
@@ -84,7 +84,7 @@ public class TrackServiceImpl implements TrackService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取异常失败", e);
 		}
 	}
 
@@ -94,7 +94,7 @@ public class TrackServiceImpl implements TrackService {
 			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取异常失败", e);
 		}
 	}
 
@@ -104,7 +104,7 @@ public class TrackServiceImpl implements TrackService {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新异常失败", e);
 		}
 	}
 
@@ -115,7 +115,7 @@ public class TrackServiceImpl implements TrackService {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新异常失败", e);
 		}
 	}
 

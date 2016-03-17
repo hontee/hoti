@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.Log;
+import com.kuaiba.site.aop.SiteLog;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.core.exception.SecurityException;
@@ -83,7 +83,7 @@ public class RecommendCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
-	@Log(action = "后台添加推荐", table = TableIDs.RECOMMEND, clazz = String.class)
+	@SiteLog(action = "后台添加推荐", table = TableIDs.RECOMMEND, clazz = String.class)
 	public @ResponseBody SiteResponse add(@RequestParam String url, HttpServletRequest request) throws SecurityException {
 		recommendService.add(url);
 		return ok();
@@ -91,7 +91,7 @@ public class RecommendCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
-	@Log(action = "后台删除推荐", table = TableIDs.RECOMMEND)
+	@SiteLog(action = "后台删除推荐", table = TableIDs.RECOMMEND)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		recommendService.deleteByPrimaryKey(id);
 		return ok();
@@ -99,7 +99,7 @@ public class RecommendCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
-	@Log(action = "后台编辑推荐", table = TableIDs.RECOMMEND, clazz = Recommend.class)
+	@SiteLog(action = "后台编辑推荐", table = TableIDs.RECOMMEND, clazz = Recommend.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, RecommendVO vo, HttpServletRequest request) throws SecurityException {
 		recommendService.updateByPrimaryKey(id, vo);
 		return ok();
@@ -107,7 +107,7 @@ public class RecommendCMS extends BaseCO {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.AUDIT_OK, method = RequestMethod.POST)
-	@Log(action = "后台审核推荐通过", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
+	@SiteLog(action = "后台审核推荐通过", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
 	public @ResponseBody SiteResponse auditOk(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) throws SecurityException {
 		recommendService.audit(id, vo);
 		return ok();
@@ -115,7 +115,7 @@ public class RecommendCMS extends BaseCO {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.AUDIT_NOT, method = RequestMethod.POST)
-	@Log(action = "后台审核推荐不通过", table = TableIDs.RECOMMEND, clazz = String.class)
+	@SiteLog(action = "后台审核推荐拒绝", table = TableIDs.RECOMMEND, clazz = String.class)
 	public @ResponseBody SiteResponse auditNot(@PathVariable Long id, @RequestParam String remark, HttpServletRequest request) throws SecurityException {
 		recommendService.audit(id, remark);
 		return ok();

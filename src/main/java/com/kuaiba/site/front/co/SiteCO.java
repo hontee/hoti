@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.Log;
+import com.kuaiba.site.aop.SiteLog;
 import com.kuaiba.site.core.HttpURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.core.exception.SecurityException;
@@ -59,7 +59,7 @@ public class SiteCO extends BaseCO implements ISite {
 	}
 	
 	@RequestMapping(value = HttpURLs.LOGIN, method = RequestMethod.POST)
-	@Log(action = "用户登录", table = TableIDs.USER, clazz = String.class)
+	@SiteLog(action = "用户登录", table = TableIDs.USER, clazz = String.class)
 	@Override
 	public @ResponseBody SiteResponse login(
 			@RequestParam String username, 
@@ -92,7 +92,7 @@ public class SiteCO extends BaseCO implements ISite {
 	
 	
 	@RequestMapping(value = HttpURLs.USER_PROFILE, method = RequestMethod.POST)
-	@Log(action = "用户更新信息", table = TableIDs.USER)
+	@SiteLog(action = "用户更新信息", table = TableIDs.USER)
 	@Override
 	public String profile(@PathVariable String name, User u) {
 		return "views/users/profile";

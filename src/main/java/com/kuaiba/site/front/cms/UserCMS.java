@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.Log;
+import com.kuaiba.site.aop.SiteLog;
 import com.kuaiba.site.core.CmsURLs;
 import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.core.exception.SecurityException;
@@ -68,7 +68,7 @@ public class UserCMS extends BaseCO {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
-	@Log(action = "后台添加用户", table = TableIDs.USER, clazz = UserVO.class)
+	@SiteLog(action = "后台添加用户", table = TableIDs.USER, clazz = UserVO.class)
 	public @ResponseBody SiteResponse add(UserVO vo, HttpServletRequest request) throws SecurityException {
 		userService.add(vo);
 		return ok();
@@ -76,7 +76,7 @@ public class UserCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
-	@Log(action = "后台删除用户", table = TableIDs.USER)
+	@SiteLog(action = "后台删除用户", table = TableIDs.USER)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		userService.deleteByPrimaryKey(id);
 		return ok();
@@ -84,7 +84,7 @@ public class UserCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
-	@Log(action = "后台编辑用户", table = TableIDs.USER, clazz = UserVO.class)
+	@SiteLog(action = "后台编辑用户", table = TableIDs.USER, clazz = UserVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, UserVO vo, HttpServletRequest request) throws SecurityException {
 		userService.updateByPrimaryKey(id, vo);
 		return ok();

@@ -36,7 +36,7 @@ public class DomainServiceImpl implements DomainService {
 			List<Domain> list = this.findByExample(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
-			throw new ReadException("分页读取数据失败", e);
+			throw new ReadException("分页读取领域失败", e);
 		}
 	}
 
@@ -46,7 +46,7 @@ public class DomainServiceImpl implements DomainService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("统计数据失败", e);
+			throw new ReadException("统计领域失败", e);
 		}
 	}
 
@@ -56,7 +56,7 @@ public class DomainServiceImpl implements DomainService {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除领域失败", e);
 		}
 	}
 
@@ -66,7 +66,7 @@ public class DomainServiceImpl implements DomainService {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new DeleteException("删除数据失败", e);
+			throw new DeleteException("删除领域失败", e);
 		}
 	}
 
@@ -83,7 +83,7 @@ public class DomainServiceImpl implements DomainService {
 			record.setWeight(vo.getWeight());
 			mapper.insert(record);
 		} catch (Exception e) {
-			throw new CreateException("添加数据失败", e);
+			throw new CreateException("添加领域失败", e);
 		}
 	}
 
@@ -93,7 +93,7 @@ public class DomainServiceImpl implements DomainService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取领域失败", e);
 		}
 	}
 
@@ -103,7 +103,7 @@ public class DomainServiceImpl implements DomainService {
 			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取领域失败", e);
 		}
 	}
 
@@ -113,7 +113,7 @@ public class DomainServiceImpl implements DomainService {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新领域失败", e);
 		}
 	}
 
@@ -131,7 +131,7 @@ public class DomainServiceImpl implements DomainService {
 			record.setWeight(vo.getWeight());
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
-			throw new UpdateException("更新数据失败", e);
+			throw new UpdateException("更新领域失败", e);
 		}
 	}
 
@@ -141,7 +141,7 @@ public class DomainServiceImpl implements DomainService {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByCollect(example);
 		} catch (Exception e) {
-			throw new ReadException("读取数据失败", e);
+			throw new ReadException("读取领域失败", e);
 		}
 	}
 
@@ -155,7 +155,7 @@ public class DomainServiceImpl implements DomainService {
 			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
-			throw new ReadException("检测名称失败", e);
+			throw new ReadException("检测领域名称失败", e);
 		}
 	}
 
@@ -169,7 +169,7 @@ public class DomainServiceImpl implements DomainService {
 			ContraintValidator.checkNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
-			throw new ReadException("检测标题失败", e);
+			throw new ReadException("检测领域标题失败", e);
 		}
 	}
 
