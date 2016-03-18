@@ -21,11 +21,11 @@ import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
-import com.kuaiba.site.front.co.BaseCO;
+import com.kuaiba.site.front.controller.BaseController;
 
 @Controller
 @RequestMapping(CmsIDs.CMS_ACTIVITIES)
-public class ActivityCMS extends BaseCO {
+public class ActivityCMS extends BaseController {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)

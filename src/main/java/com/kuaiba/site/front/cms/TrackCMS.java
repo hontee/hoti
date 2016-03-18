@@ -21,11 +21,11 @@ import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.db.entity.Track;
 import com.kuaiba.site.db.entity.TrackExample;
-import com.kuaiba.site.front.co.BaseCO;
+import com.kuaiba.site.front.controller.BaseController;
 
 @Controller
 @RequestMapping(CmsIDs.CMS_TRACKS)
-public class TrackCMS extends BaseCO {
+public class TrackCMS extends BaseController {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)

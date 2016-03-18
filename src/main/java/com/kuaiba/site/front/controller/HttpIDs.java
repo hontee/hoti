@@ -1,4 +1,4 @@
-package com.kuaiba.site.front.co;
+package com.kuaiba.site.front.controller;
 
 /**
  * 前端请求URL

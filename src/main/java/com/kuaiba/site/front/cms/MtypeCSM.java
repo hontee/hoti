@@ -25,12 +25,12 @@ import com.kuaiba.site.db.entity.MtypeExample;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
-import com.kuaiba.site.front.co.BaseCO;
+import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.MtypeVO;
 
 @Controller
 @RequestMapping(CmsIDs.CMS_MTYPES)
-public class MtypeCSM extends BaseCO {
+public class MtypeCSM extends BaseController {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)

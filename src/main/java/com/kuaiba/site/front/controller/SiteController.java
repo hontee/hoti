@@ -1,4 +1,4 @@
-package com.kuaiba.site.front.co;
+package com.kuaiba.site.front.controller;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.db.entity.User;
 
 @Controller
-public class SiteCO extends BaseCO implements ISite {
+public class SiteController extends BaseController implements ISite {
 	
 	@RequestMapping(value = HttpIDs.SEARCH, method = RequestMethod.GET)
 	@Override

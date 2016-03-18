@@ -21,12 +21,12 @@ import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
-import com.kuaiba.site.front.co.BaseCO;
+import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.BookmarkVO;
 
 @Controller
 @RequestMapping(CmsIDs.CMS_BOOKMARKS)
-public class BookmarkCMS extends BaseCO {
+public class BookmarkCMS extends BaseController {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)

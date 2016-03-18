@@ -5,15 +5,22 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
   <mvc:annotation-driven />
   <aop:aspectj-autoproxy proxy-target-class="true" />
-  <context:component-scan base-package="com.kuaiba.site.service" />
+  <context:component-scan base-package="com.kuaiba.site" />
   <context:property-placeholder location="classpath:/META-INF/spring/application.properties"/>
+  
+  <!-- 定时任务 -->
+  <task:executor id="executor" pool-size="5" />
+  <task:scheduler id="scheduler" pool-size="5" />
+  <task:annotation-driven executor="executor" scheduler="scheduler" />
 
   <!-- DRUID数据库连接管理 -->
   <bean id="dataSource" init-method="init" destroy-method="close" class="com.alibaba.druid.pool.DruidDataSource">

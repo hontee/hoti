@@ -1,4 +1,4 @@
-package com.kuaiba.site.front.co;
+package com.kuaiba.site.front.controller;
 
 import javax.annotation.Resource;
 import javax.ws.rs.core.Response;
@@ -22,7 +22,7 @@ import com.kuaiba.site.service.RecommendService;
 import com.kuaiba.site.service.TrackService;
 import com.kuaiba.site.service.UserService;
 
-public abstract class BaseCO {
+public abstract class BaseController {
 	
 	@Resource
 	protected CategoryService categoryService;

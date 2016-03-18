@@ -21,12 +21,12 @@ import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;
-import com.kuaiba.site.front.co.BaseCO;
+import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.UserVO;
 
 @Controller
 @RequestMapping(CmsIDs.CMS_USERS)
-public class UserCMS extends BaseCO {
+public class UserCMS extends BaseController {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)

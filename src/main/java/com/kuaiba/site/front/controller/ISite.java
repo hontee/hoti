@@ -1,4 +1,4 @@
-package com.kuaiba.site.front.co;
+package com.kuaiba.site.front.controller;
 
 import javax.servlet.http.HttpServletRequest;
 

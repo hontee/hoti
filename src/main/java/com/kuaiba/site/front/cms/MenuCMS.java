@@ -23,12 +23,12 @@ import com.kuaiba.site.db.entity.MenuExample;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
-import com.kuaiba.site.front.co.BaseCO;
+import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.MenuVO;
 
 @Controller
 @RequestMapping(CmsIDs.CMS_MENUS)
-public class MenuCMS extends BaseCO {
+public class MenuCMS extends BaseController {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)
