@@ -67,6 +67,16 @@ public class TrackServiceImpl implements TrackService {
 			throw new DeleteException("删除异常失败", e);
 		}
 	}
+	
+	@Override
+	public void deleteByPrimaryKey(String[] ids) throws SecurityException { 
+		try {
+			ContraintValidator.checkArrays(ids);
+			mapper.deleteByIds(ids);
+		} catch (Exception e) {
+			throw new DeleteException("删除异常失败", e);
+		}
+	}
 
 	@Override
 	public void add(Track record) throws SecurityException { 

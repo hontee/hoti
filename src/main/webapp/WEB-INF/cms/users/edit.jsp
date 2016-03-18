@@ -21,8 +21,10 @@
     <div class="cms-mb20">
       <div class="cms-mb5">状态:</div>
       <select class="easyui-combobox" name="state" data-options="panelHeight:'auto',editable: false" style="width:100%; height:32px">
-        <option value="1" <c:if test="${record.state == 1}">selected</c:if>>启动</option>
+        <option value="1" <c:if test="${record.state == 1}">selected</c:if>>启用</option>
         <option value="0" <c:if test="${record.state == 0}">selected</c:if>>禁用</option>
+        <option value="2" <c:if test="${record.state == 2}">selected</c:if>>锁定</option>
+        <option value="3" <c:if test="${record.state == 3}">selected</c:if>>删除</option>
       </select>
     </div>
     <div class="cms-mb20">

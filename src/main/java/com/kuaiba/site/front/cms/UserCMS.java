@@ -40,6 +40,13 @@ public class UserCMS extends BaseCO {
 	public String addPage() {
 		return "cms/users/new";
 	}
+	
+	@RequiresRoles(value = "admin")
+	@RequestMapping(value = CmsURLs.PASSWORD, method = RequestMethod.GET)
+	public String passwordPage(@PathVariable Long id, Model model) throws SecurityException {
+		model.addAttribute("record", findByPrimaryKey(id));
+		return "cms/users/password";
+	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.GET)
@@ -87,6 +94,14 @@ public class UserCMS extends BaseCO {
 	@SiteLog(action = "后台编辑用户", table = TableIDs.USER, clazz = UserVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, UserVO vo, HttpServletRequest request) throws SecurityException {
 		userService.updateByPrimaryKey(id, vo);
+		return ok();
+	}
+	
+	@RequiresRoles(value = "admin")
+	@RequestMapping(value = CmsURLs.PASSWORD, method = RequestMethod.POST)
+	@SiteLog(action = "后台修改用户密码", table = TableIDs.USER, clazz = String.class)
+	public @ResponseBody SiteResponse password(@PathVariable Long id, @RequestParam String password, HttpServletRequest request) throws SecurityException {
+		userService.updateByPrimaryKey(id, password);
 		return ok();
 	}
 	

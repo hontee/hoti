@@ -6,6 +6,7 @@
 <header id="users-header" class="cms-dg-header">
 	<button id="users-add" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新建</button>
 	<button id="users-edit" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">编辑</button>
+	<button id="users-edit-pw" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">修改密码</button>
 	<button id="users-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
 	<button id="users-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
@@ -23,6 +24,7 @@
 var usersEL = {
 	add: $("#users-add"),
 	edit: $("#users-edit"),
+	editPw: $("#users-edit-pw"),
 	remove: $("#users-remove"),
 	reload: $("#users-reload"),
 	dg: $("#users-dg"),
@@ -44,29 +46,33 @@ usersEL.dg.datagrid({
     fit: true,
     columns:[[
         {field: 'id', checkbox: true},
-        {field:'name',title:'名称',width:100, sortable: true},
+        {field:'name',title:'用户名',width:100, sortable: true},
         {field:'title',title:'昵称',width:100, sortable: true},
-        {field:'description',title:'签名',width:100},
+        {field:'description',title:'签名',width:200},
         {field:'password',title:'密码',width:100, hidden: true},
         {field:'salt',title:'盐',width:100, hidden: true},
-        {field:'userType',title:'用户类型',width:100, sortable: true, formatter: function(value,row,index) {
+        {field:'userType',title:'用户类型',width:60, sortable: true, formatter: function(value,row,index) {
         	if (value == '2') {
 				return '管理员';
 			} else {
 				return '普通用户';
 			}
         }},
-        {field:'state',title:'状态',width:100, sortable: true, formatter: function(value,row,index) {
+        {field:'state',title:'状态',width:60, sortable: true, formatter: function(value,row,index) {
         	if (value == '1') {
 				return '启用';
+			} else if (value == '2') {
+				return '已锁定';
+			} else if (value == '3') {
+				return '已删除';
 			} else {
 				return '禁用';
 			}
         }},
-        {field:'created',title:'创建时间',width:100, sortable: true, formatter: function(value,row,index) {
+        {field:'created',title:'创建时间',width:60, sortable: true, formatter: function(value,row,index) {
         	return new Date(value).format();  
         }},
-        {field:'lastModified',title:'最后更新时间',width:100, sortable: true, formatter: function(value,row,index) {
+        {field:'lastModified',title:'最后更新时间',width:60, sortable: true, formatter: function(value,row,index) {
         	return new Date(value).format();  
         }}
     ]],
@@ -107,6 +113,7 @@ usersEL.reset = function() {
 // 设置按钮是否可用
 usersEL.linkButton = function(a, b, c) {
 	usersEL.edit.linkbutton({disabled: a});
+	usersEL.editPw.linkbutton({disabled: a});
 	usersEL.remove.linkbutton({disabled: b});
 }
 
@@ -121,7 +128,7 @@ usersEL.search = function(value){
 usersEL.add.click(function() {
 	usersEL.addWin.window({
 		width: 480,
-		height: 480,
+		height: 420,
 		modal: true,
 		title: '新建用户',
 		collapsible: false,
@@ -139,13 +146,32 @@ usersEL.edit.click(function() {
 	if (row) {
 		usersEL.editWin.window({
 			width: 480,
-			height: 580,
+			height: 520,
 			modal: true,
 			title: '编辑用户',
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
 			href: '/cms/users/' + row.id + '/edit',
+			method: 'get',
+			cache: false
+		});
+	}
+});
+
+// 修改密码
+usersEL.editPw.click(function() {
+	var row = usersEL.dg.datagrid('getSelected');
+	if (row) {
+		usersEL.editWin.window({
+			width: 480,
+			height: 280,
+			modal: true,
+			title: '修改密码',
+			collapsible: false,
+			minimizable: false,
+			maximizable: false,
+			href: '/cms/users/' + row.id + '/password',
 			method: 'get',
 			cache: false
 		});

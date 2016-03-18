@@ -26,6 +26,8 @@ public interface UserService extends Pager<User, UserExample> {
 
     void updateByPrimaryKey(Long id, UserVO vo) throws SecurityException;
     
+    void updateByPrimaryKey(Long id, String password) throws SecurityException;
+    
     User findByName(String name) throws SecurityException;
     
     boolean existsName(String name) throws SecurityException;

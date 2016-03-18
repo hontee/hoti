@@ -57,8 +57,8 @@ public class GlobalExceptionHandler {
 			public void run() {
 				try {
 					Track record = new Track();
-					record.setException(e.getClass().getName());
-					record.setMessage(e.getMessage());
+					record.setName(e.getClass().getName());
+					record.setDescription(e.getMessage());
 					record.setState((byte)1);
 					trackService.add(record);
 				} catch (Exception e1) {

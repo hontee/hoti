@@ -46,7 +46,7 @@ public class TrackCMS extends BaseCO {
 	public @ResponseBody DataGrid<Track> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
 		TrackExample example = new TrackExample();
 		if (StringUtils.isNotBlank(title)) {
-			example.createCriteria().andExceptionLike("%" + title + "%"); // 模糊查询
+			example.createCriteria().andNameLike("%" + title + "%"); // 模糊查询
 		}
 		PageInfo<Track> pageInfo = trackService.findByExample(example, p);
 		return new DataGrid<>(pageInfo);
@@ -57,6 +57,14 @@ public class TrackCMS extends BaseCO {
 	@SiteLog(action = "后台删除异常", table = TableIDs.TRACK)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		trackService.deleteByPrimaryKey(id);
+		return ok();
+	}
+	
+	@RequiresRoles(value = "admin")
+	@RequestMapping(value = CmsURLs.BATCH_DELETE, method = RequestMethod.POST)
+	@SiteLog(action = "后台批量删除异常", table = TableIDs.TRACK, clazz = String.class)
+	public @ResponseBody SiteResponse delete(@RequestParam String ids, HttpServletRequest request) throws SecurityException {
+		trackService.deleteByPrimaryKey(ids.split(","));
 		return ok();
 	}
 	

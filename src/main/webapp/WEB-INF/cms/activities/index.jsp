@@ -39,6 +39,7 @@ activitiesEL.dg.datagrid({
     pagination: true,
     pageSize: 20,
     pageList:[20, 50, 100],
+    title:'操作日志',
     header: '#activities-header',
     fit: true,
     columns:[[

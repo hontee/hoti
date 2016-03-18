@@ -12,6 +12,8 @@ public interface TrackMapper {
     int deleteByExample(TrackExample example);
 
     int deleteByPrimaryKey(Long id);
+    
+    int deleteByIds(String[] ids);
 
     int insert(Track record);
 

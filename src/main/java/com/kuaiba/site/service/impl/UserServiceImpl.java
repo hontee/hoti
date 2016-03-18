@@ -18,6 +18,7 @@ import com.kuaiba.site.core.GlobalIDs;
 import com.kuaiba.site.core.exception.AuthzException;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
+import com.kuaiba.site.core.exception.PasswordException;
 import com.kuaiba.site.core.exception.ReadException;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
@@ -140,6 +141,20 @@ public class UserServiceImpl implements UserService {
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			throw new UpdateException("更新用户失败", e);
+		}
+	}
+	
+	@Override
+	public void updateByPrimaryKey(Long id, String password) throws SecurityException {
+		try {
+			ContraintValidator.checkNotNull(password);
+			ContraintValidator.checkPrimaryKey(id);
+			User record = this.findByPrimaryKey(id);
+			record.setId(id);
+			record.setPasswordEncrypt(password, record.getSalt());
+			mapper.updateByPrimaryKey(record);
+		} catch (Exception e) {
+			throw new PasswordException("更新用户密码失败", e);
 		}
 	}
 

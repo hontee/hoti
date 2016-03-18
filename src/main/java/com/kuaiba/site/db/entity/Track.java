@@ -5,21 +5,19 @@ import java.util.Date;
 
 public class Track implements Serializable {
 
-	private static final long serialVersionUID = 4251274594758518440L;
+	private static final long serialVersionUID = 8648478580289808865L;
 
 	private Long id;
 
-    private String exception;
+    private String name;
 
-    private String message;
+    private String description;
 
     private Byte state;
 
     private Date created;
 
     private Date lastModified;
-
-    private String remark;
 
     public Long getId() {
         return id;
@@ -29,20 +27,20 @@ public class Track implements Serializable {
         this.id = id;
     }
 
-    public String getException() {
-        return exception;
+    public String getName() {
+        return name;
     }
 
-    public void setException(String exception) {
-        this.exception = exception;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getMessage() {
-        return message;
+    public String getDescription() {
+        return description;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Byte getState() {
@@ -67,13 +65,5 @@ public class Track implements Serializable {
 
     public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
     }
 }

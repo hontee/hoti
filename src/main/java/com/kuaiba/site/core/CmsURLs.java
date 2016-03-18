@@ -28,6 +28,7 @@ public interface CmsURLs {
 	String DATALIST = "/datalist";
 	String DELETE = "/{id}/delete";
 	String BATCH_DELETE = "/delete";
+	String PASSWORD = "/{id}/password";
 	
 	// Audit
 	String AUDIT_OK = "/{id}/ok";

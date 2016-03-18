@@ -14,6 +14,8 @@ public interface TrackService extends Pager<Track, TrackExample> {
 	void deleteByExample(TrackExample example) throws SecurityException;
 
 	void deleteByPrimaryKey(Long id) throws SecurityException;
+	
+	void deleteByPrimaryKey(String[] ids) throws SecurityException;
 
 	void add(Track record) throws SecurityException;
 
