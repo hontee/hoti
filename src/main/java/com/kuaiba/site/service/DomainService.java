@@ -28,6 +28,8 @@ public interface DomainService extends Pager<Domain, DomainExample> {
 
     void updateByPrimaryKey(Long id, DomainVO vo) throws SecurityException;
     
+    void updateByPrimaryKey(Long id, int count) throws SecurityException;
+    
     /**
 	 * 验证Domain名称是否存在
 	 * @param name

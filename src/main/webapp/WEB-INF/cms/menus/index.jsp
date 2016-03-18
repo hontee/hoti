@@ -14,10 +14,7 @@
 	</span>
 </header>
 <table id="menus-dg"></table>
-<footer>
-    <div id="menus-add-win"></div>
-    <div id="menus-edit-win"></div>
-</footer>
+<footer id="menus-win"></footer>
 <script>
 // 变量取值要唯一
 var menusEL = {
@@ -26,8 +23,7 @@ var menusEL = {
 	remove: $("#menus-remove"),
 	reload: $("#menus-reload"),
 	dg: $("#menus-dg"),
-	addWin: $("#menus-add-win"),
-	editWin: $("#menus-edit-win")
+	win: $("#menus-win")
 };
 
 // DataGrid
@@ -114,7 +110,7 @@ menusEL.search = function(value){
 
 // 新建
 menusEL.add.click(function() {
-	menusEL.addWin.window({
+	menusEL.win.window({
 		width: 480,
 		height: 650,
 		modal: true,
@@ -132,7 +128,7 @@ menusEL.add.click(function() {
 menusEL.edit.click(function() {
 	var row = menusEL.dg.datagrid('getSelected');
 	if (row) {
-		menusEL.editWin.window({
+		menusEL.win.window({
 			width: 480,
 			height: 650,
 			modal: true,

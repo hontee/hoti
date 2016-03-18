@@ -134,6 +134,19 @@ public class DomainServiceImpl implements DomainService {
 			throw new UpdateException("更新领域失败", e);
 		}
 	}
+	
+	@Override
+	public void updateByPrimaryKey(Long id, int count) throws SecurityException { 
+		try {
+			ContraintValidator.checkPrimaryKey(id);
+			Domain record = new Domain();
+			record.setId(id);
+			record.setCount((short) count);
+			mapper.updateByPrimaryKey(record);
+		} catch (Exception e) {
+			throw new UpdateException("更新领域失败", e);
+		}
+	}
 
 	@Override
 	public List<Domain> findByCollect(DomainExample example) throws SecurityException { 

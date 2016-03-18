@@ -7,6 +7,7 @@
 	<button id="domains-add" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新建</button>
 	<button id="domains-edit" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">编辑</button>
 	<button id="domains-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
+	<button id="domains-count" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">更新统计</button>
 	<button id="domains-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
@@ -14,20 +15,17 @@
 	</span>
 </header>
 <table id="domains-dg"></table>
-<footer>
-    <div id="domains-add-win"></div>
-    <div id="domains-edit-win"></div>
-</footer>
+<footer id="domains-win"></footer>
 <script>
 // 变量取值要唯一
 var domainsEL = {
 	add: $("#domains-add"),
 	edit: $("#domains-edit"),
 	remove: $("#domains-remove"),
+	count: $("#domains-count"),
 	reload: $("#domains-reload"),
 	dg: $("#domains-dg"),
-	addWin: $("#domains-add-win"),
-	editWin: $("#domains-edit-win")
+	win: $("#domains-win")
 };
 
 // DataGrid
@@ -113,9 +111,9 @@ domainsEL.search = function(value){
 
 // 新建
 domainsEL.add.click(function() {
-	domainsEL.addWin.window({
+	domainsEL.win.window({
 		width: 480,
-		height: 650,
+		height: 500,
 		modal: true,
 		title: '新建领域',
 		collapsible: false,
@@ -131,9 +129,9 @@ domainsEL.add.click(function() {
 domainsEL.edit.click(function() {
 	var row = domainsEL.dg.datagrid('getSelected');
 	if (row) {
-		domainsEL.editWin.window({
+		domainsEL.win.window({
 			width: 480,
-			height: 650,
+			height: 500,
 			modal: true,
 			title: '编辑领域',
 			collapsible: false,
@@ -149,6 +147,11 @@ domainsEL.edit.click(function() {
 // 删除
 domainsEL.remove.click(function() {
 	CMS.removeSubmitHandler(domainsEL, 'domains');
+});
+
+// 更新统计
+domainsEL.count.click(function() {
+	CMS.countSubmitHandler(domainsEL, 'domains');
 });
 
 // 重载

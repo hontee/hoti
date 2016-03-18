@@ -25,6 +25,8 @@ public interface GroupService extends Pager<Group, GroupExample> {
 
     void updateByPrimaryKey(Long id, GroupVO vo) throws SecurityException;
     
+    void updateByPrimaryKey(Long id, int count, int stars) throws SecurityException;
+    
     void unfollow(Long fid) throws SecurityException;
 
 	void follow(Long fid) throws SecurityException;

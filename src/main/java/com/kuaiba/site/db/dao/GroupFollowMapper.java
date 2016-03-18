@@ -7,4 +7,11 @@ public interface GroupFollowMapper {
 	int deleteByPrimaryKey(@Param("uid") Long uid, @Param("fid") Long fid);
 
 	int insert(@Param("uid") Long uid, @Param("fid") Long fid);
+	
+	/**
+	 * 统计Group关注的用户数
+	 * @param fid
+	 * @return
+	 */
+	int countByFid(@Param("fid") Long fid);
 }

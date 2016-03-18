@@ -13,6 +13,7 @@ import com.kuaiba.site.service.ActivityService;
 import com.kuaiba.site.service.Auditable;
 import com.kuaiba.site.service.BookmarkService;
 import com.kuaiba.site.service.CategoryService;
+import com.kuaiba.site.service.Countable;
 import com.kuaiba.site.service.DomainService;
 import com.kuaiba.site.service.GroupService;
 import com.kuaiba.site.service.MenuService;
@@ -45,6 +46,8 @@ public abstract class BaseCO {
 	protected ActivityService activityService;
 	@Resource
 	protected Auditable auditable;
+	@Resource
+	protected Countable countable;
 	
 	protected String redirect(String path) {
 		return "redirect:".concat(path);

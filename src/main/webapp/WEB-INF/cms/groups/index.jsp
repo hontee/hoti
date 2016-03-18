@@ -7,6 +7,7 @@
 	<button id="groups-add" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新建</button>
 	<button id="groups-edit" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">编辑</button>
 	<button id="groups-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
+	<button id="groups-count" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">更新统计</button>
 	<button id="groups-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
@@ -14,20 +15,17 @@
 	</span>
 </header>
 <table id="groups-dg"></table>
-<footer>
-    <div id="groups-add-win"></div>
-    <div id="groups-edit-win"></div>
-</footer>
+<footer id="groups-win"></footer>
 <script>
 // 变量取值要唯一
 var groupsEL = {
 	add: $("#groups-add"),
 	edit: $("#groups-edit"),
 	remove: $("#groups-remove"),
+	count: $("#groups-count"),
 	reload: $("#groups-reload"),
 	dg: $("#groups-dg"),
-	addWin: $("#groups-add-win"),
-	editWin: $("#groups-edit-win")
+	win: $("#groups-win")
 };
 
 // DataGrid
@@ -44,7 +42,7 @@ groupsEL.dg.datagrid({
     fit: true,
     columns:[[
         {field:'id', checkbox: true},
-        {field:'name',title:'名称',width:100, sortable: true},
+        {field:'name',title:'名称',width:100, hidden: true},
         {field:'title',title:'标题',width:100, sortable: true},
         {field:'description',title:'描述',width:100},
         {field:'gtype',title:'类型',width:100, sortable: true},
@@ -70,7 +68,7 @@ groupsEL.dg.datagrid({
         }},
         {field:'extCategoryTitle',title:'分类标题', hidden: true},
         {field:'extCreateName',title:'用户名', hidden: true},
-        {field:'mtype',title:'媒体类型',width:100, sortable: true},
+        {field:'mtype',title:'类型',width:100, sortable: true},
         {field:'category',title:'所属分类',width:100, sortable: true, formatter: function(value,row,index) {
         	return row.extCategoryTitle;
         }}
@@ -124,9 +122,9 @@ groupsEL.search = function(value){
 
 // 新建
 groupsEL.add.click(function() {
-	groupsEL.addWin.window({
+	groupsEL.win.window({
 		width: 480,
-		height: 650,
+		height: 500,
 		modal: true,
 		title: '新建群组',
 		collapsible: false,
@@ -142,9 +140,9 @@ groupsEL.add.click(function() {
 groupsEL.edit.click(function() {
 	var row = groupsEL.dg.datagrid('getSelected');
 	if (row) {
-		groupsEL.editWin.window({
+		groupsEL.win.window({
 			width: 480,
-			height: 650,
+			height: 500,
 			modal: true,
 			title: '编辑群组',
 			collapsible: false,
@@ -160,6 +158,11 @@ groupsEL.edit.click(function() {
 // 删除
 groupsEL.remove.click(function() {
 	CMS.removeSubmitHandler(groupsEL, 'groups');
+});
+
+// 更新统计
+groupsEL.count.click(function() {
+	CMS.countSubmitHandler(groupsEL, 'groups');
 });
 
 // 重载

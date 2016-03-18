@@ -72,11 +72,21 @@ public class RecommendCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsURLs.LIST)
-	public @ResponseBody DataGrid<Recommend> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
+	public @ResponseBody DataGrid<Recommend> dataGrid(
+			@RequestParam(required = false) String title, 
+			@RequestParam(required = false) Byte state, 
+			Pagination p) throws Exception {
+		
 		RecommendExample example = new RecommendExample();
+		
 		if (StringUtils.isNotBlank(title)) {
 			example.createCriteria().andTitleLike("%" + title + "%"); // 模糊查询
 		}
+		
+		if (state != null && state > 0) {
+			example.createCriteria().andStateEqualTo(state);
+		}
+		
 		PageInfo<Recommend> pageInfo = recommendService.findByExample(example, p);
 		return new DataGrid<>(pageInfo);
 	}

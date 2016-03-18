@@ -143,6 +143,19 @@ public class CategoryServiceImpl implements CategoryService {
 			throw new UpdateException("更新分类失败", e);
 		}
 	}
+	
+	@Override
+	public void updateByPrimaryKey(Long id, long count) throws SecurityException { 
+		try {
+			ContraintValidator.checkPrimaryKey(id);
+			Category record = new Category();
+			record.setId(id);
+			record.setCount(count);
+			mapper.updateByPrimaryKey(record);
+		} catch (Exception e) {
+			throw new UpdateException("更新统计分类失败", e);
+		}
+	}
 
 	@Override
 	public List<Category> findByOrganization(Long domain) throws SecurityException { 

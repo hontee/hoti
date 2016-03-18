@@ -90,6 +90,16 @@ public class GroupCMS extends BaseCO {
 		return ok();
 	}
 	
+	@RequiresRoles(value = "admin")
+	@RequestMapping(value = CmsURLs.COUNT_TASK, method = RequestMethod.POST)
+	@SiteLog(action = "后台统计群组数据", table = TableIDs.GROUP, clazz = String.class)
+	public @ResponseBody SiteResponse countTask(
+			@RequestParam(defaultValue = "后台统计群组数据") String desc, 
+			HttpServletRequest request) throws SecurityException {
+		countable.countGroupTask();
+		return ok();
+	}
+	
 	private Group findByPrimaryKey(Long id) throws SecurityException {
 		return groupService.findByPrimaryKey(id);
 	}

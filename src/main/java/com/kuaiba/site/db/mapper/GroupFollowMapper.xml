@@ -15,4 +15,7 @@
     insert into t_group_follow (uid, fid)
     values (#{uid,jdbcType=BIGINT}, #{fid,jdbcType=BIGINT})
   </insert>
+  <select id="countByFid" parameterType="long" resultType="int">
+  select count(1) from t_group_follow where fid = #{fid}
+  </select>
 </mapper>

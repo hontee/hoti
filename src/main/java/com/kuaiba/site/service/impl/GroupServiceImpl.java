@@ -145,6 +145,20 @@ public class GroupServiceImpl implements GroupService {
 			throw new UpdateException("更新群组失败", e);
 		}
 	}
+	
+	@Override
+	public void updateByPrimaryKey(Long id, int count, int stars) throws SecurityException { 
+		try {
+			ContraintValidator.checkPrimaryKey(id);
+			Group record = new Group();
+			record.setId(id);
+			record.setCount(count);
+			record.setStars(stars);
+			mapper.updateByPrimaryKey(record);
+		} catch (Exception e) {
+			throw new UpdateException("统计群组失败", e);
+		}
+	}
 
 	@Override
 	public void unfollow(Long fid) throws SecurityException { 

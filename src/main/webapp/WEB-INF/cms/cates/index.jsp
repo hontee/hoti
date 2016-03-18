@@ -7,6 +7,7 @@
 	<button id="cates-add" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新建</button>
 	<button id="cates-edit" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">编辑</button>
 	<button id="cates-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
+	<button id="cates-count" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">更新统计</button>
 	<button id="cates-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
@@ -14,20 +15,17 @@
 	</span>
 </header>
 <table id="cates-dg"></table>
-<footer>
-    <div id="cates-add-win"></div>
-    <div id="cates-edit-win"></div>
-</footer>
+<footer id="cates-win"></footer>
 <script>
 // 变量取值要唯一
 var catesEL = {
 	add: $("#cates-add"),
 	edit: $("#cates-edit"),
 	remove: $("#cates-remove"),
+	count: $("#cates-count"),
 	reload: $("#cates-reload"),
 	dg: $("#cates-dg"),
-	addWin: $("#cates-add-win"),
-	editWin: $("#cates-edit-win")
+	win: $("#cates-win")
 };
 
 // DataGrid
@@ -121,7 +119,7 @@ catesEL.search = function(value){
 
 // 新建
 catesEL.add.click(function() {
-	catesEL.addWin.window({
+	catesEL.win.window({
 		width: 480,
 		height: 500,
 		modal: true,
@@ -139,7 +137,7 @@ catesEL.add.click(function() {
 catesEL.edit.click(function() {
 	var row = catesEL.dg.datagrid('getSelected');
 	if (row) {
-		catesEL.editWin.window({
+		catesEL.win.window({
 			width: 480,
 			height: 500,
 			modal: true,
@@ -157,6 +155,11 @@ catesEL.edit.click(function() {
 // 删除
 catesEL.remove.click(function() {
 	CMS.removeSubmitHandler(catesEL, 'cates');
+});
+
+// 更新统计
+catesEL.count.click(function() {
+	CMS.countSubmitHandler(catesEL, 'cates');
 });
 
 // 重载

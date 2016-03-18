@@ -14,10 +14,7 @@
 	</span>
 </header>
 <table id="mtypes-dg"></table>
-<footer>
-    <div id="mtypes-add-win"></div>
-    <div id="mtypes-edit-win"></div>
-</footer>
+<footer id="mtypes-win"></footer>
 <script>
 // 变量取值要唯一
 var mtypesEL = {
@@ -26,8 +23,7 @@ var mtypesEL = {
 	remove: $("#mtypes-remove"),
 	reload: $("#mtypes-reload"),
 	dg: $("#mtypes-dg"),
-	addWin: $("#mtypes-add-win"),
-	editWin: $("#mtypes-edit-win")
+	win: $("#mtypes-win")
 };
 
 // DataGrid
@@ -112,9 +108,9 @@ mtypesEL.search = function(value){
 
 // 新建
 mtypesEL.add.click(function() {
-	mtypesEL.addWin.window({
+	mtypesEL.win.window({
 		width: 480,
-		height: 650,
+		height: 500,
 		modal: true,
 		title: '新建类型',
 		collapsible: false,
@@ -130,9 +126,9 @@ mtypesEL.add.click(function() {
 mtypesEL.edit.click(function() {
 	var row = mtypesEL.dg.datagrid('getSelected');
 	if (row) {
-		mtypesEL.editWin.window({
+		mtypesEL.win.window({
 			width: 480,
-			height: 650,
+			height: 500,
 			modal: true,
 			title: '编辑类型',
 			collapsible: false,

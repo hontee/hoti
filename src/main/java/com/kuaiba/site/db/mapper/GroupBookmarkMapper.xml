@@ -15,4 +15,7 @@
     insert into t_group_bookmark (gid, bmid)
     values (#{gid,jdbcType=BIGINT}, #{bmid,jdbcType=BIGINT})
   </insert>
+  <select id="countByGid" parameterType="long" resultType="int">
+  select count(1) from t_group_bookmark where gid = #{gid}
+  </select>
 </mapper>

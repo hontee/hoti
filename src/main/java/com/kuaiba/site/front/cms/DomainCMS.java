@@ -106,6 +106,16 @@ public class DomainCMS extends BaseCO {
 		return ok();
 	}
 	
+	@RequiresRoles(value = "admin")
+	@RequestMapping(value = CmsURLs.COUNT_TASK, method = RequestMethod.POST)
+	@SiteLog(action = "后台统计领域数据", table = TableIDs.DOMAIN, clazz = String.class)
+	public @ResponseBody SiteResponse countTask(
+			@RequestParam(defaultValue = "后台统计领域数据") String desc, 
+			HttpServletRequest request) throws SecurityException {
+		countable.countDomainTask();
+		return ok();
+	}
+	
 	private Domain findByPrimaryKey(Long id) throws SecurityException {
 		return domainService.findByPrimaryKey(id);
 	}

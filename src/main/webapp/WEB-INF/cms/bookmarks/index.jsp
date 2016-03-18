@@ -14,10 +14,7 @@
 	</span>
 </header>
 <table id="bookmarks-dg"></table>
-<footer>
-    <div id="bookmarks-add-win"></div>
-    <div id="bookmarks-edit-win"></div>
-</footer>
+<footer id="bookmarks-win"></footer>
 <script>
 // 变量取值要唯一
 var bookmarksEL = {
@@ -26,8 +23,7 @@ var bookmarksEL = {
 	remove: $("#bookmarks-remove"),
 	reload: $("#bookmarks-reload"),
 	dg: $("#bookmarks-dg"),
-	addWin: $("#bookmarks-add-win"),
-	editWin: $("#bookmarks-edit-win")
+	win: $("#bookmarks-win")
 };
 
 // DataGrid
@@ -123,7 +119,7 @@ bookmarksEL.search = function(value){
 
 // 新建
 bookmarksEL.add.click(function() {
-	bookmarksEL.addWin.window({
+	bookmarksEL.win.window({
 		width: 480,
 		height: 500,
 		modal: true,
@@ -141,9 +137,9 @@ bookmarksEL.add.click(function() {
 bookmarksEL.edit.click(function() {
 	var row = bookmarksEL.dg.datagrid('getSelected');
 	if (row) {
-		bookmarksEL.editWin.window({
+		bookmarksEL.win.window({
 			width: 480,
-			height: 500,
+			height: 600,
 			modal: true,
 			title: '编辑站点',
 			collapsible: false,

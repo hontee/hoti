@@ -12,14 +12,17 @@
 	<button id="recmds-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
+	  <select class="easyui-combobox" id="state" data-options="panelHeight:'auto',editable: false" style="width:100px;">
+        <option value="0" selected>全部</option>
+        <option value="1">未审核</option>
+        <option value="2">审核通过</option>
+        <option value="3">审核拒绝</option>
+      </select>
 	  <input class="easyui-searchbox" data-options="prompt:'输入标题', searcher:recmdsEL.search" style="width:200px" />
 	</span>
 </header>
 <table id="recmds-dg"></table>
-<footer>
-    <div id="recmds-add-win"></div>
-    <div id="recmds-edit-win"></div>
-</footer>
+<footer id="recmds-win"></footer>
 <script>
 // 变量取值要唯一
 var recmdsEL = {
@@ -30,8 +33,7 @@ var recmdsEL = {
 	remove: $("#recmds-remove"),
 	reload: $("#recmds-reload"),
 	dg: $("#recmds-dg"),
-	addWin: $("#recmds-add-win"),
-	editWin: $("#recmds-edit-win")
+	win: $("#recmds-win")
 };
 
 // DataGrid
@@ -116,15 +118,16 @@ recmdsEL.linkButton = function(a) {
 // 搜索
 recmdsEL.search = function(value){
 	recmdsEL.dg.datagrid('load',{
-		title: value
+		title: value,
+		state: $('#state').combobox('getValue')
 	});
 }
 
 // 新建
 recmdsEL.add.click(function() {
-	recmdsEL.addWin.window({
+	recmdsEL.win.window({
 		width: 480,
-		height: 650,
+		height: 200,
 		modal: true,
 		title: '新建推荐',
 		collapsible: false,
@@ -140,9 +143,9 @@ recmdsEL.add.click(function() {
 recmdsEL.edit.click(function() {
 	var row = recmdsEL.dg.datagrid('getSelected');
 	if (row) {
-		recmdsEL.editWin.window({
+		recmdsEL.win.window({
 			width: 480,
-			height: 650,
+			height: 450,
 			modal: true,
 			title: '编辑推荐',
 			collapsible: false,
@@ -159,9 +162,9 @@ recmdsEL.edit.click(function() {
 recmdsEL.auditOk.click(function() {
 	var row = recmdsEL.dg.datagrid('getSelected');
 	if (row) {
-		recmdsEL.editWin.window({
+		recmdsEL.win.window({
 			width: 480,
-			height: 650,
+			height: 500,
 			modal: true,
 			title: '审核',
 			collapsible: false,
@@ -178,9 +181,9 @@ recmdsEL.auditOk.click(function() {
 recmdsEL.auditNot.click(function() {
 	var row = recmdsEL.dg.datagrid('getSelected');
 	if (row) {
-		recmdsEL.editWin.window({
+		recmdsEL.win.window({
 			width: 480,
-			height: 650,
+			height: 380,
 			modal: true,
 			title: '审核',
 			collapsible: false,

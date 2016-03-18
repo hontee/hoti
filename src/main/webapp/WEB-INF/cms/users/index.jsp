@@ -15,10 +15,7 @@
 	</span>
 </header>
 <table id="users-dg"></table>
-<footer>
-    <div id="users-add-win"></div>
-    <div id="users-edit-win"></div>
-</footer>
+<footer id="users-win"></footer>
 <script>
 // 变量取值要唯一
 var usersEL = {
@@ -28,8 +25,7 @@ var usersEL = {
 	remove: $("#users-remove"),
 	reload: $("#users-reload"),
 	dg: $("#users-dg"),
-	addWin: $("#users-add-win"),
-	editWin: $("#users-edit-win")
+	win: $("#users-win")
 };
 
 // DataGrid
@@ -126,7 +122,7 @@ usersEL.search = function(value){
 
 // 新建
 usersEL.add.click(function() {
-	usersEL.addWin.window({
+	usersEL.win.window({
 		width: 480,
 		height: 420,
 		modal: true,
@@ -144,7 +140,7 @@ usersEL.add.click(function() {
 usersEL.edit.click(function() {
 	var row = usersEL.dg.datagrid('getSelected');
 	if (row) {
-		usersEL.editWin.window({
+		usersEL.win.window({
 			width: 480,
 			height: 520,
 			modal: true,
@@ -163,7 +159,7 @@ usersEL.edit.click(function() {
 usersEL.editPw.click(function() {
 	var row = usersEL.dg.datagrid('getSelected');
 	if (row) {
-		usersEL.editWin.window({
+		usersEL.win.window({
 			width: 480,
 			height: 280,
 			modal: true,

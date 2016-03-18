@@ -26,6 +26,8 @@ public interface CategoryService extends Pager<Category, CategoryExample> {
 
     void updateByPrimaryKey(Long id, CategoryVO vo) throws SecurityException;
     
+    void updateByPrimaryKey(Long id, long count) throws SecurityException;
+    
     List<Category> findByOrganization(Long domain) throws SecurityException;
     
     List<Category> findByCollect(CategoryExample example) throws SecurityException;
