@@ -1,8 +1,10 @@
-package com.kuaiba.site.core;
+package com.kuaiba.site.core.security;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.kuaiba.site.db.entity.GlobalIDs;
  
 /**
  * Cookie工具类,封装Cookie常用操作

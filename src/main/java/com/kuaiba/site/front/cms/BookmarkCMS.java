@@ -14,49 +14,48 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.aop.SiteLog;
-import com.kuaiba.site.core.CmsURLs;
-import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
+import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.BookmarkVO;
 
 @Controller
-@RequestMapping(CmsURLs.CMS_BOOKMARKS)
+@RequestMapping(CmsIDs.CMS_BOOKMARKS)
 public class BookmarkCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.HOME, method = RequestMethod.GET)
+	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)
 	public String index() {
 		return "cms/bookmarks/index";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.GET)
+	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.GET)
 	public String addPage() {
 		return "cms/bookmarks/new";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.GET)
+	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/bookmarks/edit";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.VIEW, method = RequestMethod.GET)
+	@RequestMapping(value = CmsIDs.VIEW, method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/bookmarks/view";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.LIST)
+	@RequestMapping(value = CmsIDs.LIST)
 	public @ResponseBody DataGrid<Bookmark> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
 		BookmarkExample example = new BookmarkExample();
 		if (StringUtils.isNotBlank(title)) {
@@ -67,7 +66,7 @@ public class BookmarkCMS extends BaseCO {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
+	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.POST)
 	@SiteLog(action = "后台添加站点", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
 	public @ResponseBody SiteResponse add(BookmarkVO vo, HttpServletRequest request) throws SecurityException {
 		bookmarkService.add(vo);
@@ -75,7 +74,7 @@ public class BookmarkCMS extends BaseCO {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
+	@RequestMapping(value = CmsIDs.DELETE, method = RequestMethod.POST)
 	@SiteLog(action = "后台删除站点", table = TableIDs.BOOKMARK)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		bookmarkService.deleteByPrimaryKey(id);
@@ -83,7 +82,7 @@ public class BookmarkCMS extends BaseCO {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
+	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑站点", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) throws SecurityException {
 		bookmarkService.updateByPrimaryKey(id, vo);

@@ -1,10 +1,10 @@
-package com.kuaiba.site.core;
+package com.kuaiba.site.front.cms;
 
 /**
  * CMS请求URL
  * @author larry.qi
  */
-public interface CmsURLs {
+public interface CmsIDs {
 	
 	// URI
 	String CMS_HOME = "/cms";

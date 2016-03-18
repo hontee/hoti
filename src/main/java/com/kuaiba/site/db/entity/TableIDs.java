@@ -1,4 +1,4 @@
-package com.kuaiba.site.core;
+package com.kuaiba.site.db.entity;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

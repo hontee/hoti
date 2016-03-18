@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.aop.SiteLog;
-import com.kuaiba.site.core.CmsURLs;
-import com.kuaiba.site.core.TableIDs;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.ComboBox;
 import com.kuaiba.site.db.entity.DataGrid;
@@ -26,41 +24,42 @@ import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
+import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.front.co.BaseCO;
 import com.kuaiba.site.front.vo.DomainVO;
 
 @Controller
-@RequestMapping(CmsURLs.CMS_DOMAINS)
+@RequestMapping(CmsIDs.CMS_DOMAINS)
 public class DomainCMS extends BaseCO {
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.HOME, method = RequestMethod.GET)
+	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)
 	public String index() {
 		return "cms/domains/index";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.GET)
+	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.GET)
 	public String addPage() {
 		return "cms/domains/new";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.GET)
+	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/domains/edit";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.VIEW, method = RequestMethod.GET)
+	@RequestMapping(value = CmsIDs.VIEW, method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/domains/view";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.DATALIST)
+	@RequestMapping(value = CmsIDs.DATALIST)
 	public @ResponseBody List<ComboBox> datalist() throws Exception {
 		DomainExample example = new DomainExample();
 		example.createCriteria().andStateEqualTo((byte)1);
@@ -72,7 +71,7 @@ public class DomainCMS extends BaseCO {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.LIST)
+	@RequestMapping(value = CmsIDs.LIST)
 	public @ResponseBody DataGrid<Domain> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
 		DomainExample example = new DomainExample();
 		if (StringUtils.isNotBlank(title)) {
@@ -83,7 +82,7 @@ public class DomainCMS extends BaseCO {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.CREATE, method = RequestMethod.POST)
+	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.POST)
 	@SiteLog(action = "后台添加领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
 	public @ResponseBody SiteResponse add(DomainVO vo, HttpServletRequest request) throws SecurityException {
 		domainService.add(vo);
@@ -91,7 +90,7 @@ public class DomainCMS extends BaseCO {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.DELETE, method = RequestMethod.POST)
+	@RequestMapping(value = CmsIDs.DELETE, method = RequestMethod.POST)
 	@SiteLog(action = "后台删除领域", table = TableIDs.DOMAIN)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		domainService.deleteByPrimaryKey(id);
@@ -99,7 +98,7 @@ public class DomainCMS extends BaseCO {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.EDIT, method = RequestMethod.POST)
+	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, DomainVO vo, HttpServletRequest request) throws SecurityException {
 		domainService.updateByPrimaryKey(id, vo);
@@ -107,7 +106,7 @@ public class DomainCMS extends BaseCO {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsURLs.COUNT_TASK, method = RequestMethod.POST)
+	@RequestMapping(value = CmsIDs.COUNT_TASK, method = RequestMethod.POST)
 	@SiteLog(action = "后台统计领域数据", table = TableIDs.DOMAIN, clazz = String.class)
 	public @ResponseBody SiteResponse countTask(
 			@RequestParam(defaultValue = "后台统计领域数据") String desc, 

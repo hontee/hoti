@@ -1,4 +1,4 @@
-package com.kuaiba.site.core;
+package com.kuaiba.site.db.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;

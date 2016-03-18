@@ -12,7 +12,7 @@ import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.util.ByteSource;
 
-import com.kuaiba.site.core.GlobalIDs;
+import com.kuaiba.site.db.entity.GlobalIDs;
 
 /**
  * 自定义密码匹配规则<br>

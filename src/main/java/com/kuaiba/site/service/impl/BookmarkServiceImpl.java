@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.core.GlobalIDs;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.FollowException;
@@ -22,6 +21,7 @@ import com.kuaiba.site.db.dao.BookmarkMapper;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.ContraintValidator;
+import com.kuaiba.site.db.entity.GlobalIDs;
 import com.kuaiba.site.db.entity.HttpUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.front.vo.BookmarkVO;

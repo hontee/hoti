@@ -1,11 +1,11 @@
-package com.kuaiba.site.core;
+package com.kuaiba.site.front.co;
 
 /**
  * 前端请求URL
  * @author larry.qi
  *
  */
-public interface HttpURLs {
+public interface HttpIDs {
 	
 	String SEARCH = "/search";
 	String LOGIN = "login";

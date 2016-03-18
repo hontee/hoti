@@ -66,7 +66,7 @@ public class SiteResponse implements Serializable {
 	 * 错误信息
 	 * @author larry.qi
 	 */
-	public class Error implements Serializable{
+	public static class Error implements Serializable{
 
 		private static final long serialVersionUID = -4425094276756966685L;
 

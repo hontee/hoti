@@ -6,7 +6,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import com.kuaiba.site.core.GlobalIDs;
 import com.kuaiba.site.core.security.CurrentUser;
 
 /**

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.core.GlobalIDs;
 import com.kuaiba.site.core.exception.AuthzException;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
@@ -25,6 +24,7 @@ import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.UserMapper;
 import com.kuaiba.site.db.entity.ContraintValidator;
+import com.kuaiba.site.db.entity.GlobalIDs;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;

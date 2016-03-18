@@ -49,15 +49,30 @@ public abstract class BaseCO {
 	@Resource
 	protected Countable countable;
 	
+	/**
+	 * 重定向
+	 * @param path
+	 * @return
+	 */
 	protected String redirect(String path) {
 		return "redirect:".concat(path);
 	}
 	
+	/**
+	 * 判断是否为AJAX请求
+	 * @param webRequest
+	 * @return
+	 */
 	protected boolean isAjaxRequest(WebRequest webRequest) {
 		String requestedWith = webRequest.getHeader("X-Requested-With");
 		return requestedWith != null ? "XMLHttpRequest".equals(requestedWith) : false;
 	}
 
+	/**
+	 * 判断是否为AJAX上传
+	 * @param webRequest
+	 * @return
+	 */
 	protected boolean isAjaxUploadRequest(WebRequest webRequest) {
 		return webRequest.getParameter("ajaxUpload") != null;
 	}
