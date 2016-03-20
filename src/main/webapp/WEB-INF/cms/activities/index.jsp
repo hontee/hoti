@@ -10,8 +10,8 @@
 	<button id="activities-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
-	  <select class="easyui-combobox" id="tbl" data-options="panelHeight:'auto',editable: false" style="width:150px;">
-        <option selected>全部</option>
+	  <select class="easyui-combobox" id="activities-tbl" data-options="panelHeight:'auto',editable: false" style="width:150px;">
+        <option selected>全部对象</option>
         <c:forEach items="${tableIds}" var="t">
         <option value="${t}">${t}</option>
         </c:forEach>
@@ -98,7 +98,7 @@ activitiesEL.linkButton = function(a, b, c) {
 activitiesEL.search = function(value){
 	activitiesEL.dg.datagrid('load',{
 		name: value,
-		tbl: $('#tbl').combobox('getValue')
+		tbl: $('#activities-tbl').combobox('getValue')
 	});
 }
 

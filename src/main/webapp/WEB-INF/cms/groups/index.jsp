@@ -11,6 +11,20 @@
 	<button id="groups-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
+	  <input class="easyui-combobox" id="groups-category"
+    	data-options="required:true, value:'-1', valueField:'id',textField:'title',url:'/cms/cates/datalist?q=all'" 
+    	style="width:100px;">
+	  <select class="easyui-combobox" id="groups-gtype" data-options="panelHeight:'auto',editable: false" style="width:100px;">
+        <option value="all" selected>全部机构</option>
+        <option value="user">用户</option>
+        <option value="topic">主题</option>
+        <option value="org">组织</option>
+      </select>
+	  <select class="easyui-combobox" id="groups-state" data-options="panelHeight:'auto',editable: false" style="width:100px;">
+        <option value="-1" selected>全部状态</option>
+        <option value="1">启用</option>
+        <option value="0">禁用</option>
+      </select>
 	  <input class="easyui-searchbox" data-options="prompt:'输入标题', searcher:groupsEL.search" style="width:200px" />
 	</span>
 </header>
@@ -45,7 +59,7 @@ groupsEL.dg.datagrid({
         {field:'name',title:'名称',width:100, hidden: true},
         {field:'title',title:'标题',width:100, sortable: true},
         {field:'description',title:'描述',width:100},
-        {field:'gtype',title:'类型',width:100, sortable: true},
+        {field:'gtype',title:'机构',width:100, sortable: true},
         {field:'avatar',title:'头像',width:100},
         {field:'cover',title:'封面',width:100},
         {field:'stars',title:'关注',width:100, sortable: true},
@@ -116,7 +130,10 @@ groupsEL.linkButton = function(a, b, c) {
 // 搜索
 groupsEL.search = function(value){
 	groupsEL.dg.datagrid('load',{
-		title: value
+		title: value,
+		state: $('#groups-state').combobox('getValue'),
+		gtype: $('#groups-gtype').combobox('getValue'),
+		category: $('#groups-category').combobox('getValue')
 	});
 }
 

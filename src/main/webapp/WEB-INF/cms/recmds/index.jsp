@@ -12,8 +12,8 @@
 	<button id="recmds-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
-	  <select class="easyui-combobox" id="state" data-options="panelHeight:'auto',editable: false" style="width:100px;">
-        <option value="0" selected>全部</option>
+	  <select class="easyui-combobox" id="recmds-state" data-options="panelHeight:'auto',editable: false" style="width:100px;">
+        <option value="-1" selected>全部状态</option>
         <option value="1">未审核</option>
         <option value="2">审核通过</option>
         <option value="3">审核拒绝</option>
@@ -119,7 +119,7 @@ recmdsEL.linkButton = function(a) {
 recmdsEL.search = function(value){
 	recmdsEL.dg.datagrid('load',{
 		title: value,
-		state: $('#state').combobox('getValue')
+		state: $('#recmds-state').combobox('getValue')
 	});
 }
 

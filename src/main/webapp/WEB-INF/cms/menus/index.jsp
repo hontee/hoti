@@ -10,6 +10,11 @@
 	<button id="menus-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
+	  <select class="easyui-combobox" id="menus-state" data-options="panelHeight:'auto',editable: false" style="width:100px;">
+        <option value="-1" selected>全部状态</option>
+        <option value="1">启用</option>
+        <option value="0">禁用</option>
+      </select>
 	  <input class="easyui-searchbox" data-options="prompt:'输入标题', searcher:menusEL.search" style="width:200px" />
 	</span>
 </header>
@@ -104,7 +109,8 @@ menusEL.linkButton = function(a, b, c) {
 // 搜索
 menusEL.search = function(value){
 	menusEL.dg.datagrid('load',{
-		title: value
+		title: value,
+		state: $('#menus-state').combobox('getValue')
 	});
 }
 

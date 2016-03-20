@@ -1,5 +1,6 @@
 package com.kuaiba.site.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.kuaiba.site.core.cache.Cache;
+import com.kuaiba.site.core.cache.CacheFactory;
+import com.kuaiba.site.core.cache.CacheIDs;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.ReadException;
@@ -161,6 +165,24 @@ public class MtypeServiceImpl implements MtypeService {
 		} catch (Exception e) {
 			throw new ReadException("检测类型标题失败", e);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Mtype> findAllByCache() throws SecurityException {
+		
+		List<Mtype> list = new ArrayList<>();
+		Cache cache = CacheFactory.createObjectCache();
+		
+		if (cache.contains(CacheIDs.MTYPES)) {
+			list = (List<Mtype>)cache.get(CacheIDs.MTYPES);
+		} else {
+			// 从数据库中获取
+			list = this.findByExample(new MtypeExample());
+			cache.put(CacheIDs.MTYPES, list);
+		}
+		
+		return list;
 	}
 	
 }

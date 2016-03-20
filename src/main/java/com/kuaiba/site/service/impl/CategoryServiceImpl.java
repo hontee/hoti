@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.UseCache;
-import com.kuaiba.site.core.cache.CacheIDs;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.NotFoundException;
@@ -168,7 +166,6 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	@UseCache(key = CacheIDs.HOMEPAGE)
 	public List<Category> findByCollect(CategoryExample example) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(example);

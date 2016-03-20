@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.SiteLog;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.ComboBox;
 import com.kuaiba.site.db.entity.DataGrid;
@@ -27,6 +26,7 @@ import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.DomainVO;
+import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
 @RequestMapping(CmsIDs.CMS_DOMAINS)
@@ -60,23 +60,40 @@ public class DomainCMS extends BaseController {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIDs.DATALIST)
-	public @ResponseBody List<ComboBox> datalist() throws Exception {
+	public @ResponseBody List<ComboBox> datalist(
+			@RequestParam(required=false) String q) throws Exception {
 		DomainExample example = new DomainExample();
 		example.createCriteria().andStateEqualTo((byte)1);
 		example.setOrderByClause("weight DESC"); // 按权重排序
 		List<Domain> list = domainService.findByExample(example);
 		List<ComboBox> boxes = new ArrayList<>();
+		
+		if ("all".equals(q)) {
+			boxes.add(new ComboBox(-1L, "全部领域"));
+		}
+		
 		list.forEach((org) -> boxes.add(new ComboBox(org.getId(), org.getTitle())));
 		return boxes;
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIDs.LIST)
-	public @ResponseBody DataGrid<Domain> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
+	public @ResponseBody DataGrid<Domain> dataGrid(
+			@RequestParam(required = false) String title, 
+			@RequestParam(required = false) Byte state, 
+			Pagination p) throws Exception {
+		
 		DomainExample example = new DomainExample();
+		DomainExample.Criteria criteria = example.createCriteria();
+		
 		if (StringUtils.isNotBlank(title)) {
-			example.createCriteria().andTitleLike("%" + title + "%"); // 模糊查询
+			criteria.andTitleLike("%" + title + "%"); // 模糊查询
 		}
+		
+		if (Domain.checkState(state)) {
+			criteria.andStateEqualTo(state);
+		}
+		
 		PageInfo<Domain> pageInfo = domainService.findByExample(example, p);
 		return new DataGrid<>(pageInfo);
 	}

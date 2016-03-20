@@ -10,6 +10,14 @@
 	<button id="bookmarks-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
+	  <input class="easyui-combobox" id="bookmarks-category"
+    	data-options="required:true, value:'-1', valueField:'id',textField:'title',url:'/cms/cates/datalist?q=all'" 
+    	style="width:100px;">
+	  <select class="easyui-combobox" id="bookmarks-state" data-options="panelHeight:'auto',editable: false" style="width:100px;">
+        <option value="-1" selected>全部状态</option>
+        <option value="1">启用</option>
+        <option value="0">禁用</option>
+      </select>
 	  <input class="easyui-searchbox" data-options="prompt:'输入标题', searcher:bookmarksEL.search" style="width:200px" />
 	</span>
 </header>
@@ -49,6 +57,9 @@ bookmarksEL.dg.datagrid({
         {field:'star',title:'星',width:100, sortable: true},
         {field:'hit',title:'点击数',width:100, sortable: true},
         {field:'category',title:'所属分类',width:100, sortable: true, formatter: function(value,row,index) {
+        	return row.extCategoryTitle;
+        }},
+        {field:'mtype',title:'类型',width:100, sortable: true, formatter: function(value,row,index) {
         	return row.extCategoryTitle;
         }},
         {field:'state',title:'状态',width:100, sortable: true, formatter: function(value,row,index) {
@@ -113,7 +124,9 @@ bookmarksEL.linkButton = function(a, b, c) {
 // 搜索
 bookmarksEL.search = function(value){
 	bookmarksEL.dg.datagrid('load',{
-		title: value
+		title: value,
+		state: $('#bookmarks-state').combobox('getValue'),
+		category: $('#bookmarks-category').combobox('getValue')
 	});
 }
 

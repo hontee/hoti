@@ -17,7 +17,6 @@ public interface GlobalIDs {
 	
 	// EhCache names
 	String CFG_EHCACHE = "/META-INF/spring/ehcache.xml"; // EhCache
-	String CACHE_OBJECT = "objectCache"; // 对象缓存
 	String CACHE_DEFAULT = "default"; // 默认
 	String CACHE_PRC = "kuaiba.passwordRetryCache"; // 密码缓存
 	String CACHE_OBJECTS = "kuaiba.objects"; // 对象缓存

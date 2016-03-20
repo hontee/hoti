@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.SiteLog;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.entity.Bookmark;
@@ -31,6 +30,7 @@ import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.db.entity.User;
+import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
 public class SiteController extends BaseController implements ISite {

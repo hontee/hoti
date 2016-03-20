@@ -30,5 +30,13 @@ public class CacheFactory {
 			throw new BaseRuntimeException(ErrorIDs.CACHE_ERROR, "创建缓存实例失败", e);
 		}
 	}
+	
+	/**
+	 * 创建对象缓存
+	 * @return
+	 */
+	public static Cache createObjectCache() {
+		return createInstance(GlobalIDs.CACHE_OBJECTS);
+	}
 
 }

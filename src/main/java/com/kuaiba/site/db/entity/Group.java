@@ -1,11 +1,22 @@
 package com.kuaiba.site.db.entity;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
 public class Group implements Serializable {
 
 	private static final long serialVersionUID = 1864047863059201155L;
+	
+	/**
+	 * 群组类型
+	 */
+	final static String[] gtypes = {"user", "topic", "org"};
+	
+	/**
+	 * 状态 1=启用 ，0=禁用
+	 */
+	final static Byte[] states = {0, 1};
 
 	private Long id;
 
@@ -175,6 +186,24 @@ public class Group implements Serializable {
 
 	public void setExtCreateName(String extCreateName) {
 		this.extCreateName = extCreateName;
+	}
+	
+	/**
+	 * 验证用户类型
+	 * @param userType
+	 * @return
+	 */
+	public static boolean checkGtype(String gtype) {
+		return Arrays.asList(gtypes).contains(gtype);
+	}
+	
+	/**
+	 * 验证状态
+	 * @param state
+	 * @return
+	 */
+	public static boolean checkState(Byte state) {
+		return Arrays.asList(states).contains(state);
 	}
     
 }

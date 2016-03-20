@@ -2,13 +2,14 @@ package com.kuaiba.site.service;
 
 import java.util.List;
 
+import com.kuaiba.site.core.cache.MtypeCache;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.MtypeExample;
 import com.kuaiba.site.db.entity.Pager;
 import com.kuaiba.site.front.vo.MtypeVO;
 
-public interface MtypeService extends Pager<Mtype, MtypeExample> {
+public interface MtypeService extends Pager<Mtype, MtypeExample>, MtypeCache {
 	
     int countByExample(MtypeExample example) throws SecurityException;
 

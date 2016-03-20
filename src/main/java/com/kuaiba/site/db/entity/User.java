@@ -10,18 +10,15 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = -6588021396758305496L;
 	
-	final Byte[] userTypes = {1, 2};
-	final Byte[] states = {0, 1, 2, 3};
+	/**
+	 * 用户类型 1=普通用户 2=管理员
+	 */
+	final static Byte[] userTypes = {1, 2};
 	
-	// 用户类型
-	protected enum UserType {
-		ADMIN, USER
-	}
-	
-	// 用户状态
-	protected enum UserState {
-		DISABLED, ACTIVE, LOCKED, DELETED
-	}
+	/**
+	 * 用户状态 0=禁用 1=启用 2=锁定 3=已删除
+	 */
+	final static Byte[] states = {0, 1, 2, 3};
 	
 	private Long id;
     private String name;
@@ -94,49 +91,18 @@ public class User implements Serializable {
         return userType;
     }
 
-    /**
-     * 设置用户类型，如果值不在范围内，使用默认值
-     * @param userType
-     */
     public void setUserType(Byte userType) {
     	this.userType = userType;
-    	if (!Arrays.asList(userTypes).contains(userType)) {
-			setUserType(UserType.USER);
-		}
     }
     
-    /**
-     * 设置用户类型
-     * @param userType
-     */
-    public void setUserType(UserType userType) {
-        int index = userType.ordinal();
-        this.userType = (byte)index++;
-    }
-
     public Byte getState() {
         return state;
     }
 
-    /**
-     * 设置用户状态，如果不在范围内，使用默认值。
-     * @param state
-     */
     public void setState(Byte state) {
         this.state = state;
-        if (!Arrays.asList(states).contains(state)) {
-        	setState(UserState.ACTIVE);
-		}
     }
     
-    /**
-     * 设置用户状态
-     * @param state
-     */
-    public void setState(UserState state) {
-        this.userType = (byte) state.ordinal();
-    }
-
     public Date getCreated() {
         return created;
     }
@@ -152,5 +118,23 @@ public class User implements Serializable {
     public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
     }
+    
+    /**
+	 * 验证用户类型
+	 * @param userType
+	 * @return
+	 */
+	public static boolean checkUserType(Byte userType) {
+		return Arrays.asList(userTypes).contains(userType);
+	}
+	
+	/**
+	 * 验证状态
+	 * @param state
+	 * @return
+	 */
+	public static boolean checkState(Byte state) {
+		return Arrays.asList(states).contains(state);
+	}
     
 }

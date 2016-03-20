@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.SiteLog;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Activity;
 import com.kuaiba.site.db.entity.ActivityExample;
@@ -22,6 +21,7 @@ import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.front.controller.BaseController;
+import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
 @RequestMapping(CmsIDs.CMS_ACTIVITIES)
@@ -49,13 +49,14 @@ public class ActivityCMS extends BaseController {
 			Pagination p) throws Exception {
 		
 		ActivityExample example = new ActivityExample();
+		ActivityExample.Criteria criteria = example.createCriteria();
 		
 		if (StringUtils.isNotBlank(name)) {
-			example.createCriteria().andNameLike("%" + name + "%"); // 模糊查询
+			criteria.andNameLike("%" + name + "%"); // 模糊查询
 		}
 		
-		if (StringUtils.isNoneBlank(tbl) && !"全部".equals(tbl)) {
-			example.createCriteria().andTblEqualTo(tbl);
+		if (TableIDs.getList().contains(tbl)) {
+			criteria.andTblEqualTo(tbl);
 		}
 		
 		PageInfo<Activity> pageInfo = activityService.findByExample(example, p);

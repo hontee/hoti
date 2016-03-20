@@ -11,6 +11,14 @@
 	<button id="cates-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
+      <input class="easyui-combobox" id="cates-domain"
+    	data-options="required:true,panelHeight:'auto',editable: false, value:'-1', valueField:'id',textField:'title',url:'/cms/domains/datalist?q=all'" 
+    	style="width:100px;">
+	  <select class="easyui-combobox" id="cates-state" data-options="panelHeight:'auto',editable: false" style="width:100px;">
+        <option value="-1" selected>全部状态</option>
+        <option value="1">启用</option>
+        <option value="0">禁用</option>
+      </select>
 	  <input class="easyui-searchbox" data-options="prompt:'输入标题', searcher:catesEL.search" style="width:200px" />
 	</span>
 </header>
@@ -113,7 +121,9 @@ catesEL.linkButton = function(a, b, c) {
 // 搜索
 catesEL.search = function(value){
 	catesEL.dg.datagrid('load',{
-		title: value
+		title: value, 
+		state: $('#cates-state').combobox('getValue'),
+		domain: $('#cates-domain').combobox('getValue')
 	});
 }
 

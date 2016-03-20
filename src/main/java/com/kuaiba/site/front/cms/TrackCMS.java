@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.SiteLog;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
@@ -22,6 +21,7 @@ import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.db.entity.Track;
 import com.kuaiba.site.db.entity.TrackExample;
 import com.kuaiba.site.front.controller.BaseController;
+import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
 @RequestMapping(CmsIDs.CMS_TRACKS)
@@ -42,10 +42,15 @@ public class TrackCMS extends BaseController {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIDs.LIST)
-	public @ResponseBody DataGrid<Track> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
+	public @ResponseBody DataGrid<Track> dataGrid(
+			@RequestParam(required = false) String name, 
+			Pagination p) throws Exception {
+		
 		TrackExample example = new TrackExample();
-		if (StringUtils.isNotBlank(title)) {
-			example.createCriteria().andNameLike("%" + title + "%"); // 模糊查询
+		TrackExample.Criteria criteria = example.createCriteria();
+		
+		if (StringUtils.isNotBlank(name)) {
+			criteria.andNameLike("%" + name + "%"); // 模糊查询
 		}
 		PageInfo<Track> pageInfo = trackService.findByExample(example, p);
 		return new DataGrid<>(pageInfo);

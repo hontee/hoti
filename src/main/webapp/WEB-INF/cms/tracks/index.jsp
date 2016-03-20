@@ -85,7 +85,7 @@ tracksEL.linkButton = function(a, b, c) {
 // 搜索
 tracksEL.search = function(value){
 	tracksEL.dg.datagrid('load',{
-		title: value
+		name: value
 	});
 }
 

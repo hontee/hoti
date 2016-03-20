@@ -1,6 +1,7 @@
 package com.kuaiba.site.db.entity;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.commons.lang3.RandomUtils;
@@ -9,6 +10,11 @@ public class Bookmark implements Serializable {
 
 	private static final long serialVersionUID = 4078788641734464984L;
 
+	/**
+	 * 状态 1=启用 ，0=禁用
+	 */
+	final static Byte[] states = {0, 1};
+	
 	private Long id;
 
     private String name;
@@ -46,7 +52,7 @@ public class Bookmark implements Serializable {
     private String extCreateName;
     
     private int extFollow;
-
+    
     public Long getId() {
         return id;
     }
@@ -204,6 +210,15 @@ public class Bookmark implements Serializable {
 
 	public void setExtFollow(int extFollow) {
 		this.extFollow = extFollow;
+	}
+	
+	/**
+	 * 验证状态
+	 * @param state
+	 * @return
+	 */
+	public static boolean checkState(Byte state) {
+		return Arrays.asList(states).contains(state);
 	}
     
 }

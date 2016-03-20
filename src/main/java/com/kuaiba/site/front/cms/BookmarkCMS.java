@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.SiteLog;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
@@ -23,6 +22,7 @@ import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.BookmarkVO;
+import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
 @RequestMapping(CmsIDs.CMS_BOOKMARKS)
@@ -56,11 +56,27 @@ public class BookmarkCMS extends BaseController {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIDs.LIST)
-	public @ResponseBody DataGrid<Bookmark> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
+	public @ResponseBody DataGrid<Bookmark> dataGrid(
+			@RequestParam(required = false) String title, 
+			@RequestParam(required = false) Long category, 
+			@RequestParam(required = false) Byte state, 
+			Pagination p) throws Exception {
+		
 		BookmarkExample example = new BookmarkExample();
+		BookmarkExample.Criteria criteria = example.createCriteria();
+		
 		if (StringUtils.isNotBlank(title)) {
-			example.createCriteria().andTitleLike("%" + title + "%"); // 模糊查询
+			criteria.andTitleLike("%" + title + "%"); // 模糊查询
 		}
+		
+		if (category != null && category > 0) {
+			criteria.andCategoryEqualTo(category);
+		}
+		
+		if (Bookmark.checkState(state)) {
+			criteria.andStateEqualTo(state);
+		}
+		
 		PageInfo<Bookmark> pageInfo = bookmarkService.findByExample(example, p);
 		return new DataGrid<>(pageInfo);
 	}

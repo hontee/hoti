@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.SiteLog;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.ComboBox;
 import com.kuaiba.site.db.entity.DataGrid;
@@ -27,6 +26,7 @@ import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.MtypeVO;
+import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
 @RequestMapping(CmsIDs.CMS_MTYPES)
@@ -72,11 +72,22 @@ public class MtypeCSM extends BaseController {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIDs.LIST)
-	public @ResponseBody DataGrid<Mtype> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
+	public @ResponseBody DataGrid<Mtype> dataGrid(
+			@RequestParam(required = false) String title, 
+			@RequestParam(required = false) Byte state,
+			Pagination p) throws Exception {
+		
 		MtypeExample example = new MtypeExample();
+		MtypeExample.Criteria criteria = example.createCriteria();
+		
 		if (StringUtils.isNotBlank(title)) {
-			example.createCriteria().andTitleLike("%" + title + "%"); // 模糊查询
+			criteria.andTitleLike("%" + title + "%"); // 模糊查询
 		}
+		
+		if (Mtype.checkState(state)) {
+			criteria.andStateEqualTo(state);
+		}
+		
 		PageInfo<Mtype> pageInfo = mtypeService.findByExample(example, p);
 		return new DataGrid<>(pageInfo);
 	}

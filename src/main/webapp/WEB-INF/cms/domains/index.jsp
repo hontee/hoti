@@ -11,6 +11,11 @@
 	<button id="domains-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
+	  <select class="easyui-combobox" id="domains-state" data-options="panelHeight:'auto',editable: false" style="width:100px;">
+        <option value="-1" selected>全部状态</option>
+        <option value="1">启用</option>
+        <option value="0">禁用</option>
+      </select>
 	  <input class="easyui-searchbox" data-options="prompt:'输入标题', searcher:domainsEL.search" style="width:200px" />
 	</span>
 </header>
@@ -105,7 +110,8 @@ domainsEL.linkButton = function(a, b, c) {
 // 搜索
 domainsEL.search = function(value){
 	domainsEL.dg.datagrid('load',{
-		title: value
+		title: value,
+		state: $('#domains-state').combobox('getValue')
 	});
 }
 

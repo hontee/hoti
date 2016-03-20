@@ -11,7 +11,19 @@
 	<button id="users-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
-	  <input class="easyui-searchbox" data-options="prompt:'搜索用户', searcher:usersEL.search" style="width:200px" />
+	  <select class="easyui-combobox" id="users-type" data-options="panelHeight:'auto',editable: false" style="width:100px;">
+        <option value="-1" selected>全部类型</option>
+        <option value="1">普通用户</option>
+        <option value="2">管理员</option>
+      </select>
+      <select class="easyui-combobox" id="users-state" data-options="panelHeight:'auto',editable: false" style="width:100px;">
+        <option value="-1" selected>全部状态</option>
+        <option value="0">禁用</option>
+        <option value="1">启用</option>
+        <option value="2">锁定</option>
+        <option value="3">已删除</option>
+      </select>
+	  <input class="easyui-searchbox" data-options="prompt:'搜索用户名', searcher:usersEL.search" style="width:200px" />
 	</span>
 </header>
 <table id="users-dg"></table>
@@ -116,7 +128,9 @@ usersEL.linkButton = function(a, b, c) {
 // 搜索
 usersEL.search = function(value){
 	usersEL.dg.datagrid('load',{
-		title: value
+		name: value,
+		userType: $('#users-type').combobox('getValue'),
+		state: $('#users-state').combobox('getValue')
 	});
 }
 

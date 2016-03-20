@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.SiteLog;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
@@ -24,6 +23,7 @@ import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.front.vo.RecommendVO;
+import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
 @RequestMapping(CmsIDs.CMS_RECMDS)
@@ -77,13 +77,14 @@ public class RecommendCMS extends BaseController {
 			Pagination p) throws Exception {
 		
 		RecommendExample example = new RecommendExample();
+		RecommendExample.Criteria criteria = example.createCriteria();
 		
 		if (StringUtils.isNotBlank(title)) {
-			example.createCriteria().andTitleLike("%" + title + "%"); // 模糊查询
+			criteria.andTitleLike("%" + title + "%"); // 模糊查询
 		}
 		
-		if (state != null && state > 0) {
-			example.createCriteria().andStateEqualTo(state);
+		if (Recommend.checkState(state)) {
+			criteria.andStateEqualTo(state);
 		}
 		
 		PageInfo<Recommend> pageInfo = recommendService.findByExample(example, p);

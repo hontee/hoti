@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.SiteLog;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Menu;
@@ -25,6 +24,7 @@ import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.MenuVO;
+import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
 @RequestMapping(CmsIDs.CMS_MENUS)
@@ -67,11 +67,22 @@ public class MenuCMS extends BaseController {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIDs.LIST)
-	public @ResponseBody DataGrid<Menu> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
+	public @ResponseBody DataGrid<Menu> dataGrid(
+			@RequestParam(required = false) String title,
+			@RequestParam(required = false) Byte state,
+			Pagination p) throws Exception {
+		
 		MenuExample example = new MenuExample();
+		MenuExample.Criteria criteria = example.createCriteria();
+		
 		if (StringUtils.isNotBlank(title)) {
-			example.createCriteria().andTitleLike("%" + title + "%"); // 模糊查询
+			criteria.andTitleLike("%" + title + "%"); // 模糊查询
 		}
+		
+		if (Menu.checkState(state)) {
+			criteria.andStateEqualTo(state);
+		}
+		
 		PageInfo<Menu> pageInfo = menuService.findByExample(example, p);
 		return new DataGrid<>(pageInfo);
 	}

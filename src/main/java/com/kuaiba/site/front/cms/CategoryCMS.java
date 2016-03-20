@@ -1,5 +1,6 @@
 package com.kuaiba.site.front.cms;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,16 +16,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.aop.SiteLog;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
+import com.kuaiba.site.db.entity.ComboBox;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.CategoryVO;
+import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
 @RequestMapping(CmsIDs.CMS_CATES)
@@ -32,7 +34,7 @@ public class CategoryCMS extends BaseController {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)
-	public String index() {
+	public String index() throws SecurityException {
 		return "cms/cates/index";
 	}
 	
@@ -58,21 +60,48 @@ public class CategoryCMS extends BaseController {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIDs.LIST)
-	public @ResponseBody DataGrid<Category> dataGrid(@RequestParam(required = false) String title, Pagination p) throws Exception {
+	public @ResponseBody DataGrid<Category> dataGrid(
+			@RequestParam(required = false) String title, 
+			@RequestParam(required = false) Long domain, 
+			@RequestParam(required = false) Byte state,
+			Pagination p) throws Exception {
+		
 		CategoryExample example = new CategoryExample();
+		CategoryExample.Criteria criteria = example.createCriteria();
+		
 		if (StringUtils.isNotBlank(title)) {
-			example.createCriteria().andTitleLike("%" + title + "%"); // 模糊查询
+			criteria.andTitleLike("%" + title + "%"); // 模糊查询
 		}
+		
+		if (domain != null && domain > 0) {
+			criteria.andDomainEqualTo(domain);
+		}
+		
+		if (Category.checkState(state)) {
+			criteria.andStateEqualTo(state);
+		}
+		
 		PageInfo<Category> pageInfo = categoryService.findByExample(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIDs.DATALIST)
-	public @ResponseBody List<Category> datalist() throws Exception {
+	public @ResponseBody List<ComboBox> datalist(
+			@RequestParam(required = false) String q) throws Exception {
 		CategoryExample example = new CategoryExample();
 		example.createCriteria().andStateEqualTo((byte)1);
-		return categoryService.findByExample(example);
+		List<Category> list = categoryService.findByExample(example);
+		List<ComboBox> boxes = new ArrayList<>();
+		
+		/**
+		 * 如果传入 ?q=all 则返回全部分类
+		 */
+		if ("all".equals(q)) {
+			boxes.add(new ComboBox(-1L, "全部分类"));
+		}
+		list.forEach((c) -> boxes.add(new ComboBox(c.getId(), c.getTitle())));
+		return boxes;
 	}
 	
 	@RequiresRoles(value = "admin")

@@ -1,4 +1,4 @@
-package com.kuaiba.site.aop;
+package com.kuaiba.site.interceptor;
 
 import java.lang.reflect.Method;
 
@@ -33,7 +33,7 @@ public class ActivityInterceptor {
 	@Resource
 	private ActivityService as;
 
-	@AfterReturning(pointcut = "@annotation(com.kuaiba.site.aop.SiteLog)", returning = "returnValue")
+	@AfterReturning(pointcut = "@annotation(com.kuaiba.site.interceptor.SiteLog)", returning = "returnValue")
 	public void siteLog(JoinPoint joinPoint, Object returnValue) throws Throwable {
 		try {
 			logger.info("returnValue: " + JSON.toJSONString(returnValue));
