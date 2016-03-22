@@ -82,7 +82,9 @@ groupsEL.dg.datagrid({
         }},
         {field:'extCategoryTitle',title:'分类标题', hidden: true},
         {field:'extCreateName',title:'用户名', hidden: true},
-        {field:'mtype',title:'类型',width:100, sortable: true},
+        {field:'mtype',title:'类型',width:100, sortable: true, formatter: function(value,row,index) {
+        	return row.mt.title;
+        }},
         {field:'category',title:'所属分类',width:100, sortable: true, formatter: function(value,row,index) {
         	return row.extCategoryTitle;
         }}

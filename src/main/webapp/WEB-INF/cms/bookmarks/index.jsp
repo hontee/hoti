@@ -60,7 +60,7 @@ bookmarksEL.dg.datagrid({
         	return row.extCategoryTitle;
         }},
         {field:'mtype',title:'类型',width:100, sortable: true, formatter: function(value,row,index) {
-        	return row.extCategoryTitle;
+        	return row.mt.title;
         }},
         {field:'state',title:'状态',width:100, sortable: true, formatter: function(value,row,index) {
         	if (value == '1') {

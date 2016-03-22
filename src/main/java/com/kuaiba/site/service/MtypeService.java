@@ -22,6 +22,8 @@ public interface MtypeService extends Pager<Mtype, MtypeExample>, MtypeCache {
     List<Mtype> findByExample(MtypeExample example) throws SecurityException;
 
     Mtype findByPrimaryKey(Long id) throws SecurityException;
+    
+    Mtype findByCache(Long id) throws SecurityException;
 
     void updateByExample(Mtype record, MtypeExample example) throws SecurityException;
 
@@ -40,5 +42,7 @@ public interface MtypeService extends Pager<Mtype, MtypeExample>, MtypeCache {
 	 * @return
 	 */
 	boolean checkMTypeTitle(String title) throws SecurityException;
+	
+	
 
 }

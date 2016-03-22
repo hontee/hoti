@@ -23,18 +23,21 @@ import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.ContraintValidator;
 import com.kuaiba.site.db.entity.GlobalIDs;
 import com.kuaiba.site.db.entity.HttpUtil;
+import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.service.BookmarkService;
+import com.kuaiba.site.service.MtypeService;
 
 @Service
 public class BookmarkServiceImpl implements BookmarkService {
 	
 	@Resource
 	private BookmarkMapper mapper;
-	
 	@Resource
 	private BookmarkFollowMapper bfMapper;
+	@Resource
+	private MtypeService mtypeService;
 
 	@Override
 	public PageInfo<Bookmark> findByExample(BookmarkExample example, Pagination p) throws SecurityException {
@@ -102,7 +105,15 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public List<Bookmark> findByExample(BookmarkExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
-			return mapper.selectByExample(example);
+			List<Bookmark> list = mapper.selectByExample(example);
+			list.forEach((bm) -> {
+				try {
+					Mtype mt = mtypeService.findByCache(bm.getMtype());
+					bm.setMt(mt);
+				} catch (Exception e) {
+				}
+			});
+			return list;
 		} catch (Exception e) {
 			throw new ReadException("读取站点失败", e);
 		}

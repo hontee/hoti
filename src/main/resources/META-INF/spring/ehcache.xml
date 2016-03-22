@@ -6,26 +6,6 @@
 
     <diskStore path="java.io.tmpdir"/>
   
-     <!--
-    Default Cache configuration. These settings will be applied to caches
-    created programmatically using CacheManager.add(String cacheName).
-    This element is optional, and using CacheManager.add(String cacheName) when
-    its not present will throw CacheException
-
-    The defaultCache has an implicit name "default" which is a reserved cache name.
-    -->
-    <defaultCache
-      eternal="false"
-      overflowToDisk="false"
-      timeToIdleSeconds="120"
-      timeToLiveSeconds="120"
-      diskSpoolBufferSizeMB="30"
-      maxElementsOnDisk="10"
-      diskPersistent="false"
-      diskExpiryThreadIntervalSeconds="120"
-      memoryStoreEvictionPolicy="LRU"
-      />
-  
   <!-- 
         配置自定义缓存
         maxElementsInMemory：缓存中允许创建的最大对象数
@@ -48,43 +28,5 @@
     overflowToDisk="false"
     statistics="true">
   </cache>
-  
-  <!-- Objects -->
-  <cache name="kuaiba.objects"
-    maxEntriesLocalHeap="200000"
-    eternal="false"
-    timeToIdleSeconds="360000"
-    timeToLiveSeconds="0"
-    overflowToDisk="true"
-    maxElementsInMemory="10"
-    maxElementsOnDisk="10"
-    diskSpoolBufferSizeMB="2"
-    memoryStoreEvictionPolicy="LFU"
-    statistics="true">
-  </cache>
-
-	<!-- Users -->
-    <cache name="kuaiba.users"
-       maxElementsInMemory="2"
-       maxElementsOnDisk="2"
-       eternal="false"
-       overflowToDisk="false"
-       diskSpoolBufferSizeMB="2"
-       timeToIdleSeconds="600"
-       timeToLiveSeconds="600"
-       memoryStoreEvictionPolicy="LFU">
-    </cache>
-
-	<!-- Tests -->
-    <cache name="kuaiba.tests"
-       maxElementsInMemory="2"
-       maxElementsOnDisk="2"
-       eternal="false"
-       overflowToDisk="false"
-       diskSpoolBufferSizeMB="2"
-       timeToIdleSeconds="600"
-       timeToLiveSeconds="600"
-       memoryStoreEvictionPolicy="LFU">
-    </cache>
 
 </ehcache>

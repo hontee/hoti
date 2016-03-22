@@ -51,6 +51,8 @@ public class Group implements Serializable {
     private String extCategoryTitle;
     
     private String extCreateName;
+    
+    private Mtype mt;
 
     public Long getId() {
         return id;
@@ -188,6 +190,14 @@ public class Group implements Serializable {
 		this.extCreateName = extCreateName;
 	}
 	
+	public Mtype getMt() {
+		return mt;
+	}
+
+	public void setMt(Mtype mt) {
+		this.mt = mt;
+	}
+
 	/**
 	 * 验证用户类型
 	 * @param userType

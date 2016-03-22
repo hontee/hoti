@@ -53,6 +53,8 @@ public class Bookmark implements Serializable {
     
     private int extFollow;
     
+    private Mtype mt;
+    
     public Long getId() {
         return id;
     }
@@ -212,6 +214,14 @@ public class Bookmark implements Serializable {
 		this.extFollow = extFollow;
 	}
 	
+	public Mtype getMt() {
+		return mt;
+	}
+
+	public void setMt(Mtype mt) {
+		this.mt = mt;
+	}
+
 	/**
 	 * 验证状态
 	 * @param state

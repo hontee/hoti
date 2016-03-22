@@ -9,9 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.core.cache.Cache;
-import com.kuaiba.site.core.cache.CacheFactory;
 import com.kuaiba.site.core.cache.CacheIDs;
+import com.kuaiba.site.core.cache.MemcachedUtil;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.ReadException;
@@ -112,6 +111,25 @@ public class MtypeServiceImpl implements MtypeService {
 	}
 
 	@Override
+	public Mtype findByCache(Long id) throws SecurityException {
+		Mtype mt = new Mtype();
+		try {
+			ContraintValidator.checkPrimaryKey(id);
+			List<Mtype> list = this.findAllByCache();
+			for (Mtype mtype : list) {
+				if (id == mtype.getId()) {
+					mt = mtype;
+					break;
+				}
+			}
+		} catch (Exception e) {
+			throw new ReadException("读取类型失败", e);
+		}
+		
+		return mt;
+	}
+
+	@Override
 	public void updateByExample(Mtype record, MtypeExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(record, example);
@@ -172,14 +190,13 @@ public class MtypeServiceImpl implements MtypeService {
 	public List<Mtype> findAllByCache() throws SecurityException {
 		
 		List<Mtype> list = new ArrayList<>();
-		Cache cache = CacheFactory.createObjectCache();
 		
-		if (cache.contains(CacheIDs.MTYPES)) {
-			list = (List<Mtype>)cache.get(CacheIDs.MTYPES);
+		if (MemcachedUtil.exists(CacheIDs.MTYPES)) {
+			list = (List<Mtype>) MemcachedUtil.get(CacheIDs.MTYPES);
 		} else {
 			// 从数据库中获取
 			list = this.findByExample(new MtypeExample());
-			cache.put(CacheIDs.MTYPES, list);
+			MemcachedUtil.set(CacheIDs.MTYPES, 1000 * 60 * 30, list);
 		}
 		
 		return list;

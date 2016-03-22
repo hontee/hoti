@@ -22,9 +22,11 @@ import com.kuaiba.site.db.dao.GroupMapper;
 import com.kuaiba.site.db.entity.ContraintValidator;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
+import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.front.vo.GroupVO;
 import com.kuaiba.site.service.GroupService;
+import com.kuaiba.site.service.MtypeService;
 
 @Service
 public class GroupServiceImpl implements GroupService {
@@ -35,6 +37,8 @@ public class GroupServiceImpl implements GroupService {
 	private GroupFollowMapper gfMapper;
 	@Resource
 	private GroupBookmarkMapper gbMapper;
+	@Resource
+	private MtypeService mtypeService;
 
 	@Override
 	public PageInfo<Group> findByExample(GroupExample example, Pagination p) throws SecurityException { 
@@ -102,7 +106,16 @@ public class GroupServiceImpl implements GroupService {
 	public List<Group> findByExample(GroupExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
-			return mapper.selectByExample(example);
+			List<Group> list = mapper.selectByExample(example);
+			list.forEach((g) -> {
+				try {
+					Mtype mt = mtypeService.findByCache(g.getMtype());
+					g.setMt(mt);
+				} catch (Exception e) {
+				}
+			});
+			
+			return list;
 		} catch (Exception e) {
 			throw new ReadException("读取群组失败", e);
 		}
