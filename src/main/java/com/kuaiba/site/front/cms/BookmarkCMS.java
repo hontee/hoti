@@ -16,10 +16,13 @@ import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
+import com.kuaiba.site.db.entity.FollowUser;
+import com.kuaiba.site.db.entity.FollowUserExample;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
+import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.interceptor.SiteLog;
@@ -45,6 +48,13 @@ public class BookmarkCMS extends BaseController {
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/bookmarks/edit";
+	}
+	
+	@RequiresRoles(value = "admin")
+	@RequestMapping(value = CmsIDs.FOLLOW, method = RequestMethod.GET)
+	public String followPage(@PathVariable Long id, Model model) throws SecurityException {
+		model.addAttribute("id", id);
+		return "cms/bookmarks/follow";
 	}
 
 	@RequiresRoles(value = "admin")
@@ -80,6 +90,37 @@ public class BookmarkCMS extends BaseController {
 		PageInfo<Bookmark> pageInfo = bookmarkService.findByExample(example, p);
 		return new DataGrid<>(pageInfo);
 	}
+	
+	@RequiresRoles(value = "admin")
+	@RequestMapping(value = CmsIDs.FOLLOWS)
+	public @ResponseBody DataGrid<FollowUser> followUsers(
+			@PathVariable Long id, 
+			@RequestParam(required = false) String name, 
+			@RequestParam(required = false) Byte userType, 
+			@RequestParam(required = false) Byte state, 
+			Pagination p) throws Exception {
+		
+		FollowUserExample example = new FollowUserExample();
+		FollowUserExample.Criteria criteria = example.createCriteria();
+		
+		criteria.andFidEqualTo(id); // FID必须
+		
+		if (StringUtils.isNotBlank(name)) {
+			criteria.andNameLike("%" + name + "%"); // 模糊查询
+		}
+		
+		if (User.checkUserType(userType)) {
+			criteria.andUserTypeEqualTo(userType);
+		}
+		
+		if (User.checkState(state)) {
+			criteria.andStateEqualTo(state);
+		}
+		
+		PageInfo<FollowUser> pageInfo = followable.findBmfUser(example, p);
+		return new DataGrid<>(pageInfo);
+	}
+	
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.POST)

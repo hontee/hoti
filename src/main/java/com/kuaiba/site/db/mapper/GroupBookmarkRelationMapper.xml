@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kuaiba.site.db.dao.GroupBookmarkRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.kuaiba.site.db.entity.GroupBookmarkRelation" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="star" property="star" jdbcType="INTEGER" />
+    <result column="hit" property="hit" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+    <result column="audit" property="audit" jdbcType="TINYINT" />
+    <result column="category" property="category" jdbcType="BIGINT" />
+    <result column="cate_title" property="cateTitle" jdbcType="VARCHAR" />
+    <result column="mtype" property="mtype" jdbcType="BIGINT" />
+    <result column="mt_title" property="mtTitle" jdbcType="VARCHAR" />
+    <result column="gid" property="gid" jdbcType="BIGINT" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, title, star, hit, state, audit, category, cate_title, mtype, mt_title, 
+    gid, created
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.GroupBookmarkRelationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from v_group_bookmark_relation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="countByExample" parameterType="com.kuaiba.site.db.entity.GroupBookmarkRelationExample" resultType="java.lang.Integer" >
+    select count(*) from v_group_bookmark_relation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+</mapper>

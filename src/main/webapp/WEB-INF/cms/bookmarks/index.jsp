@@ -7,6 +7,7 @@
 	<button id="bookmarks-add" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新建</button>
 	<button id="bookmarks-edit" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">编辑</button>
 	<button id="bookmarks-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
+	<button id="bookmarks-follow" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">关注</button>
 	<button id="bookmarks-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
@@ -29,6 +30,7 @@ var bookmarksEL = {
 	add: $("#bookmarks-add"),
 	edit: $("#bookmarks-edit"),
 	remove: $("#bookmarks-remove"),
+	follow: $("#bookmarks-follow"),
 	reload: $("#bookmarks-reload"),
 	dg: $("#bookmarks-dg"),
 	win: $("#bookmarks-win")
@@ -118,6 +120,7 @@ bookmarksEL.reset = function() {
 // 设置按钮是否可用
 bookmarksEL.linkButton = function(a, b, c) {
 	bookmarksEL.edit.linkbutton({disabled: a});
+	bookmarksEL.follow.linkbutton({disabled: a});
 	bookmarksEL.remove.linkbutton({disabled: b});
 }
 
@@ -168,6 +171,25 @@ bookmarksEL.edit.click(function() {
 // 删除
 bookmarksEL.remove.click(function() {
 	CMS.removeSubmitHandler(bookmarksEL, 'bookmarks');
+});
+
+// 关注
+bookmarksEL.follow.click(function() {
+	var row = bookmarksEL.dg.datagrid('getSelected');
+	if (row) {
+		bookmarksEL.win.window({
+			width: 980,
+			height: 600,
+			modal: true,
+			title: '关注',
+			collapsible: false,
+			minimizable: false,
+			maximizable: false,
+			href: '/cms/bookmarks/' + row.id + '/follow',
+			method: 'get',
+			cache: false
+		});
+	}
 });
 
 // 重载

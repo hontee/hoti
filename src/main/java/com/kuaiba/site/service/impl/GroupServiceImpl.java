@@ -1,5 +1,6 @@
 package com.kuaiba.site.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -107,14 +108,10 @@ public class GroupServiceImpl implements GroupService {
 		try {
 			ContraintValidator.checkNotNull(example);
 			List<Group> list = mapper.selectByExample(example);
-			list.forEach((g) -> {
-				try {
-					Mtype mt = mtypeService.findByCache(g.getMtype());
-					g.setMt(mt);
-				} catch (Exception e) {
-				}
-			});
-			
+			for (Group g : list) {
+				Mtype mt = mtypeService.findByCache(g.getMtype());
+				g.setMt(mt);
+			}
 			return list;
 		} catch (Exception e) {
 			throw new ReadException("读取群组失败", e);
@@ -198,10 +195,19 @@ public class GroupServiceImpl implements GroupService {
 		try {
 			ContraintValidator.checkPrimaryKey(gid);
 			ContraintValidator.checkPrimaryKey(bmid);
-			gbMapper.insert(gid, bmid);
+			gbMapper.deleteByPrimaryKey(gid, bmid);
 		} catch (Exception e) {
 			throw new DeleteException("群组移除站点失败", e);
 		}
+	}
+	
+	@Override
+	public void removeBookmark(Long gid, Long[] bmids) throws SecurityException {
+		Arrays.asList(bmids).stream().forEach((bmid) -> {
+			try {
+				this.removeBookmark(gid, bmid);
+			} catch (Exception e) {}
+		});
 	}
 
 	@Override
@@ -215,6 +221,15 @@ public class GroupServiceImpl implements GroupService {
 		}
 	}
 	
+	@Override
+	public void addBookmarks(Long gid, Long[] bmids) throws SecurityException {
+		Arrays.asList(bmids).stream().forEach((bmid) -> {
+			try {
+				this.addBookmark(gid, bmid);
+			} catch (Exception e) {}
+		});
+	}
+
 	@Override
 	public boolean checkGroupName(String name) throws SecurityException { 
 		try {

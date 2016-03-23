@@ -106,13 +106,10 @@ public class BookmarkServiceImpl implements BookmarkService {
 		try {
 			ContraintValidator.checkNotNull(example);
 			List<Bookmark> list = mapper.selectByExample(example);
-			list.forEach((bm) -> {
-				try {
-					Mtype mt = mtypeService.findByCache(bm.getMtype());
-					bm.setMt(mt);
-				} catch (Exception e) {
-				}
-			});
+			for (Bookmark bm : list) {
+				Mtype mt = mtypeService.findByCache(bm.getMtype());
+				bm.setMt(mt);
+			}
 			return list;
 		} catch (Exception e) {
 			throw new ReadException("读取站点失败", e);

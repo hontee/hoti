@@ -16,7 +16,7 @@ public interface GroupService extends Pager<Group, GroupExample> {
     void deleteByPrimaryKey(Long id) throws SecurityException;
 
     void add(GroupVO vo) throws SecurityException;
-
+    
     List<Group> findByExample(GroupExample example) throws SecurityException;
 
     Group findByPrimaryKey(Long id) throws SecurityException;
@@ -32,8 +32,12 @@ public interface GroupService extends Pager<Group, GroupExample> {
 	void follow(Long fid) throws SecurityException;
 	
 	void removeBookmark(Long gid, Long bmid) throws SecurityException;
+	
+	void removeBookmark(Long gid, Long[] bmids) throws SecurityException;
 
     void addBookmark(Long gid, Long bmid) throws SecurityException;
+    
+    void addBookmarks(Long gid, Long[] bmids) throws SecurityException;
     
     /**
 	 * 验证Group名称是否存在

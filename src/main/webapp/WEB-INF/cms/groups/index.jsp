@@ -7,6 +7,9 @@
 	<button id="groups-add" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新建</button>
 	<button id="groups-edit" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">编辑</button>
 	<button id="groups-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
+	<button id="groups-bookmarks" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">添加站点</button>
+	<button id="groups-manager" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">管理站点</button>
+	<button id="groups-follow" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">关注</button>
 	<button id="groups-count" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">更新统计</button>
 	<button id="groups-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
@@ -36,6 +39,9 @@ var groupsEL = {
 	add: $("#groups-add"),
 	edit: $("#groups-edit"),
 	remove: $("#groups-remove"),
+	bookmarks: $("#groups-bookmarks"),
+	manager: $("#groups-manager"),
+	follow: $("#groups-follow"),
 	count: $("#groups-count"),
 	reload: $("#groups-reload"),
 	dg: $("#groups-dg"),
@@ -126,6 +132,9 @@ groupsEL.reset = function() {
 // 设置按钮是否可用
 groupsEL.linkButton = function(a, b, c) {
 	groupsEL.edit.linkbutton({disabled: a});
+	groupsEL.bookmarks.linkbutton({disabled: a});
+	groupsEL.manager.linkbutton({disabled: a});
+	groupsEL.follow.linkbutton({disabled: a});
 	groupsEL.remove.linkbutton({disabled: b});
 }
 
@@ -178,6 +187,64 @@ groupsEL.edit.click(function() {
 groupsEL.remove.click(function() {
 	CMS.removeSubmitHandler(groupsEL, 'groups');
 });
+
+// 添加站点
+groupsEL.bookmarks.click(function() {
+	var row = groupsEL.dg.datagrid('getSelected');
+	if (row) {
+		groupsEL.win.window({
+			width: 980,
+			height: 600,
+			modal: true,
+			title: '添加站点',
+			collapsible: false,
+			minimizable: false,
+			maximizable: false,
+			href: '/cms/groups/' + row.id + '/bookmark',
+			method: 'get',
+			cache: false
+		});
+	}
+});
+
+// 管理站点
+groupsEL.manager.click(function() {
+	var row = groupsEL.dg.datagrid('getSelected');
+	if (row) {
+		groupsEL.win.window({
+			width: 980,
+			height: 600,
+			modal: true,
+			title: '管理站点',
+			collapsible: false,
+			minimizable: false,
+			maximizable: false,
+			href: '/cms/groups/' + row.id + '/manager',
+			method: 'get',
+			cache: false
+		});
+	}
+});
+
+// 关注
+groupsEL.follow.click(function() {
+	var row = groupsEL.dg.datagrid('getSelected');
+	if (row) {
+		groupsEL.win.window({
+			width: 980,
+			height: 600,
+			modal: true,
+			title: '关注',
+			collapsible: false,
+			minimizable: false,
+			maximizable: false,
+			href: '/cms/groups/' + row.id + '/follow',
+			method: 'get',
+			cache: false
+		});
+	}
+});
+
 
 // 更新统计
 groupsEL.count.click(function() {

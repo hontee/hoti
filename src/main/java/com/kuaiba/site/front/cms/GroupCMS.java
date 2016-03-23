@@ -15,11 +15,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.DataGrid;
+import com.kuaiba.site.db.entity.FollowUser;
+import com.kuaiba.site.db.entity.FollowUserExample;
 import com.kuaiba.site.db.entity.Group;
+import com.kuaiba.site.db.entity.GroupBookmarkRelation;
+import com.kuaiba.site.db.entity.GroupBookmarkRelationExample;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
+import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.GroupVO;
 import com.kuaiba.site.interceptor.SiteLog;
@@ -45,6 +50,27 @@ public class GroupCMS extends BaseController {
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/groups/edit";
+	}
+	
+	@RequiresRoles(value = "admin")
+	@RequestMapping(value = CmsIDs.FOLLOW, method = RequestMethod.GET)
+	public String followPage(@PathVariable Long id, Model model) throws SecurityException {
+		model.addAttribute("id", id);
+		return "cms/groups/follow";
+	}
+	
+	@RequiresRoles(value = "admin")
+	@RequestMapping(value = CmsIDs.GROUP_BOOKMARK, method = RequestMethod.GET)
+	public String bookmarkPage(@PathVariable Long id, Model model) throws SecurityException {
+		model.addAttribute("id", id);
+		return "cms/groups/bookmark";
+	}
+	
+	@RequiresRoles(value = "admin")
+	@RequestMapping(value = CmsIDs.GROUP_MANAGER, method = RequestMethod.GET)
+	public String managerPage(@PathVariable Long id, Model model) throws SecurityException {
+		model.addAttribute("id", id);
+		return "cms/groups/manager";
 	}
 
 	@RequiresRoles(value = "admin")
@@ -85,12 +111,88 @@ public class GroupCMS extends BaseController {
 		PageInfo<Group> pageInfo = groupService.findByExample(example, p);
 		return new DataGrid<>(pageInfo);
 	}
+	
+	@RequiresRoles(value = "admin")
+	@RequestMapping(value = CmsIDs.GROUP_BOOKMARKS)
+	public @ResponseBody DataGrid<GroupBookmarkRelation> groupBookmarks(
+			@PathVariable Long id,
+			@RequestParam(required = false) String title, 
+			@RequestParam(required = false) Long category, 
+			@RequestParam(required = false) Byte state, 
+			Pagination p) throws Exception {
+		
+		GroupBookmarkRelationExample example = new GroupBookmarkRelationExample();
+		GroupBookmarkRelationExample.Criteria criteria = example.createCriteria();
+		
+		criteria.andGidEqualTo(id); // GID必须
+		
+		if (StringUtils.isNotBlank(title)) {
+			criteria.andTitleLike("%" + title + "%"); // 模糊查询
+		}
+		
+		if (category != null && category > 0) {
+			criteria.andCategoryEqualTo(category);
+		}
+		
+		if (Group.checkState(state)) {
+			criteria.andStateEqualTo(state);
+		}
+		
+		PageInfo<GroupBookmarkRelation> pageInfo = followable.findGBRelation(example, p);
+		return new DataGrid<>(pageInfo);
+	}
+	
+	@RequiresRoles(value = "admin")
+	@RequestMapping(value = CmsIDs.FOLLOWS)
+	public @ResponseBody DataGrid<FollowUser> followUsers(
+			@PathVariable Long id, 
+			@RequestParam(required = false) String name, 
+			@RequestParam(required = false) Byte userType, 
+			@RequestParam(required = false) Byte state, 
+			Pagination p) throws Exception {
+		
+		FollowUserExample example = new FollowUserExample();
+		FollowUserExample.Criteria criteria = example.createCriteria();
+		
+		criteria.andFidEqualTo(id); // FID必须
+		
+		if (StringUtils.isNotBlank(name)) {
+			criteria.andNameLike("%" + name + "%"); // 模糊查询
+		}
+		
+		if (User.checkUserType(userType)) {
+			criteria.andUserTypeEqualTo(userType);
+		}
+		
+		if (User.checkState(state)) {
+			criteria.andStateEqualTo(state);
+		}
+		
+		PageInfo<FollowUser> pageInfo = followable.findGroupUser(example, p);
+		return new DataGrid<>(pageInfo);
+	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.POST)
 	@SiteLog(action = "后台添加群组", table = TableIDs.GROUP, clazz = GroupVO.class)
 	public @ResponseBody SiteResponse add(GroupVO vo, HttpServletRequest request) throws SecurityException {
 		groupService.add(vo);
+		return ok();
+	}
+	
+	@RequiresRoles(value = "admin")
+	@RequestMapping(value = CmsIDs.GROUP_BOOKMARK, method = RequestMethod.POST)
+	@SiteLog(action = "后台群组批量添加站点", table = TableIDs.GROUP)
+	public @ResponseBody SiteResponse addBookmarks(@RequestParam Long[] ids, @PathVariable Long id, HttpServletRequest request) throws SecurityException {
+		groupService.addBookmarks(id, ids);
+		return ok();
+	}
+	
+	@RequiresRoles(value = "admin")
+	@RequestMapping(value = CmsIDs.GROUP_MANAGER, method = RequestMethod.POST)
+	@SiteLog(action = "后台群组批量移除站点", table = TableIDs.GROUP)
+	public @ResponseBody SiteResponse removeBookmarks(@RequestParam Long[] ids, @PathVariable Long id, HttpServletRequest request) throws SecurityException {
+		groupService.removeBookmark(id, ids);
 		return ok();
 	}
 

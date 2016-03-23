@@ -117,7 +117,7 @@ public class MtypeServiceImpl implements MtypeService {
 			ContraintValidator.checkPrimaryKey(id);
 			List<Mtype> list = this.findAllByCache();
 			for (Mtype mtype : list) {
-				if (id == mtype.getId()) {
+				if (mtype.getId().equals(id)) {
 					mt = mtype;
 					break;
 				}
@@ -128,7 +128,7 @@ public class MtypeServiceImpl implements MtypeService {
 		
 		return mt;
 	}
-
+	
 	@Override
 	public void updateByExample(Mtype record, MtypeExample example) throws SecurityException { 
 		try {

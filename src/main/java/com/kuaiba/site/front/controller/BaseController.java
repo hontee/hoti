@@ -15,6 +15,7 @@ import com.kuaiba.site.service.BookmarkService;
 import com.kuaiba.site.service.CategoryService;
 import com.kuaiba.site.service.Countable;
 import com.kuaiba.site.service.DomainService;
+import com.kuaiba.site.service.Followable;
 import com.kuaiba.site.service.GroupService;
 import com.kuaiba.site.service.MenuService;
 import com.kuaiba.site.service.MtypeService;
@@ -48,6 +49,8 @@ public abstract class BaseController {
 	protected Auditable auditable;
 	@Resource
 	protected Countable countable;
+	@Resource
+	protected Followable followable;
 	
 	/**
 	 * 重定向
