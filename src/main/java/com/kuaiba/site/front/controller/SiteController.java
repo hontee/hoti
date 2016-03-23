@@ -33,10 +33,9 @@ import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
-public class SiteController extends BaseController implements ISite {
+public class SiteController extends BaseController {
 	
-	@RequestMapping(value = HttpIDs.SEARCH, method = RequestMethod.GET)
-	@Override
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String search(@RequestParam String q, Pagination p, Model model) throws SecurityException {
 		BookmarkExample example = new BookmarkExample();
 		if (StringUtils.isNotEmpty(q)) {
@@ -47,8 +46,7 @@ public class SiteController extends BaseController implements ISite {
 		return "views/search";
 	}
 	
-	@RequestMapping(value = HttpIDs.LOGIN, method = RequestMethod.GET)
-	@Override
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
 		
 		if (CurrentUser.isLogin()) {
@@ -57,9 +55,8 @@ public class SiteController extends BaseController implements ISite {
 		return "views/login";
 	}
 	
-	@RequestMapping(value = HttpIDs.LOGIN, method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@SiteLog(action = "用户登录", table = TableIDs.USER, clazz = String.class)
-	@Override
 	public @ResponseBody SiteResponse login(
 			@RequestParam String username, 
 			@RequestParam String password,
@@ -68,37 +65,32 @@ public class SiteController extends BaseController implements ISite {
 			return ok();
 	}
 	
-	@RequestMapping(value = HttpIDs.LOGOUT, method = RequestMethod.GET)
-	@Override
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout() {
 		SecurityUtils.getSubject().logout();
 		return redirect("/");
 	}
 	
 	
-	@RequestMapping(value = HttpIDs.USER_HOME, method = RequestMethod.GET)
-	@Override
+	@RequestMapping(value = "/{name}/dashbord", method = RequestMethod.GET)
 	public String dashbord(@PathVariable String name) {
 		return "views/users/index";
 	}
 	
 	
-	@RequestMapping(value = HttpIDs.USER_PROFILE, method = RequestMethod.GET)
-	@Override
+	@RequestMapping(value = "/{name}/profile", method = RequestMethod.GET)
 	public String profilePage(@PathVariable String name) {
 		return "views/users/profile";
 	}
 	
 	
-	@RequestMapping(value = HttpIDs.USER_PROFILE, method = RequestMethod.POST)
+	@RequestMapping(value = "/{name}/profile", method = RequestMethod.POST)
 	@SiteLog(action = "用户更新信息", table = TableIDs.USER)
-	@Override
 	public String profile(@PathVariable String name, User u) {
 		return "views/users/profile";
 	}
 	
-	@RequestMapping(value = HttpIDs.CATEGORY, method = RequestMethod.GET)
-	@Override
+	@RequestMapping(value = "/cates", method = RequestMethod.GET)
 	public String category(Model model) throws SecurityException {
 		DomainExample oe = new DomainExample();
 		oe.createCriteria().andStateEqualTo((byte)1);
@@ -108,8 +100,7 @@ public class SiteController extends BaseController implements ISite {
 		return "views/category";
 	}
 	
-	@RequestMapping(value = HttpIDs.CATEGORY_BY_ID, method = RequestMethod.GET)
-	@Override
+	@RequestMapping(value = "/cates/{id}", method = RequestMethod.GET)
 	public String categoryById(@PathVariable Long id, Model model) throws SecurityException {
 		CategoryExample example = new CategoryExample();
 		example.createCriteria().andIdEqualTo(id);
@@ -118,32 +109,28 @@ public class SiteController extends BaseController implements ISite {
 		return "views/home";
 	}
 	
-	@RequestMapping(value = HttpIDs.GROUP, method = RequestMethod.GET)
-	@Override
+	@RequestMapping(value = "/groups", method = RequestMethod.GET)
 	public String group(Model model) throws SecurityException {
 		List<Group> list = groupService.findByExample(new GroupExample());
 		model.addAttribute("groups", list);
 		return "views/group";
 	}
 
-	@RequestMapping(value = HttpIDs.GROUP_BY_ID, method = RequestMethod.GET)
-	@Override
+	@RequestMapping(value = "/groups/{id}", method = RequestMethod.GET)
 	public String groupById(@PathVariable Long id, Model model) throws SecurityException {
 		Group group = groupService.findByPrimaryKey(id);
 		model.addAttribute("record", group);
 		return "views/group-bookmark";
 	}
 
-	@RequestMapping(value = HttpIDs.HOME, method = RequestMethod.GET)
-	@Override
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String home(Pagination p, Model model) throws SecurityException {
 		List<Category> cates = categoryService.findByCollect(new CategoryExample());
 		model.addAttribute("cates", cates);
 		return "views/home";
 	}
 	
-	@RequestMapping(value = HttpIDs.BOOKMARK_HIT, method = RequestMethod.GET)
-	@Override
+	@RequestMapping(value = "/bookmarks/{id}/hit", method = RequestMethod.GET)
 	public String hit(@PathVariable Long id, Model model) throws SecurityException {
 		return redirect(bookmarkService.hit(id));
 	}
@@ -152,8 +139,7 @@ public class SiteController extends BaseController implements ISite {
 	 * 分享站点
 	 * @return
 	 */
-	@RequestMapping(value = HttpIDs.RECOMMEND, method = RequestMethod.GET)
-	@Override
+	@RequestMapping(value = "/share", method = RequestMethod.GET)
 	public String recommend() {
 		return "views/recommend";
 	}
@@ -163,8 +149,7 @@ public class SiteController extends BaseController implements ISite {
 	 * @return
 	 * @throws SecurityException 
 	 */
-	@RequestMapping(value = HttpIDs.RECOMMEND, method = RequestMethod.POST)
-	@Override
+	@RequestMapping(value = "/share", method = RequestMethod.POST)
 	public @ResponseBody SiteResponse recommend(@RequestParam String url) throws SecurityException {
 		recommendService.add(url);
 		return ok();
@@ -177,8 +162,7 @@ public class SiteController extends BaseController implements ISite {
 	 * @throws SecurityException 
 	 */
 	@RequiresRoles("user")
-	@RequestMapping(value = HttpIDs.BOOKMARK_FOLLOW, method = RequestMethod.POST)
-	@Override
+	@RequestMapping(value = "/bookmarks/{id}/follow", method = RequestMethod.POST)
 	public @ResponseBody SiteResponse bookmarkFollow(@PathVariable Long id) throws SecurityException {
 		bookmarkService.follow(id);
 		return ok();
@@ -191,24 +175,21 @@ public class SiteController extends BaseController implements ISite {
 	 * @throws SecurityException 
 	 */
 	@RequiresRoles("user")
-	@RequestMapping(value = HttpIDs.BOOKMARK_UNFOLLOW, method = RequestMethod.POST)
-	@Override
+	@RequestMapping(value = "/bookmarks/{id}/unfollow", method = RequestMethod.POST)
 	public @ResponseBody SiteResponse bookmarkUnfollow(@PathVariable Long id) throws SecurityException {
 		bookmarkService.unfollow(id);
 		return ok();
 	}
 
 	@RequiresRoles("user")
-	@RequestMapping(value = HttpIDs.GROUP_FOLLOW, method = RequestMethod.POST)
-	@Override
+	@RequestMapping(value = "/groups/{id}/follow", method = RequestMethod.POST)
 	public @ResponseBody SiteResponse groupFollow(@PathVariable Long id) throws SecurityException {
 		groupService.follow(id);
 		return ok();
 	}
 
 	@RequiresRoles("user")
-	@RequestMapping(value = HttpIDs.GROUP_UNFOLLOW, method = RequestMethod.POST)
-	@Override
+	@RequestMapping(value = "/groups/{id}/unfollow", method = RequestMethod.POST)
 	public @ResponseBody SiteResponse groupUnfollow(@PathVariable Long id) throws SecurityException {
 		groupService.unfollow(id);
 		return ok();

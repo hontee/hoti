@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.kuaiba.site.front.controller.BaseController;
 
 @Controller
-@RequestMapping(CmsIDs.CMS_HOME)
+@RequestMapping("/cms")
 public class HomeCMS extends BaseController {
 	
-	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String home() {
 		return "cms/home";
 	}

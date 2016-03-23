@@ -28,44 +28,44 @@ import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
-@RequestMapping(CmsIDs.CMS_BOOKMARKS)
+@RequestMapping("/cms/bookmarks")
 public class BookmarkCMS extends BaseController {
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String index() {
 		return "cms/bookmarks/index";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.GET)
+	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String addPage() {
 		return "cms/bookmarks/new";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/bookmarks/edit";
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.FOLLOW, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/follow", method = RequestMethod.GET)
 	public String followPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("id", id);
 		return "cms/bookmarks/follow";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.VIEW, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/bookmarks/view";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.LIST)
+	@RequestMapping(value = "/list")
 	public @ResponseBody DataGrid<Bookmark> dataGrid(
 			@RequestParam(required = false) String title, 
 			@RequestParam(required = false) Long category, 
@@ -92,7 +92,7 @@ public class BookmarkCMS extends BaseController {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.FOLLOWS)
+	@RequestMapping(value = "/{id}/follows")
 	public @ResponseBody DataGrid<FollowUser> followUsers(
 			@PathVariable Long id, 
 			@RequestParam(required = false) String name, 
@@ -123,7 +123,7 @@ public class BookmarkCMS extends BaseController {
 	
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.POST)
+	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	@SiteLog(action = "后台添加站点", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
 	public @ResponseBody SiteResponse add(BookmarkVO vo, HttpServletRequest request) throws SecurityException {
 		bookmarkService.add(vo);
@@ -131,7 +131,7 @@ public class BookmarkCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.DELETE, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除站点", table = TableIDs.BOOKMARK)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		bookmarkService.deleteByPrimaryKey(id);
@@ -139,7 +139,7 @@ public class BookmarkCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑站点", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) throws SecurityException {
 		bookmarkService.updateByPrimaryKey(id, vo);

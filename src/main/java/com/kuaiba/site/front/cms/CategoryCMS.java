@@ -29,37 +29,37 @@ import com.kuaiba.site.front.vo.CategoryVO;
 import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
-@RequestMapping(CmsIDs.CMS_CATES)
+@RequestMapping("/cms/cates")
 public class CategoryCMS extends BaseController {
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String index() throws SecurityException {
 		return "cms/cates/index";
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.GET)
+	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String addPage() {
 		return "cms/cates/new";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/cates/edit";
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.VIEW, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/cates/view";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.LIST)
+	@RequestMapping(value = "/list")
 	public @ResponseBody DataGrid<Category> dataGrid(
 			@RequestParam(required = false) String title, 
 			@RequestParam(required = false) Long domain, 
@@ -86,7 +86,7 @@ public class CategoryCMS extends BaseController {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.DATALIST)
+	@RequestMapping(value = "/datalist")
 	public @ResponseBody List<ComboBox> datalist(
 			@RequestParam(required = false) String q) throws Exception {
 		CategoryExample example = new CategoryExample();
@@ -105,7 +105,7 @@ public class CategoryCMS extends BaseController {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.POST)
+	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	@SiteLog(action = "后台添加分类", table = TableIDs.CATEGORY, clazz = CategoryVO.class)
 	public @ResponseBody SiteResponse add(CategoryVO vo, HttpServletRequest request) throws SecurityException {
 		categoryService.add(vo);
@@ -113,7 +113,7 @@ public class CategoryCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.DELETE, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除分类", table = TableIDs.CATEGORY)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		categoryService.deleteByPrimaryKey(id);
@@ -121,7 +121,7 @@ public class CategoryCMS extends BaseController {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑分类", table = TableIDs.CATEGORY, clazz = CategoryVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, CategoryVO vo, HttpServletRequest request) throws SecurityException {
 		categoryService.updateByPrimaryKey(id, vo);
@@ -129,7 +129,7 @@ public class CategoryCMS extends BaseController {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.COUNT_TASK, method = RequestMethod.POST)
+	@RequestMapping(value = "/count/task", method = RequestMethod.POST)
 	@SiteLog(action = "后台统计分类数据", table = TableIDs.CATEGORY, clazz = String.class)
 	public @ResponseBody SiteResponse countTask(
 			@RequestParam(defaultValue = "后台统计分类数据") String desc, 

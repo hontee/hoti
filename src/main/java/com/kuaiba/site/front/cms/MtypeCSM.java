@@ -29,37 +29,37 @@ import com.kuaiba.site.front.vo.MtypeVO;
 import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
-@RequestMapping(CmsIDs.CMS_MTYPES)
+@RequestMapping("/cms/mtypes")
 public class MtypeCSM extends BaseController {
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String index() {
 		return "cms/mtypes/index";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.GET)
+	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String addPage() {
 		return "cms/mtypes/new";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/mtypes/edit";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.VIEW, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/mtypes/view";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.DATALIST)
+	@RequestMapping(value = "/datalist")
 	public @ResponseBody List<ComboBox> datalist() throws Exception {
 		MtypeExample example = new MtypeExample();
 		example.createCriteria().andStateEqualTo((byte)1);
@@ -71,7 +71,7 @@ public class MtypeCSM extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.LIST)
+	@RequestMapping(value = "/list")
 	public @ResponseBody DataGrid<Mtype> dataGrid(
 			@RequestParam(required = false) String title, 
 			@RequestParam(required = false) Byte state,
@@ -93,7 +93,7 @@ public class MtypeCSM extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.POST)
+	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	@SiteLog(action = "后台添加类型", table = TableIDs.MTYPE, clazz = MtypeVO.class)
 	public @ResponseBody SiteResponse add(MtypeVO vo) throws SecurityException {
 		mtypeService.add(vo);
@@ -101,7 +101,7 @@ public class MtypeCSM extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.DELETE, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除类型", table = TableIDs.MTYPE)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		mtypeService.deleteByPrimaryKey(id);
@@ -109,7 +109,7 @@ public class MtypeCSM extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑类型", table = TableIDs.MTYPE, clazz = MtypeVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, MtypeVO vo, HttpServletRequest request) throws SecurityException {
 		mtypeService.updateByPrimaryKey(id, vo);

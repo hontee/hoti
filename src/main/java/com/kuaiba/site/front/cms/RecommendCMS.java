@@ -26,51 +26,51 @@ import com.kuaiba.site.front.vo.RecommendVO;
 import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
-@RequestMapping(CmsIDs.CMS_RECMDS)
+@RequestMapping("/cms/recmds")
 public class RecommendCMS extends BaseController {
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String index() {
 		return "cms/recmds/index";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.GET)
+	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String addPage() {
 		return "cms/recmds/new";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/recmds/edit";
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.AUDIT_OK, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/ok", method = RequestMethod.GET)
 	public String auditOKPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/recmds/ok";
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.AUDIT_REFUSE, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/refuse", method = RequestMethod.GET)
 	public String auditRefusePage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/recmds/refuse";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.VIEW, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/recmds/view";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.LIST)
+	@RequestMapping(value = "/list")
 	public @ResponseBody DataGrid<Recommend> dataGrid(
 			@RequestParam(required = false) String title, 
 			@RequestParam(required = false) Byte state, 
@@ -92,7 +92,7 @@ public class RecommendCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.POST)
+	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	@SiteLog(action = "后台添加推荐", table = TableIDs.RECOMMEND, clazz = String.class)
 	public @ResponseBody SiteResponse add(@RequestParam String url, HttpServletRequest request) throws SecurityException {
 		recommendService.add(url);
@@ -100,7 +100,7 @@ public class RecommendCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.DELETE, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除推荐", table = TableIDs.RECOMMEND)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		recommendService.deleteByPrimaryKey(id);
@@ -108,7 +108,7 @@ public class RecommendCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑推荐", table = TableIDs.RECOMMEND, clazz = Recommend.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, RecommendVO vo, HttpServletRequest request) throws SecurityException {
 		recommendService.updateByPrimaryKey(id, vo);
@@ -116,7 +116,7 @@ public class RecommendCMS extends BaseController {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.AUDIT_OK, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/ok", method = RequestMethod.POST)
 	@SiteLog(action = "后台审核推荐通过", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
 	public @ResponseBody SiteResponse auditOk(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) throws SecurityException {
 		auditable.auditRecommend(id, vo);
@@ -124,7 +124,7 @@ public class RecommendCMS extends BaseController {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.AUDIT_REFUSE, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/refuse", method = RequestMethod.POST)
 	@SiteLog(action = "后台审核推荐拒绝", table = TableIDs.RECOMMEND, clazz = String.class)
 	public @ResponseBody SiteResponse auditRefuse(@PathVariable Long id, @RequestParam String remark, HttpServletRequest request) throws SecurityException {
 		auditable.auditRecommend(id, remark);

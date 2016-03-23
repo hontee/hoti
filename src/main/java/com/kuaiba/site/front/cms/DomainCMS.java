@@ -29,37 +29,37 @@ import com.kuaiba.site.front.vo.DomainVO;
 import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
-@RequestMapping(CmsIDs.CMS_DOMAINS)
+@RequestMapping("/cms/domains")
 public class DomainCMS extends BaseController {
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String index() {
 		return "cms/domains/index";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.GET)
+	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String addPage() {
 		return "cms/domains/new";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/domains/edit";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.VIEW, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/domains/view";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.DATALIST)
+	@RequestMapping(value = "/datalist")
 	public @ResponseBody List<ComboBox> datalist(
 			@RequestParam(required=false) String q) throws Exception {
 		DomainExample example = new DomainExample();
@@ -77,7 +77,7 @@ public class DomainCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.LIST)
+	@RequestMapping(value = "/list")
 	public @ResponseBody DataGrid<Domain> dataGrid(
 			@RequestParam(required = false) String title, 
 			@RequestParam(required = false) Byte state, 
@@ -99,7 +99,7 @@ public class DomainCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.POST)
+	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	@SiteLog(action = "后台添加领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
 	public @ResponseBody SiteResponse add(DomainVO vo, HttpServletRequest request) throws SecurityException {
 		domainService.add(vo);
@@ -107,7 +107,7 @@ public class DomainCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.DELETE, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除领域", table = TableIDs.DOMAIN)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		domainService.deleteByPrimaryKey(id);
@@ -115,7 +115,7 @@ public class DomainCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, DomainVO vo, HttpServletRequest request) throws SecurityException {
 		domainService.updateByPrimaryKey(id, vo);
@@ -123,7 +123,7 @@ public class DomainCMS extends BaseController {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.COUNT_TASK, method = RequestMethod.POST)
+	@RequestMapping(value = "/count/task", method = RequestMethod.POST)
 	@SiteLog(action = "后台统计领域数据", table = TableIDs.DOMAIN, clazz = String.class)
 	public @ResponseBody SiteResponse countTask(
 			@RequestParam(defaultValue = "后台统计领域数据") String desc, 

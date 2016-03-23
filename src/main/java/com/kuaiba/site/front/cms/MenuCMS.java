@@ -27,37 +27,37 @@ import com.kuaiba.site.front.vo.MenuVO;
 import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
-@RequestMapping(CmsIDs.CMS_MENUS)
+@RequestMapping("/cms/menus")
 public class MenuCMS extends BaseController {
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String index() {
 		return "cms/menus/index";
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.GET)
+	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String addPage() {
 		return "cms/menus/new";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/menus/edit";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.VIEW, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/menus/view";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.DATALIST)
+	@RequestMapping(value = "/datalist")
 	public @ResponseBody List<Menu> datalist() throws Exception {
 		MenuExample example = new MenuExample();
 		example.createCriteria().andStateEqualTo((byte)1);
@@ -66,7 +66,7 @@ public class MenuCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.LIST)
+	@RequestMapping(value = "/list")
 	public @ResponseBody DataGrid<Menu> dataGrid(
 			@RequestParam(required = false) String title,
 			@RequestParam(required = false) Byte state,
@@ -88,7 +88,7 @@ public class MenuCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.POST)
+	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	@SiteLog(action = "后台添加菜单", table = TableIDs.MENU, clazz = MenuVO.class)
 	public @ResponseBody SiteResponse add(MenuVO vo, HttpServletRequest request) throws SecurityException {
 		menuService.add(vo);
@@ -96,7 +96,7 @@ public class MenuCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.DELETE, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除菜单", table = TableIDs.MENU)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		menuService.deleteByPrimaryKey(id);
@@ -104,7 +104,7 @@ public class MenuCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑菜单", table = TableIDs.MENU, clazz = MenuVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, MenuVO vo, HttpServletRequest request) throws SecurityException {
 		menuService.updateByPrimaryKey(id, vo);

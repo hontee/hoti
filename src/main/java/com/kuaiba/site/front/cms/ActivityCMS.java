@@ -24,25 +24,25 @@ import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
-@RequestMapping(CmsIDs.CMS_ACTIVITIES)
+@RequestMapping("/cms/activities")
 public class ActivityCMS extends BaseController {
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String index(Model model) {
 		model.addAttribute("tableIds", TableIDs.getList());
 		return "cms/activities/index";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.VIEW, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/activities/view";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.LIST)
+	@RequestMapping(value = "/list")
 	public @ResponseBody DataGrid<Activity> dataGrid(
 			@RequestParam(required = false) String name, 
 			@RequestParam(required = false) String tbl, 
@@ -64,7 +64,7 @@ public class ActivityCMS extends BaseController {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.DELETE, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除记录", table = TableIDs.ACTIVITY)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		activityService.deleteByPrimaryKey(id);
@@ -72,7 +72,7 @@ public class ActivityCMS extends BaseController {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.BATCH_DELETE, method = RequestMethod.POST)
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台批量删除记录", table = TableIDs.ACTIVITY, clazz = String.class)
 	public @ResponseBody SiteResponse delete(@RequestParam String ids, HttpServletRequest request) throws SecurityException {
 		activityService.deleteByPrimaryKey(ids.split(","));

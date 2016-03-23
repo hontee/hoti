@@ -30,58 +30,58 @@ import com.kuaiba.site.front.vo.GroupVO;
 import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
-@RequestMapping(CmsIDs.CMS_GROUPS)
+@RequestMapping("/cms/groups")
 public class GroupCMS extends BaseController {
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String index() {
 		return "cms/groups/index";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.GET)
+	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String addPage() {
 		return "cms/groups/new";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/groups/edit";
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.FOLLOW, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/follow", method = RequestMethod.GET)
 	public String followPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("id", id);
 		return "cms/groups/follow";
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.GROUP_BOOKMARK, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/bookmark", method = RequestMethod.GET)
 	public String bookmarkPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("id", id);
 		return "cms/groups/bookmark";
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.GROUP_MANAGER, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/manager", method = RequestMethod.GET)
 	public String managerPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("id", id);
 		return "cms/groups/manager";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.VIEW, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/groups/view";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.LIST)
+	@RequestMapping(value = "/list")
 	public @ResponseBody DataGrid<Group> dataGrid(
 			@RequestParam(required = false) String title, 
 			@RequestParam(required = false) Long category, 
@@ -113,7 +113,7 @@ public class GroupCMS extends BaseController {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.GROUP_BOOKMARKS)
+	@RequestMapping(value = "/{id}/bookmarks")
 	public @ResponseBody DataGrid<GroupBookmarkRelation> groupBookmarks(
 			@PathVariable Long id,
 			@RequestParam(required = false) String title, 
@@ -143,7 +143,7 @@ public class GroupCMS extends BaseController {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.FOLLOWS)
+	@RequestMapping(value = "/{id}/follows")
 	public @ResponseBody DataGrid<FollowUser> followUsers(
 			@PathVariable Long id, 
 			@RequestParam(required = false) String name, 
@@ -173,7 +173,7 @@ public class GroupCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.POST)
+	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	@SiteLog(action = "后台添加群组", table = TableIDs.GROUP, clazz = GroupVO.class)
 	public @ResponseBody SiteResponse add(GroupVO vo, HttpServletRequest request) throws SecurityException {
 		groupService.add(vo);
@@ -181,7 +181,7 @@ public class GroupCMS extends BaseController {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.GROUP_BOOKMARK, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/bookmark", method = RequestMethod.POST)
 	@SiteLog(action = "后台群组批量添加站点", table = TableIDs.GROUP)
 	public @ResponseBody SiteResponse addBookmarks(@RequestParam Long[] ids, @PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		groupService.addBookmarks(id, ids);
@@ -189,7 +189,7 @@ public class GroupCMS extends BaseController {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.GROUP_MANAGER, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/manager", method = RequestMethod.POST)
 	@SiteLog(action = "后台群组批量移除站点", table = TableIDs.GROUP)
 	public @ResponseBody SiteResponse removeBookmarks(@RequestParam Long[] ids, @PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		groupService.removeBookmark(id, ids);
@@ -197,7 +197,7 @@ public class GroupCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.DELETE, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除群组", table = TableIDs.GROUP)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		groupService.deleteByPrimaryKey(id);
@@ -205,7 +205,7 @@ public class GroupCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑群组", table = TableIDs.GROUP, clazz = GroupVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, GroupVO vo, HttpServletRequest request) throws SecurityException {
 		groupService.updateByPrimaryKey(id, vo);
@@ -213,7 +213,7 @@ public class GroupCMS extends BaseController {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.COUNT_TASK, method = RequestMethod.POST)
+	@RequestMapping(value = "/count/task", method = RequestMethod.POST)
 	@SiteLog(action = "后台统计群组数据", table = TableIDs.GROUP, clazz = String.class)
 	public @ResponseBody SiteResponse countTask(
 			@RequestParam(defaultValue = "后台统计群组数据") String desc, 

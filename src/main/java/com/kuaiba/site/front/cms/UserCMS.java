@@ -25,44 +25,44 @@ import com.kuaiba.site.front.vo.UserVO;
 import com.kuaiba.site.interceptor.SiteLog;
 
 @Controller
-@RequestMapping(CmsIDs.CMS_USERS)
+@RequestMapping("/cms/users")
 public class UserCMS extends BaseController {
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.HOME, method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String index() {
 		return "cms/users/index";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.GET)
+	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String addPage() {
 		return "cms/users/new";
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.PASSWORD, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/password", method = RequestMethod.GET)
 	public String passwordPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/users/password";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/users/edit";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.VIEW, method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
 		model.addAttribute("record", findByPrimaryKey(id));
 		return "cms/users/view";
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.LIST)
+	@RequestMapping(value = "/list")
 	public @ResponseBody DataGrid<User> dataGrid(
 			@RequestParam(required = false) String name, 
 			@RequestParam(required = false) Byte userType, 
@@ -89,7 +89,7 @@ public class UserCMS extends BaseController {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.CREATE, method = RequestMethod.POST)
+	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	@SiteLog(action = "后台添加用户", table = TableIDs.USER, clazz = UserVO.class)
 	public @ResponseBody SiteResponse add(UserVO vo, HttpServletRequest request) throws SecurityException {
 		userService.add(vo);
@@ -97,7 +97,7 @@ public class UserCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.DELETE, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除用户", table = TableIDs.USER)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		userService.deleteByPrimaryKey(id);
@@ -105,7 +105,7 @@ public class UserCMS extends BaseController {
 	}
 
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.EDIT, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑用户", table = TableIDs.USER, clazz = UserVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, UserVO vo, HttpServletRequest request) throws SecurityException {
 		userService.updateByPrimaryKey(id, vo);
@@ -113,7 +113,7 @@ public class UserCMS extends BaseController {
 	}
 	
 	@RequiresRoles(value = "admin")
-	@RequestMapping(value = CmsIDs.PASSWORD, method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/password", method = RequestMethod.POST)
 	@SiteLog(action = "后台修改用户密码", table = TableIDs.USER, clazz = String.class)
 	public @ResponseBody SiteResponse password(@PathVariable Long id, @RequestParam String password, HttpServletRequest request) throws SecurityException {
 		userService.updateByPrimaryKey(id, password);
