@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.cache.CacheIDs;
-import com.kuaiba.site.core.cache.MemcachedUtil;
+import com.kuaiba.site.core.cache.Memcacheds;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.ReadException;
@@ -199,12 +199,12 @@ public class DomainServiceImpl implements DomainService {
 		
 		List<Domain> list = new ArrayList<>();
 		
-		if (MemcachedUtil.exists(CacheIDs.DOMAINS)) {
-			list = (List<Domain>) MemcachedUtil.get(CacheIDs.DOMAINS);
+		if (Memcacheds.exists(CacheIDs.DOMAINS)) {
+			list = (List<Domain>) Memcacheds.get(CacheIDs.DOMAINS);
 		} else {
 			// 从数据库中获取
 			list = this.findByExample(new DomainExample());
-			MemcachedUtil.set(CacheIDs.DOMAINS, 1000 * 60 * 30, list);
+			Memcacheds.set(CacheIDs.DOMAINS, 1000 * 60 * 30, list);
 		}
 		
 		return list;

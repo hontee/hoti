@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.cache.CacheIDs;
-import com.kuaiba.site.core.cache.MemcachedUtil;
+import com.kuaiba.site.core.cache.Memcacheds;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.ReadException;
@@ -178,12 +178,12 @@ public class MenuServiceImpl implements MenuService {
 
 		List<Menu> list = new ArrayList<>();
 		
-		if (MemcachedUtil.exists(CacheIDs.MENUS)) {
-			list = (List<Menu>) MemcachedUtil.get(CacheIDs.MENUS);
+		if (Memcacheds.exists(CacheIDs.MENUS)) {
+			list = (List<Menu>) Memcacheds.get(CacheIDs.MENUS);
 		} else {
 			// 从数据库中获取
 			list = this.findByExample(new MenuExample());
-			MemcachedUtil.set(CacheIDs.MENUS, 1000 * 60 * 30, list);
+			Memcacheds.set(CacheIDs.MENUS, 1000 * 60 * 30, list);
 		}
 		
 		return list;

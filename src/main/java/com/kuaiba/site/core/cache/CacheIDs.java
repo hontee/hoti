@@ -5,6 +5,7 @@ package com.kuaiba.site.core.cache;
  * @author larry.qi
  */
 public enum CacheIDs {
+	
 	HOMEPAGE, // 默认首页
 	
 	USER_ROLES, // 用户角色

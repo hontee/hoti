@@ -10,10 +10,10 @@ import net.spy.memcached.BinaryConnectionFactory;
 import net.spy.memcached.MemcachedClient;
 import net.spy.memcached.internal.OperationFuture;
 
-public class MemcachedUtil {
-
-	final static String host = "127.0.0.1";
-	final static String port = "11211";
+public class Memcacheds {
+	
+	private final static String HOST = "127.0.0.1";
+	private final static String PORT = "11211";
 	
 	/**
 	 * 获取连接
@@ -22,7 +22,7 @@ public class MemcachedUtil {
 	 */
 	private static MemcachedClient getMemcachedClient() throws IOException {
 		return new MemcachedClient(new BinaryConnectionFactory(), 
-				AddrUtil.getAddresses(host + ":" + port));
+				AddrUtil.getAddresses(HOST + ":" + PORT));
 	}
 	
 	/**

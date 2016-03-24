@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.cache.CacheIDs;
-import com.kuaiba.site.core.cache.MemcachedUtil;
+import com.kuaiba.site.core.cache.Memcacheds;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.ReadException;
@@ -177,12 +177,12 @@ public class MtypeServiceImpl implements MtypeService {
 		
 		List<Mtype> list = new ArrayList<>();
 		
-		if (MemcachedUtil.exists(CacheIDs.MTYPES)) {
-			list = (List<Mtype>) MemcachedUtil.get(CacheIDs.MTYPES);
+		if (Memcacheds.exists(CacheIDs.MTYPES)) {
+			list = (List<Mtype>) Memcacheds.get(CacheIDs.MTYPES);
 		} else {
 			// 从数据库中获取
 			list = this.findByExample(new MtypeExample());
-			MemcachedUtil.set(CacheIDs.MTYPES, 1000 * 60 * 30, list);
+			Memcacheds.set(CacheIDs.MTYPES, 1000 * 60 * 30, list);
 		}
 		
 		return list;

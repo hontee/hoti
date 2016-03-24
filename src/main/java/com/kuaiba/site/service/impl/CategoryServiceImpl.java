@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.cache.CacheIDs;
-import com.kuaiba.site.core.cache.MemcachedUtil;
+import com.kuaiba.site.core.cache.Memcacheds;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.NotFoundException;
@@ -218,12 +218,12 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Category> getCategories() throws SecurityException {
 		List<Category> list = new ArrayList<>();
 		
-		if (MemcachedUtil.exists(CacheIDs.CATES)) {
-			list = (List<Category>) MemcachedUtil.get(CacheIDs.CATES);
+		if (Memcacheds.exists(CacheIDs.CATES)) {
+			list = (List<Category>) Memcacheds.get(CacheIDs.CATES);
 		} else {
 			// 从数据库中获取
 			list = this.findByExample(new CategoryExample());
-			MemcachedUtil.set(CacheIDs.CATES, 1000 * 60 * 30, list);
+			Memcacheds.set(CacheIDs.CATES, 1000 * 60 * 30, list);
 		}
 		
 		return list;
