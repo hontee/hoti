@@ -101,34 +101,20 @@ public class MtypeServiceImpl implements MtypeService {
 	}
 
 	@Override
-	public Mtype findByPrimaryKey(Long id) throws SecurityException { 
-		try {
-			ContraintValidator.checkPrimaryKey(id);
-			return mapper.selectByPrimaryKey(id);
-		} catch (Exception e) {
-			throw new ReadException("读取类型失败", e);
+	public Mtype findByPrimaryKey(Long id) throws SecurityException {
+		
+		ContraintValidator.checkPrimaryKey(id);
+		List<Mtype> list = this.getMtypes();
+		
+		for (Mtype mtype : list) {
+			if (mtype.getId().equals(id)) {
+				return mtype;
+			}
 		}
+
+		return new Mtype();
 	}
 
-	@Override
-	public Mtype findByCache(Long id) throws SecurityException {
-		Mtype mt = new Mtype();
-		try {
-			ContraintValidator.checkPrimaryKey(id);
-			List<Mtype> list = this.findAllByCache();
-			for (Mtype mtype : list) {
-				if (mtype.getId().equals(id)) {
-					mt = mtype;
-					break;
-				}
-			}
-		} catch (Exception e) {
-			throw new ReadException("读取类型失败", e);
-		}
-		
-		return mt;
-	}
-	
 	@Override
 	public void updateByExample(Mtype record, MtypeExample example) throws SecurityException { 
 		try {
@@ -187,7 +173,7 @@ public class MtypeServiceImpl implements MtypeService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Mtype> findAllByCache() throws SecurityException {
+	public List<Mtype> getMtypes() throws SecurityException {
 		
 		List<Mtype> list = new ArrayList<>();
 		

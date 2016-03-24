@@ -107,7 +107,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			ContraintValidator.checkNotNull(example);
 			List<Bookmark> list = mapper.selectByExample(example);
 			for (Bookmark bm : list) {
-				Mtype mt = mtypeService.findByCache(bm.getMtype());
+				Mtype mt = mtypeService.findByPrimaryKey(bm.getMtype());
 				bm.setMt(mt);
 			}
 			return list;

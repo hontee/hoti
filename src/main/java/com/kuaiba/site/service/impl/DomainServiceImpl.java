@@ -1,5 +1,6 @@
 package com.kuaiba.site.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.kuaiba.site.core.cache.CacheIDs;
+import com.kuaiba.site.core.cache.MemcachedUtil;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.ReadException;
@@ -99,12 +102,17 @@ public class DomainServiceImpl implements DomainService {
 
 	@Override
 	public Domain findByPrimaryKey(Long id) throws SecurityException { 
-		try {
-			ContraintValidator.checkPrimaryKey(id);
-			return mapper.selectByPrimaryKey(id);
-		} catch (Exception e) {
-			throw new ReadException("读取领域失败", e);
+		
+		ContraintValidator.checkPrimaryKey(id);
+		List<Domain> list = this.getDomains();
+		
+		for (Domain domain : list) {
+			if (id.equals(domain.getId())) {
+				return domain;
+			}
 		}
+		
+		return new Domain();
 	}
 
 	@Override
@@ -184,6 +192,22 @@ public class DomainServiceImpl implements DomainService {
 		} catch (Exception e) {
 			throw new ReadException("检测领域标题失败", e);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Domain> getDomains() throws SecurityException {
+		
+		List<Domain> list = new ArrayList<>();
+		
+		if (MemcachedUtil.exists(CacheIDs.DOMAINS)) {
+			list = (List<Domain>) MemcachedUtil.get(CacheIDs.DOMAINS);
+		} else {
+			// 从数据库中获取
+			list = this.findByExample(new DomainExample());
+			MemcachedUtil.set(CacheIDs.DOMAINS, 1000 * 60 * 30, list);
+		}
+		
+		return list;
 	}
 
 }

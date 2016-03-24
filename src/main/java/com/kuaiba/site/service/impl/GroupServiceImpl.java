@@ -109,7 +109,7 @@ public class GroupServiceImpl implements GroupService {
 			ContraintValidator.checkNotNull(example);
 			List<Group> list = mapper.selectByExample(example);
 			for (Group g : list) {
-				Mtype mt = mtypeService.findByCache(g.getMtype());
+				Mtype mt = mtypeService.findByPrimaryKey(g.getMtype());
 				g.setMt(mt);
 			}
 			return list;

@@ -2,13 +2,14 @@ package com.kuaiba.site.service;
 
 import java.util.List;
 
+import com.kuaiba.site.core.cache.DomainCachePolicy;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Pager;
 import com.kuaiba.site.front.vo.DomainVO;
 
-public interface DomainService extends Pager<Domain, DomainExample> {
+public interface DomainService extends Pager<Domain, DomainExample>, DomainCachePolicy {
 
 	int countByExample(DomainExample example) throws SecurityException;
 

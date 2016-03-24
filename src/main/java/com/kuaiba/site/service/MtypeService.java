@@ -2,14 +2,14 @@ package com.kuaiba.site.service;
 
 import java.util.List;
 
-import com.kuaiba.site.core.cache.MtypeCache;
+import com.kuaiba.site.core.cache.MtypeCachePolicy;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.MtypeExample;
 import com.kuaiba.site.db.entity.Pager;
 import com.kuaiba.site.front.vo.MtypeVO;
 
-public interface MtypeService extends Pager<Mtype, MtypeExample>, MtypeCache {
+public interface MtypeService extends Pager<Mtype, MtypeExample>, MtypeCachePolicy {
 	
     int countByExample(MtypeExample example) throws SecurityException;
 
@@ -23,8 +23,6 @@ public interface MtypeService extends Pager<Mtype, MtypeExample>, MtypeCache {
 
     Mtype findByPrimaryKey(Long id) throws SecurityException;
     
-    Mtype findByCache(Long id) throws SecurityException;
-
     void updateByExample(Mtype record, MtypeExample example) throws SecurityException;
 
     void updateByPrimaryKey(Long id, MtypeVO vo) throws SecurityException;

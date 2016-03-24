@@ -10,8 +10,13 @@ import com.kuaiba.site.db.entity.Mtype;
  * @author larry.qi
  *
  */
-public interface MtypeCache {
+public interface MtypeCachePolicy {
 	
-	public List<Mtype> findAllByCache() throws SecurityException;
+	/**
+	 * 获取所有MTypes
+	 * @return
+	 * @throws SecurityException
+	 */
+	public List<Mtype> getMtypes() throws SecurityException;
 	
 }

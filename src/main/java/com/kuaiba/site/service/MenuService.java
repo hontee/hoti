@@ -1,13 +1,15 @@
 package com.kuaiba.site.service;
 
 import java.util.List;
+
+import com.kuaiba.site.core.cache.MenuCachePolicy;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Menu;
 import com.kuaiba.site.db.entity.MenuExample;
 import com.kuaiba.site.db.entity.Pager;
 import com.kuaiba.site.front.vo.MenuVO;
 
-public interface MenuService extends Pager<Menu, MenuExample> {
+public interface MenuService extends Pager<Menu, MenuExample>, MenuCachePolicy {
 	
 	int countByExample(MenuExample example) throws SecurityException;
 

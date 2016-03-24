@@ -2,13 +2,14 @@ package com.kuaiba.site.service;
 
 import java.util.List;
 
+import com.kuaiba.site.core.cache.CategoryCachePolicy;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
 import com.kuaiba.site.db.entity.Pager;
 import com.kuaiba.site.front.vo.CategoryVO;
 
-public interface CategoryService extends Pager<Category, CategoryExample> {
+public interface CategoryService extends Pager<Category, CategoryExample>, CategoryCachePolicy {
 	
     int countByExample(CategoryExample example) throws SecurityException;
 

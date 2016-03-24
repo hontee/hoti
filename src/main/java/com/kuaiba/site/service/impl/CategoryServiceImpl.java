@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.kuaiba.site.core.cache.CacheIDs;
+import com.kuaiba.site.core.cache.MemcachedUtil;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.NotFoundException;
@@ -106,12 +108,17 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public Category findByPrimaryKey(Long id) throws SecurityException {
-		try {
-			ContraintValidator.checkPrimaryKey(id);
-			return mapper.selectByPrimaryKey(id);
-		} catch (Exception e) {
-			throw new ReadException("读取分类失败", e);
+		
+		ContraintValidator.checkPrimaryKey(id);
+		List<Category> list = this.getCategories();
+		
+		for (Category category : list) {
+			if (id.equals(category.getId())) {
+				return category;
+			}
 		}
+		
+		return new Category();
 	}
 
 	@Override
@@ -204,6 +211,22 @@ public class CategoryServiceImpl implements CategoryService {
 		} catch (Exception e) {
 			throw new NotFoundException("检测分类名称失败", e);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Category> getCategories() throws SecurityException {
+		List<Category> list = new ArrayList<>();
+		
+		if (MemcachedUtil.exists(CacheIDs.CATES)) {
+			list = (List<Category>) MemcachedUtil.get(CacheIDs.CATES);
+		} else {
+			// 从数据库中获取
+			list = this.findByExample(new CategoryExample());
+			MemcachedUtil.set(CacheIDs.CATES, 1000 * 60 * 30, list);
+		}
+		
+		return list;
 	}
 	
 }

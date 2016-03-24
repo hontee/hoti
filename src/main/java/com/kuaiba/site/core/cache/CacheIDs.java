@@ -9,5 +9,11 @@ public enum CacheIDs {
 	
 	USER_ROLES, // 用户角色
 	
-	MTYPES, // Mtype缓存
+	MTYPES, // MType缓存
+	
+	MENUS, // 菜单
+	
+	CATES, // 分类
+	
+	DOMAINS, // 领域
 }
