@@ -9,22 +9,72 @@ import com.kuaiba.site.db.entity.TrackExample;
 
 public interface TrackService extends Pager<Track, TrackExample> {
 
-	int countByExample(TrackExample example) throws SecurityException;
+	/**
+	 * 按条件统计
+	 * @param example
+	 * @return
+	 * @throws SecurityException
+	 */
+	int count(TrackExample example) throws SecurityException;
 
-	void deleteByExample(TrackExample example) throws SecurityException;
+	/**
+	 * 按条件删除
+	 * @param example
+	 * @throws SecurityException
+	 */
+	void delete(TrackExample example) throws SecurityException;
 
-	void deleteByPrimaryKey(Long id) throws SecurityException;
+	/**
+	 * 删除
+	 * @param id
+	 * @throws SecurityException
+	 */
+	void delete(Long id) throws SecurityException;
 	
-	void deleteByPrimaryKey(String[] ids) throws SecurityException;
+	/**
+	 * 批量删除
+	 * @param ids
+	 * @throws SecurityException
+	 */
+	void delete(String[] ids) throws SecurityException;
 
+	/**
+	 * 添加
+	 * @param record
+	 * @throws SecurityException
+	 */
 	void add(Track record) throws SecurityException;
 
-	List<Track> findByExample(TrackExample example) throws SecurityException;
+	/**
+	 * 读取数据列表
+	 * @param example
+	 * @return
+	 * @throws SecurityException
+	 */
+	List<Track> read(TrackExample example) throws SecurityException;
 
-	Track findByPrimaryKey(Long id) throws SecurityException;
+	/**
+	 * 读取数据
+	 * @param id
+	 * @return
+	 * @throws SecurityException
+	 */
+	Track read(Long id) throws SecurityException;
 
-	void updateByExample(Track record, TrackExample example) throws SecurityException;
+	/**
+	 * 按条件更新
+	 * @param record
+	 * @param example
+	 * @throws SecurityException
+	 */
+	void update(Track record, TrackExample example) throws SecurityException;
 
-	void updateByPrimaryKey(Long id, Track record) throws SecurityException;
+	/**
+	 * 更新
+	 * @param id
+	 * @param record
+	 * @throws SecurityException
+	 */
+	void update(Long id, Track record) throws SecurityException;
 
 }

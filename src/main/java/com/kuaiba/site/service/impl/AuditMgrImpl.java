@@ -23,7 +23,7 @@ public class AuditMgrImpl implements Auditable {
 	private BookmarkService bmService;
 
 	@Override
-	public void auditRecommend(Long id, String remark) throws SecurityException {
+	public void auditRecmds(Long id, String remark) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(remark);
 			ContraintValidator.checkPrimaryKey(id);
@@ -38,7 +38,7 @@ public class AuditMgrImpl implements Auditable {
 	}
 
 	@Override
-	public void auditRecommend(Long id, BookmarkVO vo) throws SecurityException {
+	public void auditRecmds(Long id, BookmarkVO vo) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(vo);
 			ContraintValidator.checkPrimaryKey(id);

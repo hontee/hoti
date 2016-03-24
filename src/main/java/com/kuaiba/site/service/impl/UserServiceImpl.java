@@ -38,11 +38,11 @@ public class UserServiceImpl implements UserService {
 	private UserMapper mapper;
 
 	@Override
-	public PageInfo<User> findByExample(UserExample example, Pagination p) throws SecurityException { 
+	public PageInfo<User> search(UserExample example, Pagination p) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<User> list = this.findByExample(example);
+			List<User> list = read(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("分页读取用户失败", e);
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int countByExample(UserExample example) throws SecurityException { 
+	public int count(UserExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteByExample(UserExample example) throws SecurityException { 
+	public void delete(UserExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteByPrimaryKey(Long id) throws SecurityException { 
+	public void delete(Long id) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> findByExample(UserExample example) throws SecurityException { 
+	public List<User> read(UserExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findByPrimaryKey(Long id) throws SecurityException { 
+	public User read(Long id) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateByExample(User record, UserExample example) throws SecurityException { 
+	public void update(User record, UserExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateByPrimaryKey(Long id, UserVO vo) throws SecurityException { 
+	public void update(Long id, UserVO vo) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(vo);
 			ContraintValidator.checkPrimaryKey(id);
@@ -145,11 +145,11 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void updateByPrimaryKey(Long id, String password) throws SecurityException {
+	public void update(Long id, String password) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(password);
 			ContraintValidator.checkPrimaryKey(id);
-			User record = this.findByPrimaryKey(id);
+			User record = read(id);
 			record.setId(id);
 			record.setPasswordEncrypt(password, record.getSalt());
 			mapper.updateByPrimaryKey(record);
@@ -159,7 +159,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findByName(String name) throws SecurityException { 
+	public User search(String name) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(name);
 			return mapper.selectByName(name);
@@ -169,8 +169,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean existsName(String name) throws SecurityException { 
-		return this.findByName(name) != null;
+	public boolean validate(String name) throws SecurityException { 
+		return this.search(name) != null;
 	}
 
 	@Override
@@ -180,7 +180,7 @@ public class UserServiceImpl implements UserService {
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
 			String principal = (String) subject.getPrincipal();
-			User currentUser = this.findByName(principal);
+			User currentUser = search(principal);
 			Session session = subject.getSession();
 			session.setAttribute(GlobalIDs.LOGIN_USER, currentUser);
 			session.setAttribute(GlobalIDs.ADMIN_USER, CurrentUser.isAdmin());

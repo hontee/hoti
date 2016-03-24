@@ -44,28 +44,28 @@ public class RecommendCMS extends BaseController {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", recommendService.read(id));
 		return "cms/recmds/edit";
 	}
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/ok", method = RequestMethod.GET)
 	public String auditOKPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", recommendService.read(id));
 		return "cms/recmds/ok";
 	}
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/refuse", method = RequestMethod.GET)
 	public String auditRefusePage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", recommendService.read(id));
 		return "cms/recmds/refuse";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", recommendService.read(id));
 		return "cms/recmds/view";
 	}
 
@@ -87,7 +87,7 @@ public class RecommendCMS extends BaseController {
 			criteria.andStateEqualTo(state);
 		}
 		
-		PageInfo<Recommend> pageInfo = recommendService.findByExample(example, p);
+		PageInfo<Recommend> pageInfo = recommendService.search(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 
@@ -103,7 +103,7 @@ public class RecommendCMS extends BaseController {
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除推荐", table = TableIDs.RECOMMEND)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
-		recommendService.deleteByPrimaryKey(id);
+		recommendService.delete(id);
 		return ok();
 	}
 
@@ -111,7 +111,7 @@ public class RecommendCMS extends BaseController {
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑推荐", table = TableIDs.RECOMMEND, clazz = Recommend.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, RecommendVO vo, HttpServletRequest request) throws SecurityException {
-		recommendService.updateByPrimaryKey(id, vo);
+		recommendService.update(id, vo);
 		return ok();
 	}
 	
@@ -119,7 +119,7 @@ public class RecommendCMS extends BaseController {
 	@RequestMapping(value = "/{id}/ok", method = RequestMethod.POST)
 	@SiteLog(action = "后台审核推荐通过", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
 	public @ResponseBody SiteResponse auditOk(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) throws SecurityException {
-		auditable.auditRecommend(id, vo);
+		auditable.auditRecmds(id, vo);
 		return ok();
 	}
 	
@@ -127,12 +127,8 @@ public class RecommendCMS extends BaseController {
 	@RequestMapping(value = "/{id}/refuse", method = RequestMethod.POST)
 	@SiteLog(action = "后台审核推荐拒绝", table = TableIDs.RECOMMEND, clazz = String.class)
 	public @ResponseBody SiteResponse auditRefuse(@PathVariable Long id, @RequestParam String remark, HttpServletRequest request) throws SecurityException {
-		auditable.auditRecommend(id, remark);
+		auditable.auditRecmds(id, remark);
 		return ok();
-	}
-	
-	private Recommend findByPrimaryKey(Long id) throws SecurityException {
-		return recommendService.findByPrimaryKey(id);
 	}
 
 }

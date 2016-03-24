@@ -29,11 +29,11 @@ public class RecommendServiceImpl implements RecommendService {
 	private RecommendMapper mapper;
 
 	@Override
-	public PageInfo<Recommend> findByExample(RecommendExample example, Pagination p) throws SecurityException { 
+	public PageInfo<Recommend> search(RecommendExample example, Pagination p) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<Recommend> list = this.findByExample(example);
+			List<Recommend> list = read(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("分页读取推荐失败", e);
@@ -41,7 +41,7 @@ public class RecommendServiceImpl implements RecommendService {
 	}
 
 	@Override
-	public int countByExample(RecommendExample example) throws SecurityException { 
+	public int count(RecommendExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
@@ -51,7 +51,7 @@ public class RecommendServiceImpl implements RecommendService {
 	}
 
 	@Override
-	public void deleteByExample(RecommendExample example) throws SecurityException { 
+	public void delete(RecommendExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
@@ -61,7 +61,7 @@ public class RecommendServiceImpl implements RecommendService {
 	}
 
 	@Override
-	public void deleteByPrimaryKey(Long id) throws SecurityException { 
+	public void delete(Long id) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
@@ -82,7 +82,7 @@ public class RecommendServiceImpl implements RecommendService {
 	}
 
 	@Override
-	public List<Recommend> findByExample(RecommendExample example) throws SecurityException { 
+	public List<Recommend> read(RecommendExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
@@ -92,7 +92,7 @@ public class RecommendServiceImpl implements RecommendService {
 	}
 
 	@Override
-	public Recommend findByPrimaryKey(Long id) throws SecurityException { 
+	public Recommend read(Long id) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
@@ -102,7 +102,7 @@ public class RecommendServiceImpl implements RecommendService {
 	}
 
 	@Override
-	public void updateByExample(Recommend record, RecommendExample example) throws SecurityException { 
+	public void update(Recommend record, RecommendExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
@@ -112,7 +112,7 @@ public class RecommendServiceImpl implements RecommendService {
 	}
 
 	@Override
-	public void updateByPrimaryKey(Long id, RecommendVO vo) throws SecurityException { 
+	public void update(Long id, RecommendVO vo) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(vo);
 			ContraintValidator.checkPrimaryKey(id);

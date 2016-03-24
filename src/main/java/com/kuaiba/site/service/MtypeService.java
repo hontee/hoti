@@ -11,36 +11,74 @@ import com.kuaiba.site.front.vo.MtypeVO;
 
 public interface MtypeService extends Pager<Mtype, MtypeExample>, MtypeCachePolicy {
 	
-    int countByExample(MtypeExample example) throws SecurityException;
+	/**
+	 * 按条件统计
+	 * @param example
+	 * @return
+	 * @throws SecurityException
+	 */
+    int count(MtypeExample example) throws SecurityException;
 
-    void deleteByExample(MtypeExample example) throws SecurityException;
+    /**
+     * 按条件删除
+     * @param example
+     * @throws SecurityException
+     */
+    void delete(MtypeExample example) throws SecurityException;
 
-    void deleteByPrimaryKey(Long id) throws SecurityException;
+    /**
+     * 删除
+     * @param id
+     * @throws SecurityException
+     */
+    void delete(Long id) throws SecurityException;
 
+    /**
+     * 添加
+     * @param vo
+     * @throws SecurityException
+     */
     void add(MtypeVO vo) throws SecurityException;
 
-    List<Mtype> findByExample(MtypeExample example) throws SecurityException;
+    /**
+     * 获取数据列表
+     * @param example
+     * @return
+     * @throws SecurityException
+     */
+    List<Mtype> read(MtypeExample example) throws SecurityException;
 
-    Mtype findByPrimaryKey(Long id) throws SecurityException;
-    
-    void updateByExample(Mtype record, MtypeExample example) throws SecurityException;
-
-    void updateByPrimaryKey(Long id, MtypeVO vo) throws SecurityException;
+    /**
+     * 获取数据
+     * @param id
+     * @return
+     * @throws SecurityException
+     */
+    Mtype read(Long id) throws SecurityException;
     
     /**
-	 * 验证MType名称是否存在
-	 * @param name
-	 * @return
-	 */
-	boolean checkMTypeName(String name) throws SecurityException;
-	
-	/**
-	 * 验证MType标题是否存在
-	 * @param title
-	 * @return
-	 */
-	boolean checkMTypeTitle(String title) throws SecurityException;
-	
-	
+     * 按条件更新
+     * @param record
+     * @param example
+     * @throws SecurityException
+     */
+    void update(Mtype record, MtypeExample example) throws SecurityException;
 
+    /**
+     * 更新
+     * @param id
+     * @param vo
+     * @throws SecurityException
+     */
+    void update(Long id, MtypeVO vo) throws SecurityException;
+    
+    /**
+     * 验证属性值是否存在
+     * @param attr
+     * @param value
+     * @return
+     * @throws SecurityException
+     */
+	boolean validate(Mtype.Attrs attr, String value) throws SecurityException;
+	
 }

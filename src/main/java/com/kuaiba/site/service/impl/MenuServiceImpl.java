@@ -20,6 +20,7 @@ import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.MenuMapper;
 import com.kuaiba.site.db.entity.ContraintValidator;
 import com.kuaiba.site.db.entity.Menu;
+import com.kuaiba.site.db.entity.Menu.Attrs;
 import com.kuaiba.site.db.entity.MenuExample;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.front.vo.MenuVO;
@@ -32,11 +33,11 @@ public class MenuServiceImpl implements MenuService {
 	private MenuMapper mapper;
 
 	@Override
-	public PageInfo<Menu> findByExample(MenuExample example, Pagination p) throws SecurityException { 
+	public PageInfo<Menu> search(MenuExample example, Pagination p) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<Menu> list = this.findByExample(example);
+			List<Menu> list = read(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("分页读取菜单失败", e);
@@ -44,7 +45,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public int countByExample(MenuExample example) throws SecurityException { 
+	public int count(MenuExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
@@ -54,7 +55,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public void deleteByExample(MenuExample example) throws SecurityException { 
+	public void delete(MenuExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
@@ -64,7 +65,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public void deleteByPrimaryKey(Long id) throws SecurityException { 
+	public void delete(Long id) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
@@ -93,7 +94,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public List<Menu> findByExample(MenuExample example) throws SecurityException { 
+	public List<Menu> read(MenuExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
@@ -103,7 +104,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public Menu findByPrimaryKey(Long id) throws SecurityException { 
+	public Menu read(Long id) throws SecurityException { 
 		
 		ContraintValidator.checkPrimaryKey(id);
 		List<Menu> list = this.getMenus();
@@ -116,7 +117,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public void updateByExample(Menu record, MenuExample example) throws SecurityException { 
+	public void update(Menu record, MenuExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
@@ -126,7 +127,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public void updateByPrimaryKey(Long id, MenuVO vo) throws SecurityException { 
+	public void update(Long id, MenuVO vo) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(vo);
 			ContraintValidator.checkPrimaryKey(id);
@@ -146,32 +147,19 @@ public class MenuServiceImpl implements MenuService {
 	}
 	
 	@Override
-	public boolean checkMenuName(String name) throws SecurityException { 
-		try {
-			ContraintValidator.checkNotNull(name);
-			MenuExample example = new MenuExample();
-			example.createCriteria().andNameEqualTo(name);
-			List<Menu> list = mapper.selectByExample(example);
-			ContraintValidator.checkNotNull(list);
-			return !list.isEmpty();
-		} catch (Exception e) {
-			throw new ReadException("检测菜单名称失败", e);
+	public boolean validate(Attrs attr, String value) throws SecurityException {
+		ContraintValidator.checkNotNull(value);
+		MenuExample example = new MenuExample();
+		
+		if (attr == Menu.Attrs.NAME) {
+			example.createCriteria().andNameEqualTo(value);
+		} else if (attr == Menu.Attrs.TITLE) {
+			example.createCriteria().andTitleEqualTo(value);
 		}
+		
+		return !mapper.selectByExample(example).isEmpty();
 	}
 
-	@Override
-	public boolean checkMenuTitle(String title) throws SecurityException { 
-		try {
-			ContraintValidator.checkNotNull(title);
-			MenuExample example = new MenuExample();
-			example.createCriteria().andTitleEqualTo(title);
-			List<Menu> list = mapper.selectByExample(example);
-			ContraintValidator.checkNotNull(list);
-			return !list.isEmpty();
-		} catch (Exception e) {
-			throw new ReadException("检测菜单标题失败", e);
-		}
-	}
 
 	@SuppressWarnings("unchecked")
 	public List<Menu> getMenus() throws SecurityException {
@@ -182,7 +170,7 @@ public class MenuServiceImpl implements MenuService {
 			list = (List<Menu>) Memcacheds.get(CacheIDs.MENUS);
 		} else {
 			// 从数据库中获取
-			list = this.findByExample(new MenuExample());
+			list = read(new MenuExample());
 			Memcacheds.set(CacheIDs.MENUS, 1000 * 60 * 30, list);
 		}
 		

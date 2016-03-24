@@ -41,7 +41,7 @@ public class SiteController extends BaseController {
 		if (StringUtils.isNotEmpty(q)) {
 			example.createCriteria().andTitleLike("%" + q + "q");
 		}
-		PageInfo<Bookmark> pageInfo = bookmarkService.findByExample(example, p);
+		PageInfo<Bookmark> pageInfo = bookmarkService.search(example, p);
 		model.addAttribute("p", pageInfo);
 		return "views/search";
 	}
@@ -95,7 +95,7 @@ public class SiteController extends BaseController {
 		DomainExample oe = new DomainExample();
 		oe.createCriteria().andStateEqualTo((byte)1);
 		oe.setOrderByClause("weight DESC");
-		List<Domain> orgs = domainService.findByCollect(oe);
+		List<Domain> orgs = domainService.search(oe);
 		model.addAttribute("orgs", orgs);
 		return "views/category";
 	}
@@ -104,28 +104,28 @@ public class SiteController extends BaseController {
 	public String categoryById(@PathVariable Long id, Model model) throws SecurityException {
 		CategoryExample example = new CategoryExample();
 		example.createCriteria().andIdEqualTo(id);
-		List<Category> cates = categoryService.findByCollect(example);
+		List<Category> cates = categoryService.search(example);
 		model.addAttribute("cates", cates);
 		return "views/home";
 	}
 	
 	@RequestMapping(value = "/groups", method = RequestMethod.GET)
 	public String group(Model model) throws SecurityException {
-		List<Group> list = groupService.findByExample(new GroupExample());
+		List<Group> list = groupService.read(new GroupExample());
 		model.addAttribute("groups", list);
 		return "views/group";
 	}
 
 	@RequestMapping(value = "/groups/{id}", method = RequestMethod.GET)
 	public String groupById(@PathVariable Long id, Model model) throws SecurityException {
-		Group group = groupService.findByPrimaryKey(id);
+		Group group = groupService.read(id);
 		model.addAttribute("record", group);
 		return "views/group-bookmark";
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String home(Pagination p, Model model) throws SecurityException {
-		List<Category> cates = categoryService.findByCollect(new CategoryExample());
+		List<Category> cates = categoryService.search(new CategoryExample());
 		model.addAttribute("cates", cates);
 		return "views/home";
 	}

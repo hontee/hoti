@@ -19,6 +19,7 @@ import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.BookmarkMapper;
 import com.kuaiba.site.db.entity.Bookmark;
+import com.kuaiba.site.db.entity.Bookmark.Attrs;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.ContraintValidator;
 import com.kuaiba.site.db.entity.GlobalIDs;
@@ -40,11 +41,11 @@ public class BookmarkServiceImpl implements BookmarkService {
 	private MtypeService mtypeService;
 
 	@Override
-	public PageInfo<Bookmark> findByExample(BookmarkExample example, Pagination p) throws SecurityException {
+	public PageInfo<Bookmark> search(BookmarkExample example, Pagination p) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<Bookmark> list = this.findByExample(example);
+			List<Bookmark> list = this.read(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("分页读取站点失败", e);
@@ -52,7 +53,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public int countByExample(BookmarkExample example) throws SecurityException {
+	public int count(BookmarkExample example) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
@@ -62,7 +63,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public void deleteByExample(BookmarkExample example) throws SecurityException { 
+	public void delete(BookmarkExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
@@ -72,7 +73,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public void deleteByPrimaryKey(Long id) throws SecurityException { 
+	public void delete(Long id) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
@@ -102,12 +103,12 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public List<Bookmark> findByExample(BookmarkExample example) throws SecurityException { 
+	public List<Bookmark> read(BookmarkExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			List<Bookmark> list = mapper.selectByExample(example);
 			for (Bookmark bm : list) {
-				Mtype mt = mtypeService.findByPrimaryKey(bm.getMtype());
+				Mtype mt = mtypeService.read(bm.getMtype());
 				bm.setMt(mt);
 			}
 			return list;
@@ -117,7 +118,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public Bookmark findByPrimaryKey(Long id) throws SecurityException { 
+	public Bookmark read(Long id) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
@@ -127,7 +128,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public void updateByExample(Bookmark record, BookmarkExample example) throws SecurityException { 
+	public void update(Bookmark record, BookmarkExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
@@ -137,7 +138,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public void updateByPrimaryKey(Long id, BookmarkVO vo) throws SecurityException { 
+	public void update(Long id, BookmarkVO vo) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(vo);
 			ContraintValidator.checkPrimaryKey(id);
@@ -179,7 +180,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public String hit(Long id) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
-			Bookmark record = findByPrimaryKey(id);
+			Bookmark record = read(id);
 			record.setHit(record.getHit() + 1);
 			mapper.updateByPrimaryKey(record);
 			return HttpUtil.appendQueryParams(record.getUrl(), record.getReffer());
@@ -200,44 +201,22 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 	
 	@Override
-	public boolean checkBookmarkName(String name) throws SecurityException { 
+	public boolean validate(Attrs attr, String value) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(name);
+			ContraintValidator.checkNotNull(value);
 			BookmarkExample example = new BookmarkExample();
-			example.createCriteria().andNameEqualTo(name);
-			List<Bookmark> list = mapper.selectByExample(example);
-			ContraintValidator.checkNotNull(list);
-			return !list.isEmpty();
+			
+			if (attr == Bookmark.Attrs.NAME) {
+				example.createCriteria().andNameEqualTo(value);
+			} else if (attr == Bookmark.Attrs.TITLE) {
+				example.createCriteria().andTitleEqualTo(value);
+			} else if (attr == Bookmark.Attrs.URL) {
+				example.createCriteria().andUrlEqualTo(value);
+			}
+			
+			return !mapper.selectByExample(example).isEmpty();
 		} catch (Exception e) {
-			throw new ReadException("检测站点名称失败", e);
-		}
-	}
-
-	@Override
-	public boolean checkBookmarkURL(String url) throws SecurityException { 
-		try {
-			ContraintValidator.checkNotNull(url);
-			BookmarkExample example = new BookmarkExample();
-			example.createCriteria().andUrlEqualTo(url);
-			List<Bookmark> list = mapper.selectByExample(example);
-			ContraintValidator.checkNotNull(list);
-			return !list.isEmpty();
-		} catch (Exception e) {
-			throw new ReadException("检测站点URL失败", e);
-		}
-	}
-
-	@Override
-	public boolean checkBookmarkTitle(String title) throws SecurityException { 
-		try {
-			ContraintValidator.checkNotNull(title);
-			BookmarkExample example = new BookmarkExample();
-			example.createCriteria().andTitleEqualTo(title);
-			List<Bookmark> list = mapper.selectByExample(example);
-			ContraintValidator.checkNotNull(list);
-			return !list.isEmpty();
-		} catch (Exception e) {
-			throw new ReadException("检测站点标题失败", e);
+			throw new ReadException("验证站点" + attr.name() + "失败", e);
 		}
 	}
 	

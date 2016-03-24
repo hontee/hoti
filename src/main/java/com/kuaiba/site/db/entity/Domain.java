@@ -14,6 +14,10 @@ public class Domain implements Serializable {
 	 */
 	public final static Byte[] states = {0, 1};
 	
+	public enum Attrs {
+		NAME, TITLE
+	}
+	
 	private Long id;
 
     private String name;

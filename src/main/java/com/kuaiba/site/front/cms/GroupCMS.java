@@ -48,7 +48,7 @@ public class GroupCMS extends BaseController {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", groupService.read(id));
 		return "cms/groups/edit";
 	}
 	
@@ -76,7 +76,7 @@ public class GroupCMS extends BaseController {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", groupService.read(id));
 		return "cms/groups/view";
 	}
 
@@ -108,7 +108,7 @@ public class GroupCMS extends BaseController {
 			criteria.andGtypeEqualTo(gtype);
 		}
 		
-		PageInfo<Group> pageInfo = groupService.findByExample(example, p);
+		PageInfo<Group> pageInfo = groupService.search(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 	
@@ -183,8 +183,8 @@ public class GroupCMS extends BaseController {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/bookmark", method = RequestMethod.POST)
 	@SiteLog(action = "后台群组批量添加站点", table = TableIDs.GROUP)
-	public @ResponseBody SiteResponse addBookmarks(@RequestParam Long[] ids, @PathVariable Long id, HttpServletRequest request) throws SecurityException {
-		groupService.addBookmarks(id, ids);
+	public @ResponseBody SiteResponse addBookmark(@RequestParam Long[] ids, @PathVariable Long id, HttpServletRequest request) throws SecurityException {
+		groupService.addBookmark(id, ids);
 		return ok();
 	}
 	
@@ -200,7 +200,7 @@ public class GroupCMS extends BaseController {
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除群组", table = TableIDs.GROUP)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
-		groupService.deleteByPrimaryKey(id);
+		groupService.delete(id);
 		return ok();
 	}
 
@@ -208,7 +208,7 @@ public class GroupCMS extends BaseController {
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑群组", table = TableIDs.GROUP, clazz = GroupVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, GroupVO vo, HttpServletRequest request) throws SecurityException {
-		groupService.updateByPrimaryKey(id, vo);
+		groupService.update(id, vo);
 		return ok();
 	}
 	
@@ -220,10 +220,6 @@ public class GroupCMS extends BaseController {
 			HttpServletRequest request) throws SecurityException {
 		countable.countGroupTask();
 		return ok();
-	}
-	
-	private Group findByPrimaryKey(Long id) throws SecurityException {
-		return groupService.findByPrimaryKey(id);
 	}
 	
 }

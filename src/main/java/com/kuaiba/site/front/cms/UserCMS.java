@@ -43,21 +43,21 @@ public class UserCMS extends BaseController {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/password", method = RequestMethod.GET)
 	public String passwordPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", userService.read(id));
 		return "cms/users/password";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", userService.read(id));
 		return "cms/users/edit";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", userService.read(id));
 		return "cms/users/view";
 	}
 
@@ -84,7 +84,7 @@ public class UserCMS extends BaseController {
 			criteria.andStateEqualTo(state);
 		}
 		
-		PageInfo<User> pageInfo = userService.findByExample(example, p);
+		PageInfo<User> pageInfo = userService.search(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 	
@@ -100,7 +100,7 @@ public class UserCMS extends BaseController {
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除用户", table = TableIDs.USER)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
-		userService.deleteByPrimaryKey(id);
+		userService.delete(id);
 		return ok();
 	}
 
@@ -108,7 +108,7 @@ public class UserCMS extends BaseController {
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑用户", table = TableIDs.USER, clazz = UserVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, UserVO vo, HttpServletRequest request) throws SecurityException {
-		userService.updateByPrimaryKey(id, vo);
+		userService.update(id, vo);
 		return ok();
 	}
 	
@@ -116,12 +116,7 @@ public class UserCMS extends BaseController {
 	@RequestMapping(value = "/{id}/password", method = RequestMethod.POST)
 	@SiteLog(action = "后台修改用户密码", table = TableIDs.USER, clazz = String.class)
 	public @ResponseBody SiteResponse password(@PathVariable Long id, @RequestParam String password, HttpServletRequest request) throws SecurityException {
-		userService.updateByPrimaryKey(id, password);
+		userService.update(id, password);
 		return ok();
 	}
-	
-	private User findByPrimaryKey(Long id) throws SecurityException {
-		return userService.findByPrimaryKey(id);
-	}
-
 }

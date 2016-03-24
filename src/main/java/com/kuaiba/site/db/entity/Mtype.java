@@ -12,6 +12,10 @@ public class Mtype implements Serializable {
 	 * 状态 1=启用 ，0=禁用
 	 */
 	final static Byte[] states = {0, 1};
+	
+	public enum Attrs {
+		NAME, TITLE
+	}
 
 	private Long id;
 

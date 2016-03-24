@@ -12,6 +12,6 @@ public interface Pager<T, S> {
 	 * @return PageInfo
 	 * @throws SecurityException
 	 */
-	PageInfo<T> findByExample(S example, Pagination p) throws SecurityException;
+	PageInfo<T> search(S example, Pagination p) throws SecurityException;
 
 }

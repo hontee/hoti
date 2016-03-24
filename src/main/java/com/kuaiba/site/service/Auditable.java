@@ -14,13 +14,13 @@ public interface Auditable {
      * @param id
      * @param remark
      */
-    void auditRecommend(Long id, String remark) throws SecurityException;
+    void auditRecmds(Long id, String remark) throws SecurityException;
     
     /**
      * 审核通过
      * @param id
      * @param remark
      */
-    void auditRecommend(Long id, BookmarkVO vo) throws SecurityException;
+    void auditRecmds(Long id, BookmarkVO vo) throws SecurityException;
 
 }

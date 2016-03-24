@@ -47,14 +47,14 @@ public class MtypeCSM extends BaseController {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", mtypeService.read(id));
 		return "cms/mtypes/edit";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", mtypeService.read(id));
 		return "cms/mtypes/view";
 	}
 
@@ -64,7 +64,7 @@ public class MtypeCSM extends BaseController {
 		MtypeExample example = new MtypeExample();
 		example.createCriteria().andStateEqualTo((byte)1);
 		example.setOrderByClause("weight DESC"); // 按权重排序
-		List<Mtype> list = mtypeService.findByExample(example);
+		List<Mtype> list = mtypeService.read(example);
 		List<ComboBox> boxes = new ArrayList<>();
 		list.forEach((m) -> boxes.add(new ComboBox(m.getId(), m.getTitle())));
 		return boxes;
@@ -88,7 +88,7 @@ public class MtypeCSM extends BaseController {
 			criteria.andStateEqualTo(state);
 		}
 		
-		PageInfo<Mtype> pageInfo = mtypeService.findByExample(example, p);
+		PageInfo<Mtype> pageInfo = mtypeService.search(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 
@@ -104,7 +104,7 @@ public class MtypeCSM extends BaseController {
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除类型", table = TableIDs.MTYPE)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
-		mtypeService.deleteByPrimaryKey(id);
+		mtypeService.delete(id);
 		return ok();
 	}
 
@@ -112,12 +112,8 @@ public class MtypeCSM extends BaseController {
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑类型", table = TableIDs.MTYPE, clazz = MtypeVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, MtypeVO vo, HttpServletRequest request) throws SecurityException {
-		mtypeService.updateByPrimaryKey(id, vo);
+		mtypeService.update(id, vo);
 		return ok();
-	}
-	
-	private Mtype findByPrimaryKey(Long id) throws SecurityException {
-		return mtypeService.findByPrimaryKey(id);
 	}
 
 }

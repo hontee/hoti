@@ -10,49 +10,102 @@ import com.kuaiba.site.front.vo.BookmarkVO;
 
 public interface BookmarkService extends Pager<Bookmark, BookmarkExample> {
 	
-	int countByExample(BookmarkExample example) throws SecurityException;
+	/**
+	 * 按条件统计
+	 * @param example
+	 * @return
+	 * @throws SecurityException
+	 */
+	int count(BookmarkExample example) throws SecurityException;
 
-	void deleteByExample(BookmarkExample example) throws SecurityException;
+	/**
+	 * 按条件删除
+	 * @param example
+	 * @throws SecurityException
+	 */
+	void delete(BookmarkExample example) throws SecurityException;
 
-	void deleteByPrimaryKey(Long id) throws SecurityException;
+	/**
+	 * 删除
+	 * @param id
+	 * @throws SecurityException
+	 */
+	void delete(Long id) throws SecurityException;
 
+	/**
+	 * 添加
+	 * @param vo
+	 * @throws SecurityException
+	 */
 	void add(BookmarkVO vo) throws SecurityException;
 
-	List<Bookmark> findByExample(BookmarkExample example) throws SecurityException;
+	/**
+	 * 读取数据
+	 * @param example
+	 * @return
+	 * @throws SecurityException
+	 */
+	List<Bookmark> read(BookmarkExample example) throws SecurityException;
 
-	Bookmark findByPrimaryKey(Long id) throws SecurityException;
+	/**
+	 * 读取一条数据
+	 * @param id
+	 * @return
+	 * @throws SecurityException
+	 */
+	Bookmark read(Long id) throws SecurityException;
 
-	void updateByExample(Bookmark record, BookmarkExample example) throws SecurityException;
+	/**
+	 * 按条件更新
+	 * @param record
+	 * @param example
+	 * @throws SecurityException
+	 */
+	void update(Bookmark record, BookmarkExample example) throws SecurityException;
 
-	void updateByPrimaryKey(Long id, BookmarkVO vo) throws SecurityException;
+	/**
+	 * 按ID更新
+	 * @param id
+	 * @param vo
+	 * @throws SecurityException
+	 */
+	void update(Long id, BookmarkVO vo) throws SecurityException;
 	
+	/**
+	 * 取消关注站点
+	 * @param fid
+	 * @throws SecurityException
+	 */
 	void unfollow(Long fid) throws SecurityException;
 
+	/**
+	 * 关注站点
+	 * @param fid
+	 * @throws SecurityException
+	 */
 	void follow(Long fid) throws SecurityException;
 	
+	/**
+	 * 检测是否已关注
+	 * @param fid
+	 * @return
+	 * @throws SecurityException
+	 */
 	boolean isFollow(Long fid) throws SecurityException;
 	
+	/**
+	 * 更新点击，并获取返回URL
+	 * @param id
+	 * @return
+	 * @throws SecurityException
+	 */
 	String hit(Long id) throws SecurityException;
 	
 	/**
-	 * 验证Bookmark名称是否存在
+	 * 验证属性/值是否存在
 	 * @param name
 	 * @return
 	 */
-	boolean checkBookmarkName(String name) throws SecurityException;
-	
-	/**
-	 * 验证BookmarkURL是否存在
-	 * @param url
-	 * @return
-	 */
-	boolean checkBookmarkURL(String url) throws SecurityException;
-	
-	/**
-	 * 验证Bookmark标题是否存在
-	 * @param title
-	 * @return
-	 */
-	boolean checkBookmarkTitle(String title) throws SecurityException;
+	boolean validate(Bookmark.Attrs attr, String value) throws SecurityException;
 	
 }

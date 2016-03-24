@@ -26,11 +26,11 @@ public class ActivityServiceImpl implements ActivityService {
 	private ActivityMapper mapper;
 
 	@Override
-	public PageInfo<Activity> findByExample(ActivityExample example, Pagination p) throws SecurityException {
+	public PageInfo<Activity> search(ActivityExample example, Pagination p) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<Activity> list = this.findByExample(example);
+			List<Activity> list = read(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("分页读取记录失败", e);
@@ -38,7 +38,7 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	@Override
-	public int countByExample(ActivityExample example) throws SecurityException {
+	public int count(ActivityExample example) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
@@ -48,7 +48,7 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	@Override
-	public void deleteByPrimaryKey(String[] ids) throws SecurityException {
+	public void delete(String[] ids) throws SecurityException {
 		try {
 			ContraintValidator.checkArrays(ids);
 			mapper.deleteByIds(ids);
@@ -58,7 +58,7 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	@Override
-	public void deleteByPrimaryKey(Long id) throws SecurityException {
+	public void delete(Long id) throws SecurityException {
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
@@ -78,7 +78,7 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	@Override
-	public List<Activity> findByExample(ActivityExample example) throws SecurityException {
+	public List<Activity> read(ActivityExample example) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
@@ -88,7 +88,7 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	@Override
-	public Activity findByPrimaryKey(Long id) throws SecurityException {
+	public Activity read(Long id) throws SecurityException {
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);

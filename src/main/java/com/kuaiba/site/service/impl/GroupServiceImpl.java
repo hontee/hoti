@@ -22,6 +22,7 @@ import com.kuaiba.site.db.dao.GroupFollowMapper;
 import com.kuaiba.site.db.dao.GroupMapper;
 import com.kuaiba.site.db.entity.ContraintValidator;
 import com.kuaiba.site.db.entity.Group;
+import com.kuaiba.site.db.entity.Group.Attrs;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.Pagination;
@@ -42,11 +43,11 @@ public class GroupServiceImpl implements GroupService {
 	private MtypeService mtypeService;
 
 	@Override
-	public PageInfo<Group> findByExample(GroupExample example, Pagination p) throws SecurityException { 
+	public PageInfo<Group> search(GroupExample example, Pagination p) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<Group> list = this.findByExample(example);
+			List<Group> list = read(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("分页读取群组失败", e);
@@ -54,7 +55,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public int countByExample(GroupExample example) throws SecurityException { 
+	public int count(GroupExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
@@ -64,7 +65,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public void deleteByExample(GroupExample example) throws SecurityException { 
+	public void delete(GroupExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
@@ -74,7 +75,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public void deleteByPrimaryKey(Long id) throws SecurityException { 
+	public void delete(Long id) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
@@ -104,12 +105,12 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public List<Group> findByExample(GroupExample example) throws SecurityException { 
+	public List<Group> read(GroupExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			List<Group> list = mapper.selectByExample(example);
 			for (Group g : list) {
-				Mtype mt = mtypeService.findByPrimaryKey(g.getMtype());
+				Mtype mt = mtypeService.read(g.getMtype());
 				g.setMt(mt);
 			}
 			return list;
@@ -119,7 +120,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public Group findByPrimaryKey(Long id) throws SecurityException { 
+	public Group read(Long id) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			return mapper.selectByPrimaryKey(id);
@@ -129,7 +130,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public void updateByExample(Group record, GroupExample example) throws SecurityException { 
+	public void update(Group record, GroupExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
@@ -139,7 +140,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public void updateByPrimaryKey(Long id,GroupVO vo) throws SecurityException { 
+	public void update(Long id,GroupVO vo) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(vo);
 			ContraintValidator.checkPrimaryKey(id);
@@ -157,7 +158,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 	
 	@Override
-	public void updateByPrimaryKey(Long id, int count, int stars) throws SecurityException { 
+	public void update(Long id, int count, int stars) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			Group record = new Group();
@@ -222,39 +223,29 @@ public class GroupServiceImpl implements GroupService {
 	}
 	
 	@Override
-	public void addBookmarks(Long gid, Long[] bmids) throws SecurityException {
+	public void addBookmark(Long gid, Long[] bmids) throws SecurityException {
 		Arrays.asList(bmids).stream().forEach((bmid) -> {
 			try {
 				this.addBookmark(gid, bmid);
 			} catch (Exception e) {}
 		});
 	}
-
+	
 	@Override
-	public boolean checkGroupName(String name) throws SecurityException { 
+	public boolean validate(Attrs attr, String value) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(name);
+			ContraintValidator.checkNotNull(value);
 			GroupExample example = new GroupExample();
-			example.createCriteria().andNameEqualTo(name);
-			List<Group> list = mapper.selectByExample(example);
-			ContraintValidator.checkNotNull(list);
-			return !list.isEmpty();
+			
+			if (attr == Attrs.NAME) {
+				example.createCriteria().andNameEqualTo(value);
+			} else if (attr == Attrs.TITLE) {
+				example.createCriteria().andTitleEqualTo(value);
+			}
+			
+			return !mapper.selectByExample(example).isEmpty();
 		} catch (Exception e) {
-			throw new ReadException("检测群组名称失败", e);
-		}
-	}
-
-	@Override
-	public boolean checkGroupTitle(String title) throws SecurityException { 
-		try {
-			ContraintValidator.checkNotNull(title);
-			GroupExample example = new GroupExample();
-			example.createCriteria().andTitleEqualTo(title);
-			List<Group> list = mapper.selectByExample(example);
-			ContraintValidator.checkNotNull(list);
-			return !list.isEmpty();
-		} catch (Exception e) {
-			throw new ReadException("检测群组标题失败", e);
+			throw new ReadException("验证群组" + attr.name() + "失败", e);
 		}
 	}
 

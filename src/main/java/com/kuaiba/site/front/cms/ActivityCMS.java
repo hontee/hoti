@@ -37,7 +37,7 @@ public class ActivityCMS extends BaseController {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", activityService.read(id));
 		return "cms/activities/view";
 	}
 
@@ -59,7 +59,7 @@ public class ActivityCMS extends BaseController {
 			criteria.andTblEqualTo(tbl);
 		}
 		
-		PageInfo<Activity> pageInfo = activityService.findByExample(example, p);
+		PageInfo<Activity> pageInfo = activityService.search(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 	
@@ -67,7 +67,7 @@ public class ActivityCMS extends BaseController {
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除记录", table = TableIDs.ACTIVITY)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
-		activityService.deleteByPrimaryKey(id);
+		activityService.delete(id);
 		return ok();
 	}
 	
@@ -75,12 +75,8 @@ public class ActivityCMS extends BaseController {
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台批量删除记录", table = TableIDs.ACTIVITY, clazz = String.class)
 	public @ResponseBody SiteResponse delete(@RequestParam String ids, HttpServletRequest request) throws SecurityException {
-		activityService.deleteByPrimaryKey(ids.split(","));
+		activityService.delete(ids.split(","));
 		return ok();
 	}
 	
-	private Activity findByPrimaryKey(Long id) throws SecurityException {
-		return activityService.findByPrimaryKey(id);
-	}
-
 }

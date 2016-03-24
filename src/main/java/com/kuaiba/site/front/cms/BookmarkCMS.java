@@ -46,7 +46,7 @@ public class BookmarkCMS extends BaseController {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", bookmarkService.read(id));
 		return "cms/bookmarks/edit";
 	}
 	
@@ -60,7 +60,7 @@ public class BookmarkCMS extends BaseController {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", bookmarkService.read(id));
 		return "cms/bookmarks/view";
 	}
 
@@ -87,7 +87,7 @@ public class BookmarkCMS extends BaseController {
 			criteria.andStateEqualTo(state);
 		}
 		
-		PageInfo<Bookmark> pageInfo = bookmarkService.findByExample(example, p);
+		PageInfo<Bookmark> pageInfo = bookmarkService.search(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 	
@@ -134,7 +134,7 @@ public class BookmarkCMS extends BaseController {
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除站点", table = TableIDs.BOOKMARK)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
-		bookmarkService.deleteByPrimaryKey(id);
+		bookmarkService.delete(id);
 		return ok();
 	}
 
@@ -142,12 +142,8 @@ public class BookmarkCMS extends BaseController {
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑站点", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) throws SecurityException {
-		bookmarkService.updateByPrimaryKey(id, vo);
+		bookmarkService.update(id, vo);
 		return ok();
 	}
 	
-	private Bookmark findByPrimaryKey(Long id) throws SecurityException {
-		return bookmarkService.findByPrimaryKey(id);
-	}
-
 }

@@ -11,34 +11,74 @@ import com.kuaiba.site.front.vo.MenuVO;
 
 public interface MenuService extends Pager<Menu, MenuExample>, MenuCachePolicy {
 	
-	int countByExample(MenuExample example) throws SecurityException;
+	/**
+	 * 按条件统计
+	 * @param example
+	 * @return
+	 * @throws SecurityException
+	 */
+	int count(MenuExample example) throws SecurityException;
 
-    void deleteByExample(MenuExample example) throws SecurityException;
+	/**
+	 * 按条件删除
+	 * @param example
+	 * @throws SecurityException
+	 */
+    void delete(MenuExample example) throws SecurityException;
 
-    void deleteByPrimaryKey(Long id) throws SecurityException;
+    /**
+     * 删除
+     * @param id
+     * @throws SecurityException
+     */
+    void delete(Long id) throws SecurityException;
 
+    /**
+     * 添加菜单
+     * @param vo
+     * @throws SecurityException
+     */
     void add(MenuVO vo) throws SecurityException;
 
-    List<Menu> findByExample(MenuExample example) throws SecurityException;
+    /**
+     * 获取数据列表
+     * @param example
+     * @return
+     * @throws SecurityException
+     */
+    List<Menu> read(MenuExample example) throws SecurityException;
 
-    Menu findByPrimaryKey(Long id) throws SecurityException;
+    /**
+     * 获取数据
+     * @param id
+     * @return
+     * @throws SecurityException
+     */
+    Menu read(Long id) throws SecurityException;
 
-    void updateByExample(Menu record, MenuExample example) throws SecurityException;
+    /**
+     * 按条件更新
+     * @param record
+     * @param example
+     * @throws SecurityException
+     */
+    void update(Menu record, MenuExample example) throws SecurityException;
 
-    void updateByPrimaryKey(Long id, MenuVO vo) throws SecurityException;
+    /**
+     * 更新
+     * @param id
+     * @param vo
+     * @throws SecurityException
+     */
+    void update(Long id, MenuVO vo) throws SecurityException;
     
     /**
-	 * 验证Menu名称是否存在
-	 * @param name
-	 * @return
-	 */
-	boolean checkMenuName(String name) throws SecurityException;
+     * 验证属性值是否存在
+     * @param attr
+     * @param value
+     * @return
+     * @throws SecurityException
+     */
+	boolean validate(Menu.Attrs attr, String value) throws SecurityException;
 	
-	/**
-	 * 验证Menu标题是否存在
-	 * @param title
-	 * @return
-	 */
-	boolean checkMenuTitle(String title) throws SecurityException;
-
 }

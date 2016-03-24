@@ -11,33 +11,96 @@ import com.kuaiba.site.front.vo.CategoryVO;
 
 public interface CategoryService extends Pager<Category, CategoryExample>, CategoryCachePolicy {
 	
-    int countByExample(CategoryExample example) throws SecurityException;
+	/**
+	 * 按条件统计
+	 * @param example
+	 * @return
+	 * @throws SecurityException
+	 */
+    int count(CategoryExample example) throws SecurityException;
 
-    void deleteByExample(CategoryExample example) throws SecurityException;
+    /**
+     * 按条件删除
+     * @param example
+     * @throws SecurityException
+     */
+    void delete(CategoryExample example) throws SecurityException;
 
-    void deleteByPrimaryKey(Long id) throws SecurityException;
+    /**
+     * 按ID删除
+     * @param id
+     * @throws SecurityException
+     */
+    void delete(Long id) throws SecurityException;
 
+    /**
+     * 添加
+     * @param vo
+     * @throws SecurityException
+     */
 	void add(CategoryVO vo) throws SecurityException;
 
-    List<Category> findByExample(CategoryExample example) throws SecurityException;
+	/**
+	 * 读取数据
+	 * @param example
+	 * @return
+	 * @throws SecurityException
+	 */
+    List<Category> read(CategoryExample example) throws SecurityException;
 
-    Category findByPrimaryKey(Long id) throws SecurityException;
+    /**
+     * 读取一个数据
+     * @param id
+     * @return
+     * @throws SecurityException
+     */
+    Category read(Long id) throws SecurityException;
 
-    void updateByExample(Category record, CategoryExample example) throws SecurityException;
+    /**
+     * 按条件更新
+     * @param record
+     * @param example
+     * @throws SecurityException
+     */
+    void update(Category record, CategoryExample example) throws SecurityException;
 
-    void updateByPrimaryKey(Long id, CategoryVO vo) throws SecurityException;
+    /**
+     * 更新
+     * @param id
+     * @param vo
+     * @throws SecurityException
+     */
+    void update(Long id, CategoryVO vo) throws SecurityException;
     
-    void updateByPrimaryKey(Long id, long count) throws SecurityException;
+    /**
+     * 更新统计
+     * @param id
+     * @param count
+     * @throws SecurityException
+     */
+    void update(Long id, long count) throws SecurityException;
     
-    List<Category> findByOrganization(Long domain) throws SecurityException;
+    /**
+     * 根据Domain查询
+     * @param domain
+     * @return
+     * @throws SecurityException
+     */
+    List<Category> search(Long domain) throws SecurityException;
     
-    List<Category> findByCollect(CategoryExample example) throws SecurityException;
+    /**
+     * 按条件查询集合
+     * @param example
+     * @return
+     * @throws SecurityException
+     */
+    List<Category> search(CategoryExample example) throws SecurityException;
     
     /**
 	 * 验证Category名称是否存在
 	 * @param name
 	 * @return
 	 */
-	boolean checkCategoryName(String name) throws SecurityException;
+	boolean validate(String name) throws SecurityException;
 	
 }

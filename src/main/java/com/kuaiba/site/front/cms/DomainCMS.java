@@ -47,14 +47,14 @@ public class DomainCMS extends BaseController {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", domainService.read(id));
 		return "cms/domains/edit";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", domainService.read(id));
 		return "cms/domains/view";
 	}
 
@@ -65,7 +65,7 @@ public class DomainCMS extends BaseController {
 		DomainExample example = new DomainExample();
 		example.createCriteria().andStateEqualTo((byte)1);
 		example.setOrderByClause("weight DESC"); // 按权重排序
-		List<Domain> list = domainService.findByExample(example);
+		List<Domain> list = domainService.read(example);
 		List<ComboBox> boxes = new ArrayList<>();
 		
 		if ("all".equals(q)) {
@@ -94,7 +94,7 @@ public class DomainCMS extends BaseController {
 			criteria.andStateEqualTo(state);
 		}
 		
-		PageInfo<Domain> pageInfo = domainService.findByExample(example, p);
+		PageInfo<Domain> pageInfo = domainService.search(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 
@@ -110,7 +110,7 @@ public class DomainCMS extends BaseController {
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除领域", table = TableIDs.DOMAIN)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
-		domainService.deleteByPrimaryKey(id);
+		domainService.delete(id);
 		return ok();
 	}
 
@@ -118,7 +118,7 @@ public class DomainCMS extends BaseController {
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, DomainVO vo, HttpServletRequest request) throws SecurityException {
-		domainService.updateByPrimaryKey(id, vo);
+		domainService.update(id, vo);
 		return ok();
 	}
 	
@@ -132,7 +132,4 @@ public class DomainCMS extends BaseController {
 		return ok();
 	}
 	
-	private Domain findByPrimaryKey(Long id) throws SecurityException {
-		return domainService.findByPrimaryKey(id);
-	}
 }

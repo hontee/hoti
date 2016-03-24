@@ -20,6 +20,7 @@ import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.DomainMapper;
 import com.kuaiba.site.db.entity.ContraintValidator;
 import com.kuaiba.site.db.entity.Domain;
+import com.kuaiba.site.db.entity.Domain.Attrs;
 import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.front.vo.DomainVO;
@@ -32,11 +33,11 @@ public class DomainServiceImpl implements DomainService {
 	private DomainMapper mapper;
 
 	@Override
-	public PageInfo<Domain> findByExample(DomainExample example, Pagination p) throws SecurityException { 
+	public PageInfo<Domain> search(DomainExample example, Pagination p) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<Domain> list = this.findByExample(example);
+			List<Domain> list = this.read(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("分页读取领域失败", e);
@@ -44,7 +45,7 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
-	public int countByExample(DomainExample example) throws SecurityException { 
+	public int count(DomainExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
@@ -54,7 +55,7 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
-	public void deleteByExample(DomainExample example) throws SecurityException { 
+	public void delete(DomainExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
@@ -64,7 +65,7 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
-	public void deleteByPrimaryKey(Long id) throws SecurityException { 
+	public void delete(Long id) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
@@ -91,7 +92,7 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
-	public List<Domain> findByExample(DomainExample example) throws SecurityException { 
+	public List<Domain> read(DomainExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
@@ -101,7 +102,7 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
-	public Domain findByPrimaryKey(Long id) throws SecurityException { 
+	public Domain read(Long id) throws SecurityException { 
 		
 		ContraintValidator.checkPrimaryKey(id);
 		List<Domain> list = this.getDomains();
@@ -116,7 +117,7 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
-	public void updateByExample(Domain record, DomainExample example) throws SecurityException { 
+	public void update(Domain record, DomainExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
@@ -126,7 +127,7 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
-	public void updateByPrimaryKey(Long id, DomainVO vo) throws SecurityException { 
+	public void update(Long id, DomainVO vo) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(vo);
 			ContraintValidator.checkPrimaryKey(id);
@@ -144,7 +145,7 @@ public class DomainServiceImpl implements DomainService {
 	}
 	
 	@Override
-	public void updateByPrimaryKey(Long id, int count) throws SecurityException { 
+	public void update(Long id, int count) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			Domain record = new Domain();
@@ -157,7 +158,7 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
-	public List<Domain> findByCollect(DomainExample example) throws SecurityException { 
+	public List<Domain> search(DomainExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByCollect(example);
@@ -165,32 +166,25 @@ public class DomainServiceImpl implements DomainService {
 			throw new ReadException("读取领域失败", e);
 		}
 	}
+	
+	
 
 	@Override
-	public boolean checkDomainName(String name) throws SecurityException { 
+	public boolean validate(Attrs attr, String value) throws SecurityException {
+		
 		try {
-			ContraintValidator.checkNotNull(name);
+			ContraintValidator.checkNotNull(value);
 			DomainExample example = new DomainExample();
-			example.createCriteria().andNameEqualTo(name);
-			List<Domain> list = mapper.selectByExample(example);
-			ContraintValidator.checkNotNull(list);
-			return !list.isEmpty();
+			
+			if (attr == Domain.Attrs.NAME) {
+				example.createCriteria().andNameEqualTo(value);
+			} else if (attr == Domain.Attrs.TITLE) {
+				example.createCriteria().andTitleEqualTo(value);
+			}
+			
+			return !mapper.selectByExample(example).isEmpty();
 		} catch (Exception e) {
-			throw new ReadException("检测领域名称失败", e);
-		}
-	}
-
-	@Override
-	public boolean checkDomainTitle(String title) throws SecurityException { 
-		try {
-			ContraintValidator.checkNotNull(title);
-			DomainExample example = new DomainExample();
-			example.createCriteria().andTitleEqualTo(title);
-			List<Domain> list = mapper.selectByExample(example);
-			ContraintValidator.checkNotNull(list);
-			return !list.isEmpty();
-		} catch (Exception e) {
-			throw new ReadException("检测领域标题失败", e);
+			throw new ReadException("验证领域" + attr.name() + "失败", e);
 		}
 	}
 
@@ -203,7 +197,7 @@ public class DomainServiceImpl implements DomainService {
 			list = (List<Domain>) Memcacheds.get(CacheIDs.DOMAINS);
 		} else {
 			// 从数据库中获取
-			list = this.findByExample(new DomainExample());
+			list = this.read(new DomainExample());
 			Memcacheds.set(CacheIDs.DOMAINS, 1000 * 60 * 30, list);
 		}
 		

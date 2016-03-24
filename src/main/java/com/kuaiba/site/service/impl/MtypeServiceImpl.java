@@ -32,11 +32,11 @@ public class MtypeServiceImpl implements MtypeService {
 	private MtypeMapper mapper;
 
 	@Override
-	public PageInfo<Mtype> findByExample(MtypeExample example, Pagination p) throws SecurityException { 
+	public PageInfo<Mtype> search(MtypeExample example, Pagination p) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<Mtype> list = this.findByExample(example);
+			List<Mtype> list = read(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("分页读取类型失败", e);
@@ -44,7 +44,7 @@ public class MtypeServiceImpl implements MtypeService {
 	}
 
 	@Override
-	public int countByExample(MtypeExample example) throws SecurityException { 
+	public int count(MtypeExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
@@ -54,7 +54,7 @@ public class MtypeServiceImpl implements MtypeService {
 	}
 
 	@Override
-	public void deleteByExample(MtypeExample example) throws SecurityException { 
+	public void delete(MtypeExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
@@ -64,7 +64,7 @@ public class MtypeServiceImpl implements MtypeService {
 	}
 
 	@Override
-	public void deleteByPrimaryKey(Long id) throws SecurityException { 
+	public void delete(Long id) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
@@ -91,7 +91,7 @@ public class MtypeServiceImpl implements MtypeService {
 	}
 
 	@Override
-	public List<Mtype> findByExample(MtypeExample example) throws SecurityException { 
+	public List<Mtype> read(MtypeExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
@@ -101,7 +101,7 @@ public class MtypeServiceImpl implements MtypeService {
 	}
 
 	@Override
-	public Mtype findByPrimaryKey(Long id) throws SecurityException {
+	public Mtype read(Long id) throws SecurityException {
 		
 		ContraintValidator.checkPrimaryKey(id);
 		List<Mtype> list = this.getMtypes();
@@ -116,7 +116,7 @@ public class MtypeServiceImpl implements MtypeService {
 	}
 
 	@Override
-	public void updateByExample(Mtype record, MtypeExample example) throws SecurityException { 
+	public void update(Mtype record, MtypeExample example) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
@@ -126,7 +126,7 @@ public class MtypeServiceImpl implements MtypeService {
 	}
 
 	@Override
-	public void updateByPrimaryKey(Long id, MtypeVO vo) throws SecurityException { 
+	public void update(Long id, MtypeVO vo) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(vo);
 			ContraintValidator.checkPrimaryKey(id);
@@ -143,32 +143,19 @@ public class MtypeServiceImpl implements MtypeService {
 		}
 	}
 	
+	
 	@Override
-	public boolean checkMTypeName(String name) throws SecurityException { 
-		try {
-			ContraintValidator.checkNotNull(name);
-			MtypeExample example = new MtypeExample();
-			example.createCriteria().andNameEqualTo(name);
-			List<Mtype> list = mapper.selectByExample(example);
-			ContraintValidator.checkNotNull(list);
-			return !list.isEmpty();
-		} catch (Exception e) {
-			throw new ReadException("检测类型名称失败", e);
+	public boolean validate(Mtype.Attrs attr, String value) throws SecurityException {
+		ContraintValidator.checkNotNull(value);
+		MtypeExample example = new MtypeExample();
+		
+		if (attr == Mtype.Attrs.NAME) {
+			example.createCriteria().andNameEqualTo(value);
+		} else if (attr == Mtype.Attrs.TITLE) {
+			example.createCriteria().andTitleEqualTo(value);
 		}
-	}
-
-	@Override
-	public boolean checkMTypeTitle(String title) throws SecurityException { 
-		try {
-			ContraintValidator.checkNotNull(title);
-			MtypeExample example = new MtypeExample();
-			example.createCriteria().andTitleEqualTo(title);
-			List<Mtype> list = mapper.selectByExample(example);
-			ContraintValidator.checkNotNull(list);
-			return !list.isEmpty();
-		} catch (Exception e) {
-			throw new ReadException("检测类型标题失败", e);
-		}
+		
+		return !mapper.selectByExample(example).isEmpty();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -181,7 +168,7 @@ public class MtypeServiceImpl implements MtypeService {
 			list = (List<Mtype>) Memcacheds.get(CacheIDs.MTYPES);
 		} else {
 			// 从数据库中获取
-			list = this.findByExample(new MtypeExample());
+			list = read(new MtypeExample());
 			Memcacheds.set(CacheIDs.MTYPES, 1000 * 60 * 30, list);
 		}
 		

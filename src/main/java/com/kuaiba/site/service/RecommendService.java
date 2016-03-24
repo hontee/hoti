@@ -10,20 +10,65 @@ import com.kuaiba.site.front.vo.RecommendVO;
 
 public interface RecommendService extends Pager<Recommend, RecommendExample> {
 	
-	int countByExample(RecommendExample example) throws SecurityException;
+	/**
+	 * 按条件统计
+	 * @param example
+	 * @return
+	 * @throws SecurityException
+	 */
+	int count(RecommendExample example) throws SecurityException;
 
-    void deleteByExample(RecommendExample example) throws SecurityException;
+	/**
+	 * 按条件删除
+	 * @param example
+	 * @throws SecurityException
+	 */
+    void delete(RecommendExample example) throws SecurityException;
 
-    void deleteByPrimaryKey(Long id) throws SecurityException;
+    /**
+     * 删除
+     * @param id
+     * @throws SecurityException
+     */
+    void delete(Long id) throws SecurityException;
 
+    /**
+     * 添加
+     * @param url
+     * @throws SecurityException
+     */
     void add(String url) throws SecurityException;
 
-    List<Recommend> findByExample(RecommendExample example) throws SecurityException;
+    /**
+     * 读取数据列表
+     * @param example
+     * @return
+     * @throws SecurityException
+     */
+    List<Recommend> read(RecommendExample example) throws SecurityException;
 
-    Recommend findByPrimaryKey(Long id) throws SecurityException;
+    /**
+     * 读取数据
+     * @param id
+     * @return
+     * @throws SecurityException
+     */
+    Recommend read(Long id) throws SecurityException;
 
-    void updateByExample(Recommend record, RecommendExample example) throws SecurityException;
+    /**
+     * 按条件更新
+     * @param record
+     * @param example
+     * @throws SecurityException
+     */
+    void update(Recommend record, RecommendExample example) throws SecurityException;
 
-    void updateByPrimaryKey(Long id, RecommendVO vo) throws SecurityException;
+    /**
+     * 更新
+     * @param id
+     * @param vo
+     * @throws SecurityException
+     */
+    void update(Long id, RecommendVO vo) throws SecurityException;
 
 }

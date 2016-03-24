@@ -37,7 +37,6 @@ public class CountMgrImpl implements Countable {
 	private BookmarkService bookmarkService;
 	@Resource
 	private GroupService groupService;
-	
 	@Resource
 	private GroupBookmarkMapper gbMapper;
 	@Resource
@@ -46,14 +45,14 @@ public class CountMgrImpl implements Countable {
 	@Override
 	public void countDomainTask() throws SecurityException {
 		
-		List<Domain> list = domainService.findByExample(new DomainExample());
+		List<Domain> list = domainService.read(new DomainExample());
 		
 		list.forEach((d) -> {
 			try {
 				CategoryExample example = new CategoryExample();
 				example.createCriteria().andDomainEqualTo(d.getId());
-				int count = categoryService.countByExample(example);
-				domainService.updateByPrimaryKey(d.getId(), count);
+				int count = categoryService.count(example);
+				domainService.update(d.getId(), count);
 			} catch (Exception e) {
 				logger.debug("统计领域数据失败");
 			}
@@ -63,14 +62,14 @@ public class CountMgrImpl implements Countable {
 	@Override
 	public void countCategoryTask() throws SecurityException {
 		
-		List<Category> list = categoryService.findByExample(new CategoryExample());
+		List<Category> list = categoryService.read(new CategoryExample());
 
 		list.forEach((c) -> {
 			try {
 				BookmarkExample example = new BookmarkExample();
 				example.createCriteria().andCategoryEqualTo(c.getId());
-				int count = bookmarkService.countByExample(example);
-				categoryService.updateByPrimaryKey(c.getId(), count);
+				int count = bookmarkService.count(example);
+				categoryService.update(c.getId(), count);
 			} catch (Exception e) {
 				logger.debug("统计分类数据失败");
 			}
@@ -80,13 +79,13 @@ public class CountMgrImpl implements Countable {
 	@Override
 	public void countGroupTask() throws SecurityException {
 		
-		List<Group> list = groupService.findByExample(new GroupExample());
+		List<Group> list = groupService.read(new GroupExample());
 		
 		list.forEach((g) -> {
 			try {
 				int count = gbMapper.countByGid(g.getId());
 				int stars = gfMapper.countByFid(g.getId());
-				groupService.updateByPrimaryKey(g.getId(), count, stars);
+				groupService.update(g.getId(), count, stars);
 			} catch (Exception e) {
 				logger.debug("统计群组数据失败");
 			}

@@ -38,11 +38,11 @@ public class CategoryServiceImpl implements CategoryService {
 	private CategoryMapper mapper;
 
 	@Override
-	public PageInfo<Category> findByExample(CategoryExample example, Pagination p) throws SecurityException {
+	public PageInfo<Category> search(CategoryExample example, Pagination p) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<Category> list = this.findByExample(example);
+			List<Category> list = this.read(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("分页读取分类失败", e);
@@ -50,7 +50,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public int countByExample(CategoryExample example) throws SecurityException {
+	public int count(CategoryExample example) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.countByExample(example);
@@ -60,7 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void deleteByExample(CategoryExample example) throws SecurityException {
+	public void delete(CategoryExample example) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(example);
 			mapper.deleteByExample(example);
@@ -70,7 +70,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void deleteByPrimaryKey(Long id) throws SecurityException {
+	public void delete(Long id) throws SecurityException {
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			mapper.deleteByPrimaryKey(id);
@@ -97,7 +97,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> findByExample(CategoryExample example) throws SecurityException {
+	public List<Category> read(CategoryExample example) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(example);
 			return mapper.selectByExample(example);
@@ -107,7 +107,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category findByPrimaryKey(Long id) throws SecurityException {
+	public Category read(Long id) throws SecurityException {
 		
 		ContraintValidator.checkPrimaryKey(id);
 		List<Category> list = this.getCategories();
@@ -122,7 +122,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void updateByExample(Category record, CategoryExample example) throws SecurityException {
+	public void update(Category record, CategoryExample example) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(record, example);
 			mapper.updateByExample(record, example);
@@ -132,7 +132,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void updateByPrimaryKey(Long id, CategoryVO vo) throws SecurityException { 
+	public void update(Long id, CategoryVO vo) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(vo);
 			ContraintValidator.checkPrimaryKey(id);
@@ -150,7 +150,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 	
 	@Override
-	public void updateByPrimaryKey(Long id, long count) throws SecurityException { 
+	public void update(Long id, long count) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(id);
 			Category record = new Category();
@@ -163,7 +163,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> findByOrganization(Long domain) throws SecurityException { 
+	public List<Category> search(Long domain) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(domain);
 			return mapper.selectByDomain(domain);
@@ -173,7 +173,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> findByCollect(CategoryExample example) throws SecurityException {
+	public List<Category> search(CategoryExample example) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(example);
 			List<Category> list = new ArrayList<>();
@@ -200,7 +200,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 	
 	@Override
-	public boolean checkCategoryName(String name) throws SecurityException { 
+	public boolean validate(String name) throws SecurityException { 
 		try {
 			ContraintValidator.checkNotNull(name);
 			CategoryExample example = new CategoryExample();
@@ -222,7 +222,7 @@ public class CategoryServiceImpl implements CategoryService {
 			list = (List<Category>) Memcacheds.get(CacheIDs.CATES);
 		} else {
 			// 从数据库中获取
-			list = this.findByExample(new CategoryExample());
+			list = read(new CategoryExample());
 			Memcacheds.set(CacheIDs.CATES, 1000 * 60 * 30, list);
 		}
 		

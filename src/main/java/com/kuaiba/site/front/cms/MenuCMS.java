@@ -45,14 +45,14 @@ public class MenuCMS extends BaseController {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", menuService.read(id));
 		return "cms/menus/edit";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", menuService.read(id));
 		return "cms/menus/view";
 	}
 
@@ -62,7 +62,7 @@ public class MenuCMS extends BaseController {
 		MenuExample example = new MenuExample();
 		example.createCriteria().andStateEqualTo((byte)1);
 		example.setOrderByClause("weight DESC"); // 按权重排序
-		return menuService.findByExample(example);
+		return menuService.read(example);
 	}
 
 	@RequiresRoles(value = "admin")
@@ -83,7 +83,7 @@ public class MenuCMS extends BaseController {
 			criteria.andStateEqualTo(state);
 		}
 		
-		PageInfo<Menu> pageInfo = menuService.findByExample(example, p);
+		PageInfo<Menu> pageInfo = menuService.search(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 
@@ -99,7 +99,7 @@ public class MenuCMS extends BaseController {
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除菜单", table = TableIDs.MENU)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
-		menuService.deleteByPrimaryKey(id);
+		menuService.delete(id);
 		return ok();
 	}
 
@@ -107,12 +107,8 @@ public class MenuCMS extends BaseController {
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑菜单", table = TableIDs.MENU, clazz = MenuVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, MenuVO vo, HttpServletRequest request) throws SecurityException {
-		menuService.updateByPrimaryKey(id, vo);
+		menuService.update(id, vo);
 		return ok();
-	}
-	
-	private Menu findByPrimaryKey(Long id) throws SecurityException {
-		return menuService.findByPrimaryKey(id);
 	}
 
 }

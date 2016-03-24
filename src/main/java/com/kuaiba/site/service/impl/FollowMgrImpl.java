@@ -21,7 +21,7 @@ import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.service.Followable;
 
 @Service
-public class FollowImpl implements Followable {
+public class FollowMgrImpl implements Followable {
 	
 	@Resource
 	private FollowUserMapper bfu;

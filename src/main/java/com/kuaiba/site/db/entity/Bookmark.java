@@ -15,6 +15,15 @@ public class Bookmark implements Serializable {
 	 */
 	final static Byte[] states = {0, 1};
 	
+	/**
+	 * 用于验证的属性Key
+	 * @author larry.qi
+	 *
+	 */
+	public enum Attrs {
+		NAME, TITLE, URL
+	}
+	
 	private Long id;
 
     private String name;

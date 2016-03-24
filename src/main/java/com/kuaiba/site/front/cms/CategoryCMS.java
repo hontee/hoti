@@ -81,7 +81,7 @@ public class CategoryCMS extends BaseController {
 			criteria.andStateEqualTo(state);
 		}
 		
-		PageInfo<Category> pageInfo = categoryService.findByExample(example, p);
+		PageInfo<Category> pageInfo = categoryService.search(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 	
@@ -91,7 +91,7 @@ public class CategoryCMS extends BaseController {
 			@RequestParam(required = false) String q) throws Exception {
 		CategoryExample example = new CategoryExample();
 		example.createCriteria().andStateEqualTo((byte)1);
-		List<Category> list = categoryService.findByExample(example);
+		List<Category> list = categoryService.read(example);
 		List<ComboBox> boxes = new ArrayList<>();
 		
 		/**
@@ -116,7 +116,7 @@ public class CategoryCMS extends BaseController {
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除分类", table = TableIDs.CATEGORY)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
-		categoryService.deleteByPrimaryKey(id);
+		categoryService.delete(id);
 		return ok();
 	}
 	
@@ -124,7 +124,7 @@ public class CategoryCMS extends BaseController {
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑分类", table = TableIDs.CATEGORY, clazz = CategoryVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, CategoryVO vo, HttpServletRequest request) throws SecurityException {
-		categoryService.updateByPrimaryKey(id, vo);
+		categoryService.update(id, vo);
 		return ok();
 	}
 	
@@ -139,6 +139,6 @@ public class CategoryCMS extends BaseController {
 	}
 	
 	private Category findByPrimaryKey(Long id) throws SecurityException {
-		return categoryService.findByPrimaryKey(id);
+		return categoryService.read(id);
 	}
 }

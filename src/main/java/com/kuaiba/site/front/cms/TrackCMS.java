@@ -36,7 +36,7 @@ public class TrackCMS extends BaseController {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", trackService.read(id));
 		return "cms/tracks/view";
 	}
 
@@ -52,7 +52,7 @@ public class TrackCMS extends BaseController {
 		if (StringUtils.isNotBlank(name)) {
 			criteria.andNameLike("%" + name + "%"); // 模糊查询
 		}
-		PageInfo<Track> pageInfo = trackService.findByExample(example, p);
+		PageInfo<Track> pageInfo = trackService.search(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 
@@ -60,7 +60,7 @@ public class TrackCMS extends BaseController {
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除异常", table = TableIDs.TRACK)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
-		trackService.deleteByPrimaryKey(id);
+		trackService.delete(id);
 		return ok();
 	}
 	
@@ -68,12 +68,8 @@ public class TrackCMS extends BaseController {
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台批量删除异常", table = TableIDs.TRACK, clazz = String.class)
 	public @ResponseBody SiteResponse delete(@RequestParam String ids, HttpServletRequest request) throws SecurityException {
-		trackService.deleteByPrimaryKey(ids.split(","));
+		trackService.delete(ids.split(","));
 		return ok();
 	}
 	
-	private Track findByPrimaryKey(Long id) throws SecurityException {
-		return trackService.findByPrimaryKey(id);
-	}
-
 }
