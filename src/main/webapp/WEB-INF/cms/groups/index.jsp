@@ -84,15 +84,13 @@ groupsEL.dg.datagrid({
         	return new Date(value).format();  
         }},
         {field:'createBy',title:'创建人',width:100, sortable: true, formatter: function(value,row,index) {
-        	return row.extCreateName;
+        	return row.creator;
         }},
-        {field:'extCategoryTitle',title:'分类标题', hidden: true},
-        {field:'extCreateName',title:'用户名', hidden: true},
         {field:'mtype',title:'类型',width:100, sortable: true, formatter: function(value,row,index) {
         	return row.mt.title;
         }},
         {field:'category',title:'所属分类',width:100, sortable: true, formatter: function(value,row,index) {
-        	return row.extCategoryTitle;
+        	return row.cateTitle;
         }}
     ]],
  	// 当选择一行时触发

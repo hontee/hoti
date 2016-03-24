@@ -57,7 +57,7 @@ catesEL.dg.datagrid({
         {field:'cover',title:'封面',width:100},
         {field:'count',title:'计数',width:100, sortable: true},
         {field:'domain',title:'业务领域',width:100, sortable: true, formatter: function(value,row,index) {
-        	return row.extDomainTitle;
+        	return row.domainTitle;
         }},
         {field:'state',title:'状态',width:100, sortable: true, formatter: function(value,row,index) {
         	if (value == '1') {
@@ -73,10 +73,8 @@ catesEL.dg.datagrid({
         	return new Date(value).format();  
         }},
         {field:'createBy',title:'创建人',width:100, sortable: true, formatter: function(value,row,index) {
-        	return row.extCreateName;
-        }},
-        {field:'extDomainTitle',title:'业务领域', hidden: true},
-        {field:'extCreateName',title:'用户名', hidden: true},
+        	return row.creator;
+        }}
     ]],
  	// 当选择一行时触发
     onSelect: function(index,row) {

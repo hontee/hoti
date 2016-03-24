@@ -20,8 +20,8 @@ public class Category implements Serializable {
 	private Date lastModified;
 	private Long domain;
 	private Long createBy;
-	private String extDomainTitle;
-	private String extCreateName;
+	private String domainTitle;
+	private String creator;
 	private List<Bookmark> bookmarks;
 
 	public Long getId() {
@@ -120,20 +120,20 @@ public class Category implements Serializable {
 		this.domain = domain;
 	}
 
-	public String getExtDomainTitle() {
-		return extDomainTitle;
+	public String getDomainTitle() {
+		return domainTitle;
 	}
 
-	public void setExtDomainTitle(String extDomainTitle) {
-		this.extDomainTitle = extDomainTitle;
+	public void setDomainTitle(String domainTitle) {
+		this.domainTitle = domainTitle;
 	}
 
-	public String getExtCreateName() {
-		return extCreateName;
+	public String getCreator() {
+		return creator;
 	}
 
-	public void setExtCreateName(String extCreateName) {
-		this.extCreateName = extCreateName;
+	public void setCreator(String creator) {
+		this.creator = creator;
 	}
 
 	public List<Bookmark> getBookmarks() {

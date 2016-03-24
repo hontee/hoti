@@ -19,6 +19,6 @@ public class GTypeUtil {
 	 * @return
 	 */
 	public static boolean validate(String gtype) {
-		return Arrays.asList(GTYPES).contains(gtype.toLowerCase());
+		return Arrays.asList(GTYPES).contains(gtype);
 	}
 }

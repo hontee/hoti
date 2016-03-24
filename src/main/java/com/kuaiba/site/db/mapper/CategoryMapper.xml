@@ -14,8 +14,8 @@
     <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
     <result column="domain" property="domain" jdbcType="BIGINT" />
     <result column="create_by" property="createBy" jdbcType="BIGINT" />
-    <result column="ext_domain_title" property="extDomainTitle" jdbcType="VARCHAR" />
-    <result column="ext_create_name" property="extCreateName" jdbcType="VARCHAR" />
+    <result column="domain_title" property="domainTitle" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
   </resultMap>
   
   <resultMap id="CollectResultMap" type="com.kuaiba.site.db.entity.Category" >
@@ -94,25 +94,21 @@
   </sql>
   <sql id="Base_Column_List" >
     id, name, title, description, avatar, cover, count, state, created, last_modified, 
-    domain, create_by
+    domain, create_by, domain_title, creator
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.CategoryExample" >
-  	SELECT a.*, b.title AS ext_domain_title, u.name AS ext_create_name FROM (
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_category
+    from v_category
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
-    ) a
-    JOIN t_domain b ON a.domain = b.id
-	JOIN t_user u ON a.create_by = u.id
   </select>
   
   <select id="selectByCollect" resultMap="CollectResultMap" parameterType="com.kuaiba.site.db.entity.CategoryExample" >
@@ -131,10 +127,10 @@
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-  	SELECT a.*, b.title AS ext_domain_title, u.name as ext_create_name FROM t_category a
-	JOIN t_domain b ON a.domain = b.id
-	JOIN t_user u ON a.create_by = u.id
-    where a.id = #{id,jdbcType=BIGINT}
+  	select 
+    <include refid="Base_Column_List" />
+    from v_category
+    where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectByDomain" resultMap="BaseResultMap" parameterType="java.lang.Long" >
   	SELECT 

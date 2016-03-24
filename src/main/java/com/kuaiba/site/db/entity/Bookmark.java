@@ -25,8 +25,8 @@ public class Bookmark implements Serializable {
     private Long createBy;
     private Long category;
     private Long mtype;
-    private String extCategoryTitle;
-    private String extCreateName;
+    private String cateTitle;
+    private String creator;
     private int extFollow;
     private Mtype mt;
     
@@ -165,20 +165,20 @@ public class Bookmark implements Serializable {
         this.mtype = mtype;
     }
 
-	public String getExtCategoryTitle() {
-		return extCategoryTitle;
+	public String getCateTitle() {
+		return cateTitle;
 	}
 
-	public void setExtCategoryTitle(String extCategoryTitle) {
-		this.extCategoryTitle = extCategoryTitle;
+	public void setCateTitle(String cateTitle) {
+		this.cateTitle = cateTitle;
 	}
 
-	public String getExtCreateName() {
-		return extCreateName;
+	public String getCreator() {
+		return creator;
 	}
 
-	public void setExtCreateName(String extCreateName) {
-		this.extCreateName = extCreateName;
+	public void setCreator(String creator) {
+		this.creator = creator;
 	}
 
 	public int getExtFollow() {

@@ -17,8 +17,8 @@
     <result column="create_by" property="createBy" jdbcType="BIGINT" />
     <result column="mtype" property="mtype" jdbcType="BIGINT" />
     <result column="category" property="category" jdbcType="BIGINT" />
-    <result column="ext_category_title" property="extCategoryTitle" jdbcType="VARCHAR" />
-    <result column="ext_create_name" property="extCreateName" jdbcType="VARCHAR" />
+    <result column="cate_title" property="cateTitle" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -80,31 +80,27 @@
   </sql>
   <sql id="Base_Column_List" >
     id, name, title, description, gtype, avatar, cover, stars, count, state, created, 
-    last_modified, create_by, mtype, category
+    last_modified, create_by, mtype, category, creator, cate_title
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.GroupExample" >
-    SELECT a.*, u.name AS ext_create_name, c.title AS ext_category_title FROM (
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_group
+    from v_group
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
-    ) a
-	JOIN t_user u ON a.create_by = u.id
-	JOIN t_category c ON a.category = c.id
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    SELECT a.*, u.name AS ext_create_name, c.title AS ext_category_title FROM t_group a
-	JOIN t_user u ON a.create_by = u.id
-	JOIN t_category c ON a.category = c.id
-    where a.id = #{id,jdbcType=BIGINT}
+    select 
+    <include refid="Base_Column_List" />
+    from v_group
+    where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from t_group

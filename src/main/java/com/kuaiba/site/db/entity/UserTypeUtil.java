@@ -28,7 +28,7 @@ public class UserTypeUtil {
 	 * @return
 	 */
 	public static boolean validate(String userType) {
-		return Arrays.asList(USER_TYPES).contains(userType.toLowerCase());
+		return Arrays.asList(USER_TYPES).contains(userType);
 	}
 	
 	/**

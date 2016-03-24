@@ -21,11 +21,10 @@ import com.kuaiba.site.db.dao.GroupBookmarkMapper;
 import com.kuaiba.site.db.dao.GroupFollowMapper;
 import com.kuaiba.site.db.dao.GroupMapper;
 import com.kuaiba.site.db.entity.Attribute;
-import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
-import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.Pagination;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.front.vo.GroupVO;
 import com.kuaiba.site.service.GroupService;
 import com.kuaiba.site.service.MtypeService;
@@ -110,8 +109,7 @@ public class GroupServiceImpl implements GroupService {
 			VUtil.assertNotNull(example);
 			List<Group> list = mapper.selectByExample(example);
 			for (Group g : list) {
-				Mtype mt = mtypeService.read(g.getMtype());
-				g.setMt(mt);
+				g.setMt(mtypeService.read(g.getMtype()));
 			}
 			return list;
 		} catch (Exception e) {

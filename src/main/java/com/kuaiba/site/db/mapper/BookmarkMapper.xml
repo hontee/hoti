@@ -18,8 +18,8 @@
     <result column="create_by" property="createBy" jdbcType="BIGINT" />
     <result column="category" property="category" jdbcType="BIGINT" />
     <result column="mtype" property="mtype" jdbcType="BIGINT" />
-    <result column="ext_category_title" property="extCategoryTitle" jdbcType="VARCHAR" />
-    <result column="ext_create_name" property="extCreateName" jdbcType="VARCHAR" />
+    <result column="cate_title" property="cateTitle" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -81,31 +81,27 @@
   </sql>
   <sql id="Base_Column_List" >
     id, name, title, url, description, avatar, reffer, star, hit, state, audit, created, 
-    last_modified, create_by, category, mtype
+    last_modified, create_by, category, mtype, cate_title, creator
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.BookmarkExample" >
-  	SELECT a.*, u.name AS ext_create_name, c.title AS ext_category_title FROM (
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_bookmark
+    from v_bookmark
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
-    ) a
-	JOIN t_user u ON a.create_by = u.id
-	JOIN t_category c ON a.category = c.id
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    SELECT a.*, u.name AS ext_create_name, c.title AS ext_category_title FROM t_bookmark a
-	JOIN t_user u ON a.create_by = u.id
-	JOIN t_category c ON a.category = c.id
-    where a.id = #{id,jdbcType=BIGINT}
+    select 
+    <include refid="Base_Column_List" />
+    from v_bookmark
+    where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectByCategory" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     SELECT 

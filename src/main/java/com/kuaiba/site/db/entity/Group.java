@@ -22,8 +22,8 @@ public class Group implements Serializable {
     private Long createBy;
     private Long mtype;
     private Long category;
-    private String extCategoryTitle;
-    private String extCreateName;
+    private String cateTitle;
+    private String creator;
     private Mtype mt;
 
     public Long getId() {
@@ -146,22 +146,22 @@ public class Group implements Serializable {
         this.category = category;
     }
 
-	public String getExtCategoryTitle() {
-		return extCategoryTitle;
+	public String getCateTitle() {
+		return cateTitle;
 	}
 
-	public void setExtCategoryTitle(String extCategoryTitle) {
-		this.extCategoryTitle = extCategoryTitle;
+	public void setCateTitle(String cateTitle) {
+		this.cateTitle = cateTitle;
 	}
 
-	public String getExtCreateName() {
-		return extCreateName;
+	public String getCreator() {
+		return creator;
 	}
 
-	public void setExtCreateName(String extCreateName) {
-		this.extCreateName = extCreateName;
+	public void setCreator(String creator) {
+		this.creator = creator;
 	}
-	
+
 	public Mtype getMt() {
 		return mt;
 	}

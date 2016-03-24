@@ -21,11 +21,10 @@ import com.kuaiba.site.db.dao.BookmarkMapper;
 import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
-import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.GlobalIDs;
 import com.kuaiba.site.db.entity.HttpUtil;
-import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.Pagination;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.service.BookmarkService;
 import com.kuaiba.site.service.MtypeService;
@@ -108,8 +107,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			VUtil.assertNotNull(example);
 			List<Bookmark> list = mapper.selectByExample(example);
 			for (Bookmark bm : list) {
-				Mtype mt = mtypeService.read(bm.getMtype());
-				bm.setMt(mt);
+				bm.setMt(mtypeService.read(bm.getMtype()));
 			}
 			return list;
 		} catch (Exception e) {

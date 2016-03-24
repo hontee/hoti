@@ -17,8 +17,8 @@
   </li>
   <li><label>创建时间：</label><fmt:formatDate value="${record.created}" pattern="yyyy-MM-dd HH:mm:ss"/></li>
   <li><label>更新时间：</label><fmt:formatDate value="${record.lastModified}" pattern="yyyy-MM-dd HH:mm:ss"/></li>
-  <li><label>创建人：</label>${record.createBy}</li>
-  <li><label>媒体类型：</label>${record.mtype}</li>
-  <li><label>所属分类：</label>${record.category}</li>
+  <li><label>创建人：</label>${record.creator}</li>
+  <li><label>媒体类型：</label>${record.mt.title}</li>
+  <li><label>所属分类：</label>${record.cateTitle}</li>
 </ul>
 </body>

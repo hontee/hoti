@@ -59,7 +59,7 @@ bookmarksEL.dg.datagrid({
         {field:'star',title:'星',width:100, sortable: true},
         {field:'hit',title:'点击数',width:100, sortable: true},
         {field:'category',title:'所属分类',width:100, sortable: true, formatter: function(value,row,index) {
-        	return row.extCategoryTitle;
+        	return row.cateTitle;
         }},
         {field:'mtype',title:'类型',width:100, sortable: true, formatter: function(value,row,index) {
         	return row.mt.title;
@@ -78,10 +78,8 @@ bookmarksEL.dg.datagrid({
         	return new Date(value).format();  
         }},
         {field:'createBy',title:'创建人',width:100, sortable: true, formatter: function(value,row,index) {
-        	return row.extCreateName;
-        }},
-        {field:'extCategoryTitle',title:'分类标题', hidden: true},
-        {field:'extCreateName',title:'用户名', hidden: true},
+        	return row.creator;
+        }}
     ]],
  	// 当选择一行时触发
     onSelect: function(index,row) {
