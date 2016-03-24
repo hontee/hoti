@@ -8,9 +8,7 @@ public class GroupFollow implements Serializable {
 	private static final long serialVersionUID = -7007923399471860720L;
 
 	private Long uid;
-
     private Long fid;
-
     private Date created;
 
     public Long getUid() {

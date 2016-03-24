@@ -1,7 +1,6 @@
 package com.kuaiba.site.db.entity;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.commons.lang3.RandomUtils;
@@ -10,58 +9,25 @@ public class Bookmark implements Serializable {
 
 	private static final long serialVersionUID = 4078788641734464984L;
 
-	/**
-	 * 状态 1=启用 ，0=禁用
-	 */
-	final static Byte[] states = {0, 1};
-	
-	/**
-	 * 用于验证的属性Key
-	 * @author larry.qi
-	 *
-	 */
-	public enum Attrs {
-		NAME, TITLE, URL
-	}
-	
 	private Long id;
-
     private String name;
-
     private String title;
-
     private String url;
-
     private String description;
-
     private String avatar;
-
     private String reffer;
-
     private Integer star;
-
     private Integer hit;
-
     private Byte state;
-
     private Byte audit;
-
     private Date created;
-
     private Date lastModified;
-
     private Long createBy;
-
     private Long category;
-
     private Long mtype;
-    
     private String extCategoryTitle;
-    
     private String extCreateName;
-    
     private int extFollow;
-    
     private Mtype mt;
     
     public Long getId() {
@@ -229,15 +195,6 @@ public class Bookmark implements Serializable {
 
 	public void setMt(Mtype mt) {
 		this.mt = mt;
-	}
-
-	/**
-	 * 验证状态
-	 * @param state
-	 * @return
-	 */
-	public static boolean checkState(Byte state) {
-		return Arrays.asList(states).contains(state);
 	}
     
 }

@@ -8,15 +8,10 @@ public class Track implements Serializable {
 	private static final long serialVersionUID = 8648478580289808865L;
 
 	private Long id;
-
     private String name;
-
     private String description;
-
     private Byte state;
-
     private Date created;
-
     private Date lastModified;
 
     public Long getId() {

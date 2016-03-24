@@ -1,7 +1,6 @@
 package com.kuaiba.site.db.entity;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -9,37 +8,17 @@ public class Domain implements Serializable {
 
 	private static final long serialVersionUID = 2252679070329261753L;
 
-	/**
-	 * 状态 0=禁用 1=启用
-	 */
-	public final static Byte[] states = {0, 1};
-	
-	public enum Attrs {
-		NAME, TITLE
-	}
-	
 	private Long id;
-
     private String name;
-
     private String title;
-
     private String description;
-
     private String avatar;
-
     private Short weight;
-
     private Short count;
-
     private Byte state;
-
     private Date created;
-
     private Date lastModified;
-
     private String creator;
-    
     private List<Category> cates;
 
     public Long getId() {
@@ -138,13 +117,4 @@ public class Domain implements Serializable {
 		this.cates = cates;
 	}
 	
-	/**
-	 * 验证状态
-	 * @param state
-	 * @return
-	 */
-	public static boolean checkState(Byte state) {
-		return Arrays.asList(states).contains(state);
-	}
-    
 }

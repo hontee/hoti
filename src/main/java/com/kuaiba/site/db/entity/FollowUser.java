@@ -8,19 +8,12 @@ public class FollowUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-
     private String name;
-
     private String title;
-
     private String description;
-
     private Byte userType;
-
     private Byte state;
-
     private Long fid;
-
     private Date created;
 
     public Long getId() {

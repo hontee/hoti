@@ -18,8 +18,8 @@ import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.BookmarkMapper;
+import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.Bookmark;
-import com.kuaiba.site.db.entity.Bookmark.Attrs;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.ContraintValidator;
 import com.kuaiba.site.db.entity.GlobalIDs;
@@ -201,17 +201,17 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 	
 	@Override
-	public boolean validate(Attrs attr, String value) throws SecurityException {
+	public boolean validate(Attribute attr, String value) throws SecurityException {
 		try {
 			ContraintValidator.checkNotNull(value);
 			BookmarkExample example = new BookmarkExample();
 			
-			if (attr == Bookmark.Attrs.NAME) {
-				example.createCriteria().andNameEqualTo(value);
-			} else if (attr == Bookmark.Attrs.TITLE) {
+			if (attr == Attribute.TITLE) {
 				example.createCriteria().andTitleEqualTo(value);
-			} else if (attr == Bookmark.Attrs.URL) {
+			} else if (attr == Attribute.URL) {
 				example.createCriteria().andUrlEqualTo(value);
+			} else { // Attribute.NAME
+				example.createCriteria().andNameEqualTo(value);
 			}
 			
 			return !mapper.selectByExample(example).isEmpty();

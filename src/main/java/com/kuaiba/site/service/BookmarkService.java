@@ -3,6 +3,7 @@ package com.kuaiba.site.service;
 import java.util.List;
 
 import com.kuaiba.site.core.exception.SecurityException;
+import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Pager;
@@ -106,6 +107,6 @@ public interface BookmarkService extends Pager<Bookmark, BookmarkExample> {
 	 * @param name
 	 * @return
 	 */
-	boolean validate(Bookmark.Attrs attr, String value) throws SecurityException;
+	boolean validate(Attribute attr, String value) throws SecurityException;
 	
 }

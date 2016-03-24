@@ -18,9 +18,9 @@ import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.MenuMapper;
+import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.ContraintValidator;
 import com.kuaiba.site.db.entity.Menu;
-import com.kuaiba.site.db.entity.Menu.Attrs;
 import com.kuaiba.site.db.entity.MenuExample;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.front.vo.MenuVO;
@@ -147,14 +147,14 @@ public class MenuServiceImpl implements MenuService {
 	}
 	
 	@Override
-	public boolean validate(Attrs attr, String value) throws SecurityException {
+	public boolean validate(Attribute attr, String value) throws SecurityException {
 		ContraintValidator.checkNotNull(value);
 		MenuExample example = new MenuExample();
 		
-		if (attr == Menu.Attrs.NAME) {
-			example.createCriteria().andNameEqualTo(value);
-		} else if (attr == Menu.Attrs.TITLE) {
+		if (attr == Attribute.TITLE) {
 			example.createCriteria().andTitleEqualTo(value);
+		} else { // Attribute.NAME
+			example.createCriteria().andNameEqualTo(value);
 		}
 		
 		return !mapper.selectByExample(example).isEmpty();

@@ -23,6 +23,7 @@ import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
+import com.kuaiba.site.db.entity.StateUtil;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.DomainVO;
@@ -90,7 +91,7 @@ public class DomainCMS extends BaseController {
 			criteria.andTitleLike("%" + title + "%"); // 模糊查询
 		}
 		
-		if (Domain.checkState(state)) {
+		if (StateUtil.validate(state)) {
 			criteria.andStateEqualTo(state);
 		}
 		

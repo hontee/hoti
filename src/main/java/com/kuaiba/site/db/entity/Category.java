@@ -1,7 +1,6 @@
 package com.kuaiba.site.db.entity;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -9,39 +8,20 @@ public class Category implements Serializable {
 
 	private static final long serialVersionUID = -3683571533871584084L;
 	
-	/**
-	 * 状态 1=启用 ，0=禁用
-	 */
-	final static Byte[] states = {0, 1};
-
 	private Long id;
-
 	private String name;
-
 	private String title;
-
 	private String description;
-
 	private String avatar;
-
 	private String cover;
-
 	private Long count;
-
 	private Byte state;
-
 	private Date created;
-
 	private Date lastModified;
-
 	private Long domain;
-
 	private Long createBy;
-
 	private String extDomainTitle;
-
 	private String extCreateName;
-
 	private List<Bookmark> bookmarks;
 
 	public Long getId() {
@@ -162,15 +142,6 @@ public class Category implements Serializable {
 
 	public void setBookmarks(List<Bookmark> bookmarks) {
 		this.bookmarks = bookmarks;
-	}
-	
-	/**
-	 * 验证状态
-	 * @param state
-	 * @return
-	 */
-	public static boolean checkState(Byte state) {
-		return Arrays.asList(states).contains(state);
 	}
 
 }

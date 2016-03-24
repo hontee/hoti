@@ -1,7 +1,6 @@
 package com.kuaiba.site.db.entity;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Date;
 
 import com.kuaiba.site.core.security.EncryptUtils;
@@ -9,16 +8,6 @@ import com.kuaiba.site.core.security.EncryptUtils;
 public class User implements Serializable {
 
 	private static final long serialVersionUID = -6588021396758305496L;
-	
-	/**
-	 * 用户类型 1=普通用户 2=管理员
-	 */
-	final static Byte[] userTypes = {1, 2};
-	
-	/**
-	 * 用户状态 0=禁用 1=启用 2=锁定 3=已删除
-	 */
-	final static Byte[] states = {0, 1, 2, 3};
 	
 	private Long id;
     private String name;
@@ -118,23 +107,5 @@ public class User implements Serializable {
     public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
     }
-    
-    /**
-	 * 验证用户类型
-	 * @param userType
-	 * @return
-	 */
-	public static boolean checkUserType(Byte userType) {
-		return Arrays.asList(userTypes).contains(userType);
-	}
-	
-	/**
-	 * 验证状态
-	 * @param state
-	 * @return
-	 */
-	public static boolean checkState(Byte state) {
-		return Arrays.asList(states).contains(state);
-	}
     
 }

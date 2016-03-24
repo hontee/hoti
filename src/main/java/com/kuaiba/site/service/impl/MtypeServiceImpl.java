@@ -18,6 +18,7 @@ import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.MtypeMapper;
+import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.ContraintValidator;
 import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.MtypeExample;
@@ -145,14 +146,14 @@ public class MtypeServiceImpl implements MtypeService {
 	
 	
 	@Override
-	public boolean validate(Mtype.Attrs attr, String value) throws SecurityException {
+	public boolean validate(Attribute attr, String value) throws SecurityException {
 		ContraintValidator.checkNotNull(value);
 		MtypeExample example = new MtypeExample();
 		
-		if (attr == Mtype.Attrs.NAME) {
-			example.createCriteria().andNameEqualTo(value);
-		} else if (attr == Mtype.Attrs.TITLE) {
+		if (attr == Attribute.TITLE) {
 			example.createCriteria().andTitleEqualTo(value);
+		} else { // Attribute.NAME
+			example.createCriteria().andNameEqualTo(value);
 		}
 		
 		return !mapper.selectByExample(example).isEmpty();

@@ -16,13 +16,14 @@ import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
+import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.FollowUser;
 import com.kuaiba.site.db.entity.FollowUserExample;
-import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
+import com.kuaiba.site.db.entity.StateUtil;
 import com.kuaiba.site.db.entity.TableIDs;
-import com.kuaiba.site.db.entity.User;
+import com.kuaiba.site.db.entity.UserTypeUtil;
 import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.interceptor.SiteLog;
@@ -83,7 +84,7 @@ public class BookmarkCMS extends BaseController {
 			criteria.andCategoryEqualTo(category);
 		}
 		
-		if (Bookmark.checkState(state)) {
+		if (StateUtil.validate(state)) {
 			criteria.andStateEqualTo(state);
 		}
 		
@@ -109,11 +110,11 @@ public class BookmarkCMS extends BaseController {
 			criteria.andNameLike("%" + name + "%"); // 模糊查询
 		}
 		
-		if (User.checkUserType(userType)) {
+		if (UserTypeUtil.validate(userType)) {
 			criteria.andUserTypeEqualTo(userType);
 		}
 		
-		if (User.checkState(state)) {
+		if (StateUtil.validate(state)) {
 			criteria.andStateEqualTo(state);
 		}
 		

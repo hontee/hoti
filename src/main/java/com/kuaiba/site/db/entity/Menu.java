@@ -1,42 +1,22 @@
 package com.kuaiba.site.db.entity;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Date;
 
 public class Menu implements Serializable {
 
 	private static final long serialVersionUID = 2606247721778487587L;
 	
-	/**
-	 * 状态 1=启用 ，0=禁用
-	 */
-	final static Byte[] states = {0, 1};
-	
-	public enum Attrs {
-		NAME, TITLE
-	}
-
 	private Long id;
-
     private String name;
-
     private String title;
-
     private String description;
-
     private String organization;
-
     private String path;
-
     private Byte state;
-
     private Integer weight;
-
     private Date created;
-
     private Date lastModified;
-
     private String creator;
 
     public Long getId() {
@@ -126,13 +106,5 @@ public class Menu implements Serializable {
     public void setCreator(String creator) {
         this.creator = creator;
     }
-    
-	/**
-	 * 验证状态
-	 * @param state
-	 * @return
-	 */
-	public static boolean checkState(Byte state) {
-		return Arrays.asList(states).contains(state);
-	}
+
 }

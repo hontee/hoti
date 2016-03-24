@@ -8,9 +8,7 @@ public class BookmarkFollow implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long uid;
-
     private Long fid;
-
     private Date created;
 
     public Long getUid() {

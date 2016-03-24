@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kuaiba.site.core.cache.DomainCachePolicy;
 import com.kuaiba.site.core.exception.SecurityException;
+import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Pager;
@@ -95,6 +96,6 @@ public interface DomainService extends Pager<Domain, DomainExample>, DomainCache
      * @return
      * @throws SecurityException
      */
-	boolean validate(Domain.Attrs attr, String value) throws SecurityException;
+	boolean validate(Attribute attr, String value) throws SecurityException;
 	
 }

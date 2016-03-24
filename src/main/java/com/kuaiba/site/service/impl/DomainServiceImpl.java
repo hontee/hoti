@@ -18,9 +18,9 @@ import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.DomainMapper;
+import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.ContraintValidator;
 import com.kuaiba.site.db.entity.Domain;
-import com.kuaiba.site.db.entity.Domain.Attrs;
 import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.front.vo.DomainVO;
@@ -170,16 +170,16 @@ public class DomainServiceImpl implements DomainService {
 	
 
 	@Override
-	public boolean validate(Attrs attr, String value) throws SecurityException {
+	public boolean validate(Attribute attr, String value) throws SecurityException {
 		
 		try {
 			ContraintValidator.checkNotNull(value);
 			DomainExample example = new DomainExample();
 			
-			if (attr == Domain.Attrs.NAME) {
-				example.createCriteria().andNameEqualTo(value);
-			} else if (attr == Domain.Attrs.TITLE) {
+			 if (attr == Attribute.TITLE) {
 				example.createCriteria().andTitleEqualTo(value);
+			} else { // Attribute.NAME
+				example.createCriteria().andNameEqualTo(value);
 			}
 			
 			return !mapper.selectByExample(example).isEmpty();

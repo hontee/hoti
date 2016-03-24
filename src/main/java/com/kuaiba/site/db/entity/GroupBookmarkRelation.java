@@ -8,29 +8,17 @@ public class GroupBookmarkRelation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-
     private String name;
-
     private String title;
-
     private Integer star;
-
     private Integer hit;
-
     private Byte state;
-
     private Byte audit;
-
     private Long category;
-
     private String cateTitle;
-
     private Long mtype;
-
     private String mtTitle;
-
     private Long gid;
-
     private Date created;
 
     public Long getId() {

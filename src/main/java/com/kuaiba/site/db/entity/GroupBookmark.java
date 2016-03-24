@@ -8,9 +8,7 @@ public class GroupBookmark implements Serializable {
 	private static final long serialVersionUID = -5050584085999709617L;
 
 	private Long gid;
-
     private Long bmid;
-
     private Date created;
 
     public Long getGid() {

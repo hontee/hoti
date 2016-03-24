@@ -2,6 +2,7 @@ package com.kuaiba.site.service;
 
 import java.util.List;
 import com.kuaiba.site.core.exception.SecurityException;
+import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.Pager;
@@ -130,7 +131,7 @@ public interface GroupService extends Pager<Group, GroupExample> {
 	 * @param name
 	 * @return
 	 */
-	boolean validate(Group.Attrs attr, String value) throws SecurityException;
+	boolean validate(Attribute attr, String value) throws SecurityException;
 	
 
 }

@@ -17,9 +17,11 @@ import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
+import com.kuaiba.site.db.entity.StateUtil;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;
+import com.kuaiba.site.db.entity.UserTypeUtil;
 import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.UserVO;
 import com.kuaiba.site.interceptor.SiteLog;
@@ -76,11 +78,11 @@ public class UserCMS extends BaseController {
 			criteria.andNameLike("%" + name + "%"); // 模糊查询
 		}
 		
-		if (User.checkUserType(userType)) {
+		if (UserTypeUtil.validate(userType)) {
 			criteria.andUserTypeEqualTo(userType);
 		}
 		
-		if (User.checkState(state)) {
+		if (StateUtil.validate(state)) {
 			criteria.andStateEqualTo(state);
 		}
 		

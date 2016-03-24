@@ -19,6 +19,7 @@ import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
 import com.kuaiba.site.db.entity.SiteResponse;
+import com.kuaiba.site.db.entity.StateAuditUtil;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.BookmarkVO;
@@ -83,7 +84,7 @@ public class RecommendCMS extends BaseController {
 			criteria.andTitleLike("%" + title + "%"); // 模糊查询
 		}
 		
-		if (Recommend.checkState(state)) {
+		if (StateAuditUtil.validate(state)) {
 			criteria.andStateEqualTo(state);
 		}
 		

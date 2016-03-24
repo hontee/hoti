@@ -17,14 +17,16 @@ import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.FollowUser;
 import com.kuaiba.site.db.entity.FollowUserExample;
+import com.kuaiba.site.db.entity.GTypeUtil;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupBookmarkRelation;
 import com.kuaiba.site.db.entity.GroupBookmarkRelationExample;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
+import com.kuaiba.site.db.entity.StateUtil;
 import com.kuaiba.site.db.entity.TableIDs;
-import com.kuaiba.site.db.entity.User;
+import com.kuaiba.site.db.entity.UserTypeUtil;
 import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.GroupVO;
 import com.kuaiba.site.interceptor.SiteLog;
@@ -100,11 +102,11 @@ public class GroupCMS extends BaseController {
 			criteria.andCategoryEqualTo(category);
 		}
 		
-		if (Group.checkState(state)) {
+		if (StateUtil.validate(state)) {
 			criteria.andStateEqualTo(state);
 		}
 		
-		if (Group.checkGtype(gtype)) {
+		if (GTypeUtil.validate(gtype)) {
 			criteria.andGtypeEqualTo(gtype);
 		}
 		
@@ -134,7 +136,7 @@ public class GroupCMS extends BaseController {
 			criteria.andCategoryEqualTo(category);
 		}
 		
-		if (Group.checkState(state)) {
+		if (StateUtil.validate(state)) {
 			criteria.andStateEqualTo(state);
 		}
 		
@@ -160,11 +162,11 @@ public class GroupCMS extends BaseController {
 			criteria.andNameLike("%" + name + "%"); // 模糊查询
 		}
 		
-		if (User.checkUserType(userType)) {
+		if (UserTypeUtil.validate(userType)) {
 			criteria.andUserTypeEqualTo(userType);
 		}
 		
-		if (User.checkState(state)) {
+		if (StateUtil.validate(state)) {
 			criteria.andStateEqualTo(state);
 		}
 		

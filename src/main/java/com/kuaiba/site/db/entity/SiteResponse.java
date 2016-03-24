@@ -10,9 +10,7 @@ public class SiteResponse implements Serializable {
 	private static final long serialVersionUID = -8290882370006935102L;
 
 	private boolean success = true; // 成功标记
-	
 	private Error error; // 错误
-	
 	private Object result; // 成功
 	
 	protected SiteResponse() {}

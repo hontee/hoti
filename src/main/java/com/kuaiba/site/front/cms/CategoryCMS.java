@@ -23,6 +23,7 @@ import com.kuaiba.site.db.entity.ComboBox;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
+import com.kuaiba.site.db.entity.StateUtil;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.front.controller.BaseController;
 import com.kuaiba.site.front.vo.CategoryVO;
@@ -77,7 +78,7 @@ public class CategoryCMS extends BaseController {
 			criteria.andDomainEqualTo(domain);
 		}
 		
-		if (Category.checkState(state)) {
+		if (StateUtil.validate(state)) {
 			criteria.andStateEqualTo(state);
 		}
 		

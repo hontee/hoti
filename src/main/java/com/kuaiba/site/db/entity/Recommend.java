@@ -1,7 +1,6 @@
 package com.kuaiba.site.db.entity;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 
@@ -9,31 +8,16 @@ public class Recommend implements Serializable {
 
 	private static final long serialVersionUID = -7315075100656688786L;
 
-	/**
-	 * 状态 1=未审核 2=审核通过 3=审核拒绝
-	 */
-	public static final Byte[] states = {1, 2, 3};
-	
 	private Long id;
-
     private String name;
-
     private String title;
-
     private String keywords;
-
     private String description;
-
     private String url;
-
     private Byte state;
-
     private Date created;
-
     private Date lastModified;
-
     private String creator;
-
     private String remark;
 
     public Long getId() {
@@ -130,13 +114,5 @@ public class Recommend implements Serializable {
     public void setRemark(String remark) {
         this.remark = remark;
     }
-    
-    /**
-	 * 验证状态
-	 * @param state
-	 * @return
-	 */
-	public static boolean checkState(Byte state) {
-		return Arrays.asList(states).contains(state);
-	}
+
 }
