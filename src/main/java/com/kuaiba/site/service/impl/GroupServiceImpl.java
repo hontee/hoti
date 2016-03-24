@@ -16,7 +16,7 @@ import com.kuaiba.site.core.exception.ReadException;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UnfollowException;
 import com.kuaiba.site.core.exception.UpdateException;
-import com.kuaiba.site.core.security.CurrentUser;
+import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.dao.GroupBookmarkMapper;
 import com.kuaiba.site.db.dao.GroupFollowMapper;
 import com.kuaiba.site.db.dao.GroupMapper;
@@ -91,7 +91,7 @@ public class GroupServiceImpl implements GroupService {
 			Group record = new Group();
 			record.setCategory(vo.getCategory());
 			record.setCount(0);
-			record.setCreateBy(CurrentUser.getCurrentUserId());
+			record.setCreateBy(AuthzUtil.getUserId());
 			record.setDescription(vo.getDescription());
 			record.setMtype(vo.getMtype());
 			record.setName(vo.getNameUUID());
@@ -174,7 +174,7 @@ public class GroupServiceImpl implements GroupService {
 	public void unfollow(Long fid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(fid);
-			gfMapper.delete(CurrentUser.getCurrentUserId(), fid);
+			gfMapper.delete(AuthzUtil.getUserId(), fid);
 		} catch (Exception e) {
 			throw new UnfollowException("取消关注群组失败", e);
 		}
@@ -184,7 +184,7 @@ public class GroupServiceImpl implements GroupService {
 	public void follow(Long fid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(fid);
-			gfMapper.insert(CurrentUser.getCurrentUserId(), fid);
+			gfMapper.insert(AuthzUtil.getUserId(), fid);
 		} catch (Exception e) {
 			throw new FollowException("关注群组失败", e);
 		}

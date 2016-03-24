@@ -16,7 +16,7 @@ import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.ReadException;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
-import com.kuaiba.site.core.security.CurrentUser;
+import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.dao.MenuMapper;
 import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.VUtil;
@@ -79,7 +79,7 @@ public class MenuServiceImpl implements MenuService {
 		try {
 			VUtil.assertNotNull(vo);
 			Menu record = new Menu();
-			record.setCreator(CurrentUser.getCurrentUserName());
+			record.setCreator(AuthzUtil.getUsername());
 			record.setDescription(vo.getDescription());
 			record.setName(vo.getName());
 			record.setState(vo.getState());

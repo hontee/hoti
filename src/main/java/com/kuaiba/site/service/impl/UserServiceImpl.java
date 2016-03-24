@@ -21,7 +21,7 @@ import com.kuaiba.site.core.exception.PasswordException;
 import com.kuaiba.site.core.exception.ReadException;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
-import com.kuaiba.site.core.security.CurrentUser;
+import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.dao.UserMapper;
 import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.GlobalIDs;
@@ -172,7 +172,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void login(String username, String password) throws SecurityException {
+	public void authenticate(String username, String password) throws SecurityException {
 		try {
 			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 			Subject subject = SecurityUtils.getSubject();
@@ -180,8 +180,8 @@ public class UserServiceImpl implements UserService {
 			String principal = (String) subject.getPrincipal();
 			User currentUser = search(principal);
 			Session session = subject.getSession();
-			session.setAttribute(GlobalIDs.LOGIN_USER, currentUser);
-			session.setAttribute(GlobalIDs.ADMIN_USER, CurrentUser.isAdmin());
+			session.setAttribute(GlobalIDs.CURRENT_USER, currentUser);
+			session.setAttribute(GlobalIDs.ADMIN_USER, AuthzUtil.isAdmin());
 		} catch (AuthenticationException e) {
 			e.printStackTrace();
 			throw new AuthzException("用户授权失败", e);

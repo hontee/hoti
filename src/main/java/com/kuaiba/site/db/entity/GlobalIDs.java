@@ -7,7 +7,7 @@ package com.kuaiba.site.db.entity;
 public interface GlobalIDs {
 	
 	String CHARSET = "UTF-8"; // 字符编码
-	String LOGIN_USER = "kbUser"; // 登录用户
+	String CURRENT_USER = "user"; // 登录用户
 	String ADMIN_USER = "admin"; // 是否为管理员
 	String REFFER = "ref=kuaiba"; // 默认设置来源
 

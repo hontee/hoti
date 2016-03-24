@@ -17,7 +17,7 @@ import com.kuaiba.site.core.exception.NotFoundException;
 import com.kuaiba.site.core.exception.ReadException;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
-import com.kuaiba.site.core.security.CurrentUser;
+import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.CategoryMapper;
 import com.kuaiba.site.db.entity.Bookmark;
@@ -89,7 +89,7 @@ public class CategoryServiceImpl implements CategoryService {
 			record.setDescription(vo.getDescription());
 			record.setState(vo.getState());
 			record.setDomain(vo.getDomain());
-			record.setCreateBy(CurrentUser.getCurrentUserId());
+			record.setCreateBy(AuthzUtil.getUserId());
 			mapper.insert(record);
 		} catch (Exception e) {
 			throw new CreateException("添加分类失败", e);
@@ -177,7 +177,7 @@ public class CategoryServiceImpl implements CategoryService {
 			VUtil.assertNotNull(example);
 			List<Category> list = new ArrayList<>();
 			List<Category> cates = mapper.selectByCollect(example);
-			final List<Long> fids = bfMapper.selectByUid(CurrentUser.getCurrentUserId());
+			final List<Long> fids = bfMapper.selectByUid(AuthzUtil.getUserId());
 
 			cates.forEach((c) -> {
 				List<Bookmark> ws = c.getBookmarks();

@@ -96,11 +96,11 @@ public interface UserService extends Pager<User, UserExample> {
     boolean validate(String name) throws SecurityException;
     
     /**
-     * 登录
+     * 登录认证
      * @param username
      * @param password
      * @throws SecurityException
      */
-    void login(String username, String password) throws SecurityException;
+    void authenticate(String username, String password) throws SecurityException;
     
 }

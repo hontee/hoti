@@ -6,7 +6,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import com.kuaiba.site.core.security.CurrentUser;
+import com.kuaiba.site.core.security.AuthzUtil;
 
 /**
  * 自动获取网站信息
@@ -24,7 +24,7 @@ public class FetchFactory {
 	 */
 	public static Recommend get(String url) {
 		Recommend record = new Recommend();
-		record.setCreator(CurrentUser.getCurrentUserName());
+		record.setCreator(AuthzUtil.getUsername());
 		record.setState((byte)1);
 		record.setNameByUUID();
 		record.setUrl(url);

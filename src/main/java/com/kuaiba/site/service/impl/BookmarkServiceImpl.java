@@ -15,7 +15,7 @@ import com.kuaiba.site.core.exception.ReadException;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UnfollowException;
 import com.kuaiba.site.core.exception.UpdateException;
-import com.kuaiba.site.core.security.CurrentUser;
+import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.BookmarkMapper;
 import com.kuaiba.site.db.entity.Attribute;
@@ -92,7 +92,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			record.setUrl(vo.getUrl());
 			record.setDescription(vo.getDescription());
 			record.setState(vo.getState());
-			record.setCreateBy(CurrentUser.getCurrentUserId());
+			record.setCreateBy(AuthzUtil.getUserId());
 			record.setCategory(vo.getCategory());
 			record.setHitRandom();
 			record.setReffer(GlobalIDs.REFFER);
@@ -159,7 +159,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public void unfollow(Long fid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(fid);
-			bfMapper.delete(CurrentUser.getCurrentUserId(), fid);
+			bfMapper.delete(AuthzUtil.getUserId(), fid);
 		} catch (Exception e) {
 			throw new UnfollowException("取消关注站点失败", e);
 		}
@@ -169,7 +169,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public void follow(Long fid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(fid);
-			bfMapper.insert(CurrentUser.getCurrentUserId(), fid);
+			bfMapper.insert(AuthzUtil.getUserId(), fid);
 		} catch (Exception e) {
 			throw new FollowException("关注站点失败", e);
 		}
@@ -192,7 +192,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public boolean isFollow(Long fid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(fid);
-			List<Long> list = bfMapper.selectByUid(CurrentUser.getCurrentUserId());
+			List<Long> list = bfMapper.selectByUid(AuthzUtil.getUserId());
 			return list.contains(fid);
 		} catch (Exception e) {
 			throw new ReadException("判断用户是否关注站点失败", e);

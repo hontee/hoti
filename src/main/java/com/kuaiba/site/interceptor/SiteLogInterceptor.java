@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
-import com.kuaiba.site.core.security.CurrentUser;
+import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.entity.Activity;
 import com.kuaiba.site.db.entity.HttpUtil;
 import com.kuaiba.site.db.entity.SiteResponse;
@@ -42,8 +42,8 @@ public class SiteLogInterceptor {
 			
 			// 记录操作日志
 			Activity record = new Activity();
-			record.setCreator(CurrentUser.getCurrentUserName());
-			record.setUserType(CurrentUser.isAdmin() ? "admin" : "user");
+			record.setCreator(AuthzUtil.getUsername());
+			record.setUserType(AuthzUtil.isAdmin() ? "admin" : "user");
 			
 			// 判断返回状态
 			if (returnValue instanceof SiteResponse) {

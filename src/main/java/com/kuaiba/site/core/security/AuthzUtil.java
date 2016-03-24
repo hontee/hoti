@@ -1,6 +1,7 @@
 package com.kuaiba.site.core.security;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +14,9 @@ import com.kuaiba.site.db.entity.User;
  * 登录用户信息
  * @author larry.qi
  */
-public interface CurrentUser {
+public class AuthzUtil {
 	
-	static Logger logger = LoggerFactory.getLogger(CurrentUser.class);
+	static Logger logger = LoggerFactory.getLogger(AuthzUtil.class);
 	
 	static Long UN_LOGIN_USER_ID = -1L;
 	
@@ -23,16 +24,16 @@ public interface CurrentUser {
 	 * 获取当前登录用户, 未登录则返回 NULL
 	 * @return
 	 */
-	public static User getCurrentUser() {
+	public static User getUser() {
 		try {
 			Subject subject = SecurityUtils.getSubject();
-			Object principal = subject.getSession().getAttribute(GlobalIDs.LOGIN_USER);
+			Session session = subject.getSession();
+			Object currentUser = session.getAttribute(GlobalIDs.CURRENT_USER);
 			
-			if (principal == null || !(principal instanceof User)) {
-				return null;
+			if (currentUser instanceof User) {
+				return (User) currentUser;
 			}
 			
-			return (User) principal;
 		} catch (Exception e) {
 			logger.debug(Throwables.getStackTraceAsString(e));
 		}
@@ -44,31 +45,23 @@ public interface CurrentUser {
 	 * 获取当前登录用户名, 如果当前用户未登录则返回 "anonymous".
 	 * @return
 	 */
-	public static String getCurrentUserName() {
-		if (!isLogin()) {
-			return "anonymous";
-		}
-		
-		return getCurrentUser().getName();
+	public static String getUsername() {
+		return isAuthorized()? getUser().getName(): "anonymous";
 	}
 	
 	/**
 	 * 取得当前用户的登录id, 如果当前用户未登录则返回 UN_LOGIN_USER_ID.
 	 */
-	public static Long getCurrentUserId() {
-		if (!isLogin()) {
-			return UN_LOGIN_USER_ID;
-		}
-		
-		return getCurrentUser().getId();
+	public static Long getUserId() {
+		return isAuthorized()? getUser().getId(): UN_LOGIN_USER_ID;
 	}
 	
 	/**
 	 * 当前用户是否登录, 未登录返回false
 	 * @return
 	 */
-	public static boolean isLogin() {
-		return getCurrentUser() != null;
+	public static boolean isAuthorized() {
+		return getUser() != null;
 	}
 	
 	/**
@@ -76,11 +69,7 @@ public interface CurrentUser {
 	 * @return
 	 */
 	public static boolean isAdmin() {
-		if (!isLogin()) {
-			return false;
-		}
-		
-		return getCurrentUser().getUserType() == 2L; // 管理员
+		return isAuthorized()? (getUser().getUserType()==2L): false;
 	}
 	
 }

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.exception.SecurityException;
-import com.kuaiba.site.core.security.CurrentUser;
+import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Category;
@@ -49,7 +49,7 @@ public class SiteController extends BaseController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
 		
-		if (CurrentUser.isLogin()) {
+		if (AuthzUtil.isAuthorized()) { 
 			return redirect("/");
 		}
 		return "views/login";
@@ -61,7 +61,7 @@ public class SiteController extends BaseController {
 			@RequestParam String username, 
 			@RequestParam String password,
 			HttpServletRequest request) throws SecurityException {
-			userService.login(username, password);
+			userService.authenticate(username, password);
 			return ok();
 	}
 	
