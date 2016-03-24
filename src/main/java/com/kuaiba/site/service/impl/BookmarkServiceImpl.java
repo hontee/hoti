@@ -160,7 +160,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public void unfollow(Long fid) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(fid);
-			bfMapper.deleteByPrimaryKey(CurrentUser.getCurrentUserId(), fid);
+			bfMapper.delete(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
 			throw new UnfollowException("取消关注站点失败", e);
 		}

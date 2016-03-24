@@ -6,7 +6,7 @@
     <id column="bmid" property="bmid" jdbcType="BIGINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="map" >
+  <delete id="delete" parameterType="map" >
     delete from t_group_bookmark
     where gid = #{gid,jdbcType=BIGINT}
       and bmid = #{bmid,jdbcType=BIGINT}

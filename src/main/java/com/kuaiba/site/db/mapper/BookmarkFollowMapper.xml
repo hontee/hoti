@@ -6,12 +6,12 @@
     <id column="fid" property="fid" jdbcType="BIGINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="map" >
+  <delete id="delete" parameterType="map" >
     delete from t_bookmark_follow
     where uid = #{uid,jdbcType=BIGINT}
       and fid = #{fid,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.kuaiba.site.db.entity.BookmarkFollow" >
+  <insert id="insert" parameterType="map" >
     insert into t_bookmark_follow (uid, fid)
     values (#{uid,jdbcType=BIGINT}, #{fid,jdbcType=BIGINT})
   </insert>

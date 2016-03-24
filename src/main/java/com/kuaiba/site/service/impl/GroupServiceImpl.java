@@ -175,7 +175,7 @@ public class GroupServiceImpl implements GroupService {
 	public void unfollow(Long fid) throws SecurityException { 
 		try {
 			ContraintValidator.checkPrimaryKey(fid);
-			gfMapper.deleteByPrimaryKey(CurrentUser.getCurrentUserId(), fid);
+			gfMapper.delete(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
 			throw new UnfollowException("取消关注群组失败", e);
 		}
@@ -196,7 +196,7 @@ public class GroupServiceImpl implements GroupService {
 		try {
 			ContraintValidator.checkPrimaryKey(gid);
 			ContraintValidator.checkPrimaryKey(bmid);
-			gbMapper.deleteByPrimaryKey(gid, bmid);
+			gbMapper.delete(gid, bmid);
 		} catch (Exception e) {
 			throw new DeleteException("群组移除站点失败", e);
 		}

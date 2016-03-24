@@ -31,7 +31,7 @@ public class DomainServiceImpl implements DomainService {
 
 	@Resource
 	private DomainMapper mapper;
-
+	
 	@Override
 	public PageInfo<Domain> search(DomainExample example, Pagination p) throws SecurityException { 
 		try {

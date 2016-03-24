@@ -26,9 +26,9 @@ import com.kuaiba.site.service.ActivityService;
  */
 @Aspect
 @Component
-public class ActivityInterceptor {
+public class SiteLogInterceptor {
 	
-	private Logger logger = LoggerFactory.getLogger(ActivityInterceptor.class);
+	private Logger logger = LoggerFactory.getLogger(SiteLogInterceptor.class);
 	
 	@Resource
 	private ActivityService as;

@@ -6,7 +6,7 @@
     <id column="fid" property="fid" jdbcType="BIGINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="map" >
+  <delete id="delete" parameterType="map" >
     delete from t_group_follow
     where uid = #{uid,jdbcType=BIGINT}
       and fid = #{fid,jdbcType=BIGINT}
