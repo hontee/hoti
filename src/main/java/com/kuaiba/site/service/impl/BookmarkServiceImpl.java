@@ -21,7 +21,7 @@ import com.kuaiba.site.db.dao.BookmarkMapper;
 import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
-import com.kuaiba.site.db.entity.ContraintValidator;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.GlobalIDs;
 import com.kuaiba.site.db.entity.HttpUtil;
 import com.kuaiba.site.db.entity.Mtype;
@@ -43,7 +43,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public PageInfo<Bookmark> search(BookmarkExample example, Pagination p) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(example, p);
+			VUtil.assertNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Bookmark> list = this.read(example);
 			return new PageInfo<>(list);
@@ -55,7 +55,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public int count(BookmarkExample example) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("统计站点失败", e);
@@ -65,7 +65,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public void delete(BookmarkExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			throw new DeleteException("删除站点失败", e);
@@ -75,7 +75,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public void delete(Long id) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			throw new DeleteException("删除站点失败", e);
@@ -85,7 +85,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public void add(BookmarkVO vo) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(vo);
+			VUtil.assertNotNull(vo);
 			Bookmark record = new Bookmark();
 			record.setName(vo.getNameUUID());
 			record.setTitle(vo.getTitle());
@@ -105,7 +105,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public List<Bookmark> read(BookmarkExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			List<Bookmark> list = mapper.selectByExample(example);
 			for (Bookmark bm : list) {
 				Mtype mt = mtypeService.read(bm.getMtype());
@@ -120,7 +120,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public Bookmark read(Long id) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			throw new ReadException("读取站点失败", e);
@@ -130,7 +130,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public void update(Bookmark record, BookmarkExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(record, example);
+			VUtil.assertNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			throw new UpdateException("更新站点失败", e);
@@ -140,8 +140,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public void update(Long id, BookmarkVO vo) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(vo);
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(vo, id);
 			Bookmark record = new Bookmark();
 			record.setId(id);
 			record.setTitle(vo.getTitle());
@@ -159,7 +158,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public void unfollow(Long fid) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(fid);
+			VUtil.assertNotNull(fid);
 			bfMapper.delete(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
 			throw new UnfollowException("取消关注站点失败", e);
@@ -169,7 +168,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public void follow(Long fid) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(fid);
+			VUtil.assertNotNull(fid);
 			bfMapper.insert(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
 			throw new FollowException("关注站点失败", e);
@@ -179,7 +178,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public String hit(Long id) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			Bookmark record = read(id);
 			record.setHit(record.getHit() + 1);
 			mapper.updateByPrimaryKey(record);
@@ -192,7 +191,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public boolean isFollow(Long fid) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(fid);
+			VUtil.assertNotNull(fid);
 			List<Long> list = bfMapper.selectByUid(CurrentUser.getCurrentUserId());
 			return list.contains(fid);
 		} catch (Exception e) {
@@ -203,7 +202,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public boolean validate(Attribute attr, String value) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(value);
+			VUtil.assertNotNull(value);
 			BookmarkExample example = new BookmarkExample();
 			
 			if (attr == Attribute.TITLE) {

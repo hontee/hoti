@@ -19,7 +19,7 @@ import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.DomainMapper;
 import com.kuaiba.site.db.entity.Attribute;
-import com.kuaiba.site.db.entity.ContraintValidator;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Pagination;
@@ -35,7 +35,7 @@ public class DomainServiceImpl implements DomainService {
 	@Override
 	public PageInfo<Domain> search(DomainExample example, Pagination p) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example, p);
+			VUtil.assertNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Domain> list = this.read(example);
 			return new PageInfo<>(list);
@@ -47,7 +47,7 @@ public class DomainServiceImpl implements DomainService {
 	@Override
 	public int count(DomainExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("统计领域失败", e);
@@ -57,7 +57,7 @@ public class DomainServiceImpl implements DomainService {
 	@Override
 	public void delete(DomainExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			throw new DeleteException("删除领域失败", e);
@@ -67,7 +67,7 @@ public class DomainServiceImpl implements DomainService {
 	@Override
 	public void delete(Long id) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			throw new DeleteException("删除领域失败", e);
@@ -77,7 +77,7 @@ public class DomainServiceImpl implements DomainService {
 	@Override
 	public void add(DomainVO vo) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(vo);
+			VUtil.assertNotNull(vo);
 			Domain record = new Domain();
 			record.setCreator(CurrentUser.getCurrentUserName());
 			record.setDescription(vo.getDescription());
@@ -94,7 +94,7 @@ public class DomainServiceImpl implements DomainService {
 	@Override
 	public List<Domain> read(DomainExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("读取领域失败", e);
@@ -104,7 +104,7 @@ public class DomainServiceImpl implements DomainService {
 	@Override
 	public Domain read(Long id) throws SecurityException { 
 		
-		ContraintValidator.checkPrimaryKey(id);
+		VUtil.assertNotNull(id);
 		List<Domain> list = this.getDomains();
 		
 		for (Domain domain : list) {
@@ -119,7 +119,7 @@ public class DomainServiceImpl implements DomainService {
 	@Override
 	public void update(Domain record, DomainExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(record, example);
+			VUtil.assertNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			throw new UpdateException("更新领域失败", e);
@@ -129,8 +129,7 @@ public class DomainServiceImpl implements DomainService {
 	@Override
 	public void update(Long id, DomainVO vo) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(vo);
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(vo, id);
 			Domain record = new Domain();
 			record.setId(id);
 			record.setDescription(vo.getDescription());
@@ -147,7 +146,7 @@ public class DomainServiceImpl implements DomainService {
 	@Override
 	public void update(Long id, int count) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			Domain record = new Domain();
 			record.setId(id);
 			record.setCount((short) count);
@@ -160,7 +159,7 @@ public class DomainServiceImpl implements DomainService {
 	@Override
 	public List<Domain> search(DomainExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return mapper.selectByCollect(example);
 		} catch (Exception e) {
 			throw new ReadException("读取领域失败", e);
@@ -173,7 +172,7 @@ public class DomainServiceImpl implements DomainService {
 	public boolean validate(Attribute attr, String value) throws SecurityException {
 		
 		try {
-			ContraintValidator.checkNotNull(value);
+			VUtil.assertNotNull(value);
 			DomainExample example = new DomainExample();
 			
 			 if (attr == Attribute.TITLE) {

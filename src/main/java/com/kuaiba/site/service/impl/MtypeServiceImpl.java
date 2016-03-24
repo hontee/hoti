@@ -19,7 +19,7 @@ import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.MtypeMapper;
 import com.kuaiba.site.db.entity.Attribute;
-import com.kuaiba.site.db.entity.ContraintValidator;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.MtypeExample;
 import com.kuaiba.site.db.entity.Pagination;
@@ -35,7 +35,7 @@ public class MtypeServiceImpl implements MtypeService {
 	@Override
 	public PageInfo<Mtype> search(MtypeExample example, Pagination p) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example, p);
+			VUtil.assertNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Mtype> list = read(example);
 			return new PageInfo<>(list);
@@ -47,7 +47,7 @@ public class MtypeServiceImpl implements MtypeService {
 	@Override
 	public int count(MtypeExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("统计类型失败", e);
@@ -57,7 +57,7 @@ public class MtypeServiceImpl implements MtypeService {
 	@Override
 	public void delete(MtypeExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			throw new DeleteException("删除类型失败", e);
@@ -67,7 +67,7 @@ public class MtypeServiceImpl implements MtypeService {
 	@Override
 	public void delete(Long id) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			throw new DeleteException("删除类型失败", e);
@@ -77,7 +77,7 @@ public class MtypeServiceImpl implements MtypeService {
 	@Override
 	public void add(MtypeVO vo) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(vo);
+			VUtil.assertNotNull(vo);
 			Mtype record = new Mtype();
 			record.setWeight(vo.getWeight());
 			record.setCreator(CurrentUser.getCurrentUserName());
@@ -94,7 +94,7 @@ public class MtypeServiceImpl implements MtypeService {
 	@Override
 	public List<Mtype> read(MtypeExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("读取类型失败", e);
@@ -104,7 +104,7 @@ public class MtypeServiceImpl implements MtypeService {
 	@Override
 	public Mtype read(Long id) throws SecurityException {
 		
-		ContraintValidator.checkPrimaryKey(id);
+		VUtil.assertNotNull(id);
 		List<Mtype> list = this.getMtypes();
 		
 		for (Mtype mtype : list) {
@@ -119,7 +119,7 @@ public class MtypeServiceImpl implements MtypeService {
 	@Override
 	public void update(Mtype record, MtypeExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(record, example);
+			VUtil.assertNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			throw new UpdateException("更新类型失败", e);
@@ -129,8 +129,7 @@ public class MtypeServiceImpl implements MtypeService {
 	@Override
 	public void update(Long id, MtypeVO vo) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(vo);
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(vo, id);
 			Mtype record = new Mtype();
 			record.setId(id);
 			record.setWeight(vo.getWeight());
@@ -147,7 +146,7 @@ public class MtypeServiceImpl implements MtypeService {
 	
 	@Override
 	public boolean validate(Attribute attr, String value) throws SecurityException {
-		ContraintValidator.checkNotNull(value);
+		VUtil.assertNotNull(value);
 		MtypeExample example = new MtypeExample();
 		
 		if (attr == Attribute.TITLE) {

@@ -23,7 +23,7 @@ import com.kuaiba.site.db.dao.CategoryMapper;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
-import com.kuaiba.site.db.entity.ContraintValidator;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.front.vo.CategoryVO;
 import com.kuaiba.site.service.CategoryService;
@@ -40,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public PageInfo<Category> search(CategoryExample example, Pagination p) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(example, p);
+			VUtil.assertNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Category> list = this.read(example);
 			return new PageInfo<>(list);
@@ -52,7 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public int count(CategoryExample example) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("统计分类失败", e);
@@ -62,7 +62,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void delete(CategoryExample example) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			throw new DeleteException("删除分类失败", e);
@@ -72,7 +72,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void delete(Long id) throws SecurityException {
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			throw new DeleteException("删除分类失败", e);
@@ -82,7 +82,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void add(CategoryVO vo) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(vo);
+			VUtil.assertNotNull(vo);
 			Category record = new Category();
 			record.setName(vo.getName());
 			record.setTitle(vo.getTitle());
@@ -99,7 +99,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<Category> read(CategoryExample example) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("读取分类失败", e);
@@ -109,7 +109,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public Category read(Long id) throws SecurityException {
 		
-		ContraintValidator.checkPrimaryKey(id);
+		VUtil.assertNotNull(id);
 		List<Category> list = this.getCategories();
 		
 		for (Category category : list) {
@@ -124,7 +124,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void update(Category record, CategoryExample example) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(record, example);
+			VUtil.assertNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			throw new UpdateException("更新分类失败", e);
@@ -134,8 +134,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void update(Long id, CategoryVO vo) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(vo);
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(vo, id);
 			Category record = new Category();
 			record.setId(id);
 			record.setName(vo.getName());
@@ -152,7 +151,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void update(Long id, long count) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			Category record = new Category();
 			record.setId(id);
 			record.setCount(count);
@@ -165,7 +164,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<Category> search(Long domain) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(domain);
+			VUtil.assertNotNull(domain);
 			return mapper.selectByDomain(domain);
 		} catch (Exception e) {
 			throw new ReadException("读取分类失败", e);
@@ -175,7 +174,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<Category> search(CategoryExample example) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			List<Category> list = new ArrayList<>();
 			List<Category> cates = mapper.selectByCollect(example);
 			final List<Long> fids = bfMapper.selectByUid(CurrentUser.getCurrentUserId());
@@ -202,11 +201,11 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public boolean validate(String name) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(name);
+			VUtil.assertNotNull(name);
 			CategoryExample example = new CategoryExample();
 			example.createCriteria().andNameEqualTo(name);
 			List<Category> list = mapper.selectByExample(example);
-			ContraintValidator.checkNotNull(list);
+			VUtil.assertNotNull(list);
 			return !list.isEmpty();
 		} catch (Exception e) {
 			throw new NotFoundException("检测分类名称失败", e);

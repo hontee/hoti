@@ -23,7 +23,7 @@ import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.UserMapper;
-import com.kuaiba.site.db.entity.ContraintValidator;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.GlobalIDs;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.User;
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public PageInfo<User> search(UserExample example, Pagination p) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example, p);
+			VUtil.assertNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<User> list = read(example);
 			return new PageInfo<>(list);
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int count(UserExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("统计用户失败", e);
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void delete(UserExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			throw new DeleteException("删除用户失败", e);
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void delete(Long id) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			throw new DeleteException("删除用户失败", e);
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void add(UserVO vo) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(vo);
+			VUtil.assertNotNull(vo);
 			User record = new User();
 			record.setSaltRandom();
 			record.setPasswordEncrypt(vo.getPassword(), record.getSalt()); // 密码加密
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> read(UserExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("读取用户失败", e);
@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User read(Long id) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			throw new ReadException("读取用户失败", e);
@@ -119,7 +119,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void update(User record, UserExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(record, example);
+			VUtil.assertNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			throw new UpdateException("更新用户失败", e);
@@ -129,8 +129,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void update(Long id, UserVO vo) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(vo);
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(vo, id);
 			User record = new User();
 			record.setId(id);
 			record.setUserType(vo.getUserType());
@@ -147,8 +146,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void update(Long id, String password) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(password);
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(password, id);
 			User record = read(id);
 			record.setId(id);
 			record.setPasswordEncrypt(password, record.getSalt());
@@ -161,7 +159,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User search(String name) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(name);
+			VUtil.assertNotNull(name);
 			return mapper.selectByName(name);
 		} catch (Exception e) {
 			throw new ReadException("查询用户名失败", e);

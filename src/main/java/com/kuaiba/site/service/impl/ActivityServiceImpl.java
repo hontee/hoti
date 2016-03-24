@@ -15,7 +15,7 @@ import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.dao.ActivityMapper;
 import com.kuaiba.site.db.entity.Activity;
 import com.kuaiba.site.db.entity.ActivityExample;
-import com.kuaiba.site.db.entity.ContraintValidator;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.service.ActivityService;
 
@@ -28,7 +28,7 @@ public class ActivityServiceImpl implements ActivityService {
 	@Override
 	public PageInfo<Activity> search(ActivityExample example, Pagination p) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(example, p);
+			VUtil.assertNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Activity> list = read(example);
 			return new PageInfo<>(list);
@@ -40,7 +40,7 @@ public class ActivityServiceImpl implements ActivityService {
 	@Override
 	public int count(ActivityExample example) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("统计记录失败", e);
@@ -50,7 +50,7 @@ public class ActivityServiceImpl implements ActivityService {
 	@Override
 	public void delete(String[] ids) throws SecurityException {
 		try {
-			ContraintValidator.checkArrays(ids);
+			VUtil.assertNotNull(ids);
 			mapper.deleteByIds(ids);
 		} catch (Exception e) {
 			throw new DeleteException("批量删除记录失败", e);
@@ -60,7 +60,7 @@ public class ActivityServiceImpl implements ActivityService {
 	@Override
 	public void delete(Long id) throws SecurityException {
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			throw new DeleteException("删除记录失败", e);
@@ -70,7 +70,7 @@ public class ActivityServiceImpl implements ActivityService {
 	@Override
 	public void add(Activity record) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(record);
+			VUtil.assertNotNull(record);
 			mapper.insert(record);
 		} catch (Exception e) {
 			throw new CreateException("添加记录失败", e);
@@ -80,7 +80,7 @@ public class ActivityServiceImpl implements ActivityService {
 	@Override
 	public List<Activity> read(ActivityExample example) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("读取记录失败", e);
@@ -90,7 +90,7 @@ public class ActivityServiceImpl implements ActivityService {
 	@Override
 	public Activity read(Long id) throws SecurityException {
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			throw new ReadException("读取记录失败", e);

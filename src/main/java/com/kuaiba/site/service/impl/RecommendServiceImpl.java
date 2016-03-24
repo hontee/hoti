@@ -14,7 +14,7 @@ import com.kuaiba.site.core.exception.ReadException;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.db.dao.RecommendMapper;
-import com.kuaiba.site.db.entity.ContraintValidator;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.FetchFactory;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.Recommend;
@@ -31,7 +31,7 @@ public class RecommendServiceImpl implements RecommendService {
 	@Override
 	public PageInfo<Recommend> search(RecommendExample example, Pagination p) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example, p);
+			VUtil.assertNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Recommend> list = read(example);
 			return new PageInfo<>(list);
@@ -43,7 +43,7 @@ public class RecommendServiceImpl implements RecommendService {
 	@Override
 	public int count(RecommendExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("统计推荐失败", e);
@@ -53,7 +53,7 @@ public class RecommendServiceImpl implements RecommendService {
 	@Override
 	public void delete(RecommendExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			throw new DeleteException("删除推荐失败", e);
@@ -63,7 +63,7 @@ public class RecommendServiceImpl implements RecommendService {
 	@Override
 	public void delete(Long id) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			throw new DeleteException("删除推荐失败", e);
@@ -73,7 +73,7 @@ public class RecommendServiceImpl implements RecommendService {
 	@Override
 	public void add(String url) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(url);
+			VUtil.assertNotNull(url);
 			Recommend record = FetchFactory.get(url);
 			mapper.insert(record);
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class RecommendServiceImpl implements RecommendService {
 	@Override
 	public List<Recommend> read(RecommendExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("读取推荐失败", e);
@@ -94,7 +94,7 @@ public class RecommendServiceImpl implements RecommendService {
 	@Override
 	public Recommend read(Long id) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			throw new ReadException("读取推荐失败", e);
@@ -104,7 +104,7 @@ public class RecommendServiceImpl implements RecommendService {
 	@Override
 	public void update(Recommend record, RecommendExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(record, example);
+			VUtil.assertNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			throw new UpdateException("更新推荐失败", e);
@@ -114,8 +114,7 @@ public class RecommendServiceImpl implements RecommendService {
 	@Override
 	public void update(Long id, RecommendVO vo) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(vo);
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(vo, id);
 			Recommend record = new Recommend();
 			record.setId(id);
 			record.setDescription(vo.getDescription());

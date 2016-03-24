@@ -14,7 +14,7 @@ import com.kuaiba.site.db.dao.FollowUserMapper;
 import com.kuaiba.site.db.dao.GroupBookmarkRelationMapper;
 import com.kuaiba.site.db.entity.FollowUser;
 import com.kuaiba.site.db.entity.FollowUserExample;
-import com.kuaiba.site.db.entity.ContraintValidator;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.GroupBookmarkRelation;
 import com.kuaiba.site.db.entity.GroupBookmarkRelationExample;
 import com.kuaiba.site.db.entity.Pagination;
@@ -31,7 +31,7 @@ public class FollowMgrImpl implements Followable {
 	@Override
 	public int countBmfUser(FollowUserExample example) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return bfu.countBookmarkByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("统计站点被关注的用户失败", e);
@@ -41,7 +41,7 @@ public class FollowMgrImpl implements Followable {
 	@Override
 	public PageInfo<FollowUser> findBmfUser(FollowUserExample example, Pagination p) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<FollowUser> list = bfu.selectBookmarkByExample(example);
 			return new PageInfo<>(list);
@@ -53,7 +53,7 @@ public class FollowMgrImpl implements Followable {
 	@Override
 	public int countGBRelation(GroupBookmarkRelationExample example) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return gbr.countByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("统计群组管理的站点数失败", e);
@@ -64,7 +64,7 @@ public class FollowMgrImpl implements Followable {
 	public PageInfo<GroupBookmarkRelation> findGBRelation(GroupBookmarkRelationExample example, Pagination p)
 			throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<GroupBookmarkRelation> list = gbr.selectByExample(example);
 			return new PageInfo<>(list);
@@ -76,7 +76,7 @@ public class FollowMgrImpl implements Followable {
 	@Override
 	public int countGroupUser(FollowUserExample example) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return bfu.countGroupByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("统计群组被关注的用户失败", e);
@@ -86,7 +86,7 @@ public class FollowMgrImpl implements Followable {
 	@Override
 	public PageInfo<FollowUser> findGroupUser(FollowUserExample example, Pagination p) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<FollowUser> list = bfu.selectGroupByExample(example);
 			return new PageInfo<>(list);

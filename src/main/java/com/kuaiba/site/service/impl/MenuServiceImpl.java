@@ -19,7 +19,7 @@ import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.security.CurrentUser;
 import com.kuaiba.site.db.dao.MenuMapper;
 import com.kuaiba.site.db.entity.Attribute;
-import com.kuaiba.site.db.entity.ContraintValidator;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.Menu;
 import com.kuaiba.site.db.entity.MenuExample;
 import com.kuaiba.site.db.entity.Pagination;
@@ -35,7 +35,7 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public PageInfo<Menu> search(MenuExample example, Pagination p) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example, p);
+			VUtil.assertNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Menu> list = read(example);
 			return new PageInfo<>(list);
@@ -47,7 +47,7 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public int count(MenuExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("统计菜单失败", e);
@@ -57,7 +57,7 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public void delete(MenuExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			throw new DeleteException("删除菜单失败", e);
@@ -67,7 +67,7 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public void delete(Long id) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			throw new DeleteException("删除菜单失败", e);
@@ -77,7 +77,7 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public void add(MenuVO vo) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(vo);
+			VUtil.assertNotNull(vo);
 			Menu record = new Menu();
 			record.setCreator(CurrentUser.getCurrentUserName());
 			record.setDescription(vo.getDescription());
@@ -96,7 +96,7 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public List<Menu> read(MenuExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return mapper.selectByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("读取菜单失败", e);
@@ -106,7 +106,7 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public Menu read(Long id) throws SecurityException { 
 		
-		ContraintValidator.checkPrimaryKey(id);
+		VUtil.assertNotNull(id);
 		List<Menu> list = this.getMenus();
 		
 		for (Menu m : list) {
@@ -119,7 +119,7 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public void update(Menu record, MenuExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(record, example);
+			VUtil.assertNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			throw new UpdateException("更新菜单失败", e);
@@ -129,8 +129,7 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public void update(Long id, MenuVO vo) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(vo);
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(vo, id);
 			Menu record = new Menu();
 			record.setId(id);
 			record.setDescription(vo.getDescription());
@@ -148,7 +147,7 @@ public class MenuServiceImpl implements MenuService {
 	
 	@Override
 	public boolean validate(Attribute attr, String value) throws SecurityException {
-		ContraintValidator.checkNotNull(value);
+		VUtil.assertNotNull(value);
 		MenuExample example = new MenuExample();
 		
 		if (attr == Attribute.TITLE) {

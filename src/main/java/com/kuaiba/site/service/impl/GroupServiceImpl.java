@@ -21,7 +21,7 @@ import com.kuaiba.site.db.dao.GroupBookmarkMapper;
 import com.kuaiba.site.db.dao.GroupFollowMapper;
 import com.kuaiba.site.db.dao.GroupMapper;
 import com.kuaiba.site.db.entity.Attribute;
-import com.kuaiba.site.db.entity.ContraintValidator;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.Mtype;
@@ -45,7 +45,7 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public PageInfo<Group> search(GroupExample example, Pagination p) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example, p);
+			VUtil.assertNotNull(example, p);
 			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
 			List<Group> list = read(example);
 			return new PageInfo<>(list);
@@ -57,7 +57,7 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public int count(GroupExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			return mapper.countByExample(example);
 		} catch (Exception e) {
 			throw new ReadException("统计群组失败", e);
@@ -67,7 +67,7 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public void delete(GroupExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			mapper.deleteByExample(example);
 		} catch (Exception e) {
 			throw new DeleteException("删除群组失败", e);
@@ -77,7 +77,7 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public void delete(Long id) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			mapper.deleteByPrimaryKey(id);
 		} catch (Exception e) {
 			throw new DeleteException("删除群组失败", e);
@@ -87,7 +87,7 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public void add(GroupVO vo) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(vo);
+			VUtil.assertNotNull(vo);
 			Group record = new Group();
 			record.setCategory(vo.getCategory());
 			record.setCount(0);
@@ -107,7 +107,7 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public List<Group> read(GroupExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(example);
+			VUtil.assertNotNull(example);
 			List<Group> list = mapper.selectByExample(example);
 			for (Group g : list) {
 				Mtype mt = mtypeService.read(g.getMtype());
@@ -122,7 +122,7 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public Group read(Long id) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			return mapper.selectByPrimaryKey(id);
 		} catch (Exception e) {
 			throw new ReadException("读取群组失败", e);
@@ -132,7 +132,7 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public void update(Group record, GroupExample example) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(record, example);
+			VUtil.assertNotNull(record, example);
 			mapper.updateByExample(record, example);
 		} catch (Exception e) {
 			throw new UpdateException("更新群组失败", e);
@@ -142,8 +142,7 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public void update(Long id,GroupVO vo) throws SecurityException { 
 		try {
-			ContraintValidator.checkNotNull(vo);
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(vo, id);
 			Group record = new Group();
 			record.setId(id);
 			record.setCategory(vo.getCategory());
@@ -160,7 +159,7 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public void update(Long id, int count, int stars) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(id);
+			VUtil.assertNotNull(id);
 			Group record = new Group();
 			record.setId(id);
 			record.setCount(count);
@@ -174,7 +173,7 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public void unfollow(Long fid) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(fid);
+			VUtil.assertNotNull(fid);
 			gfMapper.delete(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
 			throw new UnfollowException("取消关注群组失败", e);
@@ -184,7 +183,7 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public void follow(Long fid) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(fid);
+			VUtil.assertNotNull(fid);
 			gfMapper.insert(CurrentUser.getCurrentUserId(), fid);
 		} catch (Exception e) {
 			throw new FollowException("关注群组失败", e);
@@ -194,8 +193,7 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public void removeBookmark(Long gid, Long bmid) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(gid);
-			ContraintValidator.checkPrimaryKey(bmid);
+			VUtil.assertNotNull(gid, bmid);
 			gbMapper.delete(gid, bmid);
 		} catch (Exception e) {
 			throw new DeleteException("群组移除站点失败", e);
@@ -214,8 +212,7 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public void addBookmark(Long gid, Long bmid) throws SecurityException { 
 		try {
-			ContraintValidator.checkPrimaryKey(gid);
-			ContraintValidator.checkPrimaryKey(bmid);
+			VUtil.assertNotNull(gid, bmid);
 			gbMapper.insert(gid, bmid);
 		} catch (Exception e) {
 			throw new CreateException("群组关联站点失败", e);
@@ -234,7 +231,7 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public boolean validate(Attribute attr, String value) throws SecurityException {
 		try {
-			ContraintValidator.checkNotNull(value);
+			VUtil.assertNotNull(value);
 			GroupExample example = new GroupExample();
 			
 			if (attr == Attribute.TITLE) {
