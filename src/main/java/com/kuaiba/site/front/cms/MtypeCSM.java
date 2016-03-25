@@ -3,6 +3,7 @@ package com.kuaiba.site.front.cms;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,13 +26,17 @@ import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.StateUtil;
 import com.kuaiba.site.db.entity.TableIDs;
-import com.kuaiba.site.front.controller.BaseController;
+import com.kuaiba.site.front.controller.SiteUtil;
 import com.kuaiba.site.front.vo.MtypeVO;
 import com.kuaiba.site.interceptor.SiteLog;
+import com.kuaiba.site.service.MtypeService;
 
 @Controller
 @RequestMapping("/cms/mtypes")
-public class MtypeCSM extends BaseController {
+public class MtypeCSM {
+	
+	@Resource
+	private MtypeService mtypeService;
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -98,7 +103,7 @@ public class MtypeCSM extends BaseController {
 	@SiteLog(action = "后台添加类型", table = TableIDs.MTYPE, clazz = MtypeVO.class)
 	public @ResponseBody SiteResponse add(MtypeVO vo) throws SecurityException {
 		mtypeService.add(vo);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 	@RequiresRoles(value = "admin")
@@ -106,7 +111,7 @@ public class MtypeCSM extends BaseController {
 	@SiteLog(action = "后台删除类型", table = TableIDs.MTYPE)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		mtypeService.delete(id);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 	@RequiresRoles(value = "admin")
@@ -114,7 +119,7 @@ public class MtypeCSM extends BaseController {
 	@SiteLog(action = "后台编辑类型", table = TableIDs.MTYPE, clazz = MtypeVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, MtypeVO vo, HttpServletRequest request) throws SecurityException {
 		mtypeService.update(id, vo);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 }

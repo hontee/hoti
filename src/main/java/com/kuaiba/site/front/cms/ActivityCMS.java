@@ -1,5 +1,6 @@
 package com.kuaiba.site.front.cms;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -20,12 +21,16 @@ import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
-import com.kuaiba.site.front.controller.BaseController;
+import com.kuaiba.site.front.controller.SiteUtil;
 import com.kuaiba.site.interceptor.SiteLog;
+import com.kuaiba.site.service.ActivityService;
 
 @Controller
 @RequestMapping("/cms/activities")
-public class ActivityCMS extends BaseController {
+public class ActivityCMS {
+	
+	@Resource
+	private ActivityService activityService;
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -68,7 +73,7 @@ public class ActivityCMS extends BaseController {
 	@SiteLog(action = "后台删除记录", table = TableIDs.ACTIVITY)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		activityService.delete(id);
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 	@RequiresRoles(value = "admin")
@@ -76,7 +81,7 @@ public class ActivityCMS extends BaseController {
 	@SiteLog(action = "后台批量删除记录", table = TableIDs.ACTIVITY, clazz = String.class)
 	public @ResponseBody SiteResponse delete(@RequestParam String ids, HttpServletRequest request) throws SecurityException {
 		activityService.delete(ids.split(","));
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 }

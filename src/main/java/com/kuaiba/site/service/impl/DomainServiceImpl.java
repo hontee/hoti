@@ -10,12 +10,13 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.cache.CacheIDs;
-import com.kuaiba.site.core.cache.Memcacheds;
+import com.kuaiba.site.core.cache.MemcachedUtil;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.ReadException;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
+import com.kuaiba.site.core.exception.ValidationException;
 import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.dao.DomainMapper;
 import com.kuaiba.site.db.entity.Attribute;
@@ -166,11 +167,8 @@ public class DomainServiceImpl implements DomainService {
 		}
 	}
 	
-	
-
 	@Override
 	public boolean validate(Attribute attr, String value) throws SecurityException {
-		
 		try {
 			VUtil.assertNotNull(value);
 			DomainExample example = new DomainExample();
@@ -183,7 +181,7 @@ public class DomainServiceImpl implements DomainService {
 			
 			return !mapper.selectByExample(example).isEmpty();
 		} catch (Exception e) {
-			throw new ReadException("验证领域" + attr.name() + "失败", e);
+			throw new ValidationException("验证领域" + attr.name() + "失败", e);
 		}
 	}
 
@@ -192,12 +190,12 @@ public class DomainServiceImpl implements DomainService {
 		
 		List<Domain> list = new ArrayList<>();
 		
-		if (Memcacheds.exists(CacheIDs.DOMAINS)) {
-			list = (List<Domain>) Memcacheds.get(CacheIDs.DOMAINS);
+		if (MemcachedUtil.exists(CacheIDs.DOMAINS)) {
+			list = (List<Domain>) MemcachedUtil.get(CacheIDs.DOMAINS);
 		} else {
 			// 从数据库中获取
 			list = this.read(new DomainExample());
-			Memcacheds.set(CacheIDs.DOMAINS, 1000 * 60 * 30, list);
+			MemcachedUtil.set(CacheIDs.DOMAINS, 1000 * 60 * 30, list);
 		}
 		
 		return list;

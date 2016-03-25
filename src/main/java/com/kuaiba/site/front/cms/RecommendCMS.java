@@ -1,5 +1,6 @@
 package com.kuaiba.site.front.cms;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -21,14 +22,21 @@ import com.kuaiba.site.db.entity.RecommendExample;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.StateAuditUtil;
 import com.kuaiba.site.db.entity.TableIDs;
-import com.kuaiba.site.front.controller.BaseController;
+import com.kuaiba.site.front.controller.SiteUtil;
 import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.front.vo.RecommendVO;
 import com.kuaiba.site.interceptor.SiteLog;
+import com.kuaiba.site.service.Auditable;
+import com.kuaiba.site.service.RecommendService;
 
 @Controller
 @RequestMapping("/cms/recmds")
-public class RecommendCMS extends BaseController {
+public class RecommendCMS {
+	
+	@Resource
+	private RecommendService recommendService;
+	@Resource
+	private Auditable auditable;
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -97,7 +105,7 @@ public class RecommendCMS extends BaseController {
 	@SiteLog(action = "后台添加推荐", table = TableIDs.RECOMMEND, clazz = String.class)
 	public @ResponseBody SiteResponse add(@RequestParam String url, HttpServletRequest request) throws SecurityException {
 		recommendService.add(url);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 	@RequiresRoles(value = "admin")
@@ -105,7 +113,7 @@ public class RecommendCMS extends BaseController {
 	@SiteLog(action = "后台删除推荐", table = TableIDs.RECOMMEND)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		recommendService.delete(id);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 	@RequiresRoles(value = "admin")
@@ -113,7 +121,7 @@ public class RecommendCMS extends BaseController {
 	@SiteLog(action = "后台编辑推荐", table = TableIDs.RECOMMEND, clazz = Recommend.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, RecommendVO vo, HttpServletRequest request) throws SecurityException {
 		recommendService.update(id, vo);
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 	@RequiresRoles(value = "admin")
@@ -121,7 +129,7 @@ public class RecommendCMS extends BaseController {
 	@SiteLog(action = "后台审核推荐通过", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
 	public @ResponseBody SiteResponse auditOk(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) throws SecurityException {
 		auditable.auditRecmds(id, vo);
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 	@RequiresRoles(value = "admin")
@@ -129,7 +137,7 @@ public class RecommendCMS extends BaseController {
 	@SiteLog(action = "后台审核推荐拒绝", table = TableIDs.RECOMMEND, clazz = String.class)
 	public @ResponseBody SiteResponse auditRefuse(@PathVariable Long id, @RequestParam String remark, HttpServletRequest request) throws SecurityException {
 		auditable.auditRecmds(id, remark);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 }

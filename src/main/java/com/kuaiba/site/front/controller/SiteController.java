@@ -2,6 +2,7 @@ package com.kuaiba.site.front.controller;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -31,9 +32,28 @@ import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.interceptor.SiteLog;
+import com.kuaiba.site.service.BookmarkService;
+import com.kuaiba.site.service.CategoryService;
+import com.kuaiba.site.service.DomainService;
+import com.kuaiba.site.service.GroupService;
+import com.kuaiba.site.service.RecommendService;
+import com.kuaiba.site.service.UserService;
 
 @Controller
-public class SiteController extends BaseController {
+public class SiteController {
+	
+	@Resource
+	private BookmarkService bookmarkService;
+	@Resource
+	private GroupService groupService;
+	@Resource
+	private CategoryService categoryService;
+	@Resource
+	private UserService userService;
+	@Resource
+	private DomainService domainService;
+	@Resource
+	private RecommendService recommendService;
 	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String search(@RequestParam String q, Pagination p, Model model) throws SecurityException {
@@ -50,7 +70,7 @@ public class SiteController extends BaseController {
 	public String login() {
 		
 		if (AuthzUtil.isAuthorized()) { 
-			return redirect("/");
+			return SiteUtil.redirect("/");
 		}
 		return "views/login";
 	}
@@ -62,13 +82,13 @@ public class SiteController extends BaseController {
 			@RequestParam String password,
 			HttpServletRequest request) throws SecurityException {
 			userService.authenticate(username, password);
-			return ok();
+			return SiteUtil.ok();
 	}
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout() {
 		SecurityUtils.getSubject().logout();
-		return redirect("/");
+		return SiteUtil.redirect("/");
 	}
 	
 	
@@ -132,7 +152,7 @@ public class SiteController extends BaseController {
 	
 	@RequestMapping(value = "/bookmarks/{id}/hit", method = RequestMethod.GET)
 	public String hit(@PathVariable Long id, Model model) throws SecurityException {
-		return redirect(bookmarkService.hit(id));
+		return SiteUtil.redirect(bookmarkService.hit(id));
 	}
 	
 	/**
@@ -152,7 +172,7 @@ public class SiteController extends BaseController {
 	@RequestMapping(value = "/share", method = RequestMethod.POST)
 	public @ResponseBody SiteResponse recommend(@RequestParam String url) throws SecurityException {
 		recommendService.add(url);
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 	/**
@@ -165,7 +185,7 @@ public class SiteController extends BaseController {
 	@RequestMapping(value = "/bookmarks/{id}/follow", method = RequestMethod.POST)
 	public @ResponseBody SiteResponse bookmarkFollow(@PathVariable Long id) throws SecurityException {
 		bookmarkService.follow(id);
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 	/**
@@ -178,21 +198,21 @@ public class SiteController extends BaseController {
 	@RequestMapping(value = "/bookmarks/{id}/unfollow", method = RequestMethod.POST)
 	public @ResponseBody SiteResponse bookmarkUnfollow(@PathVariable Long id) throws SecurityException {
 		bookmarkService.unfollow(id);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 	@RequiresRoles("user")
 	@RequestMapping(value = "/groups/{id}/follow", method = RequestMethod.POST)
 	public @ResponseBody SiteResponse groupFollow(@PathVariable Long id) throws SecurityException {
 		groupService.follow(id);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 	@RequiresRoles("user")
 	@RequestMapping(value = "/groups/{id}/unfollow", method = RequestMethod.POST)
 	public @ResponseBody SiteResponse groupUnfollow(@PathVariable Long id) throws SecurityException {
 		groupService.unfollow(id);
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 }

@@ -3,6 +3,7 @@ package com.kuaiba.site.front.cms;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,13 +26,20 @@ import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.StateUtil;
 import com.kuaiba.site.db.entity.TableIDs;
-import com.kuaiba.site.front.controller.BaseController;
+import com.kuaiba.site.front.controller.SiteUtil;
 import com.kuaiba.site.front.vo.CategoryVO;
 import com.kuaiba.site.interceptor.SiteLog;
+import com.kuaiba.site.service.CategoryService;
+import com.kuaiba.site.service.Countable;
 
 @Controller
 @RequestMapping("/cms/cates")
-public class CategoryCMS extends BaseController {
+public class CategoryCMS {
+	
+	@Resource
+	private CategoryService categoryService;
+	@Resource
+	private Countable countable;
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -110,7 +118,7 @@ public class CategoryCMS extends BaseController {
 	@SiteLog(action = "后台添加分类", table = TableIDs.CATEGORY, clazz = CategoryVO.class)
 	public @ResponseBody SiteResponse add(CategoryVO vo, HttpServletRequest request) throws SecurityException {
 		categoryService.add(vo);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 	@RequiresRoles(value = "admin")
@@ -118,7 +126,7 @@ public class CategoryCMS extends BaseController {
 	@SiteLog(action = "后台删除分类", table = TableIDs.CATEGORY)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		categoryService.delete(id);
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 	@RequiresRoles(value = "admin")
@@ -126,7 +134,7 @@ public class CategoryCMS extends BaseController {
 	@SiteLog(action = "后台编辑分类", table = TableIDs.CATEGORY, clazz = CategoryVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, CategoryVO vo, HttpServletRequest request) throws SecurityException {
 		categoryService.update(id, vo);
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 	@RequiresRoles(value = "admin")
@@ -136,7 +144,7 @@ public class CategoryCMS extends BaseController {
 			@RequestParam(defaultValue = "后台统计分类数据") String desc, 
 			HttpServletRequest request) throws SecurityException {
 		countable.countCategoryTask();
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 	private Category findByPrimaryKey(Long id) throws SecurityException {

@@ -10,7 +10,7 @@ import net.spy.memcached.BinaryConnectionFactory;
 import net.spy.memcached.MemcachedClient;
 import net.spy.memcached.internal.OperationFuture;
 
-public class Memcacheds {
+public class MemcachedUtil {
 	
 	private final static String HOST = "127.0.0.1";
 	private final static String PORT = "11211";

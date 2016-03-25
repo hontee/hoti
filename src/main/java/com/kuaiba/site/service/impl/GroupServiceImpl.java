@@ -16,6 +16,7 @@ import com.kuaiba.site.core.exception.ReadException;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UnfollowException;
 import com.kuaiba.site.core.exception.UpdateException;
+import com.kuaiba.site.core.exception.ValidationException;
 import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.dao.GroupBookmarkMapper;
 import com.kuaiba.site.db.dao.GroupFollowMapper;
@@ -240,7 +241,7 @@ public class GroupServiceImpl implements GroupService {
 			
 			return !mapper.selectByExample(example).isEmpty();
 		} catch (Exception e) {
-			throw new ReadException("验证群组" + attr.name() + "失败", e);
+			throw new ValidationException("验证群组" + attr.name() + "失败", e);
 		}
 	}
 

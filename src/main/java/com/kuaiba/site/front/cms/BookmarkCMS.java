@@ -1,5 +1,6 @@
 package com.kuaiba.site.front.cms;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,13 +25,20 @@ import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.StateUtil;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.db.entity.UserTypeUtil;
-import com.kuaiba.site.front.controller.BaseController;
+import com.kuaiba.site.front.controller.SiteUtil;
 import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.interceptor.SiteLog;
+import com.kuaiba.site.service.BookmarkService;
+import com.kuaiba.site.service.Followable;
 
 @Controller
 @RequestMapping("/cms/bookmarks")
-public class BookmarkCMS extends BaseController {
+public class BookmarkCMS {
+	
+	@Resource
+	private BookmarkService bookmarkService;
+	@Resource
+	private Followable followable;
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -128,7 +136,7 @@ public class BookmarkCMS extends BaseController {
 	@SiteLog(action = "后台添加站点", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
 	public @ResponseBody SiteResponse add(BookmarkVO vo, HttpServletRequest request) throws SecurityException {
 		bookmarkService.add(vo);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 	@RequiresRoles(value = "admin")
@@ -136,7 +144,7 @@ public class BookmarkCMS extends BaseController {
 	@SiteLog(action = "后台删除站点", table = TableIDs.BOOKMARK)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		bookmarkService.delete(id);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 	@RequiresRoles(value = "admin")
@@ -144,7 +152,7 @@ public class BookmarkCMS extends BaseController {
 	@SiteLog(action = "后台编辑站点", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) throws SecurityException {
 		bookmarkService.update(id, vo);
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 }

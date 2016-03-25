@@ -2,6 +2,7 @@ package com.kuaiba.site.front.cms;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -23,13 +24,17 @@ import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.StateUtil;
 import com.kuaiba.site.db.entity.TableIDs;
-import com.kuaiba.site.front.controller.BaseController;
+import com.kuaiba.site.front.controller.SiteUtil;
 import com.kuaiba.site.front.vo.MenuVO;
 import com.kuaiba.site.interceptor.SiteLog;
+import com.kuaiba.site.service.MenuService;
 
 @Controller
 @RequestMapping("/cms/menus")
-public class MenuCMS extends BaseController {
+public class MenuCMS {
+	
+	@Resource
+	private MenuService menuService;
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -93,7 +98,7 @@ public class MenuCMS extends BaseController {
 	@SiteLog(action = "后台添加菜单", table = TableIDs.MENU, clazz = MenuVO.class)
 	public @ResponseBody SiteResponse add(MenuVO vo, HttpServletRequest request) throws SecurityException {
 		menuService.add(vo);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 	@RequiresRoles(value = "admin")
@@ -101,7 +106,7 @@ public class MenuCMS extends BaseController {
 	@SiteLog(action = "后台删除菜单", table = TableIDs.MENU)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		menuService.delete(id);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 	@RequiresRoles(value = "admin")
@@ -109,7 +114,7 @@ public class MenuCMS extends BaseController {
 	@SiteLog(action = "后台编辑菜单", table = TableIDs.MENU, clazz = MenuVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, MenuVO vo, HttpServletRequest request) throws SecurityException {
 		menuService.update(id, vo);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 }

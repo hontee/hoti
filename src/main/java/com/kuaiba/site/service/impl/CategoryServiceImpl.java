@@ -10,21 +10,21 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.cache.CacheIDs;
-import com.kuaiba.site.core.cache.Memcacheds;
+import com.kuaiba.site.core.cache.MemcachedUtil;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
-import com.kuaiba.site.core.exception.NotFoundException;
 import com.kuaiba.site.core.exception.ReadException;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
+import com.kuaiba.site.core.exception.ValidationException;
 import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.CategoryMapper;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
-import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.Pagination;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.front.vo.CategoryVO;
 import com.kuaiba.site.service.CategoryService;
 
@@ -204,11 +204,9 @@ public class CategoryServiceImpl implements CategoryService {
 			VUtil.assertNotNull(name);
 			CategoryExample example = new CategoryExample();
 			example.createCriteria().andNameEqualTo(name);
-			List<Category> list = mapper.selectByExample(example);
-			VUtil.assertNotNull(list);
-			return !list.isEmpty();
+			return !mapper.selectByExample(example).isEmpty();
 		} catch (Exception e) {
-			throw new NotFoundException("检测分类名称失败", e);
+			throw new ValidationException("检测分类名称失败", e);
 		}
 	}
 
@@ -217,12 +215,12 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Category> getCategories() throws SecurityException {
 		List<Category> list = new ArrayList<>();
 		
-		if (Memcacheds.exists(CacheIDs.CATES)) {
-			list = (List<Category>) Memcacheds.get(CacheIDs.CATES);
+		if (MemcachedUtil.exists(CacheIDs.CATES)) {
+			list = (List<Category>) MemcachedUtil.get(CacheIDs.CATES);
 		} else {
 			// 从数据库中获取
 			list = read(new CategoryExample());
-			Memcacheds.set(CacheIDs.CATES, 1000 * 60 * 30, list);
+			MemcachedUtil.set(CacheIDs.CATES, 1000 * 60 * 30, list);
 		}
 		
 		return list;

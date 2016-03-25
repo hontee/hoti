@@ -1,5 +1,6 @@
 package com.kuaiba.site.front.cms;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -20,12 +21,16 @@ import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.db.entity.Track;
 import com.kuaiba.site.db.entity.TrackExample;
-import com.kuaiba.site.front.controller.BaseController;
+import com.kuaiba.site.front.controller.SiteUtil;
 import com.kuaiba.site.interceptor.SiteLog;
+import com.kuaiba.site.service.TrackService;
 
 @Controller
 @RequestMapping("/cms/tracks")
-public class TrackCMS extends BaseController {
+public class TrackCMS {
+	
+	@Resource
+	private TrackService trackService;
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -61,7 +66,7 @@ public class TrackCMS extends BaseController {
 	@SiteLog(action = "后台删除异常", table = TableIDs.TRACK)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		trackService.delete(id);
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 	@RequiresRoles(value = "admin")
@@ -69,7 +74,7 @@ public class TrackCMS extends BaseController {
 	@SiteLog(action = "后台批量删除异常", table = TableIDs.TRACK, clazz = String.class)
 	public @ResponseBody SiteResponse delete(@RequestParam String ids, HttpServletRequest request) throws SecurityException {
 		trackService.delete(ids.split(","));
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 }

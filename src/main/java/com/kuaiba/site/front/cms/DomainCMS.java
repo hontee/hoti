@@ -3,6 +3,7 @@ package com.kuaiba.site.front.cms;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,13 +26,20 @@ import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.StateUtil;
 import com.kuaiba.site.db.entity.TableIDs;
-import com.kuaiba.site.front.controller.BaseController;
+import com.kuaiba.site.front.controller.SiteUtil;
 import com.kuaiba.site.front.vo.DomainVO;
 import com.kuaiba.site.interceptor.SiteLog;
+import com.kuaiba.site.service.Countable;
+import com.kuaiba.site.service.DomainService;
 
 @Controller
 @RequestMapping("/cms/domains")
-public class DomainCMS extends BaseController {
+public class DomainCMS {
+	
+	@Resource
+	private DomainService domainService;
+	@Resource
+	private Countable countable;
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -104,7 +112,7 @@ public class DomainCMS extends BaseController {
 	@SiteLog(action = "后台添加领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
 	public @ResponseBody SiteResponse add(DomainVO vo, HttpServletRequest request) throws SecurityException {
 		domainService.add(vo);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 	@RequiresRoles(value = "admin")
@@ -112,7 +120,7 @@ public class DomainCMS extends BaseController {
 	@SiteLog(action = "后台删除领域", table = TableIDs.DOMAIN)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		domainService.delete(id);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 	@RequiresRoles(value = "admin")
@@ -120,7 +128,7 @@ public class DomainCMS extends BaseController {
 	@SiteLog(action = "后台编辑领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, DomainVO vo, HttpServletRequest request) throws SecurityException {
 		domainService.update(id, vo);
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 	@RequiresRoles(value = "admin")
@@ -130,7 +138,7 @@ public class DomainCMS extends BaseController {
 			@RequestParam(defaultValue = "后台统计领域数据") String desc, 
 			HttpServletRequest request) throws SecurityException {
 		countable.countDomainTask();
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 }

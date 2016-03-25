@@ -10,12 +10,13 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.cache.CacheIDs;
-import com.kuaiba.site.core.cache.Memcacheds;
+import com.kuaiba.site.core.cache.MemcachedUtil;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.ReadException;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
+import com.kuaiba.site.core.exception.ValidationException;
 import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.dao.MtypeMapper;
 import com.kuaiba.site.db.entity.Attribute;
@@ -146,16 +147,20 @@ public class MtypeServiceImpl implements MtypeService {
 	
 	@Override
 	public boolean validate(Attribute attr, String value) throws SecurityException {
-		VUtil.assertNotNull(value);
-		MtypeExample example = new MtypeExample();
-		
-		if (attr == Attribute.TITLE) {
-			example.createCriteria().andTitleEqualTo(value);
-		} else { // Attribute.NAME
-			example.createCriteria().andNameEqualTo(value);
+		try {
+			VUtil.assertNotNull(value);
+			MtypeExample example = new MtypeExample();
+			
+			if (attr == Attribute.TITLE) {
+				example.createCriteria().andTitleEqualTo(value);
+			} else { // Attribute.NAME
+				example.createCriteria().andNameEqualTo(value);
+			}
+			
+			return !mapper.selectByExample(example).isEmpty();
+		} catch (Exception e) {
+			throw new ValidationException("验证类型" + attr.name() + "失败", e);
 		}
-		
-		return !mapper.selectByExample(example).isEmpty();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -164,12 +169,12 @@ public class MtypeServiceImpl implements MtypeService {
 		
 		List<Mtype> list = new ArrayList<>();
 		
-		if (Memcacheds.exists(CacheIDs.MTYPES)) {
-			list = (List<Mtype>) Memcacheds.get(CacheIDs.MTYPES);
+		if (MemcachedUtil.exists(CacheIDs.MTYPES)) {
+			list = (List<Mtype>) MemcachedUtil.get(CacheIDs.MTYPES);
 		} else {
 			// 从数据库中获取
 			list = read(new MtypeExample());
-			Memcacheds.set(CacheIDs.MTYPES, 1000 * 60 * 30, list);
+			MemcachedUtil.set(CacheIDs.MTYPES, 1000 * 60 * 30, list);
 		}
 		
 		return list;

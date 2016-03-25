@@ -10,12 +10,13 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.cache.CacheIDs;
-import com.kuaiba.site.core.cache.Memcacheds;
+import com.kuaiba.site.core.cache.MemcachedUtil;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.ReadException;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
+import com.kuaiba.site.core.exception.ValidationException;
 import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.dao.MenuMapper;
 import com.kuaiba.site.db.entity.Attribute;
@@ -147,16 +148,20 @@ public class MenuServiceImpl implements MenuService {
 	
 	@Override
 	public boolean validate(Attribute attr, String value) throws SecurityException {
-		VUtil.assertNotNull(value);
-		MenuExample example = new MenuExample();
-		
-		if (attr == Attribute.TITLE) {
-			example.createCriteria().andTitleEqualTo(value);
-		} else { // Attribute.NAME
-			example.createCriteria().andNameEqualTo(value);
+		try {
+			VUtil.assertNotNull(value);
+			MenuExample example = new MenuExample();
+			
+			if (attr == Attribute.TITLE) {
+				example.createCriteria().andTitleEqualTo(value);
+			} else { // Attribute.NAME
+				example.createCriteria().andNameEqualTo(value);
+			}
+			
+			return !mapper.selectByExample(example).isEmpty();
+		} catch (Exception e) {
+			throw new ValidationException("验证菜单" + attr.name() + "失败", e);
 		}
-		
-		return !mapper.selectByExample(example).isEmpty();
 	}
 
 
@@ -165,12 +170,12 @@ public class MenuServiceImpl implements MenuService {
 
 		List<Menu> list = new ArrayList<>();
 		
-		if (Memcacheds.exists(CacheIDs.MENUS)) {
-			list = (List<Menu>) Memcacheds.get(CacheIDs.MENUS);
+		if (MemcachedUtil.exists(CacheIDs.MENUS)) {
+			list = (List<Menu>) MemcachedUtil.get(CacheIDs.MENUS);
 		} else {
 			// 从数据库中获取
 			list = read(new MenuExample());
-			Memcacheds.set(CacheIDs.MENUS, 1000 * 60 * 30, list);
+			MemcachedUtil.set(CacheIDs.MENUS, 1000 * 60 * 30, list);
 		}
 		
 		return list;

@@ -1,5 +1,6 @@
 package com.kuaiba.site.front.cms;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -27,13 +28,23 @@ import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.StateUtil;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.db.entity.UserTypeUtil;
-import com.kuaiba.site.front.controller.BaseController;
+import com.kuaiba.site.front.controller.SiteUtil;
 import com.kuaiba.site.front.vo.GroupVO;
 import com.kuaiba.site.interceptor.SiteLog;
+import com.kuaiba.site.service.Countable;
+import com.kuaiba.site.service.Followable;
+import com.kuaiba.site.service.GroupService;
 
 @Controller
 @RequestMapping("/cms/groups")
-public class GroupCMS extends BaseController {
+public class GroupCMS {
+	
+	@Resource
+	private GroupService groupService;
+	@Resource
+	private Followable followable;
+	@Resource
+	private Countable countable;
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -179,7 +190,7 @@ public class GroupCMS extends BaseController {
 	@SiteLog(action = "后台添加群组", table = TableIDs.GROUP, clazz = GroupVO.class)
 	public @ResponseBody SiteResponse add(GroupVO vo, HttpServletRequest request) throws SecurityException {
 		groupService.add(vo);
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 	@RequiresRoles(value = "admin")
@@ -187,7 +198,7 @@ public class GroupCMS extends BaseController {
 	@SiteLog(action = "后台群组批量添加站点", table = TableIDs.GROUP)
 	public @ResponseBody SiteResponse addBookmark(@RequestParam Long[] ids, @PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		groupService.addBookmark(id, ids);
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 	@RequiresRoles(value = "admin")
@@ -195,7 +206,7 @@ public class GroupCMS extends BaseController {
 	@SiteLog(action = "后台群组批量移除站点", table = TableIDs.GROUP)
 	public @ResponseBody SiteResponse removeBookmarks(@RequestParam Long[] ids, @PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		groupService.removeBookmark(id, ids);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 	@RequiresRoles(value = "admin")
@@ -203,7 +214,7 @@ public class GroupCMS extends BaseController {
 	@SiteLog(action = "后台删除群组", table = TableIDs.GROUP)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		groupService.delete(id);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 	@RequiresRoles(value = "admin")
@@ -211,7 +222,7 @@ public class GroupCMS extends BaseController {
 	@SiteLog(action = "后台编辑群组", table = TableIDs.GROUP, clazz = GroupVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, GroupVO vo, HttpServletRequest request) throws SecurityException {
 		groupService.update(id, vo);
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 	@RequiresRoles(value = "admin")
@@ -221,7 +232,7 @@ public class GroupCMS extends BaseController {
 			@RequestParam(defaultValue = "后台统计群组数据") String desc, 
 			HttpServletRequest request) throws SecurityException {
 		countable.countGroupTask();
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 }

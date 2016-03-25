@@ -1,5 +1,6 @@
 package com.kuaiba.site.front.cms;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -22,13 +23,17 @@ import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;
 import com.kuaiba.site.db.entity.UserTypeUtil;
-import com.kuaiba.site.front.controller.BaseController;
+import com.kuaiba.site.front.controller.SiteUtil;
 import com.kuaiba.site.front.vo.UserVO;
 import com.kuaiba.site.interceptor.SiteLog;
+import com.kuaiba.site.service.UserService;
 
 @Controller
 @RequestMapping("/cms/users")
-public class UserCMS extends BaseController {
+public class UserCMS {
+	
+	@Resource
+	private UserService userService;
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -95,7 +100,7 @@ public class UserCMS extends BaseController {
 	@SiteLog(action = "后台添加用户", table = TableIDs.USER, clazz = UserVO.class)
 	public @ResponseBody SiteResponse add(UserVO vo, HttpServletRequest request) throws SecurityException {
 		userService.add(vo);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 	@RequiresRoles(value = "admin")
@@ -103,7 +108,7 @@ public class UserCMS extends BaseController {
 	@SiteLog(action = "后台删除用户", table = TableIDs.USER)
 	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
 		userService.delete(id);
-		return ok();
+		return SiteUtil.ok();
 	}
 
 	@RequiresRoles(value = "admin")
@@ -111,7 +116,7 @@ public class UserCMS extends BaseController {
 	@SiteLog(action = "后台编辑用户", table = TableIDs.USER, clazz = UserVO.class)
 	public @ResponseBody SiteResponse edit(@PathVariable Long id, UserVO vo, HttpServletRequest request) throws SecurityException {
 		userService.update(id, vo);
-		return ok();
+		return SiteUtil.ok();
 	}
 	
 	@RequiresRoles(value = "admin")
@@ -119,6 +124,6 @@ public class UserCMS extends BaseController {
 	@SiteLog(action = "后台修改用户密码", table = TableIDs.USER, clazz = String.class)
 	public @ResponseBody SiteResponse password(@PathVariable Long id, @RequestParam String password, HttpServletRequest request) throws SecurityException {
 		userService.update(id, password);
-		return ok();
+		return SiteUtil.ok();
 	}
 }

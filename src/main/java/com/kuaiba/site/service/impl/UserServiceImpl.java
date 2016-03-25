@@ -21,6 +21,7 @@ import com.kuaiba.site.core.exception.PasswordException;
 import com.kuaiba.site.core.exception.ReadException;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
+import com.kuaiba.site.core.exception.ValidationException;
 import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.dao.UserMapper;
 import com.kuaiba.site.db.entity.VUtil;
@@ -168,7 +169,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean validate(String name) throws SecurityException { 
-		return this.search(name) != null;
+		try {
+			return this.search(name) != null;
+		} catch (Exception e) {
+			throw new ValidationException("验证用户名" + name + "失败", e);
+		}
 	}
 
 	@Override
