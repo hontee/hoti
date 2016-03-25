@@ -22,7 +22,8 @@ import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.front.vo.MtypeVO;
-import com.kuaiba.site.service.CacheMgr;
+import com.kuaiba.site.interceptor.ClearCache;
+import com.kuaiba.site.service.CachePolicy;
 import com.kuaiba.site.service.MtypeService;
 
 @Service
@@ -31,7 +32,7 @@ public class MtypeServiceImpl implements MtypeService {
 	@Resource
 	private MtypeMapper mapper;
 	@Resource
-	private CacheMgr cacheMgr;
+	private CachePolicy cacheMgr;
 
 	@Override
 	public PageInfo<Mtype> find(MtypeExample example, Pagination p) throws SecurityException { 
@@ -56,6 +57,7 @@ public class MtypeServiceImpl implements MtypeService {
 	}
 
 	@Override
+	@ClearCache("mtypes")
 	public void delete(MtypeExample example) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(example);
@@ -66,6 +68,7 @@ public class MtypeServiceImpl implements MtypeService {
 	}
 
 	@Override
+	@ClearCache("mtypes")
 	public void delete(Long id) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(id);
@@ -76,6 +79,7 @@ public class MtypeServiceImpl implements MtypeService {
 	}
 
 	@Override
+	@ClearCache("mtypes")
 	public void add(MtypeVO vo) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(vo);
@@ -118,6 +122,7 @@ public class MtypeServiceImpl implements MtypeService {
 	}
 
 	@Override
+	@ClearCache("mtypes")
 	public void update(Mtype record, MtypeExample example) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(record, example);
@@ -128,6 +133,7 @@ public class MtypeServiceImpl implements MtypeService {
 	}
 
 	@Override
+	@ClearCache("mtypes")
 	public void update(Long id, MtypeVO vo) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(vo, id);
@@ -143,7 +149,6 @@ public class MtypeServiceImpl implements MtypeService {
 			throw new UpdateException("更新类型失败", e);
 		}
 	}
-	
 	
 	@Override
 	public boolean validate(Attribute attr, String value) throws SecurityException {

@@ -12,7 +12,7 @@
 	<span class="cms-dg-search">
 	  <select class="easyui-combobox" id="activities-tbl" data-options="panelHeight:'auto',editable: false" style="width:150px;">
         <option selected>全部对象</option>
-        <c:forEach items="${tableIds}" var="t">
+        <c:forEach items="${records}" var="t">
         <option value="${t}">${t}</option>
         </c:forEach>
       </select>

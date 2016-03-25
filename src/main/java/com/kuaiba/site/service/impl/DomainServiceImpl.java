@@ -22,7 +22,8 @@ import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.front.vo.DomainVO;
-import com.kuaiba.site.service.CacheMgr;
+import com.kuaiba.site.interceptor.ClearCache;
+import com.kuaiba.site.service.CachePolicy;
 import com.kuaiba.site.service.DomainService;
 
 @Service
@@ -31,7 +32,7 @@ public class DomainServiceImpl implements DomainService {
 	@Resource
 	private DomainMapper mapper;
 	@Resource
-	private CacheMgr cacheMgr;
+	private CachePolicy cacheMgr;
 	
 	@Override
 	public PageInfo<Domain> find(DomainExample example, Pagination p) throws SecurityException { 
@@ -56,6 +57,7 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
+	@ClearCache("domains")
 	public void delete(DomainExample example) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(example);
@@ -66,6 +68,7 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
+	@ClearCache("domains")
 	public void delete(Long id) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(id);
@@ -76,6 +79,7 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
+	@ClearCache("domains")
 	public void add(DomainVO vo) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(vo);
@@ -118,6 +122,7 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
+	@ClearCache("menus")
 	public void update(Domain record, DomainExample example) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(record, example);
@@ -128,6 +133,7 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
+	@ClearCache("domains")
 	public void update(Long id, DomainVO vo) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(vo, id);
@@ -145,6 +151,7 @@ public class DomainServiceImpl implements DomainService {
 	}
 	
 	@Override
+	@ClearCache("domains")
 	public void update(Long id, int count) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(id);

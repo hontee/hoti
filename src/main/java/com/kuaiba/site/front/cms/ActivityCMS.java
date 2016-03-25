@@ -34,8 +34,8 @@ public class ActivityCMS {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String index(Model model) {
-		model.addAttribute("tableIds", TableIDs.getList());
+	public String index(Model model) throws SecurityException {
+		model.addAttribute("records", TableIDs.getList());
 		return "cms/activities/index";
 	}
 
@@ -51,7 +51,7 @@ public class ActivityCMS {
 	public @ResponseBody DataGrid<Activity> dataGrid(
 			@RequestParam(required = false) String name, 
 			@RequestParam(required = false) String tbl, 
-			Pagination p) throws Exception {
+			Pagination p) throws SecurityException {
 		
 		ActivityExample example = new ActivityExample();
 		ActivityExample.Criteria criteria = example.createCriteria();
@@ -71,7 +71,8 @@ public class ActivityCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除记录", table = TableIDs.ACTIVITY)
-	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
+			throws SecurityException {
 		activityService.delete(id);
 		return SiteUtil.ok();
 	}
@@ -79,7 +80,8 @@ public class ActivityCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台批量删除记录", table = TableIDs.ACTIVITY, clazz = String.class)
-	public @ResponseBody SiteResponse delete(@RequestParam String ids, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse delete(@RequestParam String ids, HttpServletRequest request)
+			throws SecurityException {
 		activityService.delete(ids.split(","));
 		return SiteUtil.ok();
 	}

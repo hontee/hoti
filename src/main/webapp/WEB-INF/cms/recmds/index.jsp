@@ -6,9 +6,9 @@
 <header id="recmds-header" class="cms-dg-header">
 	<button id="recmds-add" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新建</button>
 	<button id="recmds-edit" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">编辑</button>
-	<button id="recmds-audit-ok" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">审核通过</button>
-	<button id="recmds-audit-not" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">审核拒绝</button>
 	<button id="recmds-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
+	<button id="recmds-audit-ok" class="easyui-linkbutton" data-options="iconCls:'icon-ok',disabled:true">审核通过</button>
+	<button id="recmds-audit-not" class="easyui-linkbutton" data-options="iconCls:'icon-no',disabled:true">审核拒绝</button>
 	<button id="recmds-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">

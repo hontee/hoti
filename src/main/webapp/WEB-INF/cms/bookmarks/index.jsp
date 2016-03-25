@@ -7,7 +7,7 @@
 	<button id="bookmarks-add" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新建</button>
 	<button id="bookmarks-edit" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">编辑</button>
 	<button id="bookmarks-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
-	<button id="bookmarks-follow" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">关注</button>
+	<button id="bookmarks-follow" class="easyui-linkbutton" data-options="iconCls:'icon-tip',disabled:true">关注</button>
 	<button id="bookmarks-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">

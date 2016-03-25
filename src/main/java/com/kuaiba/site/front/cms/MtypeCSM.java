@@ -40,13 +40,13 @@ public class MtypeCSM {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String index() {
+	public String index() throws SecurityException {
 		return "cms/mtypes/index";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
-	public String addPage() {
+	public String addPage() throws SecurityException {
 		return "cms/mtypes/new";
 	}
 
@@ -66,11 +66,8 @@ public class MtypeCSM {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/datalist")
-	public @ResponseBody List<ComboBox> datalist() throws Exception {
-		MtypeExample example = new MtypeExample();
-		example.createCriteria().andStateEqualTo((byte)1);
-		example.setOrderByClause("weight DESC"); // 按权重排序
-		List<Mtype> list = mtypeService.findAll(example);
+	public @ResponseBody List<ComboBox> datalist() throws SecurityException {
+		List<Mtype> list = mtypeService.findAll();
 		List<ComboBox> boxes = new ArrayList<>();
 		list.forEach((m) -> boxes.add(new ComboBox(m.getId(), m.getTitle())));
 		return boxes;
@@ -81,7 +78,7 @@ public class MtypeCSM {
 	public @ResponseBody DataGrid<Mtype> dataGrid(
 			@RequestParam(required = false) String title, 
 			@RequestParam(required = false) Byte state,
-			Pagination p) throws Exception {
+			Pagination p) throws SecurityException {
 		
 		MtypeExample example = new MtypeExample();
 		MtypeExample.Criteria criteria = example.createCriteria();
@@ -109,7 +106,8 @@ public class MtypeCSM {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除类型", table = TableIDs.MTYPE)
-	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
+			throws SecurityException {
 		mtypeService.delete(id);
 		return SiteUtil.ok();
 	}
@@ -117,7 +115,8 @@ public class MtypeCSM {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑类型", table = TableIDs.MTYPE, clazz = MtypeVO.class)
-	public @ResponseBody SiteResponse edit(@PathVariable Long id, MtypeVO vo, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse edit(@PathVariable Long id, MtypeVO vo, HttpServletRequest request)
+			throws SecurityException {
 		mtypeService.update(id, vo);
 		return SiteUtil.ok();
 	}

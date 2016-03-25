@@ -6,11 +6,11 @@
 <header id="groups-header" class="cms-dg-header">
 	<button id="groups-add" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新建</button>
 	<button id="groups-edit" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">编辑</button>
-	<button id="groups-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
-	<button id="groups-bookmarks" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">添加站点</button>
+	<button id="groups-bookmarks" class="easyui-linkbutton" data-options="iconCls:'icon-add',disabled:true">添加站点</button>
 	<button id="groups-manager" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">管理站点</button>
-	<button id="groups-follow" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">关注</button>
-	<button id="groups-count" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">更新统计</button>
+	<button id="groups-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
+	<button id="groups-follow" class="easyui-linkbutton" data-options="iconCls:'icon-tip',disabled:true">关注</button>
+	<button id="groups-count" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">更新统计</button>
 	<button id="groups-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
@@ -192,7 +192,7 @@ groupsEL.bookmarks.click(function() {
 	if (row) {
 		groupsEL.win.window({
 			width: 980,
-			height: 600,
+			height: 640,
 			modal: true,
 			title: '添加站点',
 			collapsible: false,
@@ -211,7 +211,7 @@ groupsEL.manager.click(function() {
 	if (row) {
 		groupsEL.win.window({
 			width: 980,
-			height: 600,
+			height: 640,
 			modal: true,
 			title: '管理站点',
 			collapsible: false,

@@ -49,7 +49,7 @@ public class CategoryCMS {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
-	public String addPage() {
+	public String addPage() throws SecurityException {
 		return "cms/cates/new";
 	}
 
@@ -73,7 +73,7 @@ public class CategoryCMS {
 			@RequestParam(required = false) String title, 
 			@RequestParam(required = false) Long domain, 
 			@RequestParam(required = false) Byte state,
-			Pagination p) throws Exception {
+			Pagination p) throws SecurityException {
 		
 		CategoryExample example = new CategoryExample();
 		CategoryExample.Criteria criteria = example.createCriteria();
@@ -97,10 +97,8 @@ public class CategoryCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/datalist")
 	public @ResponseBody List<ComboBox> datalist(
-			@RequestParam(required = false) String q) throws Exception {
-		CategoryExample example = new CategoryExample();
-		example.createCriteria().andStateEqualTo((byte)1);
-		List<Category> list = categoryService.findAll(example);
+			@RequestParam(required = false) String q) throws SecurityException {
+		List<Category> list = categoryService.findAll();
 		List<ComboBox> boxes = new ArrayList<>();
 		
 		/**
@@ -124,7 +122,8 @@ public class CategoryCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除分类", table = TableIDs.CATEGORY)
-	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
+			throws SecurityException {
 		categoryService.delete(id);
 		return SiteUtil.ok();
 	}
@@ -132,7 +131,8 @@ public class CategoryCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑分类", table = TableIDs.CATEGORY, clazz = CategoryVO.class)
-	public @ResponseBody SiteResponse edit(@PathVariable Long id, CategoryVO vo, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse edit(@PathVariable Long id, CategoryVO vo, HttpServletRequest request)
+			throws SecurityException {
 		categoryService.update(id, vo);
 		return SiteUtil.ok();
 	}

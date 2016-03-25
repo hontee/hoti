@@ -11,39 +11,43 @@ import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.core.security.MemcachedUtil;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
+import com.kuaiba.site.db.dao.CategoryMapper;
+import com.kuaiba.site.db.dao.DomainMapper;
+import com.kuaiba.site.db.dao.MenuMapper;
+import com.kuaiba.site.db.dao.MtypeMapper;
 import com.kuaiba.site.db.entity.Category;
+import com.kuaiba.site.db.entity.CategoryExample;
 import com.kuaiba.site.db.entity.Domain;
+import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Menu;
+import com.kuaiba.site.db.entity.MenuExample;
 import com.kuaiba.site.db.entity.Mtype;
-import com.kuaiba.site.service.CacheMgr;
-import com.kuaiba.site.service.CategoryService;
-import com.kuaiba.site.service.DomainService;
-import com.kuaiba.site.service.MenuService;
-import com.kuaiba.site.service.MtypeService;
+import com.kuaiba.site.db.entity.MtypeExample;
+import com.kuaiba.site.service.CachePolicy;
 
 @Service
-public class CacheMrgImpl implements CacheMgr {
+public class CacheMgrImpl implements CachePolicy {
 	
 	/*默认缓存时间*/
-	private static final int DTIME = 1000 * 60 * 30;
+	private final int DTIME = 1000 * 60 * 30;
 	
 	/*缓存常量*/
-	private static final String MTYPES = "mtypes";
-	private static final String CATES = "cates";
-	private static final String DOMAINS = "domains";
-	private static final String MENUS = "menus";
-	private static final String USER_FOLLOW_BMS = "user_follow_bms";
+	private final String MTYPES = "mtypes";
+	private final String CATES = "cates";
+	private final String DOMAINS = "domains";
+	private final String MENUS = "menus";
+	private final String USER_FOLLOW_BMS = "user_follow_bms";
 	
 	@Resource
-	private MtypeService mtypeService;
+	private MtypeMapper mm;
 	@Resource
-	private CategoryService categoryService;
+	private CategoryMapper cm;
 	@Resource
-	private DomainService domainService;
+	private DomainMapper dm;
 	@Resource
-	private MenuService menuService;
+	private MenuMapper menum;
 	@Resource
-	private BookmarkFollowMapper bfMapper;
+	private BookmarkFollowMapper bfm;
 
 	@SuppressWarnings("unchecked")
 	public List<Mtype> readMtypes() throws SecurityException {
@@ -53,7 +57,10 @@ public class CacheMrgImpl implements CacheMgr {
 		if (MemcachedUtil.exists(MTYPES)) {
 			list = (List<Mtype>) MemcachedUtil.get(MTYPES);
 		} else {
-			list = mtypeService.findAll();
+			MtypeExample example = new MtypeExample();
+			example.createCriteria().andStateEqualTo((byte)1);
+			example.setOrderByClause("weight DESC"); // 按权重排序
+			list = mm.selectByExample(example);
 			MemcachedUtil.set(MTYPES, DTIME, list);
 		}
 		
@@ -72,13 +79,6 @@ public class CacheMrgImpl implements CacheMgr {
 		return new Mtype();
 	}
 
-	@Override
-	public void clearMtypes() throws SecurityException {
-		if (MemcachedUtil.exists(MTYPES)) {
-			MemcachedUtil.delete(MTYPES);
-		}
-	}
-
 	@SuppressWarnings("unchecked")
 	public List<Category> readCates() throws SecurityException {
 
@@ -87,18 +87,13 @@ public class CacheMrgImpl implements CacheMgr {
 		if (MemcachedUtil.exists(CATES)) {
 			list = (List<Category>) MemcachedUtil.get(CATES);
 		} else {
-			list = categoryService.findAll();
+			CategoryExample example = new CategoryExample();
+			example.createCriteria().andStateEqualTo((byte)1);
+			list = cm.selectByExample(example);
 			MemcachedUtil.set(CATES, DTIME, list);
 		}
 		
 		return list;
-	}
-
-	@Override
-	public void clearCates() throws SecurityException {
-		if (MemcachedUtil.exists(CATES)) {
-			MemcachedUtil.delete(CATES);
-		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -109,18 +104,14 @@ public class CacheMrgImpl implements CacheMgr {
 		if (MemcachedUtil.exists(DOMAINS)) {
 			list = (List<Domain>) MemcachedUtil.get(DOMAINS);
 		} else {
-			list = domainService.findAll();
+			DomainExample example = new DomainExample();
+			example.createCriteria().andStateEqualTo((byte)1);
+			example.setOrderByClause("weight DESC"); // 按权重排序
+			list = dm.selectByExample(example);
 			MemcachedUtil.set(DOMAINS, DTIME, list);
 		}
 		
 		return list;
-	}
-
-	@Override
-	public void clearDomains() throws SecurityException {
-		if (MemcachedUtil.exists(DOMAINS)) {
-			MemcachedUtil.delete(DOMAINS);
-		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -131,18 +122,14 @@ public class CacheMrgImpl implements CacheMgr {
 		if (MemcachedUtil.exists(MENUS)) {
 			list = (List<Menu>) MemcachedUtil.get(MENUS);
 		} else {
-			list = menuService.findAll();
+			MenuExample example = new MenuExample();
+			example.createCriteria().andStateEqualTo((byte)1);
+			example.setOrderByClause("weight DESC"); // 按权重排序
+			list = menum.selectByExample(new MenuExample());
 			MemcachedUtil.set(MENUS, DTIME, list);
 		}
 		
 		return list;
-	}
-
-	@Override
-	public void clearMenus() throws SecurityException {
-		if (MemcachedUtil.exists(MENUS)) {
-			MemcachedUtil.delete(MENUS);
-		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -153,18 +140,11 @@ public class CacheMrgImpl implements CacheMgr {
 		if (MemcachedUtil.exists(USER_FOLLOW_BMS)) {
 			list = (List<Long>) MemcachedUtil.get(USER_FOLLOW_BMS);
 		} else {
-			list = bfMapper.selectByUid(AuthzUtil.getUserId());
+			list = bfm.selectByUid(AuthzUtil.getUserId());
 			MemcachedUtil.set(USER_FOLLOW_BMS, DTIME, list);
 		}
 		
 		return list;
-	}
-
-	@Override
-	public void clearUserFollowBMS() throws SecurityException {
-		if (MemcachedUtil.exists(USER_FOLLOW_BMS)) {
-			MemcachedUtil.delete(USER_FOLLOW_BMS);
-		}
 	}
 
 }

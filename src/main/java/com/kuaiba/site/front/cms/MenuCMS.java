@@ -38,13 +38,13 @@ public class MenuCMS {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String index() {
+	public String index() throws SecurityException {
 		return "cms/menus/index";
 	}
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
-	public String addPage() {
+	public String addPage() throws SecurityException {
 		return "cms/menus/new";
 	}
 
@@ -64,11 +64,8 @@ public class MenuCMS {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/datalist")
-	public @ResponseBody List<Menu> datalist() throws Exception {
-		MenuExample example = new MenuExample();
-		example.createCriteria().andStateEqualTo((byte)1);
-		example.setOrderByClause("weight DESC"); // 按权重排序
-		return menuService.findAll(example);
+	public @ResponseBody List<Menu> datalist() throws SecurityException {
+		return menuService.findAll();
 	}
 
 	@RequiresRoles(value = "admin")
@@ -76,7 +73,7 @@ public class MenuCMS {
 	public @ResponseBody DataGrid<Menu> dataGrid(
 			@RequestParam(required = false) String title,
 			@RequestParam(required = false) Byte state,
-			Pagination p) throws Exception {
+			Pagination p) throws SecurityException {
 		
 		MenuExample example = new MenuExample();
 		MenuExample.Criteria criteria = example.createCriteria();
@@ -104,7 +101,8 @@ public class MenuCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除菜单", table = TableIDs.MENU)
-	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
+			throws SecurityException {
 		menuService.delete(id);
 		return SiteUtil.ok();
 	}
@@ -112,7 +110,8 @@ public class MenuCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑菜单", table = TableIDs.MENU, clazz = MenuVO.class)
-	public @ResponseBody SiteResponse edit(@PathVariable Long id, MenuVO vo, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse edit(@PathVariable Long id, MenuVO vo, HttpServletRequest request)
+			throws SecurityException {
 		menuService.update(id, vo);
 		return SiteUtil.ok();
 	}

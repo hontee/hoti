@@ -27,7 +27,7 @@ import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.front.vo.GroupVO;
-import com.kuaiba.site.service.CacheMgr;
+import com.kuaiba.site.service.CachePolicy;
 import com.kuaiba.site.service.GroupService;
 
 @Service
@@ -40,7 +40,7 @@ public class GroupServiceImpl implements GroupService {
 	@Resource
 	private GroupBookmarkMapper gbMapper;
 	@Resource
-	private CacheMgr cacheMgr;
+	private CachePolicy cacheMgr;
 
 	@Override
 	public PageInfo<Group> find(GroupExample example, Pagination p) throws SecurityException { 

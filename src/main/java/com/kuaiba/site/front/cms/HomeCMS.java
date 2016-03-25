@@ -4,12 +4,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.kuaiba.site.core.exception.SecurityException;
+
 @Controller
 @RequestMapping("/cms")
 public class HomeCMS {
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String home() {
+	public String home() throws SecurityException {
 		return "cms/home";
 	}
 

@@ -34,7 +34,7 @@ public class TrackCMS {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String index() {
+	public String index() throws SecurityException {
 		return "cms/tracks/index";
 	}
 
@@ -49,7 +49,7 @@ public class TrackCMS {
 	@RequestMapping(value = "/list")
 	public @ResponseBody DataGrid<Track> dataGrid(
 			@RequestParam(required = false) String name, 
-			Pagination p) throws Exception {
+			Pagination p) throws SecurityException {
 		
 		TrackExample example = new TrackExample();
 		TrackExample.Criteria criteria = example.createCriteria();
@@ -64,7 +64,8 @@ public class TrackCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除异常", table = TableIDs.TRACK)
-	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
+			throws SecurityException {
 		trackService.delete(id);
 		return SiteUtil.ok();
 	}
@@ -72,7 +73,8 @@ public class TrackCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台批量删除异常", table = TableIDs.TRACK, clazz = String.class)
-	public @ResponseBody SiteResponse delete(@RequestParam String ids, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse delete(@RequestParam String ids, HttpServletRequest request)
+			throws SecurityException {
 		trackService.delete(ids.split(","));
 		return SiteUtil.ok();
 	}

@@ -48,13 +48,13 @@ public class GroupCMS {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String index() {
+	public String index() throws SecurityException {
 		return "cms/groups/index";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
-	public String addPage() {
+	public String addPage() throws SecurityException {
 		return "cms/groups/new";
 	}
 
@@ -100,7 +100,7 @@ public class GroupCMS {
 			@RequestParam(required = false) Long category, 
 			@RequestParam(required = false) String gtype, 
 			@RequestParam(required = false) Byte state, 
-			Pagination p) throws Exception {
+			Pagination p) throws SecurityException {
 		
 		GroupExample example = new GroupExample();
 		GroupExample.Criteria criteria = example.createCriteria();
@@ -132,7 +132,7 @@ public class GroupCMS {
 			@RequestParam(required = false) String title, 
 			@RequestParam(required = false) Long category, 
 			@RequestParam(required = false) Byte state, 
-			Pagination p) throws Exception {
+			Pagination p) throws SecurityException {
 		
 		GroupBookmarkRelationExample example = new GroupBookmarkRelationExample();
 		GroupBookmarkRelationExample.Criteria criteria = example.createCriteria();
@@ -162,7 +162,7 @@ public class GroupCMS {
 			@RequestParam(required = false) String name, 
 			@RequestParam(required = false) Byte userType, 
 			@RequestParam(required = false) Byte state, 
-			Pagination p) throws Exception {
+			Pagination p) throws SecurityException {
 		
 		FollowUserExample example = new FollowUserExample();
 		FollowUserExample.Criteria criteria = example.createCriteria();
@@ -196,7 +196,8 @@ public class GroupCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/bookmark", method = RequestMethod.POST)
 	@SiteLog(action = "后台群组批量添加站点", table = TableIDs.GROUP)
-	public @ResponseBody SiteResponse addBookmark(@RequestParam Long[] ids, @PathVariable Long id, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse addBookmark(@RequestParam Long[] ids, @PathVariable Long id,
+			HttpServletRequest request) throws SecurityException {
 		groupService.add(id, ids);
 		return SiteUtil.ok();
 	}
@@ -204,7 +205,8 @@ public class GroupCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/manager", method = RequestMethod.POST)
 	@SiteLog(action = "后台群组批量移除站点", table = TableIDs.GROUP)
-	public @ResponseBody SiteResponse removeBookmarks(@RequestParam Long[] ids, @PathVariable Long id, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse removeBookmarks(@RequestParam Long[] ids, @PathVariable Long id,
+			HttpServletRequest request) throws SecurityException {
 		groupService.remove(id, ids);
 		return SiteUtil.ok();
 	}
@@ -212,7 +214,8 @@ public class GroupCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除群组", table = TableIDs.GROUP)
-	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
+			throws SecurityException {
 		groupService.delete(id);
 		return SiteUtil.ok();
 	}
@@ -220,7 +223,8 @@ public class GroupCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑群组", table = TableIDs.GROUP, clazz = GroupVO.class)
-	public @ResponseBody SiteResponse edit(@PathVariable Long id, GroupVO vo, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse edit(@PathVariable Long id, GroupVO vo, HttpServletRequest request)
+			throws SecurityException {
 		groupService.update(id, vo);
 		return SiteUtil.ok();
 	}

@@ -43,13 +43,13 @@ public class DomainCMS {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String index() {
+	public String index() throws SecurityException {
 		return "cms/domains/index";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
-	public String addPage() {
+	public String addPage() throws SecurityException {
 		return "cms/domains/new";
 	}
 
@@ -70,11 +70,8 @@ public class DomainCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/datalist")
 	public @ResponseBody List<ComboBox> datalist(
-			@RequestParam(required=false) String q) throws Exception {
-		DomainExample example = new DomainExample();
-		example.createCriteria().andStateEqualTo((byte)1);
-		example.setOrderByClause("weight DESC"); // 按权重排序
-		List<Domain> list = domainService.findAll(example);
+			@RequestParam(required=false) String q) throws SecurityException {
+		List<Domain> list = domainService.findAll();
 		List<ComboBox> boxes = new ArrayList<>();
 		
 		if ("all".equals(q)) {
@@ -90,7 +87,7 @@ public class DomainCMS {
 	public @ResponseBody DataGrid<Domain> dataGrid(
 			@RequestParam(required = false) String title, 
 			@RequestParam(required = false) Byte state, 
-			Pagination p) throws Exception {
+			Pagination p) throws SecurityException {
 		
 		DomainExample example = new DomainExample();
 		DomainExample.Criteria criteria = example.createCriteria();
@@ -118,7 +115,8 @@ public class DomainCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除领域", table = TableIDs.DOMAIN)
-	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
+			throws SecurityException {
 		domainService.delete(id);
 		return SiteUtil.ok();
 	}
@@ -126,7 +124,8 @@ public class DomainCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑领域", table = TableIDs.DOMAIN, clazz = DomainVO.class)
-	public @ResponseBody SiteResponse edit(@PathVariable Long id, DomainVO vo, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse edit(@PathVariable Long id, DomainVO vo, HttpServletRequest request)
+			throws SecurityException {
 		domainService.update(id, vo);
 		return SiteUtil.ok();
 	}

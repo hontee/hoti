@@ -4,7 +4,7 @@
 </head>
 <body>
 <header id="groups-bm-header" class="cms-dg-header">
-	<button id="groups-bm-add" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</button>
+	<button id="groups-bm-add" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">提交</button>
 	<button id="groups-bm-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">

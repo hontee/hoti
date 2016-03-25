@@ -37,13 +37,13 @@ public class RecommendCMS {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String index() {
+	public String index() throws SecurityException {
 		return "cms/recmds/index";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
-	public String addPage() {
+	public String addPage() throws SecurityException {
 		return "cms/recmds/new";
 	}
 
@@ -80,7 +80,7 @@ public class RecommendCMS {
 	public @ResponseBody DataGrid<Recommend> dataGrid(
 			@RequestParam(required = false) String title, 
 			@RequestParam(required = false) Byte state, 
-			Pagination p) throws Exception {
+			Pagination p) throws SecurityException {
 		
 		RecommendExample example = new RecommendExample();
 		RecommendExample.Criteria criteria = example.createCriteria();
@@ -100,7 +100,8 @@ public class RecommendCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	@SiteLog(action = "后台添加推荐", table = TableIDs.RECOMMEND, clazz = String.class)
-	public @ResponseBody SiteResponse add(@RequestParam String url, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse add(@RequestParam String url, HttpServletRequest request)
+			throws SecurityException {
 		recommendService.add(url);
 		return SiteUtil.ok();
 	}
@@ -108,7 +109,8 @@ public class RecommendCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除推荐", table = TableIDs.RECOMMEND)
-	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
+			throws SecurityException {
 		recommendService.delete(id);
 		return SiteUtil.ok();
 	}
@@ -116,7 +118,8 @@ public class RecommendCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑推荐", table = TableIDs.RECOMMEND, clazz = Recommend.class)
-	public @ResponseBody SiteResponse edit(@PathVariable Long id, RecommendVO vo, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse edit(@PathVariable Long id, RecommendVO vo, HttpServletRequest request)
+			throws SecurityException {
 		recommendService.update(id, vo);
 		return SiteUtil.ok();
 	}
@@ -124,7 +127,8 @@ public class RecommendCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/ok", method = RequestMethod.POST)
 	@SiteLog(action = "后台审核推荐通过", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
-	public @ResponseBody SiteResponse auditOk(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse auditOk(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request)
+			throws SecurityException {
 		recommendService.audit(id, vo);
 		return SiteUtil.ok();
 	}
@@ -132,7 +136,8 @@ public class RecommendCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/refuse", method = RequestMethod.POST)
 	@SiteLog(action = "后台审核推荐拒绝", table = TableIDs.RECOMMEND, clazz = String.class)
-	public @ResponseBody SiteResponse auditRefuse(@PathVariable Long id, @RequestParam String remark, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse auditRefuse(@PathVariable Long id, @RequestParam String remark,
+			HttpServletRequest request) throws SecurityException {
 		recommendService.audit(id, remark);
 		return SiteUtil.ok();
 	}

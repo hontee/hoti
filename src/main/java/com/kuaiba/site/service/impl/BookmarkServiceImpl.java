@@ -27,8 +27,9 @@ import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.front.vo.BookmarkVO;
+import com.kuaiba.site.interceptor.ClearCache;
 import com.kuaiba.site.service.BookmarkService;
-import com.kuaiba.site.service.CacheMgr;
+import com.kuaiba.site.service.CachePolicy;
 
 @Service
 public class BookmarkServiceImpl implements BookmarkService {
@@ -38,7 +39,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Resource
 	private BookmarkFollowMapper bfMapper;
 	@Resource
-	private CacheMgr cacheMgr;
+	private CachePolicy cacheMgr;
 
 	@Override
 	public PageInfo<Bookmark> find(BookmarkExample example, Pagination p) throws SecurityException {
@@ -168,6 +169,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 	
 	@Override
+	@ClearCache("user_follow_bms")
 	public void follow(Long fid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(fid);
@@ -178,6 +180,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
+	@ClearCache("user_follow_bms")
 	public void unfollow(Long fid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(fid);

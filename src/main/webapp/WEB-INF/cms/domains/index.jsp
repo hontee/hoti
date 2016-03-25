@@ -7,7 +7,7 @@
 	<button id="domains-add" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新建</button>
 	<button id="domains-edit" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">编辑</button>
 	<button id="domains-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
-	<button id="domains-count" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">更新统计</button>
+	<button id="domains-count" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">更新统计</button>
 	<button id="domains-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">

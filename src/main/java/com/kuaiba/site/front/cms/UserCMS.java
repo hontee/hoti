@@ -37,33 +37,36 @@ public class UserCMS {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String index() {
+	public String index() throws SecurityException {
 		return "cms/users/index";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
-	public String addPage() {
+	public String addPage() throws SecurityException {
 		return "cms/users/new";
 	}
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/password", method = RequestMethod.GET)
-	public String passwordPage(@PathVariable Long id, Model model) throws SecurityException {
+	public String passwordPage(@PathVariable Long id, Model model) 
+			throws SecurityException {
 		model.addAttribute("record", userService.findOne(id));
 		return "cms/users/password";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
+	public String editPage(@PathVariable Long id, Model model) 
+			throws SecurityException {
 		model.addAttribute("record", userService.findOne(id));
 		return "cms/users/edit";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String view(@PathVariable Long id, Model model) throws SecurityException {
+	public String view(@PathVariable Long id, Model model) 
+			throws SecurityException {
 		model.addAttribute("record", userService.findOne(id));
 		return "cms/users/view";
 	}
@@ -74,7 +77,7 @@ public class UserCMS {
 			@RequestParam(required = false) String name, 
 			@RequestParam(required = false) Byte userType, 
 			@RequestParam(required = false) Byte state, 
-			Pagination p) throws Exception {
+			Pagination p) throws SecurityException {
 		
 		UserExample example = new UserExample();
 		UserExample.Criteria criteria = example.createCriteria();
@@ -98,7 +101,8 @@ public class UserCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	@SiteLog(action = "后台添加用户", table = TableIDs.USER, clazz = UserVO.class)
-	public @ResponseBody SiteResponse add(UserVO vo, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse add(UserVO vo, HttpServletRequest request) 
+			throws SecurityException {
 		userService.add(vo);
 		return SiteUtil.ok();
 	}
@@ -106,7 +110,8 @@ public class UserCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除用户", table = TableIDs.USER)
-	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
+			throws SecurityException {
 		userService.delete(id);
 		return SiteUtil.ok();
 	}
@@ -114,7 +119,8 @@ public class UserCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑用户", table = TableIDs.USER, clazz = UserVO.class)
-	public @ResponseBody SiteResponse edit(@PathVariable Long id, UserVO vo, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse edit(@PathVariable Long id, UserVO vo, HttpServletRequest request)
+			throws SecurityException {
 		userService.update(id, vo);
 		return SiteUtil.ok();
 	}
@@ -122,7 +128,8 @@ public class UserCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/password", method = RequestMethod.POST)
 	@SiteLog(action = "后台修改用户密码", table = TableIDs.USER, clazz = String.class)
-	public @ResponseBody SiteResponse password(@PathVariable Long id, @RequestParam String password, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse password(@PathVariable Long id, @RequestParam String password,
+			HttpServletRequest request) throws SecurityException {
 		userService.update(id, password);
 		return SiteUtil.ok();
 	}

@@ -4,7 +4,7 @@
 </head>
 <body>
 <header id="groups-mgt-header" class="cms-dg-header">
-	<button id="groups-mgt-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">移除</button>
+	<button id="groups-mgt-remove" class="easyui-linkbutton" data-options="iconCls:'icon-no'">移除</button>
 	<button id="groups-mgt-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
@@ -48,12 +48,12 @@ groupsMgtEL.dg.datagrid({
         {field:'title',title:'标题',width:400, sortable: true},
         {field:'star',title:'星',width:100, sortable: true},
         {field:'hit',title:'点击数',width:100, sortable: true},
-        /* {field:'category',title:'所属分类',width:100, sortable: true, formatter: function(value,row,index) {
+        {field:'category',title:'所属分类',width:100, sortable: true, formatter: function(value,row,index) {
         	return row.cateTitle;
         }},
         {field:'mtype',title:'类型',width:100, sortable: true, formatter: function(value,row,index) {
         	return row.mtTitle;
-        }}, */
+        }},
         {field:'state',title:'状态',width:100, sortable: true, formatter: function(value,row,index) {
         	if (value == '1') {
 				return '启用';

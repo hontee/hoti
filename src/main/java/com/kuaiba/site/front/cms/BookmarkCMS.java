@@ -42,13 +42,13 @@ public class BookmarkCMS {
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String index() {
+	public String index() throws SecurityException {
 		return "cms/bookmarks/index";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
-	public String addPage() {
+	public String addPage() throws SecurityException {
 		return "cms/bookmarks/new";
 	}
 
@@ -107,7 +107,7 @@ public class BookmarkCMS {
 			@RequestParam(required = false) String name, 
 			@RequestParam(required = false) Byte userType, 
 			@RequestParam(required = false) Byte state, 
-			Pagination p) throws Exception {
+			Pagination p) throws SecurityException {
 		
 		FollowUserExample example = new FollowUserExample();
 		FollowUserExample.Criteria criteria = example.createCriteria();
@@ -142,7 +142,8 @@ public class BookmarkCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	@SiteLog(action = "后台删除站点", table = TableIDs.BOOKMARK)
-	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
+			throws SecurityException {
 		bookmarkService.delete(id);
 		return SiteUtil.ok();
 	}
@@ -150,7 +151,8 @@ public class BookmarkCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@SiteLog(action = "后台编辑站点", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
-	public @ResponseBody SiteResponse edit(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) throws SecurityException {
+	public @ResponseBody SiteResponse edit(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request)
+			throws SecurityException {
 		bookmarkService.update(id, vo);
 		return SiteUtil.ok();
 	}

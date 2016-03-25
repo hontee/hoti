@@ -24,7 +24,8 @@ import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.front.vo.CategoryVO;
-import com.kuaiba.site.service.CacheMgr;
+import com.kuaiba.site.interceptor.ClearCache;
+import com.kuaiba.site.service.CachePolicy;
 import com.kuaiba.site.service.CategoryService;
 
 @Service
@@ -35,7 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Resource
 	private CategoryMapper mapper;
 	@Resource
-	private CacheMgr cacheMgr;
+	private CachePolicy cacheMgr;
 
 	@Override
 	public PageInfo<Category> find(CategoryExample example, Pagination p) throws SecurityException {
@@ -60,6 +61,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	@ClearCache("cates")
 	public void delete(CategoryExample example) throws SecurityException {
 		try {
 			VUtil.assertNotNull(example);
@@ -70,6 +72,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	@ClearCache("cates")
 	public void delete(Long id) throws SecurityException {
 		try {
 			VUtil.assertNotNull(id);
@@ -80,6 +83,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	@ClearCache("cates")
 	public void add(CategoryVO vo) throws SecurityException {
 		try {
 			VUtil.assertNotNull(vo);
@@ -122,6 +126,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	@ClearCache("cates")
 	public void update(Category record, CategoryExample example) throws SecurityException {
 		try {
 			VUtil.assertNotNull(record, example);
@@ -132,6 +137,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	@ClearCache("cates")
 	public void update(Long id, CategoryVO vo) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(vo, id);
@@ -149,6 +155,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 	
 	@Override
+	@ClearCache("cates")
 	public void update(Long id, long count) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(id);

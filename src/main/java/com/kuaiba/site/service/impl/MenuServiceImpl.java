@@ -22,7 +22,8 @@ import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.front.vo.MenuVO;
-import com.kuaiba.site.service.CacheMgr;
+import com.kuaiba.site.interceptor.ClearCache;
+import com.kuaiba.site.service.CachePolicy;
 import com.kuaiba.site.service.MenuService;
 
 @Service
@@ -31,7 +32,7 @@ public class MenuServiceImpl implements MenuService {
 	@Resource
 	private MenuMapper mapper;
 	@Resource
-	private CacheMgr cacheMgr;
+	private CachePolicy cacheMgr;
 
 	@Override
 	public PageInfo<Menu> find(MenuExample example, Pagination p) throws SecurityException { 
@@ -56,6 +57,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
+	@ClearCache("menus")
 	public void delete(MenuExample example) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(example);
@@ -66,6 +68,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
+	@ClearCache("menus")
 	public void delete(Long id) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(id);
@@ -76,6 +79,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
+	@ClearCache("menus")
 	public void add(MenuVO vo) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(vo);
@@ -120,6 +124,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
+	@ClearCache("menus")
 	public void update(Menu record, MenuExample example) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(record, example);
@@ -130,6 +135,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
+	@ClearCache("menus")
 	public void update(Long id, MenuVO vo) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(vo, id);
