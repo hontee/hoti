@@ -27,7 +27,7 @@ public class Bookmark implements Serializable {
     private Long mtype;
     private String cateTitle;
     private String creator;
-    private int extFollow;
+    private int follow;
     private Mtype mt;
     
     public Long getId() {
@@ -181,14 +181,14 @@ public class Bookmark implements Serializable {
 		this.creator = creator;
 	}
 
-	public int getExtFollow() {
-		return extFollow;
+	public int getFollow() {
+		return follow;
 	}
 
-	public void setExtFollow(int extFollow) {
-		this.extFollow = extFollow;
+	public void setFollow(int follow) {
+		this.follow = follow;
 	}
-	
+
 	public Mtype getMt() {
 		return mt;
 	}

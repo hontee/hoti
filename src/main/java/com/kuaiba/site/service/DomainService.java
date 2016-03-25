@@ -2,7 +2,6 @@ package com.kuaiba.site.service;
 
 import java.util.List;
 
-import com.kuaiba.site.core.cache.DomainCachePolicy;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.Domain;
@@ -10,7 +9,7 @@ import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Pager;
 import com.kuaiba.site.front.vo.DomainVO;
 
-public interface DomainService extends Pager<Domain, DomainExample>, DomainCachePolicy {
+public interface DomainService extends Pager<Domain, DomainExample> {
 
 	/**
 	 * 按条件统计
@@ -40,6 +39,13 @@ public interface DomainService extends Pager<Domain, DomainExample>, DomainCache
      * @throws SecurityException
      */
     void add(DomainVO vo) throws SecurityException;
+    
+    /**
+     * 读取数据
+     * @return
+     * @throws SecurityException
+     */
+    List<Domain> findAll() throws SecurityException;
 
     /**
      * 读取数据
@@ -47,7 +53,7 @@ public interface DomainService extends Pager<Domain, DomainExample>, DomainCache
      * @return
      * @throws SecurityException
      */
-    List<Domain> read(DomainExample example) throws SecurityException;
+    List<Domain> findAll(DomainExample example) throws SecurityException;
 
     /**
      * 读取一条数据
@@ -55,7 +61,7 @@ public interface DomainService extends Pager<Domain, DomainExample>, DomainCache
      * @return
      * @throws SecurityException
      */
-    Domain read(Long id) throws SecurityException;
+    Domain findOne(Long id) throws SecurityException;
     
     /**
      * 获取数据集合
@@ -63,7 +69,7 @@ public interface DomainService extends Pager<Domain, DomainExample>, DomainCache
      * @return
      * @throws SecurityException
      */
-    List<Domain> search(DomainExample example) throws SecurityException;
+    List<Domain> findAllWithCates(DomainExample example) throws SecurityException;
 
     /**
      * 按条件更新

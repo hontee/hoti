@@ -61,7 +61,7 @@ public class GroupCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", groupService.read(id));
+		model.addAttribute("record", groupService.findOne(id));
 		return "cms/groups/edit";
 	}
 	
@@ -89,7 +89,7 @@ public class GroupCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", groupService.read(id));
+		model.addAttribute("record", groupService.findOne(id));
 		return "cms/groups/view";
 	}
 
@@ -121,7 +121,7 @@ public class GroupCMS {
 			criteria.andGtypeEqualTo(gtype);
 		}
 		
-		PageInfo<Group> pageInfo = groupService.search(example, p);
+		PageInfo<Group> pageInfo = groupService.find(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 	
@@ -197,7 +197,7 @@ public class GroupCMS {
 	@RequestMapping(value = "/{id}/bookmark", method = RequestMethod.POST)
 	@SiteLog(action = "后台群组批量添加站点", table = TableIDs.GROUP)
 	public @ResponseBody SiteResponse addBookmark(@RequestParam Long[] ids, @PathVariable Long id, HttpServletRequest request) throws SecurityException {
-		groupService.addBookmark(id, ids);
+		groupService.add(id, ids);
 		return SiteUtil.ok();
 	}
 	
@@ -205,7 +205,7 @@ public class GroupCMS {
 	@RequestMapping(value = "/{id}/manager", method = RequestMethod.POST)
 	@SiteLog(action = "后台群组批量移除站点", table = TableIDs.GROUP)
 	public @ResponseBody SiteResponse removeBookmarks(@RequestParam Long[] ids, @PathVariable Long id, HttpServletRequest request) throws SecurityException {
-		groupService.removeBookmark(id, ids);
+		groupService.remove(id, ids);
 		return SiteUtil.ok();
 	}
 

@@ -6,7 +6,6 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
@@ -14,10 +13,11 @@ import com.kuaiba.site.core.exception.ReadException;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.db.dao.TrackMapper;
-import com.kuaiba.site.db.entity.VUtil;
+import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.Track;
 import com.kuaiba.site.db.entity.TrackExample;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.service.TrackService;
 
 @Service
@@ -27,11 +27,11 @@ public class TrackServiceImpl implements TrackService {
 	private TrackMapper mapper;
 
 	@Override
-	public PageInfo<Track> search(TrackExample example, Pagination p) throws SecurityException { 
+	public PageInfo<Track> find(TrackExample example, Pagination p) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(example, p);
-			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<Track> list = read(example);
+			PagerUtil.startPage(p);
+			List<Track> list = findAll(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("分页读取异常失败", e);
@@ -89,7 +89,7 @@ public class TrackServiceImpl implements TrackService {
 	}
 
 	@Override
-	public List<Track> read(TrackExample example) throws SecurityException { 
+	public List<Track> findAll(TrackExample example) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(example);
 			return mapper.selectByExample(example);
@@ -99,7 +99,7 @@ public class TrackServiceImpl implements TrackService {
 	}
 
 	@Override
-	public Track read(Long id) throws SecurityException { 
+	public Track findOne(Long id) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(id);
 			return mapper.selectByPrimaryKey(id);

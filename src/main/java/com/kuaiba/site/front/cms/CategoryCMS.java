@@ -56,14 +56,14 @@ public class CategoryCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", categoryService.findOne(id));
 		return "cms/cates/edit";
 	}
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", findByPrimaryKey(id));
+		model.addAttribute("record", categoryService.findOne(id));
 		return "cms/cates/view";
 	}
 
@@ -90,7 +90,7 @@ public class CategoryCMS {
 			criteria.andStateEqualTo(state);
 		}
 		
-		PageInfo<Category> pageInfo = categoryService.search(example, p);
+		PageInfo<Category> pageInfo = categoryService.find(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 	
@@ -100,7 +100,7 @@ public class CategoryCMS {
 			@RequestParam(required = false) String q) throws Exception {
 		CategoryExample example = new CategoryExample();
 		example.createCriteria().andStateEqualTo((byte)1);
-		List<Category> list = categoryService.read(example);
+		List<Category> list = categoryService.findAll(example);
 		List<ComboBox> boxes = new ArrayList<>();
 		
 		/**
@@ -147,7 +147,4 @@ public class CategoryCMS {
 		return SiteUtil.ok();
 	}
 	
-	private Category findByPrimaryKey(Long id) throws SecurityException {
-		return categoryService.read(id);
-	}
 }

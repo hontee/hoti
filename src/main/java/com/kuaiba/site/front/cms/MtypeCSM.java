@@ -53,14 +53,14 @@ public class MtypeCSM {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", mtypeService.read(id));
+		model.addAttribute("record", mtypeService.findOne(id));
 		return "cms/mtypes/edit";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", mtypeService.read(id));
+		model.addAttribute("record", mtypeService.findOne(id));
 		return "cms/mtypes/view";
 	}
 
@@ -70,7 +70,7 @@ public class MtypeCSM {
 		MtypeExample example = new MtypeExample();
 		example.createCriteria().andStateEqualTo((byte)1);
 		example.setOrderByClause("weight DESC"); // 按权重排序
-		List<Mtype> list = mtypeService.read(example);
+		List<Mtype> list = mtypeService.findAll(example);
 		List<ComboBox> boxes = new ArrayList<>();
 		list.forEach((m) -> boxes.add(new ComboBox(m.getId(), m.getTitle())));
 		return boxes;
@@ -94,7 +94,7 @@ public class MtypeCSM {
 			criteria.andStateEqualTo(state);
 		}
 		
-		PageInfo<Mtype> pageInfo = mtypeService.search(example, p);
+		PageInfo<Mtype> pageInfo = mtypeService.find(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 

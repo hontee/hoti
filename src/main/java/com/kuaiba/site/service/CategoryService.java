@@ -2,14 +2,13 @@ package com.kuaiba.site.service;
 
 import java.util.List;
 
-import com.kuaiba.site.core.cache.CategoryCachePolicy;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
 import com.kuaiba.site.db.entity.Pager;
 import com.kuaiba.site.front.vo.CategoryVO;
 
-public interface CategoryService extends Pager<Category, CategoryExample>, CategoryCachePolicy {
+public interface CategoryService extends Pager<Category, CategoryExample> {
 	
 	/**
 	 * 按条件统计
@@ -39,6 +38,13 @@ public interface CategoryService extends Pager<Category, CategoryExample>, Categ
      * @throws SecurityException
      */
 	void add(CategoryVO vo) throws SecurityException;
+	
+	/**
+	 * 读取数据
+	 * @return
+	 * @throws SecurityException
+	 */
+    List<Category> findAll() throws SecurityException;
 
 	/**
 	 * 读取数据
@@ -46,7 +52,15 @@ public interface CategoryService extends Pager<Category, CategoryExample>, Categ
 	 * @return
 	 * @throws SecurityException
 	 */
-    List<Category> read(CategoryExample example) throws SecurityException;
+    List<Category> findAll(CategoryExample example) throws SecurityException;
+
+    /**
+     * 按条件查询集合
+     * @param example
+     * @return
+     * @throws SecurityException
+     */
+    List<Category> findAllWithBookmarks(CategoryExample example) throws SecurityException;
 
     /**
      * 读取一个数据
@@ -54,8 +68,16 @@ public interface CategoryService extends Pager<Category, CategoryExample>, Categ
      * @return
      * @throws SecurityException
      */
-    Category read(Long id) throws SecurityException;
-
+    Category findOne(Long id) throws SecurityException;
+    
+    /**
+     * 根据Domain查询
+     * @param domain
+     * @return
+     * @throws SecurityException
+     */
+    List<Category> find(Long domain) throws SecurityException;
+    
     /**
      * 按条件更新
      * @param record
@@ -79,23 +101,7 @@ public interface CategoryService extends Pager<Category, CategoryExample>, Categ
      * @throws SecurityException
      */
     void update(Long id, long count) throws SecurityException;
-    
-    /**
-     * 根据Domain查询
-     * @param domain
-     * @return
-     * @throws SecurityException
-     */
-    List<Category> search(Long domain) throws SecurityException;
-    
-    /**
-     * 按条件查询集合
-     * @param example
-     * @return
-     * @throws SecurityException
-     */
-    List<Category> search(CategoryExample example) throws SecurityException;
-    
+
     /**
 	 * 验证Category名称是否存在
 	 * @param name

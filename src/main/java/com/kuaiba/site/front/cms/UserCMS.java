@@ -50,21 +50,21 @@ public class UserCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/password", method = RequestMethod.GET)
 	public String passwordPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", userService.read(id));
+		model.addAttribute("record", userService.findOne(id));
 		return "cms/users/password";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", userService.read(id));
+		model.addAttribute("record", userService.findOne(id));
 		return "cms/users/edit";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", userService.read(id));
+		model.addAttribute("record", userService.findOne(id));
 		return "cms/users/view";
 	}
 
@@ -91,7 +91,7 @@ public class UserCMS {
 			criteria.andStateEqualTo(state);
 		}
 		
-		PageInfo<User> pageInfo = userService.search(example, p);
+		PageInfo<User> pageInfo = userService.find(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 	

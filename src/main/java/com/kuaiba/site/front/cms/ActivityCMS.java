@@ -42,7 +42,7 @@ public class ActivityCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", activityService.read(id));
+		model.addAttribute("record", activityService.findOne(id));
 		return "cms/activities/view";
 	}
 
@@ -64,7 +64,7 @@ public class ActivityCMS {
 			criteria.andTblEqualTo(tbl);
 		}
 		
-		PageInfo<Activity> pageInfo = activityService.search(example, p);
+		PageInfo<Activity> pageInfo = activityService.find(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 	

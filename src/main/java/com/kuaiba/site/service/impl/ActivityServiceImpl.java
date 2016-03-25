@@ -6,7 +6,6 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
@@ -15,8 +14,9 @@ import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.dao.ActivityMapper;
 import com.kuaiba.site.db.entity.Activity;
 import com.kuaiba.site.db.entity.ActivityExample;
-import com.kuaiba.site.db.entity.VUtil;
+import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.service.ActivityService;
 
 @Service
@@ -26,11 +26,11 @@ public class ActivityServiceImpl implements ActivityService {
 	private ActivityMapper mapper;
 
 	@Override
-	public PageInfo<Activity> search(ActivityExample example, Pagination p) throws SecurityException {
+	public PageInfo<Activity> find(ActivityExample example, Pagination p) throws SecurityException {
 		try {
 			VUtil.assertNotNull(example, p);
-			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<Activity> list = read(example);
+			PagerUtil.startPage(p);
+			List<Activity> list = findAll(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("分页读取记录失败", e);
@@ -78,7 +78,7 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	@Override
-	public List<Activity> read(ActivityExample example) throws SecurityException {
+	public List<Activity> findAll(ActivityExample example) throws SecurityException {
 		try {
 			VUtil.assertNotNull(example);
 			return mapper.selectByExample(example);
@@ -88,7 +88,7 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	@Override
-	public Activity read(Long id) throws SecurityException {
+	public Activity findOne(Long id) throws SecurityException {
 		try {
 			VUtil.assertNotNull(id);
 			return mapper.selectByPrimaryKey(id);

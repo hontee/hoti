@@ -1,6 +1,7 @@
 package com.kuaiba.site.db.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class Category implements Serializable {
 	private Long createBy;
 	private String domainTitle;
 	private String creator;
+	
 	private List<Bookmark> bookmarks;
 
 	public Long getId() {
@@ -137,6 +139,11 @@ public class Category implements Serializable {
 	}
 
 	public List<Bookmark> getBookmarks() {
+		
+		if (bookmarks == null) {
+			bookmarks = new ArrayList<>();
+		}
+		
 		return bookmarks;
 	}
 

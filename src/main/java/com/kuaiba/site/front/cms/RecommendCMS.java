@@ -26,7 +26,6 @@ import com.kuaiba.site.front.controller.SiteUtil;
 import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.front.vo.RecommendVO;
 import com.kuaiba.site.interceptor.SiteLog;
-import com.kuaiba.site.service.Auditable;
 import com.kuaiba.site.service.RecommendService;
 
 @Controller
@@ -35,8 +34,6 @@ public class RecommendCMS {
 	
 	@Resource
 	private RecommendService recommendService;
-	@Resource
-	private Auditable auditable;
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -53,28 +50,28 @@ public class RecommendCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", recommendService.read(id));
+		model.addAttribute("record", recommendService.findOne(id));
 		return "cms/recmds/edit";
 	}
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/ok", method = RequestMethod.GET)
 	public String auditOKPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", recommendService.read(id));
+		model.addAttribute("record", recommendService.findOne(id));
 		return "cms/recmds/ok";
 	}
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/refuse", method = RequestMethod.GET)
 	public String auditRefusePage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", recommendService.read(id));
+		model.addAttribute("record", recommendService.findOne(id));
 		return "cms/recmds/refuse";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", recommendService.read(id));
+		model.addAttribute("record", recommendService.findOne(id));
 		return "cms/recmds/view";
 	}
 
@@ -96,7 +93,7 @@ public class RecommendCMS {
 			criteria.andStateEqualTo(state);
 		}
 		
-		PageInfo<Recommend> pageInfo = recommendService.search(example, p);
+		PageInfo<Recommend> pageInfo = recommendService.find(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 
@@ -128,7 +125,7 @@ public class RecommendCMS {
 	@RequestMapping(value = "/{id}/ok", method = RequestMethod.POST)
 	@SiteLog(action = "后台审核推荐通过", table = TableIDs.BOOKMARK, clazz = BookmarkVO.class)
 	public @ResponseBody SiteResponse auditOk(@PathVariable Long id, BookmarkVO vo, HttpServletRequest request) throws SecurityException {
-		auditable.auditRecmds(id, vo);
+		recommendService.audit(id, vo);
 		return SiteUtil.ok();
 	}
 	
@@ -136,7 +133,7 @@ public class RecommendCMS {
 	@RequestMapping(value = "/{id}/refuse", method = RequestMethod.POST)
 	@SiteLog(action = "后台审核推荐拒绝", table = TableIDs.RECOMMEND, clazz = String.class)
 	public @ResponseBody SiteResponse auditRefuse(@PathVariable Long id, @RequestParam String remark, HttpServletRequest request) throws SecurityException {
-		auditable.auditRecmds(id, remark);
+		recommendService.audit(id, remark);
 		return SiteUtil.ok();
 	}
 

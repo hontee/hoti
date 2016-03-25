@@ -1,16 +1,12 @@
 package com.kuaiba.site.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.core.cache.CacheIDs;
-import com.kuaiba.site.core.cache.MemcachedUtil;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.ReadException;
@@ -20,11 +16,13 @@ import com.kuaiba.site.core.exception.ValidationException;
 import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.dao.MtypeMapper;
 import com.kuaiba.site.db.entity.Attribute;
-import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.Mtype;
 import com.kuaiba.site.db.entity.MtypeExample;
+import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.front.vo.MtypeVO;
+import com.kuaiba.site.service.CacheMgr;
 import com.kuaiba.site.service.MtypeService;
 
 @Service
@@ -32,13 +30,15 @@ public class MtypeServiceImpl implements MtypeService {
 	
 	@Resource
 	private MtypeMapper mapper;
+	@Resource
+	private CacheMgr cacheMgr;
 
 	@Override
-	public PageInfo<Mtype> search(MtypeExample example, Pagination p) throws SecurityException { 
+	public PageInfo<Mtype> find(MtypeExample example, Pagination p) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(example, p);
-			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<Mtype> list = read(example);
+			PagerUtil.startPage(p);
+			List<Mtype> list = findAll(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("分页读取类型失败", e);
@@ -93,7 +93,12 @@ public class MtypeServiceImpl implements MtypeService {
 	}
 
 	@Override
-	public List<Mtype> read(MtypeExample example) throws SecurityException { 
+	public List<Mtype> findAll() throws SecurityException {
+		return cacheMgr.readMtypes();
+	}
+
+	@Override
+	public List<Mtype> findAll(MtypeExample example) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(example);
 			return mapper.selectByExample(example);
@@ -103,18 +108,13 @@ public class MtypeServiceImpl implements MtypeService {
 	}
 
 	@Override
-	public Mtype read(Long id) throws SecurityException {
-		
-		VUtil.assertNotNull(id);
-		List<Mtype> list = this.getMtypes();
-		
-		for (Mtype mtype : list) {
-			if (mtype.getId().equals(id)) {
-				return mtype;
-			}
+	public Mtype findOne(Long id) throws SecurityException {
+		try {
+			VUtil.assertNotNull(id);
+			return mapper.selectByPrimaryKey(id);
+		} catch (Exception e) {
+			throw new ReadException("读取类型失败", e);
 		}
-
-		return new Mtype();
 	}
 
 	@Override
@@ -161,23 +161,6 @@ public class MtypeServiceImpl implements MtypeService {
 		} catch (Exception e) {
 			throw new ValidationException("验证类型" + attr.name() + "失败", e);
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Mtype> getMtypes() throws SecurityException {
-		
-		List<Mtype> list = new ArrayList<>();
-		
-		if (MemcachedUtil.exists(CacheIDs.MTYPES)) {
-			list = (List<Mtype>) MemcachedUtil.get(CacheIDs.MTYPES);
-		} else {
-			// 从数据库中获取
-			list = read(new MtypeExample());
-			MemcachedUtil.set(CacheIDs.MTYPES, 1000 * 60 * 30, list);
-		}
-		
-		return list;
 	}
 	
 }

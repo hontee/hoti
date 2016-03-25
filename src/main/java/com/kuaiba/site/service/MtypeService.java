@@ -2,7 +2,6 @@ package com.kuaiba.site.service;
 
 import java.util.List;
 
-import com.kuaiba.site.core.cache.MtypeCachePolicy;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.Mtype;
@@ -10,7 +9,7 @@ import com.kuaiba.site.db.entity.MtypeExample;
 import com.kuaiba.site.db.entity.Pager;
 import com.kuaiba.site.front.vo.MtypeVO;
 
-public interface MtypeService extends Pager<Mtype, MtypeExample>, MtypeCachePolicy {
+public interface MtypeService extends Pager<Mtype, MtypeExample> {
 	
 	/**
 	 * 按条件统计
@@ -40,6 +39,13 @@ public interface MtypeService extends Pager<Mtype, MtypeExample>, MtypeCachePoli
      * @throws SecurityException
      */
     void add(MtypeVO vo) throws SecurityException;
+    
+    /**
+     * 获取数据列表
+     * @return
+     * @throws SecurityException
+     */
+    List<Mtype> findAll() throws SecurityException;
 
     /**
      * 获取数据列表
@@ -47,7 +53,7 @@ public interface MtypeService extends Pager<Mtype, MtypeExample>, MtypeCachePoli
      * @return
      * @throws SecurityException
      */
-    List<Mtype> read(MtypeExample example) throws SecurityException;
+    List<Mtype> findAll(MtypeExample example) throws SecurityException;
 
     /**
      * 获取数据
@@ -55,7 +61,7 @@ public interface MtypeService extends Pager<Mtype, MtypeExample>, MtypeCachePoli
      * @return
      * @throws SecurityException
      */
-    Mtype read(Long id) throws SecurityException;
+    Mtype findOne(Long id) throws SecurityException;
     
     /**
      * 按条件更新

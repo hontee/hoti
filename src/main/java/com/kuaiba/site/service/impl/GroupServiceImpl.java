@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
@@ -24,11 +23,12 @@ import com.kuaiba.site.db.dao.GroupMapper;
 import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
+import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.front.vo.GroupVO;
+import com.kuaiba.site.service.CacheMgr;
 import com.kuaiba.site.service.GroupService;
-import com.kuaiba.site.service.MtypeService;
 
 @Service
 public class GroupServiceImpl implements GroupService {
@@ -40,14 +40,14 @@ public class GroupServiceImpl implements GroupService {
 	@Resource
 	private GroupBookmarkMapper gbMapper;
 	@Resource
-	private MtypeService mtypeService;
+	private CacheMgr cacheMgr;
 
 	@Override
-	public PageInfo<Group> search(GroupExample example, Pagination p) throws SecurityException { 
+	public PageInfo<Group> find(GroupExample example, Pagination p) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(example, p);
-			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<Group> list = read(example);
+			PagerUtil.startPage(p);
+			List<Group> list = findAll(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("分页读取群组失败", e);
@@ -83,6 +83,15 @@ public class GroupServiceImpl implements GroupService {
 			throw new DeleteException("删除群组失败", e);
 		}
 	}
+	
+	@Override
+	public void remove(Long gid, Long[] bmids) throws SecurityException {
+		Arrays.asList(bmids).stream().forEach((bmid) -> {
+			try {
+				remove(gid, bmid);
+			} catch (Exception e) {}
+		});
+	}
 
 	@Override
 	public void add(GroupVO vo) throws SecurityException { 
@@ -103,14 +112,33 @@ public class GroupServiceImpl implements GroupService {
 			throw new CreateException("添加群组失败", e);
 		}
 	}
+	
+	@Override
+	public void add(Long gid, Long bmid) throws SecurityException { 
+		try {
+			VUtil.assertNotNull(gid, bmid);
+			gbMapper.insert(gid, bmid);
+		} catch (Exception e) {
+			throw new CreateException("群组关联站点失败", e);
+		}
+	}
+	
+	@Override
+	public void add(Long gid, Long[] bmids) throws SecurityException {
+		Arrays.asList(bmids).stream().forEach((bmid) -> {
+			try {
+				add(gid, bmid);
+			} catch (Exception e) {}
+		});
+	}
 
 	@Override
-	public List<Group> read(GroupExample example) throws SecurityException { 
+	public List<Group> findAll(GroupExample example) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(example);
 			List<Group> list = mapper.selectByExample(example);
 			for (Group g : list) {
-				g.setMt(mtypeService.read(g.getMtype()));
+				g.setMt(cacheMgr.readMtype(g.getMtype()));
 			}
 			return list;
 		} catch (Exception e) {
@@ -119,7 +147,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public Group read(Long id) throws SecurityException { 
+	public Group findOne(Long id) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(id);
 			return mapper.selectByPrimaryKey(id);
@@ -190,41 +218,13 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public void removeBookmark(Long gid, Long bmid) throws SecurityException { 
+	public void remove(Long gid, Long bmid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(gid, bmid);
 			gbMapper.delete(gid, bmid);
 		} catch (Exception e) {
 			throw new DeleteException("群组移除站点失败", e);
 		}
-	}
-	
-	@Override
-	public void removeBookmark(Long gid, Long[] bmids) throws SecurityException {
-		Arrays.asList(bmids).stream().forEach((bmid) -> {
-			try {
-				this.removeBookmark(gid, bmid);
-			} catch (Exception e) {}
-		});
-	}
-
-	@Override
-	public void addBookmark(Long gid, Long bmid) throws SecurityException { 
-		try {
-			VUtil.assertNotNull(gid, bmid);
-			gbMapper.insert(gid, bmid);
-		} catch (Exception e) {
-			throw new CreateException("群组关联站点失败", e);
-		}
-	}
-	
-	@Override
-	public void addBookmark(Long gid, Long[] bmids) throws SecurityException {
-		Arrays.asList(bmids).stream().forEach((bmid) -> {
-			try {
-				this.addBookmark(gid, bmid);
-			} catch (Exception e) {}
-		});
 	}
 	
 	@Override

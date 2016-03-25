@@ -45,7 +45,7 @@ public interface UserService extends Pager<User, UserExample> {
      * @return
      * @throws SecurityException
      */
-    List<User> read(UserExample example) throws SecurityException;
+    List<User> findAll(UserExample example) throws SecurityException;
 
     /**
      * 读取数据
@@ -53,7 +53,7 @@ public interface UserService extends Pager<User, UserExample> {
      * @return
      * @throws SecurityException
      */
-    User read(Long id) throws SecurityException;
+    User findOne(Long id) throws SecurityException;
 
     /**
      * 按条件更新
@@ -85,7 +85,7 @@ public interface UserService extends Pager<User, UserExample> {
      * @return
      * @throws SecurityException
      */
-    User search(String name) throws SecurityException;
+    User findByName(String name) throws SecurityException;
     
     /**
      * 验证用户名是否已存在

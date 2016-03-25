@@ -46,7 +46,7 @@ public interface BookmarkService extends Pager<Bookmark, BookmarkExample> {
 	 * @return
 	 * @throws SecurityException
 	 */
-	List<Bookmark> read(BookmarkExample example) throws SecurityException;
+	List<Bookmark> findAll(BookmarkExample example) throws SecurityException;
 
 	/**
 	 * 读取一条数据
@@ -54,7 +54,7 @@ public interface BookmarkService extends Pager<Bookmark, BookmarkExample> {
 	 * @return
 	 * @throws SecurityException
 	 */
-	Bookmark read(Long id) throws SecurityException;
+	Bookmark findOne(Long id) throws SecurityException;
 
 	/**
 	 * 按条件更新
@@ -73,12 +73,13 @@ public interface BookmarkService extends Pager<Bookmark, BookmarkExample> {
 	void update(Long id, BookmarkVO vo) throws SecurityException;
 	
 	/**
-	 * 取消关注站点
-	 * @param fid
+	 * 更新点击，并获取返回URL
+	 * @param id
+	 * @return
 	 * @throws SecurityException
 	 */
-	void unfollow(Long fid) throws SecurityException;
-
+	String updateHit(Long id) throws SecurityException;
+	
 	/**
 	 * 关注站点
 	 * @param fid
@@ -87,26 +88,25 @@ public interface BookmarkService extends Pager<Bookmark, BookmarkExample> {
 	void follow(Long fid) throws SecurityException;
 	
 	/**
-	 * 检测是否已关注
+	 * 取消关注站点
 	 * @param fid
-	 * @return
 	 * @throws SecurityException
 	 */
-	boolean isFollow(Long fid) throws SecurityException;
-	
-	/**
-	 * 更新点击，并获取返回URL
-	 * @param id
-	 * @return
-	 * @throws SecurityException
-	 */
-	String hit(Long id) throws SecurityException;
-	
+	void unfollow(Long fid) throws SecurityException;
+
 	/**
 	 * 验证属性/值是否存在
 	 * @param name
 	 * @return
 	 */
 	boolean validate(Attribute attr, String value) throws SecurityException;
+	
+	/**
+	 * 检测是否已关注
+	 * @param fid
+	 * @return
+	 * @throws SecurityException
+	 */
+	boolean validateFollow(Long fid) throws SecurityException;
 	
 }

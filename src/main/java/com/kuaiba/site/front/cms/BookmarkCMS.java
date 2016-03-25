@@ -55,7 +55,7 @@ public class BookmarkCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", bookmarkService.read(id));
+		model.addAttribute("record", bookmarkService.findOne(id));
 		return "cms/bookmarks/edit";
 	}
 	
@@ -69,7 +69,7 @@ public class BookmarkCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", bookmarkService.read(id));
+		model.addAttribute("record", bookmarkService.findOne(id));
 		return "cms/bookmarks/view";
 	}
 
@@ -96,7 +96,7 @@ public class BookmarkCMS {
 			criteria.andStateEqualTo(state);
 		}
 		
-		PageInfo<Bookmark> pageInfo = bookmarkService.search(example, p);
+		PageInfo<Bookmark> pageInfo = bookmarkService.find(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 	

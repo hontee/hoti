@@ -6,6 +6,7 @@ import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Pager;
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
+import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.front.vo.RecommendVO;
 
 public interface RecommendService extends Pager<Recommend, RecommendExample> {
@@ -45,7 +46,7 @@ public interface RecommendService extends Pager<Recommend, RecommendExample> {
      * @return
      * @throws SecurityException
      */
-    List<Recommend> read(RecommendExample example) throws SecurityException;
+    List<Recommend> findAll(RecommendExample example) throws SecurityException;
 
     /**
      * 读取数据
@@ -53,7 +54,7 @@ public interface RecommendService extends Pager<Recommend, RecommendExample> {
      * @return
      * @throws SecurityException
      */
-    Recommend read(Long id) throws SecurityException;
+    Recommend findOne(Long id) throws SecurityException;
 
     /**
      * 按条件更新
@@ -70,5 +71,19 @@ public interface RecommendService extends Pager<Recommend, RecommendExample> {
      * @throws SecurityException
      */
     void update(Long id, RecommendVO vo) throws SecurityException;
+    
+    /**
+     * 审核拒绝
+     * @param id
+     * @param remark
+     */
+    void audit(Long id, String remark) throws SecurityException;
+    
+    /**
+     * 审核通过
+     * @param id
+     * @param remark
+     */
+    void audit(Long id, BookmarkVO vo) throws SecurityException;
 
 }

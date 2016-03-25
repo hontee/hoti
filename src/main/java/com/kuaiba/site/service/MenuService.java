@@ -2,7 +2,6 @@ package com.kuaiba.site.service;
 
 import java.util.List;
 
-import com.kuaiba.site.core.cache.MenuCachePolicy;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.Menu;
@@ -10,7 +9,7 @@ import com.kuaiba.site.db.entity.MenuExample;
 import com.kuaiba.site.db.entity.Pager;
 import com.kuaiba.site.front.vo.MenuVO;
 
-public interface MenuService extends Pager<Menu, MenuExample>, MenuCachePolicy {
+public interface MenuService extends Pager<Menu, MenuExample> {
 	
 	/**
 	 * 按条件统计
@@ -40,6 +39,13 @@ public interface MenuService extends Pager<Menu, MenuExample>, MenuCachePolicy {
      * @throws SecurityException
      */
     void add(MenuVO vo) throws SecurityException;
+    
+    /**
+     * 获取数据列表
+     * @return
+     * @throws SecurityException
+     */
+    List<Menu> findAll() throws SecurityException;
 
     /**
      * 获取数据列表
@@ -47,7 +53,7 @@ public interface MenuService extends Pager<Menu, MenuExample>, MenuCachePolicy {
      * @return
      * @throws SecurityException
      */
-    List<Menu> read(MenuExample example) throws SecurityException;
+    List<Menu> findAll(MenuExample example) throws SecurityException;
 
     /**
      * 获取数据
@@ -55,7 +61,7 @@ public interface MenuService extends Pager<Menu, MenuExample>, MenuCachePolicy {
      * @return
      * @throws SecurityException
      */
-    Menu read(Long id) throws SecurityException;
+    Menu findOne(Long id) throws SecurityException;
 
     /**
      * 按条件更新

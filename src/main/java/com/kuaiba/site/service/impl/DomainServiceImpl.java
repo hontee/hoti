@@ -1,16 +1,12 @@
 package com.kuaiba.site.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.core.cache.CacheIDs;
-import com.kuaiba.site.core.cache.MemcachedUtil;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.ReadException;
@@ -20,11 +16,13 @@ import com.kuaiba.site.core.exception.ValidationException;
 import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.dao.DomainMapper;
 import com.kuaiba.site.db.entity.Attribute;
-import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
+import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.front.vo.DomainVO;
+import com.kuaiba.site.service.CacheMgr;
 import com.kuaiba.site.service.DomainService;
 
 @Service
@@ -32,13 +30,15 @@ public class DomainServiceImpl implements DomainService {
 
 	@Resource
 	private DomainMapper mapper;
+	@Resource
+	private CacheMgr cacheMgr;
 	
 	@Override
-	public PageInfo<Domain> search(DomainExample example, Pagination p) throws SecurityException { 
+	public PageInfo<Domain> find(DomainExample example, Pagination p) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(example, p);
-			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<Domain> list = this.read(example);
+			PagerUtil.startPage(p);
+			List<Domain> list = findAll(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("分页读取领域失败", e);
@@ -91,9 +91,14 @@ public class DomainServiceImpl implements DomainService {
 			throw new CreateException("添加领域失败", e);
 		}
 	}
+	
+	@Override
+	public List<Domain> findAll() throws SecurityException {
+		return cacheMgr.readDomains();
+	}
 
 	@Override
-	public List<Domain> read(DomainExample example) throws SecurityException { 
+	public List<Domain> findAll(DomainExample example) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(example);
 			return mapper.selectByExample(example);
@@ -103,18 +108,13 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
-	public Domain read(Long id) throws SecurityException { 
-		
-		VUtil.assertNotNull(id);
-		List<Domain> list = this.getDomains();
-		
-		for (Domain domain : list) {
-			if (id.equals(domain.getId())) {
-				return domain;
-			}
+	public Domain findOne(Long id) throws SecurityException { 
+		try {
+			VUtil.assertNotNull(id);
+			return mapper.selectByPrimaryKey(id);
+		} catch (Exception e) {
+			throw new ReadException("读取领域失败", e);
 		}
-		
-		return new Domain();
 	}
 
 	@Override
@@ -158,7 +158,7 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
-	public List<Domain> search(DomainExample example) throws SecurityException { 
+	public List<Domain> findAllWithCates(DomainExample example) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(example);
 			return mapper.selectByCollect(example);
@@ -183,22 +183,6 @@ public class DomainServiceImpl implements DomainService {
 		} catch (Exception e) {
 			throw new ValidationException("验证领域" + attr.name() + "失败", e);
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Domain> getDomains() throws SecurityException {
-		
-		List<Domain> list = new ArrayList<>();
-		
-		if (MemcachedUtil.exists(CacheIDs.DOMAINS)) {
-			list = (List<Domain>) MemcachedUtil.get(CacheIDs.DOMAINS);
-		} else {
-			// 从数据库中获取
-			list = this.read(new DomainExample());
-			MemcachedUtil.set(CacheIDs.DOMAINS, 1000 * 60 * 30, list);
-		}
-		
-		return list;
 	}
 
 }

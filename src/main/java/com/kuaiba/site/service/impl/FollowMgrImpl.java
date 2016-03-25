@@ -6,7 +6,6 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.exception.ReadException;
 import com.kuaiba.site.core.exception.SecurityException;
@@ -14,10 +13,11 @@ import com.kuaiba.site.db.dao.FollowUserMapper;
 import com.kuaiba.site.db.dao.GroupBookmarkRelationMapper;
 import com.kuaiba.site.db.entity.FollowUser;
 import com.kuaiba.site.db.entity.FollowUserExample;
-import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.GroupBookmarkRelation;
 import com.kuaiba.site.db.entity.GroupBookmarkRelationExample;
+import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.service.Followable;
 
 @Service
@@ -42,7 +42,7 @@ public class FollowMgrImpl implements Followable {
 	public PageInfo<FollowUser> findBmfUser(FollowUserExample example, Pagination p) throws SecurityException {
 		try {
 			VUtil.assertNotNull(example);
-			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
+			PagerUtil.startPage(p);
 			List<FollowUser> list = bfu.selectBookmarkByExample(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
@@ -65,7 +65,7 @@ public class FollowMgrImpl implements Followable {
 			throws SecurityException {
 		try {
 			VUtil.assertNotNull(example);
-			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
+			PagerUtil.startPage(p);
 			List<GroupBookmarkRelation> list = gbr.selectByExample(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
@@ -87,7 +87,7 @@ public class FollowMgrImpl implements Followable {
 	public PageInfo<FollowUser> findGroupUser(FollowUserExample example, Pagination p) throws SecurityException {
 		try {
 			VUtil.assertNotNull(example);
-			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
+			PagerUtil.startPage(p);
 			List<FollowUser> list = bfu.selectGroupByExample(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {

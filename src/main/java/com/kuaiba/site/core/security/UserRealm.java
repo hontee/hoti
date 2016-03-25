@@ -64,7 +64,7 @@ public class UserRealm extends AuthorizingRealm {
 		
 		User currentUser = null;
 		try {
-			currentUser = service.search(username);
+			currentUser = service.findByName(username);
 		} catch (SecurityException e) {
 			logger.info("用户名或密码错误：{}", e.getMessage());
 		}

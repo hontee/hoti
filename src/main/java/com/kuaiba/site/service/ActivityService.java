@@ -44,7 +44,7 @@ public interface ActivityService extends Pager<Activity, ActivityExample> {
 	 * @return
 	 * @throws SecurityException
 	 */
-	List<Activity> read(ActivityExample example) throws SecurityException;
+	List<Activity> findAll(ActivityExample example) throws SecurityException;
 
 	/**
 	 * 读取一条数据
@@ -52,5 +52,5 @@ public interface ActivityService extends Pager<Activity, ActivityExample> {
 	 * @return
 	 * @throws SecurityException
 	 */
-	Activity read(Long id) throws SecurityException;
+	Activity findOne(Long id) throws SecurityException;
 }

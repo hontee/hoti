@@ -41,7 +41,7 @@ public class TrackCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", trackService.read(id));
+		model.addAttribute("record", trackService.findOne(id));
 		return "cms/tracks/view";
 	}
 
@@ -57,7 +57,7 @@ public class TrackCMS {
 		if (StringUtils.isNotBlank(name)) {
 			criteria.andNameLike("%" + name + "%"); // 模糊查询
 		}
-		PageInfo<Track> pageInfo = trackService.search(example, p);
+		PageInfo<Track> pageInfo = trackService.find(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 

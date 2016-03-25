@@ -51,7 +51,7 @@ public interface TrackService extends Pager<Track, TrackExample> {
 	 * @return
 	 * @throws SecurityException
 	 */
-	List<Track> read(TrackExample example) throws SecurityException;
+	List<Track> findAll(TrackExample example) throws SecurityException;
 
 	/**
 	 * 读取数据
@@ -59,7 +59,7 @@ public interface TrackService extends Pager<Track, TrackExample> {
 	 * @return
 	 * @throws SecurityException
 	 */
-	Track read(Long id) throws SecurityException;
+	Track findOne(Long id) throws SecurityException;
 
 	/**
 	 * 按条件更新

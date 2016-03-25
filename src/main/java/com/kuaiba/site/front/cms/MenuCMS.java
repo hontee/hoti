@@ -51,14 +51,14 @@ public class MenuCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", menuService.read(id));
+		model.addAttribute("record", menuService.findOne(id));
 		return "cms/menus/edit";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", menuService.read(id));
+		model.addAttribute("record", menuService.findOne(id));
 		return "cms/menus/view";
 	}
 
@@ -68,7 +68,7 @@ public class MenuCMS {
 		MenuExample example = new MenuExample();
 		example.createCriteria().andStateEqualTo((byte)1);
 		example.setOrderByClause("weight DESC"); // 按权重排序
-		return menuService.read(example);
+		return menuService.findAll(example);
 	}
 
 	@RequiresRoles(value = "admin")
@@ -89,7 +89,7 @@ public class MenuCMS {
 			criteria.andStateEqualTo(state);
 		}
 		
-		PageInfo<Menu> pageInfo = menuService.search(example, p);
+		PageInfo<Menu> pageInfo = menuService.find(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 

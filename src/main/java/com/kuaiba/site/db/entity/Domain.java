@@ -1,6 +1,7 @@
 package com.kuaiba.site.db.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class Domain implements Serializable {
     private Date created;
     private Date lastModified;
     private String creator;
+    
     private List<Category> cates;
 
     public Long getId() {
@@ -110,6 +112,11 @@ public class Domain implements Serializable {
     }
 
 	public List<Category> getCates() {
+		
+		if (cates == null) {
+			cates = new ArrayList<>();
+		}
+		
 		return cates;
 	}
 

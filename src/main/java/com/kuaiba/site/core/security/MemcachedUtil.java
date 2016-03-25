@@ -1,4 +1,4 @@
-package com.kuaiba.site.core.cache;
+package com.kuaiba.site.core.security;
 
 import java.io.IOException;
 
@@ -41,21 +41,21 @@ public class MemcachedUtil {
 	 * @param expire
 	 * @param value
 	 */
-	public static void set(CacheIDs key, int expire, Object value) throws SecurityException {
+	public static void set(String key, int expire, Object value) throws SecurityException {
 		MemcachedClient client = null;
 		try {
 			client = getMemcachedClient();
 			OperationFuture<Boolean> future = null;
 			
 			if (exists(key)) {
-				client.replace(key.name(), expire, value);
+				client.replace(key, expire, value);
 			} else {
-				future = client.set(key.name(), expire, value);
+				future = client.set(key, expire, value);
 			}
 			
 			future.get(); // 确保之前(mc.set())操作已经结束
 		} catch (Exception e) {
-			throw new CacheException("设置缓存失败: " + key.name(), e);
+			throw new CacheException("设置缓存失败: " + key, e);
 		} finally {
 			destory(client);
 		}
@@ -67,13 +67,13 @@ public class MemcachedUtil {
 	 * @param expire
 	 * @param value
 	 */
-	public static Object get(CacheIDs key) throws SecurityException {
+	public static Object get(String key) throws SecurityException {
 		MemcachedClient client = null;
 		try {
 			client = getMemcachedClient();
-			return client.get(key.name());
+			return client.get(key);
 		} catch (IOException e) {
-			throw new CacheException("获取缓存失败: " + key.name(), e);
+			throw new CacheException("获取缓存失败: " + key, e);
 		} finally {
 			destory(client);
 		}
@@ -85,14 +85,14 @@ public class MemcachedUtil {
 	 * @param expire
 	 * @param value
 	 */
-	public static void delete(CacheIDs key) throws SecurityException {
+	public static void delete(String key) throws SecurityException {
 		MemcachedClient client = null;
 		try {
 			client = getMemcachedClient();
-			OperationFuture<Boolean> future =  client.delete(key.name());
+			OperationFuture<Boolean> future =  client.delete(key);
 			future.get();
 		} catch (Exception e) {
-			throw new CacheException("删除缓存失败: " + key.name(), e);
+			throw new CacheException("删除缓存失败: " + key, e);
 		} finally {
 			destory(client);
 		}
@@ -105,7 +105,7 @@ public class MemcachedUtil {
 	 * @param value
 	 * @throws SecurityException 
 	 */
-	public static boolean exists(CacheIDs key) throws SecurityException {
+	public static boolean exists(String key) throws SecurityException {
 		return get(key) != null;
 	}
 	

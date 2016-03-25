@@ -106,7 +106,7 @@
   <select id="selectByCategory" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     SELECT 
     <include refid="Base_Column_List" />
-    FROM t_bookmark a
+    FROM v_bookmark a
     WHERE category = #{category,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >

@@ -1,4 +1,4 @@
-package com.kuaiba.site.core.thread;
+package com.kuaiba.site.core.security;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

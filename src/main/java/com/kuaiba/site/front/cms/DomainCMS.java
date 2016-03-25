@@ -56,14 +56,14 @@ public class DomainCMS {
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", domainService.read(id));
+		model.addAttribute("record", domainService.findOne(id));
 		return "cms/domains/edit";
 	}
 
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", domainService.read(id));
+		model.addAttribute("record", domainService.findOne(id));
 		return "cms/domains/view";
 	}
 
@@ -74,7 +74,7 @@ public class DomainCMS {
 		DomainExample example = new DomainExample();
 		example.createCriteria().andStateEqualTo((byte)1);
 		example.setOrderByClause("weight DESC"); // 按权重排序
-		List<Domain> list = domainService.read(example);
+		List<Domain> list = domainService.findAll(example);
 		List<ComboBox> boxes = new ArrayList<>();
 		
 		if ("all".equals(q)) {
@@ -103,7 +103,7 @@ public class DomainCMS {
 			criteria.andStateEqualTo(state);
 		}
 		
-		PageInfo<Domain> pageInfo = domainService.search(example, p);
+		PageInfo<Domain> pageInfo = domainService.find(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 

@@ -6,7 +6,6 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
@@ -24,11 +23,12 @@ import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.GlobalIDs;
 import com.kuaiba.site.db.entity.HttpUtil;
+import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.front.vo.BookmarkVO;
 import com.kuaiba.site.service.BookmarkService;
-import com.kuaiba.site.service.MtypeService;
+import com.kuaiba.site.service.CacheMgr;
 
 @Service
 public class BookmarkServiceImpl implements BookmarkService {
@@ -38,14 +38,14 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Resource
 	private BookmarkFollowMapper bfMapper;
 	@Resource
-	private MtypeService mtypeService;
+	private CacheMgr cacheMgr;
 
 	@Override
-	public PageInfo<Bookmark> search(BookmarkExample example, Pagination p) throws SecurityException {
+	public PageInfo<Bookmark> find(BookmarkExample example, Pagination p) throws SecurityException {
 		try {
 			VUtil.assertNotNull(example, p);
-			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<Bookmark> list = this.read(example);
+			PagerUtil.startPage(p);
+			List<Bookmark> list = findAll(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("分页读取站点失败", e);
@@ -103,12 +103,12 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public List<Bookmark> read(BookmarkExample example) throws SecurityException { 
+	public List<Bookmark> findAll(BookmarkExample example) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(example);
 			List<Bookmark> list = mapper.selectByExample(example);
 			for (Bookmark bm : list) {
-				bm.setMt(mtypeService.read(bm.getMtype()));
+				bm.setMt(cacheMgr.readMtype(bm.getMtype()));
 			}
 			return list;
 		} catch (Exception e) {
@@ -117,7 +117,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public Bookmark read(Long id) throws SecurityException { 
+	public Bookmark findOne(Long id) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(id);
 			return mapper.selectByPrimaryKey(id);
@@ -153,17 +153,20 @@ public class BookmarkServiceImpl implements BookmarkService {
 			throw new UpdateException("更新站点失败", e);
 		}
 	}
-
+	
 	@Override
-	public void unfollow(Long fid) throws SecurityException { 
+	public String updateHit(Long id) throws SecurityException { 
 		try {
-			VUtil.assertNotNull(fid);
-			bfMapper.delete(AuthzUtil.getUserId(), fid);
+			VUtil.assertNotNull(id);
+			Bookmark record = findOne(id);
+			record.setHit(record.getHit() + 1);
+			mapper.updateByPrimaryKey(record);
+			return HttpUtil.appendQueryParams(record.getUrl(), record.getReffer());
 		} catch (Exception e) {
-			throw new UnfollowException("取消关注站点失败", e);
+			throw new ReadException("点击获取URL失败", e);
 		}
 	}
-
+	
 	@Override
 	public void follow(Long fid) throws SecurityException { 
 		try {
@@ -175,29 +178,15 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public String hit(Long id) throws SecurityException { 
+	public void unfollow(Long fid) throws SecurityException { 
 		try {
-			VUtil.assertNotNull(id);
-			Bookmark record = read(id);
-			record.setHit(record.getHit() + 1);
-			mapper.updateByPrimaryKey(record);
-			return HttpUtil.appendQueryParams(record.getUrl(), record.getReffer());
+			VUtil.assertNotNull(fid);
+			bfMapper.delete(AuthzUtil.getUserId(), fid);
 		} catch (Exception e) {
-			throw new ReadException("点击获取URL失败", e);
+			throw new UnfollowException("取消关注站点失败", e);
 		}
 	}
 
-	@Override
-	public boolean isFollow(Long fid) throws SecurityException { 
-		try {
-			VUtil.assertNotNull(fid);
-			List<Long> list = bfMapper.selectByUid(AuthzUtil.getUserId());
-			return list.contains(fid);
-		} catch (Exception e) {
-			throw new ReadException("判断用户是否关注站点失败", e);
-		}
-	}
-	
 	@Override
 	public boolean validate(Attribute attr, String value) throws SecurityException {
 		try {
@@ -215,6 +204,16 @@ public class BookmarkServiceImpl implements BookmarkService {
 			return !mapper.selectByExample(example).isEmpty();
 		} catch (Exception e) {
 			throw new ValidationException("验证站点" + attr.name() + "失败", e);
+		}
+	}
+	
+	@Override
+	public boolean validateFollow(Long fid) throws SecurityException { 
+		try {
+			VUtil.assertNotNull(fid);
+			return cacheMgr.readUserFollowBMS().contains(fid);
+		} catch (Exception e) {
+			throw new ReadException("判断用户是否关注站点失败", e);
 		}
 	}
 	

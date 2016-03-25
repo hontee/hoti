@@ -7,10 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.core.cache.CacheIDs;
-import com.kuaiba.site.core.cache.MemcachedUtil;
 import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.ReadException;
@@ -23,9 +20,11 @@ import com.kuaiba.site.db.dao.CategoryMapper;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
+import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.front.vo.CategoryVO;
+import com.kuaiba.site.service.CacheMgr;
 import com.kuaiba.site.service.CategoryService;
 
 @Service
@@ -33,16 +32,17 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Resource
 	private BookmarkFollowMapper bfMapper;
-	
 	@Resource
 	private CategoryMapper mapper;
+	@Resource
+	private CacheMgr cacheMgr;
 
 	@Override
-	public PageInfo<Category> search(CategoryExample example, Pagination p) throws SecurityException {
+	public PageInfo<Category> find(CategoryExample example, Pagination p) throws SecurityException {
 		try {
 			VUtil.assertNotNull(example, p);
-			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<Category> list = this.read(example);
+			PagerUtil.startPage(p);
+			List<Category> list = findAll(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("分页读取分类失败", e);
@@ -97,7 +97,12 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> read(CategoryExample example) throws SecurityException {
+	public List<Category> findAll() throws SecurityException {
+		return cacheMgr.readCates();
+	}
+
+	@Override
+	public List<Category> findAll(CategoryExample example) throws SecurityException {
 		try {
 			VUtil.assertNotNull(example);
 			return mapper.selectByExample(example);
@@ -107,18 +112,13 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category read(Long id) throws SecurityException {
-		
-		VUtil.assertNotNull(id);
-		List<Category> list = this.getCategories();
-		
-		for (Category category : list) {
-			if (id.equals(category.getId())) {
-				return category;
-			}
+	public Category findOne(Long id) throws SecurityException {
+		try {
+			VUtil.assertNotNull(id);
+			return mapper.selectByPrimaryKey(id);
+		} catch (Exception e) {
+			throw new ReadException("读取分类失败", e);
 		}
-		
-		return new Category();
 	}
 
 	@Override
@@ -162,7 +162,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> search(Long domain) throws SecurityException { 
+	public List<Category> find(Long domain) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(domain);
 			return mapper.selectByDomain(domain);
@@ -172,12 +172,12 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> search(CategoryExample example) throws SecurityException {
+	public List<Category> findAllWithBookmarks(CategoryExample example) throws SecurityException {
 		try {
 			VUtil.assertNotNull(example);
 			List<Category> list = new ArrayList<>();
 			List<Category> cates = mapper.selectByCollect(example);
-			final List<Long> fids = bfMapper.selectByUid(AuthzUtil.getUserId());
+			final List<Long> fids = cacheMgr.readUserFollowBMS();
 
 			cates.forEach((c) -> {
 				List<Bookmark> ws = c.getBookmarks();
@@ -186,7 +186,7 @@ public class CategoryServiceImpl implements CategoryService {
 				} else {
 					ws.forEach((web) -> {
 						if (fids.contains(web.getId())) {
-							web.setExtFollow(1);
+							web.setFollow(1);
 						}
 					});
 				}
@@ -208,22 +208,6 @@ public class CategoryServiceImpl implements CategoryService {
 		} catch (Exception e) {
 			throw new ValidationException("检测分类名称失败", e);
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Category> getCategories() throws SecurityException {
-		List<Category> list = new ArrayList<>();
-		
-		if (MemcachedUtil.exists(CacheIDs.CATES)) {
-			list = (List<Category>) MemcachedUtil.get(CacheIDs.CATES);
-		} else {
-			// 从数据库中获取
-			list = read(new CategoryExample());
-			MemcachedUtil.set(CacheIDs.CATES, 1000 * 60 * 30, list);
-		}
-		
-		return list;
 	}
 	
 }

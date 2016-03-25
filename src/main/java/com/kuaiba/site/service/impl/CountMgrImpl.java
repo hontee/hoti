@@ -15,7 +15,6 @@ import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
 import com.kuaiba.site.db.entity.Domain;
-import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.service.BookmarkService;
@@ -45,7 +44,7 @@ public class CountMgrImpl implements Countable {
 	@Override
 	public void countDomainTask() throws SecurityException {
 		
-		List<Domain> list = domainService.read(new DomainExample());
+		List<Domain> list = domainService.findAll();
 		
 		list.forEach((d) -> {
 			try {
@@ -62,7 +61,7 @@ public class CountMgrImpl implements Countable {
 	@Override
 	public void countCategoryTask() throws SecurityException {
 		
-		List<Category> list = categoryService.read(new CategoryExample());
+		List<Category> list = categoryService.findAll();
 
 		list.forEach((c) -> {
 			try {
@@ -79,7 +78,7 @@ public class CountMgrImpl implements Countable {
 	@Override
 	public void countGroupTask() throws SecurityException {
 		
-		List<Group> list = groupService.read(new GroupExample());
+		List<Group> list = groupService.findAll(new GroupExample());
 		
 		list.forEach((g) -> {
 			try {

@@ -12,7 +12,6 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.exception.AuthzException;
 import com.kuaiba.site.core.exception.CreateException;
@@ -24,11 +23,12 @@ import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.exception.ValidationException;
 import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.dao.UserMapper;
-import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.db.entity.GlobalIDs;
+import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;
+import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.front.vo.UserVO;
 import com.kuaiba.site.service.UserService;
 
@@ -39,11 +39,11 @@ public class UserServiceImpl implements UserService {
 	private UserMapper mapper;
 
 	@Override
-	public PageInfo<User> search(UserExample example, Pagination p) throws SecurityException { 
+	public PageInfo<User> find(UserExample example, Pagination p) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(example, p);
-			PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-			List<User> list = read(example);
+			PagerUtil.startPage(p);
+			List<User> list = findAll(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("分页读取用户失败", e);
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> read(UserExample example) throws SecurityException { 
+	public List<User> findAll(UserExample example) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(example);
 			return mapper.selectByExample(example);
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User read(Long id) throws SecurityException { 
+	public User findOne(Long id) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(id);
 			return mapper.selectByPrimaryKey(id);
@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserService {
 	public void update(Long id, String password) throws SecurityException {
 		try {
 			VUtil.assertNotNull(password, id);
-			User record = read(id);
+			User record = findOne(id);
 			record.setId(id);
 			record.setPasswordEncrypt(password, record.getSalt());
 			mapper.updateByPrimaryKey(record);
@@ -158,7 +158,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User search(String name) throws SecurityException { 
+	public User findByName(String name) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(name);
 			return mapper.selectByName(name);
@@ -170,7 +170,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean validate(String name) throws SecurityException { 
 		try {
-			return this.search(name) != null;
+			return findByName(name) != null;
 		} catch (Exception e) {
 			throw new ValidationException("验证用户名" + name + "失败", e);
 		}
@@ -183,7 +183,7 @@ public class UserServiceImpl implements UserService {
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
 			String principal = (String) subject.getPrincipal();
-			User currentUser = search(principal);
+			User currentUser = findByName(principal);
 			Session session = subject.getSession();
 			session.setAttribute(GlobalIDs.CURRENT_USER, currentUser);
 			session.setAttribute(GlobalIDs.ADMIN_USER, AuthzUtil.isAdmin());

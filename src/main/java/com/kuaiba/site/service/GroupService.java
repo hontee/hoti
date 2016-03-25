@@ -31,6 +31,22 @@ public interface GroupService extends Pager<Group, GroupExample> {
      * @throws SecurityException
      */
     void delete(Long id) throws SecurityException;
+    
+	/**
+	 * 移除群组-站点
+	 * @param gid
+	 * @param bmid
+	 * @throws SecurityException
+	 */
+	void remove(Long gid, Long bmid) throws SecurityException;
+	
+	/**
+	 * 批量移除群组-站点
+	 * @param gid
+	 * @param bmids
+	 * @throws SecurityException
+	 */
+	void remove(Long gid, Long[] bmids) throws SecurityException;
 
     /**
      * 添加群组
@@ -39,13 +55,29 @@ public interface GroupService extends Pager<Group, GroupExample> {
      */
     void add(GroupVO vo) throws SecurityException;
     
+	/**
+	 * 添加群组-站点
+	 * @param gid
+	 * @param bmid
+	 * @throws SecurityException
+	 */
+    void add(Long gid, Long bmid) throws SecurityException;
+    
+    /**
+     * 批量添加群组-站点
+     * @param gid
+     * @param bmids
+     * @throws SecurityException
+     */
+    void add(Long gid, Long[] bmids) throws SecurityException;
+    
     /**
      * 获取群组列表
      * @param example
      * @return
      * @throws SecurityException
      */
-    List<Group> read(GroupExample example) throws SecurityException;
+    List<Group> findAll(GroupExample example) throws SecurityException;
 
     /**
      * 获取群组
@@ -53,7 +85,7 @@ public interface GroupService extends Pager<Group, GroupExample> {
      * @return
      * @throws SecurityException
      */
-    Group read(Long id) throws SecurityException;
+    Group findOne(Long id) throws SecurityException;
 
     /**
      * 按条件更新群组
@@ -81,51 +113,19 @@ public interface GroupService extends Pager<Group, GroupExample> {
     void update(Long id, int count, int stars) throws SecurityException;
     
     /**
-     * 取消关注群组
-     * @param fid
-     * @throws SecurityException
-     */
-    void unfollow(Long fid) throws SecurityException;
-
-    /**
      * 关注群组
      * @param fid
      * @throws SecurityException
      */
 	void follow(Long fid) throws SecurityException;
 	
-	/**
-	 * 移除群组-站点
-	 * @param gid
-	 * @param bmid
-	 * @throws SecurityException
-	 */
-	void removeBookmark(Long gid, Long bmid) throws SecurityException;
-	
-	/**
-	 * 批量移除群组-站点
-	 * @param gid
-	 * @param bmids
-	 * @throws SecurityException
-	 */
-	void removeBookmark(Long gid, Long[] bmids) throws SecurityException;
-
-	/**
-	 * 添加群组-站点
-	 * @param gid
-	 * @param bmid
-	 * @throws SecurityException
-	 */
-    void addBookmark(Long gid, Long bmid) throws SecurityException;
-    
     /**
-     * 批量添加群组-站点
-     * @param gid
-     * @param bmids
+     * 取消关注群组
+     * @param fid
      * @throws SecurityException
      */
-    void addBookmark(Long gid, Long[] bmids) throws SecurityException;
-    
+    void unfollow(Long fid) throws SecurityException;
+
     /**
 	 * 验证属性值是否存在
 	 * @param name
