@@ -18,22 +18,6 @@
     <result column="creator" property="creator" jdbcType="VARCHAR" />
   </resultMap>
   
-  <resultMap id="CollectResultMap" type="com.kuaiba.site.db.entity.Category" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="description" property="description" jdbcType="VARCHAR" />
-    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
-    <result column="cover" property="cover" jdbcType="VARCHAR" />
-    <result column="count" property="count" jdbcType="BIGINT" />
-    <result column="state" property="state" jdbcType="TINYINT" />
-    <result column="created" property="created" jdbcType="TIMESTAMP" />
-    <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
-    <result column="domain" property="domain" jdbcType="BIGINT" />
-    <result column="create_by" property="createBy" jdbcType="BIGINT" />
-    <collection property="bookmarks" javaType="java.util.List" column="id" ofType="com.kuaiba.site.db.entity.Bookmark" 
-    select="com.kuaiba.site.db.dao.BookmarkMapper.selectByCategory" />
-  </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -97,21 +81,6 @@
     domain, create_by, domain_title, creator
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.CategoryExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from v_category
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  
-  <select id="selectByCollect" resultMap="CollectResultMap" parameterType="com.kuaiba.site.db.entity.CategoryExample" >
     select
     <if test="distinct" >
       distinct

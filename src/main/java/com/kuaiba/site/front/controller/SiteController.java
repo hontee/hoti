@@ -22,7 +22,6 @@ import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Category;
-import com.kuaiba.site.db.entity.CategoryExample;
 import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Group;
@@ -122,11 +121,13 @@ public class SiteController {
 	
 	@RequestMapping(value = "/cates/{id}", method = RequestMethod.GET)
 	public String categoryById(@PathVariable Long id, Model model) throws SecurityException {
-		CategoryExample example = new CategoryExample();
-		example.createCriteria().andIdEqualTo(id);
-		List<Category> cates = categoryService.findAllWithBookmarks(example);
-		model.addAttribute("cates", cates);
-		return "views/home";
+		Category record = categoryService.findOne(id);
+		BookmarkExample example = new BookmarkExample();
+		example.createCriteria().andCategoryEqualTo(id);
+		List<Bookmark> bookmarks = bookmarkService.findAll(example);
+		record.setBookmarks(bookmarks);
+		model.addAttribute("record", record);
+		return "views/category-bookmark";
 	}
 	
 	@RequestMapping(value = "/groups", method = RequestMethod.GET)
@@ -145,8 +146,8 @@ public class SiteController {
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String home(Pagination p, Model model) throws SecurityException {
-		List<Category> cates = categoryService.findAllWithBookmarks(new CategoryExample());
-		model.addAttribute("cates", cates);
+		List<Bookmark> records = bookmarkService.findAll(new BookmarkExample());
+		model.addAttribute("records", records);
 		return "views/home";
 	}
 	

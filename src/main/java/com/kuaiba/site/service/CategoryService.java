@@ -55,14 +55,6 @@ public interface CategoryService extends Pager<Category, CategoryExample> {
     List<Category> findAll(CategoryExample example) throws SecurityException;
 
     /**
-     * 按条件查询集合
-     * @param example
-     * @return
-     * @throws SecurityException
-     */
-    List<Category> findAllWithBookmarks(CategoryExample example) throws SecurityException;
-
-    /**
      * 读取一个数据
      * @param id
      * @return

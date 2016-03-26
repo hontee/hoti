@@ -1,6 +1,5 @@
 package com.kuaiba.site.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -17,7 +16,6 @@ import com.kuaiba.site.core.exception.ValidationException;
 import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.CategoryMapper;
-import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
 import com.kuaiba.site.db.entity.PagerUtil;
@@ -173,33 +171,6 @@ public class CategoryServiceImpl implements CategoryService {
 		try {
 			VUtil.assertNotNull(domain);
 			return mapper.selectByDomain(domain);
-		} catch (Exception e) {
-			throw new ReadException("读取分类失败", e);
-		}
-	}
-
-	@Override
-	public List<Category> findAllWithBookmarks(CategoryExample example) throws SecurityException {
-		try {
-			VUtil.assertNotNull(example);
-			List<Category> list = new ArrayList<>();
-			List<Category> cates = mapper.selectByCollect(example);
-			final List<Long> fids = cacheMgr.readUserFollowBMS();
-
-			cates.forEach((c) -> {
-				List<Bookmark> ws = c.getBookmarks();
-				if (ws.isEmpty()) {
-					list.add(c);
-				} else {
-					ws.forEach((web) -> {
-						if (fids.contains(web.getId())) {
-							web.setFollow(1);
-						}
-					});
-				}
-			});
-			cates.removeAll(list);
-			return cates;
 		} catch (Exception e) {
 			throw new ReadException("读取分类失败", e);
 		}

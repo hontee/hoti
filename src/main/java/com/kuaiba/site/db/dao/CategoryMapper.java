@@ -27,6 +27,4 @@ public interface CategoryMapper {
     
     List<Category> selectByDomain(@Param("domain") Long domain);
     
-    List<Category> selectByCollect(CategoryExample example);
-    
 }

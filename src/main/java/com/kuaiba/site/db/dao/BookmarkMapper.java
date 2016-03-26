@@ -19,8 +19,6 @@ public interface BookmarkMapper {
 
 	Bookmark selectByPrimaryKey(Long id);
 	
-	List<Bookmark> selectByCategory(@Param("category") Long category);
-
 	int updateByExample(@Param("record") Bookmark record, @Param("example") BookmarkExample example);
 
 	int updateByPrimaryKey(Bookmark record);

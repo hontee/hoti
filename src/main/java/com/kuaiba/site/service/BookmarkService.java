@@ -55,7 +55,7 @@ public interface BookmarkService extends Pager<Bookmark, BookmarkExample> {
 	 * @throws SecurityException
 	 */
 	Bookmark findOne(Long id) throws SecurityException;
-
+	
 	/**
 	 * 按条件更新
 	 * @param record
