@@ -1,7 +1,9 @@
 package com.kuaiba.site.db.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Group implements Serializable {
 
@@ -25,6 +27,8 @@ public class Group implements Serializable {
     private String cateTitle;
     private String creator;
     private Mtype mt;
+    
+    private List<GroupBookmarkRelation> bookmarks; 
 
     public Long getId() {
         return id;
@@ -168,6 +172,19 @@ public class Group implements Serializable {
 
 	public void setMt(Mtype mt) {
 		this.mt = mt;
+	}
+
+	public List<GroupBookmarkRelation> getBookmarks() {
+		
+		if (bookmarks == null) {
+			bookmarks = new ArrayList<>();
+		}
+		
+		return bookmarks;
+	}
+
+	public void setBookmarks(List<GroupBookmarkRelation> bookmarks) {
+		this.bookmarks = bookmarks;
 	}
     
 }

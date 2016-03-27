@@ -14,4 +14,7 @@ public interface GlobalIDs {
 	int COOKIE_MAX_AGE = 1000 * 60 * 60 * 24 * 7; // Cookie有效期
 	String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36";
 	int TIMEOUT = 5000;
+	
+	/*FreeMark模板路径*/
+	String FREEMARK_TEMP = "/WEB-INF/templates";
 }

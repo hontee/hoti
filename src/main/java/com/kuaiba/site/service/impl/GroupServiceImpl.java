@@ -18,10 +18,13 @@ import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.exception.ValidationException;
 import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.dao.GroupBookmarkMapper;
+import com.kuaiba.site.db.dao.GroupBookmarkRelationMapper;
 import com.kuaiba.site.db.dao.GroupFollowMapper;
 import com.kuaiba.site.db.dao.GroupMapper;
 import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.Group;
+import com.kuaiba.site.db.entity.GroupBookmarkRelation;
+import com.kuaiba.site.db.entity.GroupBookmarkRelationExample;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
@@ -40,6 +43,8 @@ public class GroupServiceImpl implements GroupService {
 	@Resource
 	private GroupBookmarkMapper gbMapper;
 	@Resource
+	private GroupBookmarkRelationMapper gbrMapper;
+	@Resource
 	private CachePolicy cacheMgr;
 
 	@Override
@@ -53,6 +58,21 @@ public class GroupServiceImpl implements GroupService {
 			throw new ReadException("分页读取群组失败", e);
 		}
 	}
+
+	@Override
+	public PageInfo<GroupBookmarkRelation> find(GroupBookmarkRelationExample example, Pagination p)
+			throws SecurityException {
+		try {
+			VUtil.assertNotNull(example, p);
+			PagerUtil.startPage(p);
+			List<GroupBookmarkRelation> list = gbrMapper.selectByExample(example);
+			return new PageInfo<>(list);
+		} catch (Exception e) {
+			throw new ReadException("分页读取群组失败", e);
+		}
+	}
+
+
 
 	@Override
 	public int count(GroupExample example) throws SecurityException { 

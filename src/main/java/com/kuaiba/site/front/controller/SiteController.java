@@ -22,9 +22,9 @@ import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Category;
-import com.kuaiba.site.db.entity.Domain;
-import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Group;
+import com.kuaiba.site.db.entity.GroupBookmarkRelation;
+import com.kuaiba.site.db.entity.GroupBookmarkRelationExample;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
@@ -109,16 +109,6 @@ public class SiteController {
 		return "views/users/profile";
 	}
 	
-	@RequestMapping(value = "/cates", method = RequestMethod.GET)
-	public String category(Model model) throws SecurityException {
-		DomainExample oe = new DomainExample();
-		oe.createCriteria().andStateEqualTo((byte)1);
-		oe.setOrderByClause("weight DESC");
-		List<Domain> orgs = domainService.findAllWithCates(oe);
-		model.addAttribute("orgs", orgs);
-		return "views/category";
-	}
-	
 	@RequestMapping(value = "/cates/{id}", method = RequestMethod.GET)
 	public String categoryById(@PathVariable Long id, Model model) throws SecurityException {
 		Category record = categoryService.findOne(id);
@@ -138,9 +128,13 @@ public class SiteController {
 	}
 
 	@RequestMapping(value = "/groups/{id}", method = RequestMethod.GET)
-	public String groupById(@PathVariable Long id, Model model) throws SecurityException {
-		Group group = groupService.findOne(id);
-		model.addAttribute("record", group);
+	public String groupById(@PathVariable Long id, Model model, Pagination p) throws SecurityException {
+		Group record = groupService.findOne(id);
+		GroupBookmarkRelationExample example = new GroupBookmarkRelationExample();
+		example.createCriteria().andGidEqualTo(id);
+		PageInfo<GroupBookmarkRelation> pageInfo = groupService.find(example, p);
+		record.setBookmarks(pageInfo.getList());
+		model.addAttribute("record", record);
 		return "views/group-bookmark";
 	}
 

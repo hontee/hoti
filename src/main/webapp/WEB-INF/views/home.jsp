@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="snippets/_header.jsp" %>
+<%@ taglib uri="/WEB-INF/web.tld" prefix="k" %>
+<k:header title="快吧导航"/>
 <div class="container">
 	<div class="card-columns" style="margin-top: 20px;">
 	<c:forEach items="${records}" var="r">

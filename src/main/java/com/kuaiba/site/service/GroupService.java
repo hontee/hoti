@@ -1,14 +1,28 @@
 package com.kuaiba.site.service;
 
 import java.util.List;
+
+import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.Group;
+import com.kuaiba.site.db.entity.GroupBookmarkRelation;
+import com.kuaiba.site.db.entity.GroupBookmarkRelationExample;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.Pager;
+import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.front.vo.GroupVO;
 
 public interface GroupService extends Pager<Group, GroupExample> {
+	
+	/**
+	 * * 带分页的条件查询
+	 * @param example
+	 * @param p
+	 * @return PageInfo
+	 * @throws SecurityException
+	 */
+	PageInfo<GroupBookmarkRelation> find(GroupBookmarkRelationExample example, Pagination p) throws SecurityException;
 	
 	/**
 	 * 按条件统计群组
