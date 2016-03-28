@@ -1,6 +1,6 @@
 package com.kuaiba.site.front.taglib;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.servlet.jsp.JspException;
 
@@ -15,7 +15,7 @@ import com.kuaiba.site.db.entity.Group;
 public class GroupsTag extends AbstractTagSupport {
 
 	private static final long serialVersionUID = 1L;
-	private List<Group> list; // Group集合
+	private ArrayList<Group> list; // Group集合
 
 	@Override
 	public int doStartTag() throws JspException {
@@ -24,11 +24,11 @@ public class GroupsTag extends AbstractTagSupport {
 		return super.doStartTag();
 	}
 
-	public List<Group> getList() {
+	public ArrayList<Group> getList() {
 		return list;
 	}
 
-	public void setList(List<Group> list) {
+	public void setList(ArrayList<Group> list) {
 		this.list = list;
 	}
 

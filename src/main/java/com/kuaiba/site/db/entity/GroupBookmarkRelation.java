@@ -10,6 +10,7 @@ public class GroupBookmarkRelation implements Serializable {
 	private Long id;
     private String name;
     private String title;
+    private String description;
     private Integer star;
     private Integer hit;
     private Byte state;
@@ -45,7 +46,15 @@ public class GroupBookmarkRelation implements Serializable {
         this.title = title;
     }
 
-    public Integer getStar() {
+    public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Integer getStar() {
         return star;
     }
 

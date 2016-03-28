@@ -1,10 +1,8 @@
 package com.kuaiba.site.front.taglib;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.servlet.jsp.JspException;
-
-import com.kuaiba.site.db.entity.Bookmark;
 
 /**
  * BookMarks视图模板
@@ -14,7 +12,7 @@ import com.kuaiba.site.db.entity.Bookmark;
 public class BookmarksTag extends AbstractTagSupport {
 
 	private static final long serialVersionUID = 1L;
-	private List<Bookmark> list; // 书签列表
+	private ArrayList<Object> list;
 
 	@Override
 	public int doStartTag() throws JspException {
@@ -23,11 +21,11 @@ public class BookmarksTag extends AbstractTagSupport {
 		return super.doStartTag();
 	}
 
-	public List<Bookmark> getList() {
+	public ArrayList<Object> getList() {
 		return list;
 	}
 
-	public void setList(List<Bookmark> list) {
+	public void setList(ArrayList<Object> list) {
 		this.list = list;
 	}
 

@@ -72,8 +72,9 @@ public class SiteController {
 		}
 		
 		PageInfo<Bookmark> pageInfo = bookmarkService.find(example, p);
+		List<Bookmark> list = pageInfo.getList();
 		model.addAttribute("q", q);
-		model.addAttribute("records", pageInfo.getList());
+		model.addAttribute("records", list);
 		return "views/search";
 	}
 	
@@ -96,7 +97,7 @@ public class SiteController {
 	}
 	
 	/**
-	 * @WebPage 群组
+	 * @WebPage 群组 = 我 | 猜你喜欢 | 全部
 	 * @param model
 	 * @return
 	 * @throws SecurityException
@@ -128,7 +129,9 @@ public class SiteController {
 	}
 
 	/**
-	 * @WebPage 首页
+	 * @WebPage 首页 = 我 | 猜你喜欢 | 全部
+	 * 规则一：用户未登录则转发到 [发现页面] 
+	 * 规则二：用户已登录则查询 [我 / 全部]
 	 * @param p
 	 * @param model
 	 * @return

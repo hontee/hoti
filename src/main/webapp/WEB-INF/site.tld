@@ -38,7 +38,7 @@
 		<tag-class>com.kuaiba.site.front.taglib.CategoryTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
-		  <name>entity</name>
+		  <name>record</name>
 		  <required>true</required>
 		  <rtexprvalue>true</rtexprvalue>
 		</attribute>
@@ -48,7 +48,7 @@
 		<tag-class>com.kuaiba.site.front.taglib.GroupTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
-		  <name>entity</name>
+		  <name>record</name>
 		  <required>true</required>
 		  <rtexprvalue>true</rtexprvalue>
 		</attribute>
@@ -61,6 +61,7 @@
 		  <name>list</name>
 		  <required>true</required>
 		  <rtexprvalue>true</rtexprvalue>
+		  <type>java.util.ArrayList</type>
 		</attribute>
 	</tag>
 	<tag>
@@ -71,6 +72,7 @@
 		  <name>list</name>
 		  <required>true</required>
 		  <rtexprvalue>true</rtexprvalue>
+		  <type>java.util.ArrayList</type>
 		</attribute>
 	</tag>
 
