@@ -23,6 +23,7 @@ public class HeaderTag extends AbstractTagSupport {
 	private String title;  // 页面标题
 	private String description = ""; // 页面描述内容
 	private String keywords = ""; // 页面标签
+	private String q = ""; // 搜索
 	
 	@Override
 	public int doStartTag() throws JspException {
@@ -70,6 +71,14 @@ public class HeaderTag extends AbstractTagSupport {
 
 	public void setKeywords(String keywords) {
 		this.keywords = keywords;
+	}
+
+	public String getQ() {
+		return q;
+	}
+
+	public void setQ(String q) {
+		this.q = q;
 	}
 
 }

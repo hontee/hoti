@@ -72,7 +72,8 @@ public class SiteController {
 		}
 		
 		PageInfo<Bookmark> pageInfo = bookmarkService.find(example, p);
-		model.addAttribute("p", pageInfo);
+		model.addAttribute("q", q);
+		model.addAttribute("records", pageInfo.getList());
 		return "views/search";
 	}
 	
@@ -103,7 +104,7 @@ public class SiteController {
 	@RequestMapping(value = "/groups", method = RequestMethod.GET)
 	public String group(Model model) throws SecurityException {
 		List<Group> list = groupService.findAll(new GroupExample());
-		model.addAttribute("groups", list);
+		model.addAttribute("records", list);
 		return "views/group";
 	}
 

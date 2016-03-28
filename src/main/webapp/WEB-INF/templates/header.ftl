@@ -29,7 +29,7 @@
     <ul class="nav navbar-nav pull-left">
       <li class="nav-item">
         <form class="form-inline navbar-form" action="/search" method="get">
-          <input name="q" class="form-control" placeholder="搜索" autocomplete="off">
+          <input name="q"value="${q!}" class="form-control" placeholder="搜索" autocomplete="off">
         </form>
       </li>
     </ul>
