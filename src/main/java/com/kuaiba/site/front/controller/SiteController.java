@@ -29,7 +29,6 @@ import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
-import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.interceptor.SiteLog;
 import com.kuaiba.site.service.BookmarkService;
 import com.kuaiba.site.service.CategoryService;
@@ -53,16 +52,6 @@ public class SiteController {
 	private DomainService domainService;
 	@Resource
 	private RecommendService recommendService;
-	
-	/**
-	 * @WebPage 关于我们
-	 * @return
-	 * @throws SecurityException
-	 */
-	@RequestMapping(value = "/about", method = RequestMethod.GET)
-	public String about() throws SecurityException {
-		return "views/about";
-	}
 	
 	/**
 	 * @WebPage 搜索结果页
@@ -203,38 +192,6 @@ public class SiteController {
 	public String logout() {
 		SecurityUtils.getSubject().logout();
 		return SiteUtil.redirect("/");
-	}
-	
-	/**
-	 * @WebPage 用户中心
-	 * @param name
-	 * @return
-	 */
-	@RequestMapping(value = "/{name}/dashbord", method = RequestMethod.GET)
-	public String dashbord(@PathVariable String name) {
-		return "views/dashbord";
-	}
-	
-	/**
-	 * @WebPage 用户设置
-	 * @param name
-	 * @return
-	 */
-	@RequestMapping(value = "/{name}/settings", method = RequestMethod.GET)
-	public String settings(@PathVariable String name) {
-		return "views/settings";
-	}
-	
-	/**
-	 * @WebAPI 更新用户信息
-	 * @param name
-	 * @param u
-	 * @return
-	 */
-	@RequestMapping(value = "/{name}/settings", method = RequestMethod.POST)
-	@SiteLog(action = "用户更新信息", table = TableIDs.USER, clazz = String.class)
-	public String settings(@PathVariable String name, User u) {
-		return "views/settings";
 	}
 	
 	/**

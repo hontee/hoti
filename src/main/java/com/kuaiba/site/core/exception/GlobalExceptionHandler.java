@@ -51,6 +51,10 @@ public class GlobalExceptionHandler {
 		return new SiteResponse(ex);
 	}
 	
+	/**
+	 * 将异常信息存储到数据库
+	 * @param e
+	 */
 	private void track(Exception e) {
 		ThreadPool.getInstance().execute(new Runnable() {
 			@Override

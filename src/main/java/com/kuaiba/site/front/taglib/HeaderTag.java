@@ -19,8 +19,7 @@ import com.kuaiba.site.service.DomainService;
  */
 public class HeaderTag extends AbstractTagSupport {
 
-	private static final long serialVersionUID = 4136719896030975233L;
-
+	private static final long serialVersionUID = 1L;
 	private String title;  // 页面标题
 	private String description = ""; // 页面描述内容
 	private String keywords = ""; // 页面标签
