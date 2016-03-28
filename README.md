@@ -18,3 +18,16 @@
 - 关注 (Follow)
 - 缓存 (Cache)
 - 会话 (Session)
+
+## 前端页面
+
+- about / 关于我们
+- search / 搜索结果
+- home / 首页
+- recommend / 推荐站点
+- login / 登录
+- group / 群组
+- group-bm / 群组管理的站点
+- cate-bm / 分类管理的站点
+- dashbord / 用户中心
+- settings / 用户设置
