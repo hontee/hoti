@@ -236,7 +236,7 @@ public class HttpUtil {
 	/**
 	 * Append query parameters to given url
 	 * @param url         Url as string
-	 * @param params      Map with query parameters
+	 * @param reffer      Map with query parameters
 	 * @return url        Url with query parameters appended
 	 * @throws IOException 
 	 */

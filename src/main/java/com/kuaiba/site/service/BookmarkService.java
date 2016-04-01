@@ -18,6 +18,14 @@ public interface BookmarkService extends Pager<Bookmark, BookmarkExample> {
 	 * @throws SecurityException
 	 */
 	int count(BookmarkExample example) throws SecurityException;
+	
+	/**
+	 * 按标题模糊统计
+	 * @param example
+	 * @return
+	 * @throws SecurityException
+	 */
+	int count(String title) throws SecurityException;
 
 	/**
 	 * 按条件删除

@@ -52,6 +52,11 @@
 		  <required>true</required>
 		  <rtexprvalue>true</rtexprvalue>
 		</attribute>
+		<attribute>
+		  <name>f</name>
+		  <required>true</required>
+		  <rtexprvalue>true</rtexprvalue>
+		</attribute>
 	</tag>
 	<tag>
 		<name>groups</name>

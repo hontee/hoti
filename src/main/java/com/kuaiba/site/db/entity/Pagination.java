@@ -78,6 +78,11 @@ public class Pagination {
 		this.order = order;
 	}
 	
+	public void setOrderBy(String sort, String order) {
+		setOrder(order);
+		setSort(sort);
+	}
+	
 	/**
 	 * 排序
 	 * @return

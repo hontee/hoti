@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageInfo;
@@ -61,6 +62,19 @@ public class BookmarkServiceImpl implements BookmarkService {
 		} catch (Exception e) {
 			throw new ReadException("统计站点失败", e);
 		}
+	}
+	
+	
+
+	@Override
+	public int count(String title) throws SecurityException {
+		BookmarkExample example = new BookmarkExample();
+		BookmarkExample.Criteria criteria = example.createCriteria();
+		
+		if (StringUtils.isNotEmpty(title)) {
+			criteria.andTitleLike("%" + title + "%"); // 模糊查询
+		}
+		return count(example);
 	}
 
 	@Override

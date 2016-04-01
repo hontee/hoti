@@ -14,10 +14,12 @@ public class GroupTag extends AbstractTagSupport {
 
 	private static final long serialVersionUID = 1L;
 	private Group record; // 群组记录
+	private String f; // 过滤条件
 
 	@Override
 	public int doStartTag() throws JspException {
 		addAttribute("record", record);
+		addAttribute("f", f);
 		super.render("group.ftl");
 		return super.doStartTag();
 	}
@@ -28,6 +30,14 @@ public class GroupTag extends AbstractTagSupport {
 
 	public void setRecord(Group record) {
 		this.record = record;
+	}
+
+	public String getF() {
+		return f;
+	}
+
+	public void setF(String f) {
+		this.f = f;
 	}
 
 }

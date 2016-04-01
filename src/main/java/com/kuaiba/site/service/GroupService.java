@@ -31,6 +31,14 @@ public interface GroupService extends Pager<Group, GroupExample> {
 	 * @throws SecurityException
 	 */
 	int count(GroupExample example) throws SecurityException;
+	
+	/**
+	 * 按标题模糊统计
+	 * @param example
+	 * @return
+	 * @throws SecurityException
+	 */
+	int count(String title) throws SecurityException;
 
 	/**
 	 * 按条件删除群组

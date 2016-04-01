@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import javax.servlet.jsp.JspException;
 
-import com.kuaiba.site.db.entity.Group;
-
 /**
  * Groups
  * 群组列表的视图模板
@@ -15,7 +13,7 @@ import com.kuaiba.site.db.entity.Group;
 public class GroupsTag extends AbstractTagSupport {
 
 	private static final long serialVersionUID = 1L;
-	private ArrayList<Group> list; // Group集合
+	private ArrayList<Object> list; // Group集合
 
 	@Override
 	public int doStartTag() throws JspException {
@@ -24,11 +22,11 @@ public class GroupsTag extends AbstractTagSupport {
 		return super.doStartTag();
 	}
 
-	public ArrayList<Group> getList() {
+	public ArrayList<Object> getList() {
 		return list;
 	}
 
-	public void setList(ArrayList<Group> list) {
+	public void setList(ArrayList<Object> list) {
 		this.list = list;
 	}
 
