@@ -1,8 +1,5 @@
 package com.kuaiba.site.front.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Filter;
+import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.service.BookmarkService;
@@ -50,28 +49,31 @@ public class BookmarkController {
 			Model model, 
 			HttpServletRequest request) throws SecurityException {
 		
+		p.initFrontRows();
 		Filter filter = Filter.parse(f);
-		List<Bookmark> records = new ArrayList<>();
+		f = filter.toString().toLowerCase();
+		PageInfo<Bookmark> pageInfo = new PageInfo<>();
 		BookmarkExample example = new BookmarkExample();
 		/*BookmarkExample.Criteria criteria = example.createCriteria();*/
 		
 		if (filter == Filter.MY) { // 我的站点
-			records = bookmarkService.findAll(example);
+			pageInfo = bookmarkService.find(example, p);
 		} else if (filter == Filter.LIKE) { // 猜你喜欢
-			records = bookmarkService.findAll(example);
+			pageInfo = bookmarkService.find(example, p);
 		} else if (filter == Filter.NEW) { // 最新
 			example.setOrderByClause("created DESC");
-			records = bookmarkService.findAll(example);
+			pageInfo = bookmarkService.find(example, p);
 		} else if (filter == Filter.HOT) { // 最热
 			example.setOrderByClause("star DESC");
-			records = bookmarkService.findAll(example);
+			pageInfo = bookmarkService.find(example, p);
 		} else if (filter == Filter.PICK) { // 精选
 			example.setOrderByClause("hit DESC");
-			records = bookmarkService.findAll(example);
+			pageInfo = bookmarkService.find(example, p);
 		}
 		
-		model.addAttribute("f", filter.toString().toLowerCase());
-		model.addAttribute("records", records);
+		model.addAttribute("f", f);
+		model.addAttribute("page", PagerUtil.of(pageInfo, "/?f=" + f));
+		model.addAttribute("records", pageInfo.getList());
 		return "views/home";
 	}
 	

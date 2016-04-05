@@ -9,7 +9,7 @@
   <li><label>类型：</label>${record.gtype}</li>
   <li><label>头像：</label>${record.avatar}</li>
   <li><label>封面：</label>${record.cover}</li>
-  <li><label>关注：</label>${record.stars}</li>
+  <li><label>关注：</label>${record.star}</li>
   <li><label>计数：</label>${record.count}</li>
   <li><label>状态：</label>${record.state}
     <c:if test="${record.state == 1}">启用</c:if>

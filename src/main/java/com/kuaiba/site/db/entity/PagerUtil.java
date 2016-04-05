@@ -53,12 +53,20 @@ public class PagerUtil implements Serializable {
 		
 		if (pageInfo.isHasPreviousPage()) { // 设置上一页
 			String previousPage = HttpUtil.appendQueryParams(baseUrl, "page=" + pageInfo.getPrePage());
-			pu.setNext(previousPage);
+			pu.setPrevious(previousPage);
+		}
+		
+		if (pageInfo.isIsFirstPage()) {
+			pu.setPrevious(null);
 		}
 		
 		if (pageInfo.isHasNextPage()) { // 设置下一页
 			String previousPage = HttpUtil.appendQueryParams(baseUrl, "page=" + pageInfo.getNextPage());
 			pu.setNext(previousPage);
+		}
+		
+		if (pageInfo.isIsLastPage()) {
+			pu.setNext(null);
 		}
 		
 		return pu;

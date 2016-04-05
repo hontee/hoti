@@ -15,7 +15,9 @@
 </#if>
 <meta name="author" content="www.kuaiba.me" />
 <link href="/primer/css/primer.css" rel="stylesheet">
-<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="/primer/js/jquery.min.js"></script>
+<script src="/primer/js/jquery.mmenu.all.min.js"></script>
+<script src="/primer/js/layout.js"></script>
 </head>
 <body>
 <nav class="navbar">
@@ -27,7 +29,6 @@
     <ul class="navbar-ul right">
       <li><a class="link" href="/">站点</a></li>
       <li><a class="link" href="/groups">主题</a></li>
-      <li><a class="link" href="/cates">类别</a></li>
       <#if user != "">
       <li><a class="btn" href="/">你好，${user}</a></li>
       <#else>
@@ -35,4 +36,22 @@
       </#if>
     </ul>
   </div>
+</nav>
+
+<nav id="menu">
+  <ul class="listview-icons">
+    <#list records as r>
+    <li>
+      <span>${r.title}</span>
+      <ul>
+        <#list r.cates as c>
+        <li>
+          <a href="/cates/${c.id}">${c.title}</a>
+          <em class="mm-counter mm-badge">${c.count}</em>
+        </li>
+        </#list>
+      </ul>
+    </li>
+    </#list>
+  </ul>
 </nav>

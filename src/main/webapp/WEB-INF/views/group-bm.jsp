@@ -3,5 +3,6 @@
 <site:header title="${record.title}"/>
 <site:group record="${record}" f="${f}"/>
 <site:bookmarks list="${record.bookmarks}"/>
+<site:pager page="${page}"/>
 </body>
 </html>

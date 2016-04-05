@@ -18,5 +18,6 @@
 <c:if test="${f != 'site'}">
 <site:groups list="${records}"/>
 </c:if>
+<site:pager page="${page}"/>
 </body>
 </html>

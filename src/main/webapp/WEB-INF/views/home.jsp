@@ -23,5 +23,6 @@
 </div>
 
 <site:bookmarks list="${records}"/>
+<site:pager page="${page}"/>
 </body>
 </html>

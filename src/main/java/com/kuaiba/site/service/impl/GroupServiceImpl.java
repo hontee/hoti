@@ -136,7 +136,7 @@ public class GroupServiceImpl implements GroupService {
 			record.setDescription(vo.getDescription());
 			record.setMtype(vo.getMtype());
 			record.setName(vo.getNameUUID());
-			record.setStars(0);
+			record.setStar(0);
 			record.setState(vo.getState());
 			record.setTitle(vo.getTitle());
 			mapper.insert(record);
@@ -222,7 +222,7 @@ public class GroupServiceImpl implements GroupService {
 			Group record = new Group();
 			record.setId(id);
 			record.setCount(count);
-			record.setStars(stars);
+			record.setStar(stars);
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			throw new UpdateException("统计群组失败", e);

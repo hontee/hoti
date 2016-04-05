@@ -3,7 +3,7 @@
   <h1>${record.title!}</h1>
   <p>${record.description!}</p>
   <footer>
-    <small>${record.stars}人关注</small> · 
+    <small>${record.star}人关注</small> · 
     <small>${record.count}个站点</small>
   </footer>
   </div>

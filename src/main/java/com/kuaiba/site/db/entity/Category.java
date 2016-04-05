@@ -16,6 +16,7 @@ public class Category implements Serializable {
 	private String avatar;
 	private String cover;
 	private Long count;
+	private Long groupCount;
 	private Byte state;
 	private Date created;
 	private Date lastModified;
@@ -25,6 +26,8 @@ public class Category implements Serializable {
 	private String creator;
 	
 	private List<Bookmark> bookmarks;
+	
+	private List<Group> groups;
 
 	public Long getId() {
 		return id;
@@ -80,6 +83,14 @@ public class Category implements Serializable {
 
 	public void setCount(Long count) {
 		this.count = count;
+	}
+	
+	public Long getGroupCount() {
+		return groupCount;
+	}
+
+	public void setGroupCount(Long groupCount) {
+		this.groupCount = groupCount;
 	}
 
 	public Byte getState() {
@@ -151,4 +162,17 @@ public class Category implements Serializable {
 		this.bookmarks = bookmarks;
 	}
 
+	public List<Group> getGroups() {
+		
+		if (groups == null) {
+			groups = new ArrayList<>();
+		}
+		
+		return groups;
+	}
+
+	public void setGroups(List<Group> groups) {
+		this.groups = groups;
+	}
+	
 }

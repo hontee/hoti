@@ -68,7 +68,7 @@ groupsEL.dg.datagrid({
         {field:'gtype',title:'机构',width:100, sortable: true},
         {field:'avatar',title:'头像',width:100},
         {field:'cover',title:'封面',width:100},
-        {field:'stars',title:'关注',width:100, sortable: true},
+        {field:'star',title:'关注',width:100, sortable: true},
         {field:'count',title:'计数',width:100, sortable: true},
         {field:'state',title:'状态',width:100, sortable: true, formatter: function(value,row,index) {
         	if (value == '1') {

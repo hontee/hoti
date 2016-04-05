@@ -63,16 +63,22 @@ public class CountMgrImpl implements Countable {
 		
 		List<Category> list = categoryService.findAll();
 
+		// 统计站点数和群组数
 		list.forEach((c) -> {
 			try {
 				BookmarkExample example = new BookmarkExample();
 				example.createCriteria().andCategoryEqualTo(c.getId());
 				int count = bookmarkService.count(example);
-				categoryService.update(c.getId(), count);
+				
+				GroupExample example2 = new GroupExample();
+				example2.createCriteria().andCategoryEqualTo(c.getId());
+				int groupCount = groupService.count(example2);
+				categoryService.update(c.getId(), count, groupCount);
 			} catch (Exception e) {
 				logger.debug("统计分类数据失败");
 			}
 		});
+		
 	}
 
 	@Override

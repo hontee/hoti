@@ -124,6 +124,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			List<Bookmark> list = mapper.selectByExample(example);
 			for (Bookmark bm : list) {
 				bm.setMt(cacheMgr.readMtype(bm.getMtype()));
+				bm.setFollow(validateFollow(bm.getId())? 1: 0);
 			}
 			return list;
 		} catch (Exception e) {

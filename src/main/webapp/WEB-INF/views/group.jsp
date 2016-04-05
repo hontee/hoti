@@ -23,5 +23,6 @@
 </div>
 
 <site:groups list="${records}"/>
+<site:pager page="${page}"/>
 </body>
 </html>

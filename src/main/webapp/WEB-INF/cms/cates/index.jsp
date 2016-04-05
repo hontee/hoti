@@ -55,7 +55,8 @@ catesEL.dg.datagrid({
         {field:'description',title:'描述',width:100},
         {field:'avatar',title:'头像',width:100},
         {field:'cover',title:'封面',width:100},
-        {field:'count',title:'计数',width:100, sortable: true},
+        {field:'count',title:'站点数',width:100, sortable: true},
+        {field:'groupCount',title:'群组数',width:100, sortable: true},
         {field:'domain',title:'业务领域',width:100, sortable: true, formatter: function(value,row,index) {
         	return row.domainTitle;
         }},

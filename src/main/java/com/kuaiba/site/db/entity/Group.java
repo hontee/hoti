@@ -16,7 +16,7 @@ public class Group implements Serializable {
     private String gtype;
     private String avatar;
     private String cover;
-    private Integer stars;
+    private Integer star;
     private Integer count;
     private Byte state;
     private Date created;
@@ -86,15 +86,15 @@ public class Group implements Serializable {
         this.cover = cover;
     }
 
-    public Integer getStars() {
-        return stars;
-    }
+    public Integer getStar() {
+		return star;
+	}
 
-    public void setStars(Integer stars) {
-        this.stars = stars;
-    }
+	public void setStar(Integer star) {
+		this.star = star;
+	}
 
-    public Integer getCount() {
+	public Integer getCount() {
         return count;
     }
 

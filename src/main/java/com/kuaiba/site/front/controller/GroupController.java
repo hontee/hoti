@@ -1,8 +1,5 @@
 package com.kuaiba.site.front.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,6 +20,7 @@ import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupBookmarkRelation;
 import com.kuaiba.site.db.entity.GroupBookmarkRelationExample;
 import com.kuaiba.site.db.entity.GroupExample;
+import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.service.GroupService;
@@ -47,27 +45,30 @@ public class GroupController {
 			Model model, 
 			HttpServletRequest request) throws SecurityException {
 		
+		p.initFrontRows();
 		Filter filter = Filter.parse(f);
-		List<Group> records = new ArrayList<>();
+		f = filter.toString().toLowerCase();
+		PageInfo<Group> pageInfo = new PageInfo<>();
 		GroupExample example = new GroupExample();
 		
 		if (filter == Filter.MY) { // 我的站点
-			records = groupService.findAll(example);
+			pageInfo = groupService.find(example, p);
 		} else if (filter == Filter.LIKE) { // 猜你喜欢
-			records = groupService.findAll(example);
+			pageInfo = groupService.find(example, p);
 		} else if (filter == Filter.NEW) { // 最新
 			example.setOrderByClause("created DESC");
-			records = groupService.findAll(example);
+			pageInfo = groupService.find(example, p);
 		} else if (filter == Filter.HOT) { // 最热
-			example.setOrderByClause("stars DESC");
-			records = groupService.findAll(example);
+			example.setOrderByClause("star DESC");
+			pageInfo = groupService.find(example, p);
 		} else if (filter == Filter.PICK) { // 精选
 			example.setOrderByClause("count DESC");
-			records = groupService.findAll(example);
+			pageInfo = groupService.find(example, p);
 		}
 		
-		model.addAttribute("f", filter.toString().toLowerCase());
-		model.addAttribute("records", records);
+		model.addAttribute("f", f);
+		model.addAttribute("page", PagerUtil.of(pageInfo, "/groups?f=" + f));
+		model.addAttribute("records", pageInfo.getList());
 		return "views/group";
 	}
 
@@ -87,7 +88,9 @@ public class GroupController {
 			Pagination p,
 			HttpServletRequest request) throws SecurityException {
 		
+		p.initFrontRows();
 		Filter filter = Filter.parse(f);
+		f = filter.toString().toLowerCase();
 		Group record = groupService.findOne(id);
 		
 		GroupBookmarkRelationExample example = new GroupBookmarkRelationExample();
@@ -104,6 +107,7 @@ public class GroupController {
 		PageInfo<GroupBookmarkRelation> pageInfo = groupService.find(example, p);
 		record.setBookmarks(pageInfo.getList());
 		model.addAttribute("f", f);
+		model.addAttribute("page", PagerUtil.of(pageInfo, "/groups/"+id+"/?f=" + f));
 		model.addAttribute("record", record);
 		return "views/group-bm";
 	}

@@ -7,7 +7,7 @@
           <h3 class="card-title">${g.title!}</h3>
           <p class="card-text">${g.description!}</p>
           <footer>
-            <small class="text-muted">${g.stars}人关注</small> ·
+            <small class="text-muted">${g.star}人关注</small> ·
             <small class="text-muted">${g.count}个站点</small>
           </footer>
         </blockquote>

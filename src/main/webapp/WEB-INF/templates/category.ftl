@@ -8,12 +8,8 @@
 <div class="toolbar">
   <div class="container">
     <div class="btn-group left">
-      <a class="btn btn-outline selected" href="#">站点 / ${record.count}</a>
-      <a class="btn btn-outline" href="#">主题 / 4,323</a>
-    </div>
-
-    <div class="right">
-      <a class="btn btn-primary">喜欢</a>
+      <a class="btn btn-outline <#if f=="site">selected</#if>" href="/cates/${record.id}">站点 / ${record.count}</a>
+      <a class="btn btn-outline <#if f!="site">selected</#if>" href="/cates/${record.id}/?f=group">主题 / ${record.groupCount}</a>
     </div>
   </div>
 </div>

@@ -92,7 +92,7 @@ public interface CategoryService extends Pager<Category, CategoryExample> {
      * @param count
      * @throws SecurityException
      */
-    void update(Long id, long count) throws SecurityException;
+    void update(Long id, long count, long groupCount) throws SecurityException;
 
     /**
 	 * 验证Category名称是否存在

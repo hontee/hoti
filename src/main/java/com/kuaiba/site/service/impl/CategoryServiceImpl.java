@@ -154,12 +154,13 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Override
 	@ClearCache("cates")
-	public void update(Long id, long count) throws SecurityException { 
+	public void update(Long id, long count, long groupCount) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(id);
 			Category record = new Category();
 			record.setId(id);
 			record.setCount(count);
+			record.setGroupCount(groupCount);
 			mapper.updateByPrimaryKey(record);
 		} catch (Exception e) {
 			throw new UpdateException("更新统计分类失败", e);

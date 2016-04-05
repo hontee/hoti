@@ -585,63 +585,63 @@ public class GroupExample {
             return (Criteria) this;
         }
 
-        public Criteria andStarsIsNull() {
-            addCriterion("stars is null");
+        public Criteria andStarIsNull() {
+            addCriterion("star is null");
             return (Criteria) this;
         }
 
-        public Criteria andStarsIsNotNull() {
-            addCriterion("stars is not null");
+        public Criteria andStarIsNotNull() {
+            addCriterion("star is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStarsEqualTo(Integer value) {
-            addCriterion("stars =", value, "stars");
+        public Criteria andStarEqualTo(Integer value) {
+            addCriterion("star =", value, "star");
             return (Criteria) this;
         }
 
-        public Criteria andStarsNotEqualTo(Integer value) {
-            addCriterion("stars <>", value, "stars");
+        public Criteria andStarNotEqualTo(Integer value) {
+            addCriterion("star <>", value, "star");
             return (Criteria) this;
         }
 
-        public Criteria andStarsGreaterThan(Integer value) {
-            addCriterion("stars >", value, "stars");
+        public Criteria andStarGreaterThan(Integer value) {
+            addCriterion("star >", value, "star");
             return (Criteria) this;
         }
 
-        public Criteria andStarsGreaterThanOrEqualTo(Integer value) {
-            addCriterion("stars >=", value, "stars");
+        public Criteria andStarGreaterThanOrEqualTo(Integer value) {
+            addCriterion("star >=", value, "star");
             return (Criteria) this;
         }
 
-        public Criteria andStarsLessThan(Integer value) {
-            addCriterion("stars <", value, "stars");
+        public Criteria andStarLessThan(Integer value) {
+            addCriterion("star <", value, "star");
             return (Criteria) this;
         }
 
-        public Criteria andStarsLessThanOrEqualTo(Integer value) {
-            addCriterion("stars <=", value, "stars");
+        public Criteria andStarLessThanOrEqualTo(Integer value) {
+            addCriterion("star <=", value, "star");
             return (Criteria) this;
         }
 
-        public Criteria andStarsIn(List<Integer> values) {
-            addCriterion("stars in", values, "stars");
+        public Criteria andStarIn(List<Integer> values) {
+            addCriterion("star in", values, "star");
             return (Criteria) this;
         }
 
-        public Criteria andStarsNotIn(List<Integer> values) {
-            addCriterion("stars not in", values, "stars");
+        public Criteria andStarNotIn(List<Integer> values) {
+            addCriterion("star not in", values, "star");
             return (Criteria) this;
         }
 
-        public Criteria andStarsBetween(Integer value1, Integer value2) {
-            addCriterion("stars between", value1, value2, "stars");
+        public Criteria andStarBetween(Integer value1, Integer value2) {
+            addCriterion("star between", value1, value2, "star");
             return (Criteria) this;
         }
 
-        public Criteria andStarsNotBetween(Integer value1, Integer value2) {
-            addCriterion("stars not between", value1, value2, "stars");
+        public Criteria andStarNotBetween(Integer value1, Integer value2) {
+            addCriterion("star not between", value1, value2, "star");
             return (Criteria) this;
         }
 

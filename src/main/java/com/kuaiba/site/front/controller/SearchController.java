@@ -56,6 +56,8 @@ public class SearchController {
 		
 		logger.info("用户输入搜索：{}, 过滤条件：{}", q, f);
 		
+		p.initFrontRows();
+		
 		if ("site".equals(f)) { // 查询书签
 			searchByBookmark(q, p, model);
 		} else { // 查询主题

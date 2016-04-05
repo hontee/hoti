@@ -42,6 +42,11 @@
 		  <required>true</required>
 		  <rtexprvalue>true</rtexprvalue>
 		</attribute>
+		<attribute>
+		  <name>f</name>
+		  <required>true</required>
+		  <rtexprvalue>true</rtexprvalue>
+		</attribute>
 	</tag>
 	<tag>
 		<name>group</name>
@@ -78,6 +83,16 @@
 		  <required>true</required>
 		  <rtexprvalue>true</rtexprvalue>
 		  <type>java.util.ArrayList</type>
+		</attribute>
+	</tag>
+	<tag>
+		<name>pager</name>
+		<tag-class>com.kuaiba.site.front.taglib.PagerTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+		  <name>page</name>
+		  <required>true</required>
+		  <rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
 
