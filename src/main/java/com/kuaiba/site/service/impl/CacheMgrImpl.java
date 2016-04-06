@@ -134,7 +134,7 @@ public class CacheMgrImpl implements CachePolicy {
 		/*Object obj = MemcachedUtil.get(USER_FOLLOW_BMS);*/
 		List<Long> list = new ArrayList<>();
 		
-		list = bfm.selectByUid(AuthzUtil.getUserId());
+		list = bfm.selectByUserId(AuthzUtil.getUserId());
 		MemcachedUtil.set(USER_FOLLOW_BMS, DTIME, list);
 		
 		logger.info("用户关注的书签：" + JSON.toJSONString(list));
@@ -149,7 +149,7 @@ public class CacheMgrImpl implements CachePolicy {
 		/*Object obj = MemcachedUtil.get(USER_FOLLOW_GROUP);*/
 		List<Long> list = new ArrayList<>();
 		
-		list = gfm.selectByUid(AuthzUtil.getUserId());
+		list = gfm.selectByUserId(AuthzUtil.getUserId());
 		MemcachedUtil.set(USER_FOLLOW_GROUP, DTIME, list);
 		
 		logger.info("用户关注的群组：" + JSON.toJSONString(list));

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kuaiba.site.db.dao.GroupBookmarkRelationMapper" >
+
   <resultMap id="BaseResultMap" type="com.kuaiba.site.db.entity.GroupBookmarkRelation" >
     <result column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -17,6 +18,7 @@
     <result column="gid" property="gid" jdbcType="BIGINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -46,10 +48,12 @@
       </foreach>
     </where>
   </sql>
+  
   <sql id="Base_Column_List" >
     id, name, title, description, star, hit, state, audit, category, cate_title, mtype, mt_title, 
     gid, created
   </sql>
+  
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.GroupBookmarkRelationExample" >
     select
     <if test="distinct" >
@@ -64,10 +68,12 @@
       order by ${orderByClause}
     </if>
   </select>
+  
   <select id="countByExample" parameterType="com.kuaiba.site.db.entity.GroupBookmarkRelationExample" resultType="java.lang.Integer" >
     select count(*) from v_group_bookmark_relation
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  
 </mapper>

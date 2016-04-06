@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kuaiba.site.db.dao.MenuMapper" >
+
   <resultMap id="BaseResultMap" type="com.kuaiba.site.db.entity.Menu" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -14,6 +15,7 @@
     <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
   </resultMap>
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -43,6 +45,7 @@
       </foreach>
     </where>
   </sql>
+  
   <sql id="Update_By_Example_Where_Clause" >
     <where >
       <foreach collection="example.oredCriteria" item="criteria" separator="or" >
@@ -72,10 +75,12 @@
       </foreach>
     </where>
   </sql>
+  
   <sql id="Base_Column_List" >
     id, name, title, description, organization, path, state, weight, created, last_modified, 
     creator
   </sql>
+  
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.MenuExample" >
     select
     <if test="distinct" >
@@ -90,22 +95,26 @@
       order by ${orderByClause}
     </if>
   </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from t_menu
     where id = #{id,jdbcType=BIGINT}
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from t_menu
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  
   <delete id="deleteByExample" parameterType="com.kuaiba.site.db.entity.MenuExample" >
     delete from t_menu
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  
   <insert id="insert" parameterType="com.kuaiba.site.db.entity.Menu" >
     insert into t_menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -179,12 +188,14 @@
       </if>
     </trim>
   </insert>
+  
   <select id="countByExample" parameterType="com.kuaiba.site.db.entity.MenuExample" resultType="java.lang.Integer" >
     select count(*) from t_menu
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  
   <update id="updateByExample" parameterType="map" >
     update t_menu
     <set >
@@ -226,6 +237,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  
   <update id="updateByPrimaryKey" parameterType="com.kuaiba.site.db.entity.Menu" >
     update t_menu
     <set >

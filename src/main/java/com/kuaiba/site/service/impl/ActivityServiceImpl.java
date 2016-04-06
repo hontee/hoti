@@ -51,7 +51,7 @@ public class ActivityServiceImpl implements ActivityService {
 	public void delete(String[] ids) throws SecurityException {
 		try {
 			VUtil.assertNotNull(ids);
-			mapper.deleteByIds(ids);
+			mapper.batchDelete(ids);
 		} catch (Exception e) {
 			throw new DeleteException("批量删除记录失败", e);
 		}

@@ -15,6 +15,10 @@
     <c:if test="${record.state == 1}">启用</c:if>
     <c:if test="${record.state == 0}">禁用</c:if>
   </li>
+  <li><label>精选：</label>${record.pick}
+    <c:if test="${record.pick == 1}">是</c:if>
+    <c:if test="${record.pick == 0}">否</c:if>
+  </li>
   <li><label>创建时间：</label><fmt:formatDate value="${record.created}" pattern="yyyy-MM-dd HH:mm:ss"/></li>
   <li><label>更新时间：</label><fmt:formatDate value="${record.lastModified}" pattern="yyyy-MM-dd HH:mm:ss"/></li>
   <li><label>分类：</label>${record.creator}</li>

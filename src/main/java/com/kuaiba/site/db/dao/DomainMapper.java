@@ -9,21 +9,67 @@ import com.kuaiba.site.db.entity.DomainExample;
 
 public interface DomainMapper {
 	
+	/**
+	 * 统计
+	 * @param example
+	 * @return
+	 */
     int countByExample(DomainExample example);
 
+    /**
+     * 删除
+     * @param example
+     * @return
+     */
     int deleteByExample(DomainExample example);
 
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
     int deleteByPrimaryKey(Long id);
 
+    /**
+     * 添加
+     * @param record
+     * @return
+     */
     int insert(Domain record);
 
+    /**
+     * 查询
+     * @param example
+     * @return
+     */
     List<Domain> selectByExample(DomainExample example);
     
-    List<Domain> selectByCollect(DomainExample example);
+    /**
+     * 查询
+     * @param example
+     * @return
+     */
+    List<Domain> selectWithCates(DomainExample example);
 
+    /**
+     * 查询
+     * @param id
+     * @return
+     */
     Domain selectByPrimaryKey(Long id);
 
+    /**
+     * 更新
+     * @param record
+     * @param example
+     * @return
+     */
     int updateByExample(@Param("record") Domain record, @Param("example") DomainExample example);
 
+    /**
+     * 更新
+     * @param record
+     * @return
+     */
     int updateByPrimaryKey(Domain record);
 }

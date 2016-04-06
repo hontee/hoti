@@ -245,7 +245,7 @@ public class GroupServiceImpl implements GroupService {
 	public void unfollow(Long fid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(fid);
-			gfMapper.delete(AuthzUtil.getUserId(), fid);
+			gfMapper.unfollow(AuthzUtil.getUserId(), fid);
 		} catch (Exception e) {
 			throw new UnfollowException("取消关注群组失败", e);
 		}
@@ -256,7 +256,7 @@ public class GroupServiceImpl implements GroupService {
 	public void follow(Long fid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(fid);
-			gfMapper.insert(AuthzUtil.getUserId(), fid);
+			gfMapper.follow(AuthzUtil.getUserId(), fid);
 		} catch (Exception e) {
 			throw new FollowException("关注群组失败", e);
 		}

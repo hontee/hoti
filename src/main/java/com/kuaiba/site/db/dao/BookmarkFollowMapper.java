@@ -6,14 +6,26 @@ import org.apache.ibatis.annotations.Param;
 
 public interface BookmarkFollowMapper {
 	
-	int delete(@Param("uid") Long uid, @Param("fid") Long fid);
+	/**
+	 * 取消关注
+	 * @param uid
+	 * @param fid
+	 * @return
+	 */
+	int unfollow(@Param("uid") Long uid, @Param("fid") Long fid);
 
-	int insert(@Param("uid") Long uid, @Param("fid") Long fid);
+	/**
+	 * 添加关注
+	 * @param uid
+	 * @param fid
+	 * @return
+	 */
+	int follow(@Param("uid") Long uid, @Param("fid") Long fid);
 	
 	/**
-	 * 用户关注的书签
+	 * 查询用户关注的站点
 	 * @param uid
 	 * @return
 	 */
-	List<Long> selectByUid(@Param("uid") Long uid);
+	List<Long> selectByUserId(@Param("uid") Long uid);
 }

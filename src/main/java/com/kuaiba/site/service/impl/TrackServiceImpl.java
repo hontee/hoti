@@ -72,7 +72,7 @@ public class TrackServiceImpl implements TrackService {
 	public void delete(String[] ids) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(ids);
-			mapper.deleteByIds(ids);
+			mapper.batchDelete(ids);
 		} catch (Exception e) {
 			throw new DeleteException("删除异常失败", e);
 		}

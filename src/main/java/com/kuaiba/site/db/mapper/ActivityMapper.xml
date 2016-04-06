@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kuaiba.site.db.dao.ActivityMapper" >
+
   <resultMap id="BaseResultMap" type="com.kuaiba.site.db.entity.Activity" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -12,6 +13,7 @@
     <result column="creator" property="creator" jdbcType="VARCHAR" />
     <result column="user_type" property="userType" jdbcType="CHAR" />
   </resultMap>
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -41,6 +43,7 @@
       </foreach>
     </where>
   </sql>
+  
   <sql id="Update_By_Example_Where_Clause" >
     <where >
       <foreach collection="example.oredCriteria" item="criteria" separator="or" >
@@ -70,9 +73,11 @@
       </foreach>
     </where>
   </sql>
+  
   <sql id="Base_Column_List" >
     id, name, description, tbl, ip, state, created, creator, user_type
   </sql>
+  
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.ActivityExample" >
     select
     <if test="distinct" >
@@ -87,24 +92,28 @@
       order by ${orderByClause}
     </if>
   </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from t_activity
     where id = #{id,jdbcType=BIGINT}
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from t_activity
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  
   <delete id="deleteByExample" parameterType="com.kuaiba.site.db.entity.ActivityExample" >
     delete from t_activity
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  
   <!-- 批量删除 -->
-  <delete id="deleteByIds">
+  <delete id="batchDelete">
     delete from t_activity
     <where>
     	id in
@@ -113,6 +122,7 @@
     	</foreach>
     </where>
   </delete>
+  
   <insert id="insert" parameterType="com.kuaiba.site.db.entity.Activity" >
     insert into t_activity
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -174,12 +184,14 @@
       </if>
     </trim>
   </insert>
+  
   <select id="countByExample" parameterType="com.kuaiba.site.db.entity.ActivityExample" resultType="java.lang.Integer" >
     select count(*) from t_activity
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  
   <update id="updateByExample" parameterType="map" >
     update t_activity
     <set >
@@ -215,6 +227,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  
   <update id="updateByPrimaryKey" parameterType="com.kuaiba.site.db.entity.Activity" >
     update t_activity
     <set >

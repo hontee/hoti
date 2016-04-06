@@ -764,6 +764,66 @@ public class BookmarkExample {
             addCriterion("state not between", value1, value2, "state");
             return (Criteria) this;
         }
+        
+        public Criteria andPickIsNull() {
+            addCriterion("pick is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPickIsNotNull() {
+            addCriterion("pick is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPickEqualTo(Byte value) {
+            addCriterion("pick =", value, "pick" );
+            return (Criteria) this;
+        }
+
+        public Criteria andPickNotEqualTo(Byte value) {
+            addCriterion("pick <>", value, "pick" );
+            return (Criteria) this;
+        }
+
+        public Criteria andPickGreaterThan(Byte value) {
+            addCriterion("pick >", value, "pick" );
+            return (Criteria) this;
+        }
+
+        public Criteria andPickGreaterThanOrEqualTo(Byte value) {
+            addCriterion("pick >=", value, "pick" );
+            return (Criteria) this;
+        }
+
+        public Criteria andPickLessThan(Byte value) {
+            addCriterion("pick <", value, "pick" );
+            return (Criteria) this;
+        }
+
+        public Criteria andPickLessThanOrEqualTo(Byte value) {
+            addCriterion("pick <=", value, "pick" );
+            return (Criteria) this;
+        }
+
+        public Criteria andPickIn(List<Byte> values) {
+            addCriterion("pick in", values, "pick" );
+            return (Criteria) this;
+        }
+
+        public Criteria andPickNotIn(List<Byte> values) {
+            addCriterion("pick not in", values, "pick" );
+            return (Criteria) this;
+        }
+
+        public Criteria andPickBetween(Byte value1, Byte value2) {
+            addCriterion("pick between", value1, value2, "pick" );
+            return (Criteria) this;
+        }
+
+        public Criteria andPickNotBetween(Byte value1, Byte value2) {
+            addCriterion("pick not between", value1, value2, "pick" );
+            return (Criteria) this;
+        }
 
         public Criteria andAuditIsNull() {
             addCriterion("audit is null");

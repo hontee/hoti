@@ -32,7 +32,7 @@ public class FollowMgrImpl implements Followable {
 	public int countBmfUser(FollowUserExample example) throws SecurityException {
 		try {
 			VUtil.assertNotNull(example);
-			return bfu.countBookmarkByExample(example);
+			return bfu.countByBookmark(example);
 		} catch (Exception e) {
 			throw new ReadException("统计站点被关注的用户失败", e);
 		}
@@ -43,7 +43,7 @@ public class FollowMgrImpl implements Followable {
 		try {
 			VUtil.assertNotNull(example);
 			PagerUtil.startPage(p);
-			List<FollowUser> list = bfu.selectBookmarkByExample(example);
+			List<FollowUser> list = bfu.selectByBookmark(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("查询站点被关注的用户列表失败", e);
@@ -77,7 +77,7 @@ public class FollowMgrImpl implements Followable {
 	public int countGroupUser(FollowUserExample example) throws SecurityException {
 		try {
 			VUtil.assertNotNull(example);
-			return bfu.countGroupByExample(example);
+			return bfu.countByGroup(example);
 		} catch (Exception e) {
 			throw new ReadException("统计群组被关注的用户失败", e);
 		}
@@ -88,7 +88,7 @@ public class FollowMgrImpl implements Followable {
 		try {
 			VUtil.assertNotNull(example);
 			PagerUtil.startPage(p);
-			List<FollowUser> list = bfu.selectGroupByExample(example);
+			List<FollowUser> list = bfu.selectByGroup(example);
 			return new PageInfo<>(list);
 		} catch (Exception e) {
 			throw new ReadException("查询群组被关注的用户列表失败", e);

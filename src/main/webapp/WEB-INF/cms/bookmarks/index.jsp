@@ -71,6 +71,13 @@ bookmarksEL.dg.datagrid({
 				return '禁用';
 			}
         }},
+        {field:'pick',title:'精选',width:100, sortable: true, formatter: function(value,row,index) {
+        	if (value == '1') {
+				return '是';
+			} else {
+				return '否';
+			}
+        }},
         {field:'created',title:'创建时间',width:100, sortable: true, formatter: function(value,row,index) {
         	return new Date(value).format();  
         }},

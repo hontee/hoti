@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kuaiba.site.db.dao.FollowUserMapper" >
+
   <resultMap id="BaseResultMap" type="com.kuaiba.site.db.entity.FollowUser" >
     <result column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -11,6 +12,7 @@
     <result column="fid" property="fid" jdbcType="BIGINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -40,10 +42,12 @@
       </foreach>
     </where>
   </sql>
+  
   <sql id="Base_Column_List" >
     id, name, title, description, user_type, state, fid, created
   </sql>
-  <select id="selectBookmarkByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.FollowUserExample" >
+  
+  <select id="selectByBookmark" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.FollowUserExample" >
     select
     <if test="distinct" >
       distinct
@@ -57,14 +61,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="countBookmarkByExample" parameterType="com.kuaiba.site.db.entity.FollowUserExample" resultType="java.lang.Integer" >
+  
+  <select id="countByBookmark" parameterType="com.kuaiba.site.db.entity.FollowUserExample" resultType="java.lang.Integer" >
     select count(*) from v_bookmark_follow_user
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   
-  <select id="selectGroupByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.FollowUserExample" >
+  <select id="selectByGroup" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.FollowUserExample" >
     select
     <if test="distinct" >
       distinct
@@ -78,10 +83,12 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="countGroupByExample" parameterType="com.kuaiba.site.db.entity.FollowUserExample" resultType="java.lang.Integer" >
+  
+  <select id="countByGroup" parameterType="com.kuaiba.site.db.entity.FollowUserExample" resultType="java.lang.Integer" >
     select count(*) from v_group_follow_user
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  
 </mapper>

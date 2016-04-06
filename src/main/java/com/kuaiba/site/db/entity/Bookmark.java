@@ -19,6 +19,7 @@ public class Bookmark implements Serializable {
     private Integer star;
     private Integer hit;
     private Byte state;
+    private Byte pick;
     private Byte audit;
     private Date created;
     private Date lastModified;
@@ -116,8 +117,16 @@ public class Bookmark implements Serializable {
     public void setState(Byte state) {
         this.state = state;
     }
+    
+    public Byte getPick() {
+		return pick;
+	}
 
-    public Byte getAudit() {
+	public void setPick(Byte pick) {
+		this.pick = pick;
+	}
+
+	public Byte getAudit() {
         return audit;
     }
 

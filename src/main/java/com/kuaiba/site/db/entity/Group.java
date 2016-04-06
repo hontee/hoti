@@ -19,6 +19,7 @@ public class Group implements Serializable {
     private Integer star;
     private Integer count;
     private Byte state;
+    private Byte pick;
     private Date created;
     private Date lastModified;
     private Long createBy;
@@ -110,8 +111,16 @@ public class Group implements Serializable {
     public void setState(Byte state) {
         this.state = state;
     }
+    
+    public Byte getPick() {
+		return pick;
+	}
 
-    public Date getCreated() {
+	public void setPick(Byte pick) {
+		this.pick = pick;
+	}
+
+	public Date getCreated() {
         return created;
     }
 

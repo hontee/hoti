@@ -21,7 +21,6 @@
 </head>
 <body>
 <nav class="navbar">
-  <div class="container">
     <a class="navbar-brand" href="/">快吧</a>
     <form class="left" action="/search" method="get">
       <input class="form-control navbar-search" name="q" value="${q!}" placeholder="搜索 站点与主题">
@@ -35,7 +34,6 @@
       <li><a class="btn btn-primary" href="/login">快速登录</a></li>
       </#if>
     </ul>
-  </div>
 </nav>
 
 <nav id="menu">

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kuaiba.site.db.dao.TrackMapper" >
+
   <resultMap id="BaseResultMap" type="com.kuaiba.site.db.entity.Track" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -9,6 +10,7 @@
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
   </resultMap>
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -38,6 +40,7 @@
       </foreach>
     </where>
   </sql>
+  
   <sql id="Update_By_Example_Where_Clause" >
     <where >
       <foreach collection="example.oredCriteria" item="criteria" separator="or" >
@@ -67,9 +70,11 @@
       </foreach>
     </where>
   </sql>
+  
   <sql id="Base_Column_List" >
     id, name, description, state, created, last_modified
   </sql>
+  
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.TrackExample" >
     select
     <if test="distinct" >
@@ -84,24 +89,28 @@
       order by ${orderByClause}
     </if>
   </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from t_track
     where id = #{id,jdbcType=BIGINT}
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from t_track
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  
   <delete id="deleteByExample" parameterType="com.kuaiba.site.db.entity.TrackExample" >
     delete from t_track
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  
   <!-- 批量删除 -->
-  <delete id="deleteByIds">
+  <delete id="batchDelete">
     delete from t_track
     <where>
     	id in
@@ -110,6 +119,7 @@
     	</foreach>
     </where>
   </delete>
+  
   <insert id="insert" parameterType="com.kuaiba.site.db.entity.Track" >
     insert into t_track
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -153,12 +163,14 @@
       </if>
     </trim>
   </insert>
+  
   <select id="countByExample" parameterType="com.kuaiba.site.db.entity.TrackExample" resultType="java.lang.Integer" >
     select count(*) from t_track
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  
   <update id="updateByExample" parameterType="map" >
     update t_track
     <set >
@@ -185,6 +197,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  
   <update id="updateByPrimaryKey" parameterType="com.kuaiba.site.db.entity.Track" >
     update t_track
     <set >

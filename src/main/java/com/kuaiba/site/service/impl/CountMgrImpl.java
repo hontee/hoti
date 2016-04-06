@@ -88,8 +88,8 @@ public class CountMgrImpl implements Countable {
 		
 		list.forEach((g) -> {
 			try {
-				int count = gbMapper.countByGid(g.getId());
-				int stars = gfMapper.countByFid(g.getId());
+				int count = gbMapper.countByGroupId(g.getId());
+				int stars = gfMapper.countByGroupId(g.getId());
 				groupService.update(g.getId(), count, stars);
 			} catch (Exception e) {
 				logger.debug("统计群组数据失败");

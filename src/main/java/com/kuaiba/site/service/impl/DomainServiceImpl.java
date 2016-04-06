@@ -168,7 +168,7 @@ public class DomainServiceImpl implements DomainService {
 	public List<Domain> findAllWithCates(DomainExample example) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(example);
-			return mapper.selectByCollect(example);
+			return mapper.selectWithCates(example);
 		} catch (Exception e) {
 			throw new ReadException("读取领域失败", e);
 		}

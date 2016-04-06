@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kuaiba.site.db.dao.CategoryMapper" >
+
   <resultMap id="BaseResultMap" type="com.kuaiba.site.db.entity.Category" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -48,6 +49,7 @@
       </foreach>
     </where>
   </sql>
+  
   <sql id="Update_By_Example_Where_Clause" >
     <where >
       <foreach collection="example.oredCriteria" item="criteria" separator="or" >
@@ -77,10 +79,12 @@
       </foreach>
     </where>
   </sql>
+  
   <sql id="Base_Column_List" >
     id, name, title, description, avatar, cover, count, group_count, state, created, last_modified, 
     domain, create_by, domain_title, creator
   </sql>
+  
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kuaiba.site.db.entity.CategoryExample" >
     select
     <if test="distinct" >
@@ -102,22 +106,26 @@
     from v_category
     where id = #{id,jdbcType=BIGINT}
   </select>
+  
   <select id="selectByDomain" resultMap="BaseResultMap" parameterType="java.lang.Long" >
   	SELECT 
   	<include refid="Base_Column_List" /> 
   	FROM v_category
     WHERE domain = #{domain,jdbcType=BIGINT}
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from t_category
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  
   <delete id="deleteByExample" parameterType="com.kuaiba.site.db.entity.CategoryExample" >
     delete from t_category
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  
   <insert id="insert" parameterType="com.kuaiba.site.db.entity.Category" >
     insert into t_category
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -203,12 +211,14 @@
       </if>
     </trim>
   </insert>
+  
   <select id="countByExample" parameterType="com.kuaiba.site.db.entity.CategoryExample" resultType="java.lang.Integer" >
     select count(*) from t_category
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  
   <update id="updateByExample" parameterType="map" >
     update t_category
     <set >
@@ -256,6 +266,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  
   <update id="updateByPrimaryKey" parameterType="com.kuaiba.site.db.entity.Category" >
     update t_category
     <set >

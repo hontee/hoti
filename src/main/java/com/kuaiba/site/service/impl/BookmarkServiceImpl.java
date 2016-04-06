@@ -188,7 +188,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public void follow(Long fid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(fid);
-			bfMapper.insert(AuthzUtil.getUserId(), fid);
+			bfMapper.follow(AuthzUtil.getUserId(), fid);
 		} catch (Exception e) {
 			throw new FollowException("关注站点失败", e);
 		}
@@ -199,7 +199,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public void unfollow(Long fid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(fid);
-			bfMapper.delete(AuthzUtil.getUserId(), fid);
+			bfMapper.unfollow(AuthzUtil.getUserId(), fid);
 		} catch (Exception e) {
 			throw new UnfollowException("取消关注站点失败", e);
 		}
