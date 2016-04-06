@@ -3,7 +3,7 @@
   <h1>${record.title!}</h1>
   <p>${record.description!}</p>
   <footer>
-    <small>${record.star}人关注</small> · 
+    <small><span id="star">${record.star}</span>人关注</small> · 
     <small>${record.count}个站点</small>
   </footer>
   </div>
@@ -18,9 +18,13 @@
     </div>
 
     <div class="right">
-      <a class="btn" href="/share?group=${record.id}">添加新站点</a>
-      <a class="btn" href="/groups/${record.id}/manager">管理</a>
-      <button class="btn btn-primary">关注</button>
+      <!--a class="btn" href="/share?group=${record.id}">添加新站点</a>
+      <a class="btn" href="/groups/${record.id}/manager">管理</a-->
+      <#if record.follow==1>
+      <button class="btn btn-primary" id="follow" data-href="/groups/${record.id}/unfollow">取消关注</button>
+      <#else>
+      <button class="btn btn-primary" id="follow" data-href="/groups/${record.id}/follow">关注</button>
+      </#if>
     </div>
   </div>
 </div>

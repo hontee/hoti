@@ -45,14 +45,7 @@ public class MemcachedUtil {
 		MemcachedClient client = null;
 		try {
 			client = getMemcachedClient();
-			OperationFuture<Boolean> future = null;
-			
-			if (exists(key)) {
-				client.replace(key, expire, value);
-			} else {
-				future = client.set(key, expire, value);
-			}
-			
+			OperationFuture<Boolean> future = client.set(key, expire, value);
 			future.get(); // 确保之前(mc.set())操作已经结束
 		} catch (Exception e) {
 			throw new CacheException("设置缓存失败: " + key, e);
@@ -96,17 +89,6 @@ public class MemcachedUtil {
 		} finally {
 			destory(client);
 		}
-	}
-	
-	/**
-	 * 检测是否存在缓存对象
-	 * @param key
-	 * @param expire
-	 * @param value
-	 * @throws SecurityException 
-	 */
-	public static boolean exists(String key) throws SecurityException {
-		return get(key) != null;
 	}
 	
 	/**

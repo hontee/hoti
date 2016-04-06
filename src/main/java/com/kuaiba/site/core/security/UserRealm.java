@@ -45,6 +45,7 @@ public class UserRealm extends AuthorizingRealm {
 		Set<String> roles = new HashSet<>();
 		if (AuthzUtil.isAdmin()) { // 登录用户是否为管理员
 			roles.add("admin");
+			roles.add("user");
 			info.setRoles(roles);
 		} else {
 			roles.add("user");

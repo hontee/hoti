@@ -37,9 +37,7 @@ public class ClearCacheInterceptor {
 				ThreadPool.getInstance().execute(new Runnable() {
 					public void run() {
 						try {
-							if (MemcachedUtil.exists(key)) {
-								MemcachedUtil.delete(key);
-							}
+							MemcachedUtil.delete(key);
 						} catch (SecurityException e) {
 							logger.warn("清除[{}]缓存失败", key);
 							logger.warn(Throwables.getStackTraceAsString(e));

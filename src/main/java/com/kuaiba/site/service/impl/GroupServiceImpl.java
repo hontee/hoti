@@ -31,6 +31,8 @@ import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.front.vo.GroupVO;
+import com.kuaiba.site.interceptor.ClearCache;
+import com.kuaiba.site.service.BookmarkService;
 import com.kuaiba.site.service.CachePolicy;
 import com.kuaiba.site.service.GroupService;
 
@@ -47,6 +49,8 @@ public class GroupServiceImpl implements GroupService {
 	private GroupBookmarkRelationMapper gbrMapper;
 	@Resource
 	private CachePolicy cacheMgr;
+	@Resource
+	private BookmarkService bookmarkService;
 
 	@Override
 	public PageInfo<Group> find(GroupExample example, Pagination p) throws SecurityException { 
@@ -67,12 +71,16 @@ public class GroupServiceImpl implements GroupService {
 			VUtil.assertNotNull(example, p);
 			PagerUtil.startPage(p);
 			List<GroupBookmarkRelation> list = gbrMapper.selectByExample(example);
+			for (GroupBookmarkRelation bm : list) {
+				bm.setMt(cacheMgr.readMtype(bm.getMtype()));
+				bm.setFollow(bookmarkService.validateFollow(bm.getId())? 1: 0);
+			}
+			
 			return new PageInfo<>(list);
 		} catch (Exception e) {
-			throw new ReadException("分页读取群组失败", e);
+			throw new ReadException("分页读取群组书签失败", e);
 		}
 	}
-
 
 
 	@Override
@@ -171,6 +179,7 @@ public class GroupServiceImpl implements GroupService {
 			List<Group> list = mapper.selectByExample(example);
 			for (Group g : list) {
 				g.setMt(cacheMgr.readMtype(g.getMtype()));
+				g.setFollow(validateFollow(g.getId()) ? 1: 0);
 			}
 			return list;
 		} catch (Exception e) {
@@ -182,7 +191,9 @@ public class GroupServiceImpl implements GroupService {
 	public Group findOne(Long id) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(id);
-			return mapper.selectByPrimaryKey(id);
+			Group g = mapper.selectByPrimaryKey(id);
+			g.setFollow(validateFollow(g.getId()) ? 1: 0);
+			return g;
 		} catch (Exception e) {
 			throw new ReadException("读取群组失败", e);
 		}
@@ -230,6 +241,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
+	@ClearCache("user_follow_group")
 	public void unfollow(Long fid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(fid);
@@ -240,6 +252,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
+	@ClearCache("user_follow_group")
 	public void follow(Long fid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(fid);
@@ -274,6 +287,16 @@ public class GroupServiceImpl implements GroupService {
 			return !mapper.selectByExample(example).isEmpty();
 		} catch (Exception e) {
 			throw new ValidationException("验证群组" + attr.name() + "失败", e);
+		}
+	}
+
+	@Override
+	public boolean validateFollow(Long fid) throws SecurityException {
+		try {
+			VUtil.assertNotNull(fid);
+			return cacheMgr.readUserFollowGroup().contains(fid);
+		} catch (Exception e) {
+			throw new ReadException("判断用户是否关注群组失败", e);
 		}
 	}
 

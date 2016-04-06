@@ -27,6 +27,7 @@ public class Group implements Serializable {
     private String cateTitle;
     private String creator;
     private Mtype mt;
+    private int follow;
     
     private List<GroupBookmarkRelation> bookmarks; 
 
@@ -172,6 +173,14 @@ public class Group implements Serializable {
 
 	public void setMt(Mtype mt) {
 		this.mt = mt;
+	}
+
+	public int getFollow() {
+		return follow;
+	}
+
+	public void setFollow(int follow) {
+		this.follow = follow;
 	}
 
 	public List<GroupBookmarkRelation> getBookmarks() {

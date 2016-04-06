@@ -10,5 +10,10 @@ public interface BookmarkFollowMapper {
 
 	int insert(@Param("uid") Long uid, @Param("fid") Long fid);
 	
+	/**
+	 * 用户关注的书签
+	 * @param uid
+	 * @return
+	 */
 	List<Long> selectByUid(@Param("uid") Long uid);
 }

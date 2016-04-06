@@ -118,7 +118,7 @@ public class GroupController {
 	 * @return
 	 * @throws SecurityException
 	 */
-	@RequiresRoles("user")
+	@RequiresRoles(value = {"user", "admin"})
 	@RequestMapping(value = "/groups/{id}/follow", method = RequestMethod.POST)
 	public @ResponseBody SiteResponse followGroup(@PathVariable Long id) throws SecurityException {
 		groupService.follow(id);
@@ -131,7 +131,7 @@ public class GroupController {
 	 * @return
 	 * @throws SecurityException
 	 */
-	@RequiresRoles("user")
+	@RequiresRoles(value = {"user", "admin"})
 	@RequestMapping(value = "/groups/{id}/unfollow", method = RequestMethod.POST)
 	public @ResponseBody SiteResponse unfollowGroup(@PathVariable Long id) throws SecurityException {
 		groupService.unfollow(id);

@@ -51,4 +51,10 @@ public interface CachePolicy {
 	 */
 	List<Long> readUserFollowBMS() throws SecurityException;
 	
+	/**
+	 * 从缓存中读取登录用户关注的群组IDs
+	 * @return
+	 */
+	List<Long> readUserFollowGroup() throws SecurityException;
+	
 }

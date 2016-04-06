@@ -15,6 +15,9 @@
     insert into t_group_follow (uid, fid)
     values (#{uid,jdbcType=BIGINT}, #{fid,jdbcType=BIGINT})
   </insert>
+  <select id="selectByUid" parameterType="java.lang.Long" resultType="Long">
+  SELECT fid FROM t_group_follow WHERE uid = #{uid} ORDER BY fid
+  </select>
   <select id="countByFid" parameterType="long" resultType="int">
   select count(1) from t_group_follow where fid = #{fid}
   </select>

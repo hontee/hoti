@@ -65,6 +65,7 @@ $(function() {
 		$.post("/login", $("#form").serialize(), function(data) {
 			var r = $.parseJSON(data);
 			if (r.success) {
+				console.log(r.result);
 				window.location.href = "/";
 			} else {
 				alert(r.error.message);

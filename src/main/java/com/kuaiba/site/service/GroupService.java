@@ -155,5 +155,12 @@ public interface GroupService extends Pager<Group, GroupExample> {
 	 */
 	boolean validate(Attribute attr, String value) throws SecurityException;
 	
-
+	/**
+	 * 检测是否已关注
+	 * @param fid
+	 * @return
+	 * @throws SecurityException
+	 */
+	boolean validateFollow(Long fid) throws SecurityException;
+	
 }

@@ -21,6 +21,8 @@ public class GroupBookmarkRelation implements Serializable {
     private String mtTitle;
     private Long gid;
     private Date created;
+    private int follow; // 是否关注
+    private Mtype mt;
 
     public Long getId() {
         return id;
@@ -133,4 +135,25 @@ public class GroupBookmarkRelation implements Serializable {
     public void setCreated(Date created) {
         this.created = created;
     }
+
+	public int getFollow() {
+		return follow;
+	}
+
+	public void setFollow(int follow) {
+		this.follow = follow;
+	}
+
+	public Mtype getMt() {
+		
+		if (mt == null) {
+			mt = new Mtype();
+		}
+		return mt;
+	}
+
+	public void setMt(Mtype mt) {
+		this.mt = mt;
+	}
+    
 }

@@ -16,9 +16,9 @@
       <a class="btn btn-outline <c:if test="${f=='pick'}">selected</c:if>" href="/groups?f=pick">精选</a>
     </div>
 
-    <div class="right">
+    <!-- <div class="right">
       <a class="btn btn-primary" href="/group/new">创建主题</a>
-    </div>
+    </div> -->
   </div>
 </div>
 

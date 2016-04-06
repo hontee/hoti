@@ -96,7 +96,7 @@ public class BookmarkController {
 	 * @return
 	 * @throws SecurityException 
 	 */
-	@RequiresRoles("user")
+	@RequiresRoles(value = {"user", "admin"})
 	@RequestMapping(value = "/bookmarks/{id}/follow", method = RequestMethod.POST)
 	public @ResponseBody SiteResponse follow(@PathVariable Long id) throws SecurityException {
 		bookmarkService.follow(id);
@@ -109,7 +109,7 @@ public class BookmarkController {
 	 * @return
 	 * @throws SecurityException 
 	 */
-	@RequiresRoles("user")
+	@RequiresRoles(value = {"user", "admin"})
 	@RequestMapping(value = "/bookmarks/{id}/unfollow", method = RequestMethod.POST)
 	public @ResponseBody SiteResponse unfollow(@PathVariable Long id) throws SecurityException {
 		bookmarkService.unfollow(id);

@@ -5,14 +5,18 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.core.security.MemcachedUtil;
 import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.CategoryMapper;
 import com.kuaiba.site.db.dao.DomainMapper;
+import com.kuaiba.site.db.dao.GroupFollowMapper;
 import com.kuaiba.site.db.dao.MenuMapper;
 import com.kuaiba.site.db.dao.MtypeMapper;
 import com.kuaiba.site.db.entity.Category;
@@ -28,6 +32,8 @@ import com.kuaiba.site.service.CachePolicy;
 @Service
 public class CacheMgrImpl implements CachePolicy {
 	
+	private Logger logger = LoggerFactory.getLogger(CacheMgrImpl.class);
+	
 	/*默认缓存时间*/
 	private final int DTIME = 1000 * 60 * 30;
 	
@@ -37,6 +43,7 @@ public class CacheMgrImpl implements CachePolicy {
 	private final String DOMAINS = "domains";
 	private final String MENUS = "menus";
 	private final String USER_FOLLOW_BMS = "user_follow_bms";
+	private final String USER_FOLLOW_GROUP = "user_follow_group";
 	
 	@Resource
 	private MtypeMapper mm;
@@ -48,21 +55,19 @@ public class CacheMgrImpl implements CachePolicy {
 	private MenuMapper menum;
 	@Resource
 	private BookmarkFollowMapper bfm;
+	@Resource
+	private GroupFollowMapper gfm;
 
-	@SuppressWarnings("unchecked")
+	
 	public List<Mtype> readMtypes() throws SecurityException {
 		
+		/*Object obj = MemcachedUtil.get(MTYPES);*/
 		List<Mtype> list = new ArrayList<>();
-		
-		if (MemcachedUtil.exists(MTYPES)) {
-			list = (List<Mtype>) MemcachedUtil.get(MTYPES);
-		} else {
-			MtypeExample example = new MtypeExample();
-			example.createCriteria().andStateEqualTo((byte)1);
-			example.setOrderByClause("weight DESC"); // 按权重排序
-			list = mm.selectByExample(example);
-			MemcachedUtil.set(MTYPES, DTIME, list);
-		}
+		MtypeExample example = new MtypeExample();
+		example.createCriteria().andStateEqualTo((byte)1);
+		example.setOrderByClause("weight DESC"); // 按权重排序
+		list = mm.selectByExample(example);
+		MemcachedUtil.set(MTYPES, DTIME, list);
 		
 		return list;
 	}
@@ -79,70 +84,75 @@ public class CacheMgrImpl implements CachePolicy {
 		return new Mtype();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<Category> readCates() throws SecurityException {
 
+		/*Object obj = MemcachedUtil.get(CATES);*/
 		List<Category> list = new ArrayList<>();
-		
-		if (MemcachedUtil.exists(CATES)) {
-			list = (List<Category>) MemcachedUtil.get(CATES);
-		} else {
-			CategoryExample example = new CategoryExample();
-			example.createCriteria().andStateEqualTo((byte)1);
-			list = cm.selectByExample(example);
-			MemcachedUtil.set(CATES, DTIME, list);
-		}
+
+		CategoryExample example = new CategoryExample();
+		example.createCriteria().andStateEqualTo((byte)1);
+		list = cm.selectByExample(example);
+		MemcachedUtil.set(CATES, DTIME, list);
 		
 		return list;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<Domain> readDomains() throws SecurityException {
 
+		/*Object obj = MemcachedUtil.get(DOMAINS);*/
 		List<Domain> list = new ArrayList<>();
 		
-		if (MemcachedUtil.exists(DOMAINS)) {
-			list = (List<Domain>) MemcachedUtil.get(DOMAINS);
-		} else {
-			DomainExample example = new DomainExample();
-			example.createCriteria().andStateEqualTo((byte)1);
-			example.setOrderByClause("weight DESC"); // 按权重排序
-			list = dm.selectByExample(example);
-			MemcachedUtil.set(DOMAINS, DTIME, list);
-		}
+		DomainExample example = new DomainExample();
+		example.createCriteria().andStateEqualTo((byte)1);
+		example.setOrderByClause("weight DESC"); // 按权重排序
+		list = dm.selectByExample(example);
+		MemcachedUtil.set(DOMAINS, DTIME, list);
 		
 		return list;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<Menu> readMenus() throws SecurityException {
 
+		/*Object obj = MemcachedUtil.get(MENUS);*/
 		List<Menu> list = new ArrayList<>();
 		
-		if (MemcachedUtil.exists(MENUS)) {
-			list = (List<Menu>) MemcachedUtil.get(MENUS);
-		} else {
-			MenuExample example = new MenuExample();
-			example.createCriteria().andStateEqualTo((byte)1);
-			example.setOrderByClause("weight DESC"); // 按权重排序
-			list = menum.selectByExample(new MenuExample());
-			MemcachedUtil.set(MENUS, DTIME, list);
-		}
+		MenuExample example = new MenuExample();
+		example.createCriteria().andStateEqualTo((byte)1);
+		example.setOrderByClause("weight DESC"); // 按权重排序
+		list = menum.selectByExample(new MenuExample());
+		MemcachedUtil.set(MENUS, DTIME, list);
 		
 		return list;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<Long> readUserFollowBMS() throws SecurityException {
 
+		/*Object obj = MemcachedUtil.get(USER_FOLLOW_BMS);*/
 		List<Long> list = new ArrayList<>();
 		
-		if (MemcachedUtil.exists(USER_FOLLOW_BMS)) {
-			list = (List<Long>) MemcachedUtil.get(USER_FOLLOW_BMS);
-		} else {
-			list = bfm.selectByUid(AuthzUtil.getUserId());
-			MemcachedUtil.set(USER_FOLLOW_BMS, DTIME, list);
-		}
+		list = bfm.selectByUid(AuthzUtil.getUserId());
+		MemcachedUtil.set(USER_FOLLOW_BMS, DTIME, list);
+		
+		logger.info("用户关注的书签：" + JSON.toJSONString(list));
+		
+		return list;
+	}
+
+	
+	
+	public List<Long> readUserFollowGroup() throws SecurityException {
+		
+		/*Object obj = MemcachedUtil.get(USER_FOLLOW_GROUP);*/
+		List<Long> list = new ArrayList<>();
+		
+		list = gfm.selectByUid(AuthzUtil.getUserId());
+		MemcachedUtil.set(USER_FOLLOW_GROUP, DTIME, list);
+		
+		logger.info("用户关注的群组：" + JSON.toJSONString(list));
 		
 		return list;
 	}
