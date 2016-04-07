@@ -14,7 +14,7 @@ import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.exception.ValidationException;
 import com.kuaiba.site.core.security.AuthzUtil;
-import com.kuaiba.site.db.dao.BookmarkFollowMapper;
+import com.kuaiba.site.db.dao.MapMapper;
 import com.kuaiba.site.db.dao.CategoryMapper;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
@@ -30,7 +30,7 @@ import com.kuaiba.site.service.CategoryService;
 public class CategoryServiceImpl implements CategoryService {
 	
 	@Resource
-	private BookmarkFollowMapper bfMapper;
+	private MapMapper bfMapper;
 	@Resource
 	private CategoryMapper mapper;
 	@Resource

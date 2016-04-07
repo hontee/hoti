@@ -13,10 +13,9 @@ import com.alibaba.fastjson.JSON;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.core.security.MemcachedUtil;
-import com.kuaiba.site.db.dao.BookmarkFollowMapper;
 import com.kuaiba.site.db.dao.CategoryMapper;
 import com.kuaiba.site.db.dao.DomainMapper;
-import com.kuaiba.site.db.dao.GroupFollowMapper;
+import com.kuaiba.site.db.dao.MapMapper;
 import com.kuaiba.site.db.dao.MenuMapper;
 import com.kuaiba.site.db.dao.MtypeMapper;
 import com.kuaiba.site.db.entity.Category;
@@ -54,9 +53,9 @@ public class CacheMgrImpl implements CachePolicy {
 	@Resource
 	private MenuMapper menum;
 	@Resource
-	private BookmarkFollowMapper bfm;
+	private MapMapper bfm;
 	@Resource
-	private GroupFollowMapper gfm;
+	private MapMapper mapMapper;
 
 	
 	public List<Mtype> readMtypes() throws SecurityException {
@@ -134,7 +133,7 @@ public class CacheMgrImpl implements CachePolicy {
 		/*Object obj = MemcachedUtil.get(USER_FOLLOW_BMS);*/
 		List<Long> list = new ArrayList<>();
 		
-		list = bfm.selectByUserId(AuthzUtil.getUserId());
+		list = bfm.selectBookmarkIdsByUserId(AuthzUtil.getUserId());
 		MemcachedUtil.set(USER_FOLLOW_BMS, DTIME, list);
 		
 		logger.info("用户关注的书签：" + JSON.toJSONString(list));
@@ -149,7 +148,7 @@ public class CacheMgrImpl implements CachePolicy {
 		/*Object obj = MemcachedUtil.get(USER_FOLLOW_GROUP);*/
 		List<Long> list = new ArrayList<>();
 		
-		list = gfm.selectByUserId(AuthzUtil.getUserId());
+		list = mapMapper.selectGroupIdsByUserId(AuthzUtil.getUserId());
 		MemcachedUtil.set(USER_FOLLOW_GROUP, DTIME, list);
 		
 		logger.info("用户关注的群组：" + JSON.toJSONString(list));

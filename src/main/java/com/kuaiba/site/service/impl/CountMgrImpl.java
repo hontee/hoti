@@ -9,8 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.kuaiba.site.core.exception.SecurityException;
-import com.kuaiba.site.db.dao.GroupBookmarkMapper;
-import com.kuaiba.site.db.dao.GroupFollowMapper;
+import com.kuaiba.site.db.dao.MapMapper;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.CategoryExample;
@@ -37,9 +36,7 @@ public class CountMgrImpl implements Countable {
 	@Resource
 	private GroupService groupService;
 	@Resource
-	private GroupBookmarkMapper gbMapper;
-	@Resource
-	private GroupFollowMapper gfMapper;
+	private MapMapper mapMapper;
 
 	@Override
 	public void countDomainTask() throws SecurityException {
@@ -88,8 +85,8 @@ public class CountMgrImpl implements Countable {
 		
 		list.forEach((g) -> {
 			try {
-				int count = gbMapper.countByGroupId(g.getId());
-				int stars = gfMapper.countByGroupId(g.getId());
+				int count = mapMapper.countGBByGroupId(g.getId());
+				int stars = mapMapper.countGroupUserById(g.getId());
 				groupService.update(g.getId(), count, stars);
 			} catch (Exception e) {
 				logger.debug("统计群组数据失败");

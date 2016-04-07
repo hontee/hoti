@@ -17,7 +17,7 @@ import com.kuaiba.site.core.exception.UnfollowException;
 import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.exception.ValidationException;
 import com.kuaiba.site.core.security.AuthzUtil;
-import com.kuaiba.site.db.dao.BookmarkFollowMapper;
+import com.kuaiba.site.db.dao.MapMapper;
 import com.kuaiba.site.db.dao.BookmarkMapper;
 import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.Bookmark;
@@ -38,7 +38,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Resource
 	private BookmarkMapper mapper;
 	@Resource
-	private BookmarkFollowMapper bfMapper;
+	private MapMapper bfMapper;
 	@Resource
 	private CachePolicy cacheMgr;
 
@@ -188,7 +188,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public void follow(Long fid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(fid);
-			bfMapper.follow(AuthzUtil.getUserId(), fid);
+			bfMapper.followBookmark(AuthzUtil.getUserId(), fid);
 		} catch (Exception e) {
 			throw new FollowException("关注站点失败", e);
 		}
@@ -199,7 +199,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public void unfollow(Long fid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(fid);
-			bfMapper.unfollow(AuthzUtil.getUserId(), fid);
+			bfMapper.unfollowBookmark(AuthzUtil.getUserId(), fid);
 		} catch (Exception e) {
 			throw new UnfollowException("取消关注站点失败", e);
 		}

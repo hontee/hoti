@@ -19,9 +19,8 @@ import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.exception.ValidationException;
 import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.dao.BookmarkMapper;
-import com.kuaiba.site.db.dao.GroupBookmarkMapper;
-import com.kuaiba.site.db.dao.GroupFollowMapper;
 import com.kuaiba.site.db.dao.GroupMapper;
+import com.kuaiba.site.db.dao.MapMapper;
 import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
@@ -42,9 +41,7 @@ public class GroupServiceImpl implements GroupService {
 	@Resource
 	private GroupMapper mapper;
 	@Resource
-	private GroupFollowMapper gfMapper;
-	@Resource
-	private GroupBookmarkMapper gbMapper;
+	private MapMapper mapMapper;
 	@Resource
 	private BookmarkMapper bmMapper;
 	@Resource
@@ -157,7 +154,7 @@ public class GroupServiceImpl implements GroupService {
 	public void add(Long gid, Long bmid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(gid, bmid);
-			gbMapper.insert(gid, bmid);
+			mapMapper.insertGB(gid, bmid);
 		} catch (Exception e) {
 			throw new CreateException("群组关联站点失败", e);
 		}
@@ -245,7 +242,7 @@ public class GroupServiceImpl implements GroupService {
 	public void unfollow(Long fid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(fid);
-			gfMapper.unfollow(AuthzUtil.getUserId(), fid);
+			mapMapper.unfollowGroup(AuthzUtil.getUserId(), fid);
 		} catch (Exception e) {
 			throw new UnfollowException("取消关注群组失败", e);
 		}
@@ -256,7 +253,7 @@ public class GroupServiceImpl implements GroupService {
 	public void follow(Long fid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(fid);
-			gfMapper.follow(AuthzUtil.getUserId(), fid);
+			mapMapper.followGroup(AuthzUtil.getUserId(), fid);
 		} catch (Exception e) {
 			throw new FollowException("关注群组失败", e);
 		}
@@ -266,7 +263,7 @@ public class GroupServiceImpl implements GroupService {
 	public void remove(Long gid, Long bmid) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(gid, bmid);
-			gbMapper.delete(gid, bmid);
+			mapMapper.deleteGB(gid, bmid);
 		} catch (Exception e) {
 			throw new DeleteException("群组移除站点失败", e);
 		}
