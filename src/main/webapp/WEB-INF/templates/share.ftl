@@ -1,12 +1,30 @@
+<@override name="resources">
+<@super/>
+<style>
+body{padding-left:0;}
+.navbar {padding-left: 12px;}
+.container-self {width: 980px; margin-left: auto; margin-right: auto;}
+</style>
+</@override>
+
+<@override name="menu"></@override>
 <@override name="body">
-<div class="container" style="margin-top: 20px;">
-<form id="form" action="javascript:void(0)">
-  <fieldset class="form-group">
-    <input class="form-control" id="url" name="url" placeholder="http(s)://" autocomplete="off">
-    <small class="text-muted">请输入你要分享的站点</small>
-  </fieldset>
-  <button id="submit" class="btn btn-primary">提交</button>
+<div class="toolbar">
+<div class="container-self">
+<form id="form" action="javascript:void(0);">
+  <dl class="form-group">
+    <dt><label for="url">请输入你要分享的站点</label></dt>
+    <dd>
+      <div class="left">
+        <input class="form-control" id="url"name="url" placeholder="http(s)://" autocomplete="off">
+      </div>
+      <div class="form-actions left">
+	    <button id="submit" class="btn">分享站点</button>
+	  </div>
+    </dd>
+  </dl>
 </form>
+</div>
 </div>
 </@override>
 

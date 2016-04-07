@@ -221,10 +221,22 @@ public class BookmarkServiceImpl implements BookmarkService {
 			
 			return !mapper.selectByExample(example).isEmpty();
 		} catch (Exception e) {
-			throw new ValidationException("验证站点" + attr.name() + "失败", e);
+			throw new ValidationException("验证站点失败：" + attr.name(), e);
 		}
 	}
 	
+	@Override
+	public boolean validate(String url) throws SecurityException {
+		try {
+			VUtil.assertNotNull(url);
+			BookmarkExample example = new BookmarkExample();
+			example.createCriteria().andUrlEqualTo(url);
+			return !findAll(example).isEmpty();
+		} catch (Exception e) {
+			throw new ValidationException("验证网址失败：" + url, e);
+		}
+	}
+
 	@Override
 	public boolean validateFollow(Long fid) throws SecurityException { 
 		try {

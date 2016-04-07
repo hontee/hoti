@@ -7,11 +7,11 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageInfo;
-import com.kuaiba.site.core.exception.CreateException;
 import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.ReadException;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
+import com.kuaiba.site.core.security.ThreadPool;
 import com.kuaiba.site.db.dao.RecommendMapper;
 import com.kuaiba.site.db.entity.FetchFactory;
 import com.kuaiba.site.db.entity.PagerUtil;
@@ -77,13 +77,23 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Override
 	public void add(String url) throws SecurityException { 
-		try {
-			VUtil.assertNotNull(url);
-			Recommend record = FetchFactory.get(url);
-			mapper.insert(record);
-		} catch (Exception e) {
-			throw new CreateException("添加推荐失败", e);
-		}
+		ThreadPool.getInstance().execute(new Runnable() {
+			public void run() {
+				try {
+					VUtil.assertNotNull(url);
+					Recommend record = FetchFactory.get(url);
+					
+					// 检测数据库, 如果已存在则直接设置为拒绝审核
+					if (bookmarkService.validate(url)) { 
+						record.setState((byte) 3); // 审核拒绝
+						record.setRemark("系统检测：链接已存在");
+					} 
+					
+					mapper.insert(record);
+				} catch (Exception e) {
+				}
+			}
+		});
 	}
 
 	@Override

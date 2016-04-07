@@ -110,6 +110,13 @@ public interface BookmarkService extends Pager<Bookmark, BookmarkExample> {
 	boolean validate(Attribute attr, String value) throws SecurityException;
 	
 	/**
+	 * 验证URL是否存在: true=存在
+	 * @param name
+	 * @return
+	 */
+	boolean validate(String url) throws SecurityException;
+	
+	/**
 	 * 检测是否已关注
 	 * @param fid
 	 * @return
