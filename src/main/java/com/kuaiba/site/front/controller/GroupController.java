@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.exception.SecurityException;
+import com.kuaiba.site.db.entity.Bookmark;
+import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Filter;
 import com.kuaiba.site.db.entity.Group;
-import com.kuaiba.site.db.entity.GroupBookmarkRelation;
-import com.kuaiba.site.db.entity.GroupBookmarkRelationExample;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
@@ -50,19 +50,21 @@ public class GroupController {
 		f = filter.toString().toLowerCase();
 		PageInfo<Group> pageInfo = new PageInfo<>();
 		GroupExample example = new GroupExample();
+		GroupExample.Criteria criteria = example.createCriteria();
 		
 		if (filter == Filter.MY) { // 我的站点
 			pageInfo = groupService.find(example, p);
 		} else if (filter == Filter.LIKE) { // 猜你喜欢
+			p.setOrderBy("count", "DESC");
 			pageInfo = groupService.find(example, p);
 		} else if (filter == Filter.NEW) { // 最新
-			example.setOrderByClause("created DESC");
+			p.setOrderBy("created", "DESC");
 			pageInfo = groupService.find(example, p);
 		} else if (filter == Filter.HOT) { // 最热
-			example.setOrderByClause("star DESC");
+			p.setOrderBy("star", "DESC");
 			pageInfo = groupService.find(example, p);
 		} else if (filter == Filter.PICK) { // 精选
-			example.setOrderByClause("count DESC");
+			criteria.andPickEqualTo((byte)1);
 			pageInfo = groupService.find(example, p);
 		}
 		
@@ -93,18 +95,19 @@ public class GroupController {
 		f = filter.toString().toLowerCase();
 		Group record = groupService.findOne(id);
 		
-		GroupBookmarkRelationExample example = new GroupBookmarkRelationExample();
-		example.createCriteria().andGidEqualTo(id);
+		BookmarkExample example = new BookmarkExample();
+		BookmarkExample.Criteria criteria = example.createCriteria();
+		criteria.andGidEqualTo(id);
 		
 		if (filter == Filter.HOT) {
-			p.setOrderBy("hit", "DESC");
+			p.setOrderBy("star", "DESC");
 		} else if (filter == Filter.NEW) {
 			p.setOrderBy("created", "DESC");
 		} else if (filter == Filter.PICK) {
-			p.setOrderBy("star", "DESC");
+			// TODO
 		}
 		
-		PageInfo<GroupBookmarkRelation> pageInfo = groupService.find(example, p);
+		PageInfo<Bookmark> pageInfo = groupService.find(example, p);
 		record.setBookmarks(pageInfo.getList());
 		model.addAttribute("f", f);
 		model.addAttribute("page", PagerUtil.of(pageInfo, "/groups/"+id+"/?f=" + f));
@@ -137,7 +140,5 @@ public class GroupController {
 		groupService.unfollow(id);
 		return SiteUtil.ok();
 	}
-	
 
-	
 }

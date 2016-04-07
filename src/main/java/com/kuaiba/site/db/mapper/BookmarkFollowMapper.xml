@@ -2,12 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kuaiba.site.db.dao.BookmarkFollowMapper" >
   
-  <resultMap id="BaseResultMap" type="com.kuaiba.site.db.entity.BookmarkFollow" >
-    <id column="uid" property="uid" jdbcType="BIGINT" />
-    <id column="fid" property="fid" jdbcType="BIGINT" />
-    <result column="created" property="created" jdbcType="TIMESTAMP" />
-  </resultMap>
-  
   <delete id="unfollow" parameterType="map" >
     delete from t_bookmark_follow
     where uid = #{uid,jdbcType=BIGINT}

@@ -5,9 +5,9 @@ import java.util.List;
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Attribute;
+import com.kuaiba.site.db.entity.Bookmark;
+import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Group;
-import com.kuaiba.site.db.entity.GroupBookmarkRelation;
-import com.kuaiba.site.db.entity.GroupBookmarkRelationExample;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.Pager;
 import com.kuaiba.site.db.entity.Pagination;
@@ -22,7 +22,7 @@ public interface GroupService extends Pager<Group, GroupExample> {
 	 * @return PageInfo
 	 * @throws SecurityException
 	 */
-	PageInfo<GroupBookmarkRelation> find(GroupBookmarkRelationExample example, Pagination p) throws SecurityException;
+	PageInfo<Bookmark> find(BookmarkExample example, Pagination p) throws SecurityException;
 	
 	/**
 	 * 按条件统计群组

@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.kuaiba.site.core.exception.SecurityException;
+import com.kuaiba.site.db.entity.Bookmark;
+import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.DataGrid;
 import com.kuaiba.site.db.entity.FollowUser;
 import com.kuaiba.site.db.entity.FollowUserExample;
 import com.kuaiba.site.db.entity.GTypeUtil;
 import com.kuaiba.site.db.entity.Group;
-import com.kuaiba.site.db.entity.GroupBookmarkRelation;
-import com.kuaiba.site.db.entity.GroupBookmarkRelationExample;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
@@ -127,15 +127,15 @@ public class GroupCMS {
 	
 	@RequiresRoles(value = "admin")
 	@RequestMapping(value = "/{id}/bookmarks")
-	public @ResponseBody DataGrid<GroupBookmarkRelation> groupBookmarks(
+	public @ResponseBody DataGrid<Bookmark> groupBookmarks(
 			@PathVariable Long id,
 			@RequestParam(required = false) String title, 
 			@RequestParam(required = false) Long category, 
 			@RequestParam(required = false) Byte state, 
 			Pagination p) throws SecurityException {
 		
-		GroupBookmarkRelationExample example = new GroupBookmarkRelationExample();
-		GroupBookmarkRelationExample.Criteria criteria = example.createCriteria();
+		BookmarkExample example = new BookmarkExample();
+		BookmarkExample.Criteria criteria = example.createCriteria();
 		
 		criteria.andGidEqualTo(id); // GID必须
 		
@@ -151,7 +151,7 @@ public class GroupCMS {
 			criteria.andStateEqualTo(state);
 		}
 		
-		PageInfo<GroupBookmarkRelation> pageInfo = followable.findGBRelation(example, p);
+		PageInfo<Bookmark> pageInfo = followable.findGBRelation(example, p);
 		return new DataGrid<>(pageInfo);
 	}
 	

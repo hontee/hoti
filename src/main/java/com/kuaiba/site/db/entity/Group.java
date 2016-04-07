@@ -30,7 +30,7 @@ public class Group implements Serializable {
     private Mtype mt;
     private int follow;
     
-    private List<GroupBookmarkRelation> bookmarks; 
+    private List<Bookmark> bookmarks; 
 
     public Long getId() {
         return id;
@@ -192,7 +192,7 @@ public class Group implements Serializable {
 		this.follow = follow;
 	}
 
-	public List<GroupBookmarkRelation> getBookmarks() {
+	public List<Bookmark> getBookmarks() {
 		
 		if (bookmarks == null) {
 			bookmarks = new ArrayList<>();
@@ -201,7 +201,7 @@ public class Group implements Serializable {
 		return bookmarks;
 	}
 
-	public void setBookmarks(List<GroupBookmarkRelation> bookmarks) {
+	public void setBookmarks(List<Bookmark> bookmarks) {
 		this.bookmarks = bookmarks;
 	}
     

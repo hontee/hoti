@@ -18,14 +18,14 @@ import com.kuaiba.site.core.exception.UnfollowException;
 import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.exception.ValidationException;
 import com.kuaiba.site.core.security.AuthzUtil;
+import com.kuaiba.site.db.dao.BookmarkMapper;
 import com.kuaiba.site.db.dao.GroupBookmarkMapper;
-import com.kuaiba.site.db.dao.GroupBookmarkRelationMapper;
 import com.kuaiba.site.db.dao.GroupFollowMapper;
 import com.kuaiba.site.db.dao.GroupMapper;
 import com.kuaiba.site.db.entity.Attribute;
+import com.kuaiba.site.db.entity.Bookmark;
+import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Group;
-import com.kuaiba.site.db.entity.GroupBookmarkRelation;
-import com.kuaiba.site.db.entity.GroupBookmarkRelationExample;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
@@ -46,7 +46,7 @@ public class GroupServiceImpl implements GroupService {
 	@Resource
 	private GroupBookmarkMapper gbMapper;
 	@Resource
-	private GroupBookmarkRelationMapper gbrMapper;
+	private BookmarkMapper bmMapper;
 	@Resource
 	private CachePolicy cacheMgr;
 	@Resource
@@ -65,13 +65,13 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public PageInfo<GroupBookmarkRelation> find(GroupBookmarkRelationExample example, Pagination p)
+	public PageInfo<Bookmark> find(BookmarkExample example, Pagination p)
 			throws SecurityException {
 		try {
 			VUtil.assertNotNull(example, p);
 			PagerUtil.startPage(p);
-			List<GroupBookmarkRelation> list = gbrMapper.selectByExample(example);
-			for (GroupBookmarkRelation bm : list) {
+			List<Bookmark> list = bmMapper.selectByRelation(example);
+			for (Bookmark bm : list) {
 				bm.setMt(cacheMgr.readMtype(bm.getMtype()));
 				bm.setFollow(bookmarkService.validateFollow(bm.getId())? 1: 0);
 			}

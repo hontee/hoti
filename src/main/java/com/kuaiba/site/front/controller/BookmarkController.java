@@ -54,20 +54,21 @@ public class BookmarkController {
 		f = filter.toString().toLowerCase();
 		PageInfo<Bookmark> pageInfo = new PageInfo<>();
 		BookmarkExample example = new BookmarkExample();
-		/*BookmarkExample.Criteria criteria = example.createCriteria();*/
+		BookmarkExample.Criteria criteria = example.createCriteria();
 		
 		if (filter == Filter.MY) { // 我的站点
 			pageInfo = bookmarkService.find(example, p);
 		} else if (filter == Filter.LIKE) { // 猜你喜欢
+			p.setOrderBy("hit", "DESC");
 			pageInfo = bookmarkService.find(example, p);
 		} else if (filter == Filter.NEW) { // 最新
-			example.setOrderByClause("created DESC");
+			p.setOrderBy("created", "DESC");
 			pageInfo = bookmarkService.find(example, p);
 		} else if (filter == Filter.HOT) { // 最热
-			example.setOrderByClause("star DESC");
+			p.setOrderBy("star", "DESC");
 			pageInfo = bookmarkService.find(example, p);
 		} else if (filter == Filter.PICK) { // 精选
-			example.setOrderByClause("hit DESC");
+			criteria.andPickEqualTo((byte)1);
 			pageInfo = bookmarkService.find(example, p);
 		}
 		

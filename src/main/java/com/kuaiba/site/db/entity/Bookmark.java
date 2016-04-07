@@ -31,6 +31,10 @@ public class Bookmark implements Serializable {
     private int follow;
     private Mtype mt;
     
+    // 扩展主题关联字段 v_group_bookmark
+    private Long gid;
+    private Date followTime;
+    
     public Long getId() {
         return id;
     }
@@ -204,6 +208,22 @@ public class Bookmark implements Serializable {
 
 	public void setMt(Mtype mt) {
 		this.mt = mt;
+	}
+
+	public Long getGid() {
+		return gid;
+	}
+
+	public void setGid(Long gid) {
+		this.gid = gid;
+	}
+
+	public Date getFollowTime() {
+		return followTime;
+	}
+
+	public void setFollowTime(Date followTime) {
+		this.followTime = followTime;
 	}
     
 }

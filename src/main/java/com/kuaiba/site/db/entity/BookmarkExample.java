@@ -1184,6 +1184,130 @@ public class BookmarkExample {
             addCriterion("mtype not between", value1, value2, "mtype");
             return (Criteria) this;
         }
+        
+        /**
+         * 扩展主题关联字段
+         * @return
+         */
+        public Criteria andGidIsNull() {
+            addCriterion("gid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidIsNotNull() {
+            addCriterion("gid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidEqualTo(Long value) {
+            addCriterion("gid =", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidNotEqualTo(Long value) {
+            addCriterion("gid <>", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidGreaterThan(Long value) {
+            addCriterion("gid >", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidGreaterThanOrEqualTo(Long value) {
+            addCriterion("gid >=", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidLessThan(Long value) {
+            addCriterion("gid <", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidLessThanOrEqualTo(Long value) {
+            addCriterion("gid <=", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidIn(List<Long> values) {
+            addCriterion("gid in", values, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidNotIn(List<Long> values) {
+            addCriterion("gid not in", values, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidBetween(Long value1, Long value2) {
+            addCriterion("gid between", value1, value2, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidNotBetween(Long value1, Long value2) {
+            addCriterion("gid not between", value1, value2, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowTimeIsNull() {
+            addCriterion("follow_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowTimeIsNotNull() {
+            addCriterion("follow_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowTimeEqualTo(Date value) {
+            addCriterion("follow_time =", value, "followTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowTimeNotEqualTo(Date value) {
+            addCriterion("follow_time <>", value, "followTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowTimeGreaterThan(Date value) {
+            addCriterion("follow_time >", value, "followTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("follow_time >=", value, "followTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowTimeLessThan(Date value) {
+            addCriterion("follow_time <", value, "followTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowTimeLessThanOrEqualTo(Date value) {
+            addCriterion("follow_time <=", value, "followTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowTimeIn(List<Date> values) {
+            addCriterion("follow_time in", values, "followTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowTimeNotIn(List<Date> values) {
+            addCriterion("follow_time not in", values, "followTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowTimeBetween(Date value1, Date value2) {
+            addCriterion("follow_time between", value1, value2, "followTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowTimeNotBetween(Date value1, Date value2) {
+            addCriterion("follow_time not between", value1, value2, "followTime");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

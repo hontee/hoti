@@ -41,6 +41,13 @@ public interface BookmarkMapper {
 	 * @return
 	 */
 	List<Bookmark> selectByExample(BookmarkExample example);
+	
+	/**
+	 * 查询含主题ID
+	 * @param example
+	 * @return
+	 */
+	List<Bookmark> selectByRelation(BookmarkExample example);
 
 	/**
 	 * 查询
