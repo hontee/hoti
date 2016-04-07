@@ -1,6 +1,6 @@
 <div class="container">
   <div class="card-columns">
-    <#list records as g>
+    <#list groups as g>
     <div class="card">
       <a href="/groups/${g.id}">
         <blockquote class="card-block">

@@ -18,13 +18,13 @@ import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Filter;
-import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.service.BookmarkService;
+import com.kuaiba.site.service.DomainService;
 import com.kuaiba.site.service.RecommendService;
 
-@Controller
+@Controller 
 @Scope("prototype")
 public class BookmarkController {
 	
@@ -32,6 +32,10 @@ public class BookmarkController {
 	private BookmarkService bookmarkService;
 	@Resource
 	private RecommendService recommendService;
+	@Resource
+	private DomainService ds;
+	
+	
 	
 	/**
 	 * @WebPage 首页 = 我 | 猜你喜欢 | 全部
@@ -43,7 +47,7 @@ public class BookmarkController {
 	 * @throws SecurityException
 	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String home(
+	public String index(
 			@RequestParam(required=false) String f,
 			Pagination p, 
 			Model model, 
@@ -52,6 +56,7 @@ public class BookmarkController {
 		p.initFrontRows();
 		Filter filter = Filter.parse(f);
 		f = filter.toString().toLowerCase();
+		
 		PageInfo<Bookmark> pageInfo = new PageInfo<>();
 		BookmarkExample example = new BookmarkExample();
 		BookmarkExample.Criteria criteria = example.createCriteria();
@@ -72,10 +77,11 @@ public class BookmarkController {
 			pageInfo = bookmarkService.find(example, p);
 		}
 		
-		model.addAttribute("f", f);
-		model.addAttribute("page", PagerUtil.of(pageInfo, "/?f=" + f));
-		model.addAttribute("records", pageInfo.getList());
-		return "views/home";
+		ModelUtil.addF(model, f);
+		ModelUtil.addPager(model, pageInfo, "/?f=" + f);
+		ModelUtil.addBookmarks(model, pageInfo.getList());
+		ModelUtil.addHeader(model, "快吧 - 关注你喜欢的站点", ds);
+		return "index.ftl";
 	}
 	
 	/**
@@ -120,10 +126,12 @@ public class BookmarkController {
 	/**
 	 * @WebPage 分享站点
 	 * @return
+	 * @throws SecurityException 
 	 */
 	@RequestMapping(value = "/share", method = RequestMethod.GET)
-	public String share() {
-		return "views/share";
+	public String share(Model model) throws SecurityException {
+		ModelUtil.addHeader(model, "分享你喜欢的站点 - 快吧", ds);
+		return "share.ftl";
 	}
 	
 	/**

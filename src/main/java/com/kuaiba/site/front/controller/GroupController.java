@@ -20,9 +20,9 @@ import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Filter;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
-import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
+import com.kuaiba.site.service.DomainService;
 import com.kuaiba.site.service.GroupService;
 
 @Controller
@@ -31,6 +31,9 @@ public class GroupController {
 	
 	@Resource
 	private GroupService groupService;
+	
+	@Resource
+	private DomainService ds;
 	
 	/**
 	 * @WebPage 群组 = 我 | 猜你喜欢 | 全部
@@ -68,10 +71,11 @@ public class GroupController {
 			pageInfo = groupService.find(example, p);
 		}
 		
-		model.addAttribute("f", f);
-		model.addAttribute("page", PagerUtil.of(pageInfo, "/groups?f=" + f));
-		model.addAttribute("records", pageInfo.getList());
-		return "views/group";
+		ModelUtil.addHeader(model, "快吧主题", ds);
+		ModelUtil.addF(model, f);
+		ModelUtil.addPager(model, pageInfo, "/groups?f=" + f);
+		ModelUtil.addGroups(model, pageInfo.getList());
+		return "group.ftl";
 	}
 
 	/**
@@ -108,11 +112,12 @@ public class GroupController {
 		}
 		
 		PageInfo<Bookmark> pageInfo = groupService.find(example, p);
-		record.setBookmarks(pageInfo.getList());
-		model.addAttribute("f", f);
-		model.addAttribute("page", PagerUtil.of(pageInfo, "/groups/"+id+"/?f=" + f));
-		model.addAttribute("record", record);
-		return "views/group-bm";
+		ModelUtil.addHeader(model, "快吧主题", ds);
+		ModelUtil.addF(model, f);
+		ModelUtil.addPager(model, pageInfo, "/groups/"+id+"/?f=" + f);
+		ModelUtil.addGroup(model, record);
+		ModelUtil.addBookmarks(model, pageInfo.getList());
+		return "group-bm.ftl";
 	}
 
 	/**

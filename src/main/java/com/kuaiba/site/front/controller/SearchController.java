@@ -21,9 +21,9 @@ import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
-import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.service.BookmarkService;
+import com.kuaiba.site.service.DomainService;
 import com.kuaiba.site.service.GroupService;
 
 @Controller
@@ -36,6 +36,9 @@ public class SearchController {
 	private BookmarkService bookmarkService;
 	@Resource
 	private GroupService groupService;
+	@Resource
+	private DomainService ds;
+
 
 	/**
 	 * @WebPage 搜索结果页
@@ -56,6 +59,9 @@ public class SearchController {
 		
 		logger.info("用户输入搜索：{}, 过滤条件：{}", q, f);
 		
+		ModelUtil.addHeader(model, "快吧搜索", ds);
+		ModelUtil.addQ(model, q);
+		
 		p.initFrontRows();
 		
 		if ("site".equals(f)) { // 查询书签
@@ -64,7 +70,7 @@ public class SearchController {
 			searchByGroup(q, p, model);
 		}
 		
-		return "views/search";
+		return "search.ftl";
 	}
 	
 	/**
@@ -84,11 +90,11 @@ public class SearchController {
 		
 		logger.info("用户搜索结果数：{}", pageInfo.getTotal());
 		
-		model.addAttribute("page", PagerUtil.of(pageInfo, "/search?q=" + q, q));
+		ModelUtil.addPager(model, pageInfo, "/search?q=" + q);
+		ModelUtil.addF(model, "site");
+		ModelUtil.addBookmarks(model, list);
 		model.addAttribute("bcount", pageInfo.getTotal());
 		model.addAttribute("gcount", groupService.count(q));
-		model.addAttribute("f", "site");
-		model.addAttribute("records", list);
 	}
 	
 	/**
@@ -107,10 +113,10 @@ public class SearchController {
 		
 		logger.info("用户搜索结果数：{}", pageInfo.getTotal());
 		
-		model.addAttribute("page", PagerUtil.of(pageInfo, "/search?f=group&q=" + q, q));
+		ModelUtil.addPager(model, pageInfo, "/search?f=group&q=" + q);
+		ModelUtil.addF(model, "group");
+		ModelUtil.addGroups(model, list);
 		model.addAttribute("bcount", bookmarkService.count(q));
 		model.addAttribute("gcount", pageInfo.getTotal());
-		model.addAttribute("f", "group");
-		model.addAttribute("records", list);
 	}
 }

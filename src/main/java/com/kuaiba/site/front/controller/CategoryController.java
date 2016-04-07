@@ -1,7 +1,5 @@
 package com.kuaiba.site.front.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Scope;
@@ -17,11 +15,8 @@ import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Category;
-import com.kuaiba.site.db.entity.Domain;
-import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
-import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.service.BookmarkService;
 import com.kuaiba.site.service.CategoryService;
@@ -39,22 +34,8 @@ public class CategoryController {
 	@Resource
 	private CategoryService categoryService;
 	@Resource
-	private DomainService domainService;
+	private DomainService ds;
 
-	
-	/**
-	 * @WebPage 分类
-	 * @param model
-	 * @return
-	 * @throws SecurityException
-	 */
-	@RequestMapping(value = "/cates", method = RequestMethod.GET)
-	public String category(Model model) throws SecurityException {
-		List<Domain> list = domainService.findAllWithCates(new DomainExample());
-		model.addAttribute("records", list);
-		return "views/category";
-	}
-	
 	/**
 	 * @WebPage 分类下的所有站点 （支持分页）
 	 * @param id
@@ -70,6 +51,7 @@ public class CategoryController {
 			Pagination p) throws SecurityException {
 		
 		p.initFrontRows();
+		ModelUtil.addHeader(model, "快吧分类", ds);
 		
 		if ("site".equals(f)) { // 查询书签
 			byBookmark(id, p, model);
@@ -77,7 +59,7 @@ public class CategoryController {
 			byGroup(id, p, model);
 		}
 		
-		return "views/cate-bm";
+		return "category.ftl";
 	}
 	
 	/**
@@ -90,11 +72,11 @@ public class CategoryController {
 		BookmarkExample example = new BookmarkExample();
 		example.createCriteria().andCategoryEqualTo(id);
 		PageInfo<Bookmark> pageInfo = bookmarkService.find(example, p);
-		record.setBookmarks(pageInfo.getList());
-		model.addAttribute("record", record);
-		model.addAttribute("page", PagerUtil.of(pageInfo, "/cates/"+id +"?f=site"));
-		model.addAttribute("f", "site");
-		model.addAttribute("records", pageInfo.getList());
+		
+		ModelUtil.addCategory(model, record);
+		ModelUtil.addPager(model, pageInfo, "/cates/"+id +"?f=site");
+		ModelUtil.addBookmarks(model, pageInfo.getList());
+		ModelUtil.addF(model, "site");
 	}
 	
 	/**
@@ -106,11 +88,11 @@ public class CategoryController {
 		GroupExample example = new GroupExample();
 		example.createCriteria().andCategoryEqualTo(id);
 		PageInfo<Group> pageInfo = groupService.find(example, p);
-		record.setGroups(pageInfo.getList());
-		model.addAttribute("record", record);
-		model.addAttribute("page", PagerUtil.of(pageInfo, "/cates/"+id +"?f=group"));
-		model.addAttribute("f", "group");
-		model.addAttribute("records", pageInfo.getList());
+		
+		ModelUtil.addCategory(model, record);
+		ModelUtil.addPager(model, pageInfo, "/cates/"+id +"?f=group");
+		ModelUtil.addGroups(model, pageInfo.getList());
+		ModelUtil.addF(model, "group");
 	}
 
 }

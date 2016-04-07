@@ -6,13 +6,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <link rel="shortcut icon" href="/favicon.ico">
 
-<title>${title}</title>
-<#if keywords??>
-<meta name="keywords" content="${keywords!}">
-</#if>
-<#if description??>
-<meta name="description" content="${description!}">
-</#if>
+<title>${title!"快吧"}</title>
+<meta name="keywords" content="${keywords!"快吧"}">
+<meta name="description" content="${description!"关注你喜欢的站点"}">
 <meta name="author" content="www.kuaiba.me" />
 <link href="/primer/css/primer.css" rel="stylesheet">
 <script src="/primer/js/jquery.min.js"></script>
@@ -28,8 +24,8 @@
     <ul class="navbar-ul right">
       <li><a class="link" href="/">站点</a></li>
       <li><a class="link" href="/groups">主题</a></li>
-      <#if user != "">
-      <li><a class="btn" href="/">你好，${user}</a></li>
+      <#if user??>
+      <li><a class="btn" href="/">你好，${user!}</a></li>
       <#else>
       <li><a class="btn btn-primary" href="/login">快速登录</a></li>
       </#if>
@@ -38,13 +34,13 @@
 
 <nav id="menu">
   <ul class="listview-icons">
-    <#list records as r>
+    <#list domains as r>
     <li>
-      <span>${r.title}</span>
+      <span>${r.title!}</span>
       <ul>
         <#list r.cates as c>
         <li>
-          <a href="/cates/${c.id}">${c.title}</a>
+          <a href="/cates/${c.id}">${c.title!}</a>
           <em class="mm-counter mm-badge">${c.count}</em>
         </li>
         </#list>

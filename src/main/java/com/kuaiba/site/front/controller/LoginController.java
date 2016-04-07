@@ -32,7 +32,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(HttpServletRequest request, Model model) {
-		return AuthzUtil.isAuthorized()? SiteUtil.redirect("/"): "views/login";
+		return AuthzUtil.isAuthorized()? SiteUtil.redirect("/"): "login.ftl";
 	}
 	
 	/**

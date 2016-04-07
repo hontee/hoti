@@ -1,6 +1,6 @@
 <div class="container">
   <div class="card-columns">
-    <#list records as r>
+    <#list bookmarks as r>
     <div class="card">
       <a href="/bookmarks/${r.id}/hit" target="_blank">
         <blockquote class="card-block">
