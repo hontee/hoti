@@ -1,5 +1,4 @@
-<@extends name="module/header.ftl"/>
-
+<@override name="body">
 <div class="blankslate text-center">
   <div class="container">
   <h1>${category.title!}</h1>
@@ -17,10 +16,17 @@
 </div>
 
 <#if f == 'site'>
-  <@extends name="module/bookmark-list.ftl"/>
+
+  <@extends name="bookmark-list.ftl"/>
+  
 <#else>
-  <@extends name="module/group-list.ftl"/>
+
+  <@extends name="group-list.ftl"/>
+  
 </#if>
-<@extends name="module/pager.ftl"/>
-</body>
-</html>
+
+<@extends name="pager.ftl"/>
+	
+</@override>
+
+<@extends name="module/header.ftl"/>

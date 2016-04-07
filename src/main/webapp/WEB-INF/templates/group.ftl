@@ -1,5 +1,4 @@
-<@extends name="module/header.ftl"/>
-
+<@override name="body">
 <div class="toolbar">
   <div class="container">
     <div class="btn-group left">
@@ -18,7 +17,10 @@
   </div>
 </div>
 
-<@extends name="module/group-list.ftl"/>
-<@extends name="module/pager.ftl"/>
-</body>
-</html>
+<@extends name="group-list.ftl"/>
+
+<@extends name="pager.ftl"/>
+
+</@override>
+
+<@extends name="module/header.ftl"/>

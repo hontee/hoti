@@ -1,5 +1,4 @@
-<@extends name="module/header.ftl"/>
-
+<@override name="body">
 <div class="container" style="margin-top: 20px;">
 <form id="form" action="javascript:void(0)">
   <fieldset class="form-group">
@@ -9,7 +8,9 @@
   <button id="submit" class="btn btn-primary">提交</button>
 </form>
 </div>
+</@override>
 
+<@override name="footer">
 <script>
 $(function() {
 	$("#submit").click(function() {
@@ -24,5 +25,6 @@ $(function() {
 	});
 });
 </script>
-</body>
-</html>
+</@override>
+
+<@extends name="module/header.ftl"/>

@@ -1,5 +1,4 @@
-<@extends name="module/header.ftl"/>
-
+<@override name="body">
 <div class="toolbar">
   <div class="container">
     <div class="btn-group left">
@@ -10,10 +9,17 @@
 </div>
 
 <#if f == 'site'>
-  <@extends name="module/bookmark-list.ftl"/>
+
+  <@extends name="bookmark-list.ftl"/>
+  
 <#else>
-  <@extends name="module/group-list.ftl"/>
+
+  <@extends name="group-list.ftl"/>
+  
 </#if>
-<@extends name="module/pager.ftl"/>
-</body>
-</html>
+
+<@extends name="pager.ftl"/>
+
+</@override>
+
+<@extends name="module/header.ftl"/>

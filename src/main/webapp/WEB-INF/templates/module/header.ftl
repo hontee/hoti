@@ -9,13 +9,17 @@
 <title>${title!"快吧"}</title>
 <meta name="keywords" content="${keywords!"快吧"}">
 <meta name="description" content="${description!"关注你喜欢的站点"}">
-<meta name="author" content="www.kuaiba.me" />
+
+<@block name="resources">
 <link href="/primer/css/primer.css" rel="stylesheet">
 <script src="/primer/js/jquery.min.js"></script>
 <script src="/primer/js/jquery.mmenu.all.min.js"></script>
 <script src="/primer/js/layout.js"></script>
+</@block>
 </head>
+
 <body>
+<@block name="navbar">
 <nav class="navbar">
     <a class="navbar-brand" href="/">快吧</a>
     <form class="left" action="/search" method="get">
@@ -31,7 +35,9 @@
       </#if>
     </ul>
 </nav>
+</@block>
 
+<@block name="menu">
 <nav id="menu">
   <ul class="listview-icons">
     <#list domains as r>
@@ -49,3 +55,11 @@
     </#list>
   </ul>
 </nav>
+</@block>
+
+<@block name="body"></@block>
+
+<@block name="footer"></@block>
+
+</body>
+</html>

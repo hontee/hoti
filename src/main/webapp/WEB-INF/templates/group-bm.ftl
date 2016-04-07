@@ -1,5 +1,4 @@
-<@extends name="module/header.ftl"/>
-
+<@override name="body">
 <div class="blankslate text-center">
   <div class="container">
   <h1>${group.title!}</h1>
@@ -31,7 +30,10 @@
   </div>
 </div>
 
-<@extends name="module/bookmark-list.ftl"/>
-<@extends name="module/pager.ftl"/>
-</body>
-</html>
+<@extends name="bookmark-list.ftl"/>
+
+<@extends name="pager.ftl"/>
+
+</@override>
+
+<@extends name="module/header.ftl"/>
