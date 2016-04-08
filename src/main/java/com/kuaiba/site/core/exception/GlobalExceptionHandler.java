@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kuaiba.site.core.security.ThreadPool;
+import com.kuaiba.site.core.security.ThreadUtil;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.Track;
 import com.kuaiba.site.service.TrackService;
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
 	 * @param e
 	 */
 	private void track(Exception e) {
-		ThreadPool.getInstance().execute(new Runnable() {
+		ThreadUtil.execute(new Runnable() {
 			@Override
 			public void run() {
 				try {

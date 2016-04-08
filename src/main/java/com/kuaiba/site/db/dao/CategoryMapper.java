@@ -46,13 +46,6 @@ public interface CategoryMapper {
     
     /**
      * 查询
-     * @param domain
-     * @return
-     */
-    List<Category> selectByDomain(@Param("domain") Long domain);
-
-    /**
-     * 查询
      * @param id
      * @return
      */

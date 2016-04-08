@@ -10,7 +10,7 @@ import org.apache.shiro.util.ByteSource;
  * 
  * @author larry.qi
  */
-public class EncryptUtils {
+public class EncryptUtil {
 
 	/**
 	 * MD5加密处理<br>

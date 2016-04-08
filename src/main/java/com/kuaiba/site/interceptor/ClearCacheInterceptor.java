@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.base.Throwables;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.security.MemcachedUtil;
-import com.kuaiba.site.core.security.ThreadPool;
+import com.kuaiba.site.core.security.ThreadUtil;
 
 /**
  * 清除缓存
@@ -34,7 +34,7 @@ public class ClearCacheInterceptor {
 			
 			if (clearCache != null) {
 				final String key = clearCache.value();
-				ThreadPool.getInstance().execute(new Runnable() {
+				ThreadUtil.execute(new Runnable() {
 					public void run() {
 						try {
 							MemcachedUtil.delete(key);

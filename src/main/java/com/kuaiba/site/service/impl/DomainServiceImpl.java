@@ -14,8 +14,10 @@ import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.exception.ValidationException;
 import com.kuaiba.site.core.security.AuthzUtil;
+import com.kuaiba.site.db.dao.CategoryMapper;
 import com.kuaiba.site.db.dao.DomainMapper;
 import com.kuaiba.site.db.entity.Attribute;
+import com.kuaiba.site.db.entity.CategoryExample;
 import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.PagerUtil;
@@ -31,6 +33,8 @@ public class DomainServiceImpl implements DomainService {
 
 	@Resource
 	private DomainMapper mapper;
+	@Resource
+	private CategoryMapper cm;
 	@Resource
 	private CachePolicy cacheMgr;
 	
@@ -168,7 +172,14 @@ public class DomainServiceImpl implements DomainService {
 	public List<Domain> findAllWithCates(DomainExample example) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(example);
-			return mapper.selectWithCates(example);
+			List<Domain> list = mapper.selectByExample(example);
+			for (Domain domain : list) {
+				CategoryExample ce = new CategoryExample();
+				ce.createCriteria().andDomainEqualTo(domain.getId());
+				domain.setCates(cm.selectByExample(ce));
+			}
+			
+			return list;
 		} catch (Exception e) {
 			throw new ReadException("读取领域失败", e);
 		}

@@ -262,10 +262,4 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   
-  <!-- 根据用户名查询用户 -->
-  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_user where name = #{name}
-  </select>
 </mapper>

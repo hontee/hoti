@@ -11,7 +11,7 @@ import com.kuaiba.site.db.entity.GlobalIDs;
  * 
  * @author larry.qi
  */
-public class CookieUtils {
+public class CookieUtil {
  
     /**
      * 删除指定Cookie

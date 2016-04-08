@@ -3,7 +3,7 @@ package com.kuaiba.site.db.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.kuaiba.site.core.security.EncryptUtils;
+import com.kuaiba.site.core.security.EncryptUtil;
 
 public class User implements Serializable {
 
@@ -61,7 +61,7 @@ public class User implements Serializable {
     }
     
     public void setPasswordEncrypt(String password, String salt) {
-        this.setPassword(EncryptUtils.encrypt(password, salt));
+        this.setPassword(EncryptUtil.encrypt(password, salt));
     }
 
     public String getSalt() {
@@ -73,7 +73,7 @@ public class User implements Serializable {
     }
     
     public void setSaltRandom() {
-        this.setSalt(EncryptUtils.getRandomSalt());
+        this.setSalt(EncryptUtil.getRandomSalt());
     }
 
     public Byte getUserType() {

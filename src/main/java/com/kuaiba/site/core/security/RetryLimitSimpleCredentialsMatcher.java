@@ -49,7 +49,7 @@ public class RetryLimitSimpleCredentialsMatcher extends SimpleCredentialsMatcher
 		SimpleAuthenticationInfo authInfo = (SimpleAuthenticationInfo)info;
 		String passwd = String.valueOf(authToken.getPassword()); // 用户登录时输入的密码
 		ByteSource salt = authInfo.getCredentialsSalt(); // SHIRO登录校验时设置的salt值
-		String password = EncryptUtils.encrypt(passwd, salt); // 加密处理后的密码
+		String password = EncryptUtil.encrypt(passwd, salt); // 加密处理后的密码
 		Object dbPasswd = getCredentials(info); // 数据库中存储的密码
 		
 		// 密码匹配，成功则移除缓存数据并返回true

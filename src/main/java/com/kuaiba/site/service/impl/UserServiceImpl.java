@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
@@ -161,7 +162,10 @@ public class UserServiceImpl implements UserService {
 	public User findByName(String name) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(name);
-			return mapper.selectByName(name);
+			UserExample example = new UserExample();
+			example.createCriteria().andNameEqualTo(name);
+			List<User> list = findAll(example);
+			return CollectionUtils.isNotEmpty(list)? list.get(0): null;
 		} catch (Exception e) {
 			throw new ReadException("查询用户名失败", e);
 		}

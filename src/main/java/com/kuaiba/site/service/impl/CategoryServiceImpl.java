@@ -171,7 +171,9 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Category> find(Long domain) throws SecurityException { 
 		try {
 			VUtil.assertNotNull(domain);
-			return mapper.selectByDomain(domain);
+			CategoryExample example = new CategoryExample();
+			example.createCriteria().andDomainEqualTo(domain);
+			return findAll(example);
 		} catch (Exception e) {
 			throw new ReadException("读取分类失败", e);
 		}

@@ -46,13 +46,6 @@ public interface DomainMapper {
     
     /**
      * 查询
-     * @param example
-     * @return
-     */
-    List<Domain> selectWithCates(DomainExample example);
-
-    /**
-     * 查询
      * @param id
      * @return
      */

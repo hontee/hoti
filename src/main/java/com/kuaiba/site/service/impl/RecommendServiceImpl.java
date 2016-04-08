@@ -11,7 +11,7 @@ import com.kuaiba.site.core.exception.DeleteException;
 import com.kuaiba.site.core.exception.ReadException;
 import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.exception.UpdateException;
-import com.kuaiba.site.core.security.ThreadPool;
+import com.kuaiba.site.core.security.ThreadUtil;
 import com.kuaiba.site.db.dao.RecommendMapper;
 import com.kuaiba.site.db.entity.FetchFactory;
 import com.kuaiba.site.db.entity.PagerUtil;
@@ -77,7 +77,7 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Override
 	public void add(String url) throws SecurityException { 
-		ThreadPool.getInstance().execute(new Runnable() {
+		ThreadUtil.execute(new Runnable() {
 			public void run() {
 				try {
 					VUtil.assertNotNull(url);
