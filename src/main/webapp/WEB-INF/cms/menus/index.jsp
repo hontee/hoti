@@ -156,6 +156,7 @@ menusEL.remove.click(function() {
 
 // 重载
 menusEL.reload.click(function() {
+	menusEL.dg.datagrid('clearSelections');
 	menusEL.dg.datagrid('reload',{});
 });
 </script>

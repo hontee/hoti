@@ -203,6 +203,7 @@ recmdsEL.remove.click(function() {
 
 // 重载
 recmdsEL.reload.click(function() {
+	recmdsEL.dg.datagrid('clearSelections');
 	recmdsEL.dg.datagrid('reload',{});
 });
 </script>

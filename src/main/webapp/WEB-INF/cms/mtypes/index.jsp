@@ -154,6 +154,7 @@ mtypesEL.remove.click(function() {
 
 // 重载
 mtypesEL.reload.click(function() {
+	mtypesEL.dg.datagrid('clearSelections');
 	mtypesEL.dg.datagrid('reload',{});
 });
 </script>

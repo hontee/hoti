@@ -104,6 +104,7 @@ groupsMgtEL.remove.click(function() {
 
 // 重载
 groupsMgtEL.reload.click(function() {
+	groupsMgtEL.dg.datagrid('clearSelections');
 	groupsMgtEL.dg.datagrid('reload',{});
 });
 </script>

@@ -7,10 +7,9 @@ import com.kuaiba.site.db.entity.Category;
 import com.kuaiba.site.db.entity.Domain;
 import com.kuaiba.site.db.entity.Menu;
 import com.kuaiba.site.db.entity.Mtype;
-import com.kuaiba.site.interceptor.ClearCache;
 
 /**
- * 缓存管理: 只负责read缓存，clear缓存 #{@link ClearCache}
+ * 缓存管理: 只负责read缓存
  * @author larry.qi
  */
 public interface CachePolicy {

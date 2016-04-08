@@ -199,6 +199,7 @@ bookmarksEL.follow.click(function() {
 
 // 重载
 bookmarksEL.reload.click(function() {
+	bookmarksEL.dg.datagrid('clearSelections');
 	bookmarksEL.dg.datagrid('reload',{});
 });
 </script>

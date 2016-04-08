@@ -17,8 +17,9 @@ import com.kuaiba.site.core.exception.UnfollowException;
 import com.kuaiba.site.core.exception.UpdateException;
 import com.kuaiba.site.core.exception.ValidationException;
 import com.kuaiba.site.core.security.AuthzUtil;
-import com.kuaiba.site.db.dao.MapMapper;
+import com.kuaiba.site.core.security.MemcachedUtil;
 import com.kuaiba.site.db.dao.BookmarkMapper;
+import com.kuaiba.site.db.dao.MapMapper;
 import com.kuaiba.site.db.entity.Attribute;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.BookmarkExample;
@@ -28,7 +29,6 @@ import com.kuaiba.site.db.entity.PagerUtil;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.VUtil;
 import com.kuaiba.site.front.vo.BookmarkVO;
-import com.kuaiba.site.interceptor.ClearCache;
 import com.kuaiba.site.service.BookmarkService;
 import com.kuaiba.site.service.CachePolicy;
 
@@ -184,9 +184,9 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 	
 	@Override
-	@ClearCache("user_follow_bms")
 	public void follow(Long fid) throws SecurityException { 
 		try {
+		    MemcachedUtil.delete("user_follow_bms");
 			VUtil.assertNotNull(fid);
 			bfMapper.followBookmark(AuthzUtil.getUserId(), fid);
 		} catch (Exception e) {
@@ -195,9 +195,9 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	@ClearCache("user_follow_bms")
 	public void unfollow(Long fid) throws SecurityException { 
 		try {
+		    MemcachedUtil.delete("user_follow_bms");
 			VUtil.assertNotNull(fid);
 			bfMapper.unfollowBookmark(AuthzUtil.getUserId(), fid);
 		} catch (Exception e) {

@@ -114,6 +114,7 @@ activitiesEL.batchRemove.click(function() {
 
 // 重载
 activitiesEL.reload.click(function() {
+	activitiesEL.dg.datagrid('clearSelections');
 	activitiesEL.dg.datagrid('reload',{});
 });
 </script>

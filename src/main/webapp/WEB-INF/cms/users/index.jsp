@@ -195,6 +195,7 @@ usersEL.remove.click(function() {
 
 // 重载
 usersEL.reload.click(function() {
+	usersEL.dg.datagrid('clearSelections');
 	usersEL.dg.datagrid('reload',{});
 });
 </script>

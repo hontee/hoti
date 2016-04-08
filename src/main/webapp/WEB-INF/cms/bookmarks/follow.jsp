@@ -84,6 +84,7 @@ bookmarksUsersEL.search = function(value){
 
 // 重载
 bookmarksUsersEL.reload.click(function() {
+	bookmarksUsersEL.dg.datagrid('clearSelections');
 	bookmarksUsersEL.dg.datagrid('reload',{});
 });
 </script>

@@ -162,6 +162,7 @@ domainsEL.count.click(function() {
 
 // 重载
 domainsEL.reload.click(function() {
+	domainsEL.dg.datagrid('clearSelections');
 	domainsEL.dg.datagrid('reload',{});
 });
 </script>

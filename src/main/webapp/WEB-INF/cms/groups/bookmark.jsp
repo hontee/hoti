@@ -106,6 +106,7 @@ groupsBmEL.add.click(function() {
 
 // 重载
 groupsBmEL.reload.click(function() {
+	groupsBmEL.dg.datagrid('clearSelections');
 	groupsBmEL.dg.datagrid('reload',{});
 });
 </script>

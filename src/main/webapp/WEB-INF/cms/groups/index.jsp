@@ -258,6 +258,7 @@ groupsEL.count.click(function() {
 
 // 重载
 groupsEL.reload.click(function() {
+	groupsEL.dg.datagrid('clearSelections');
 	groupsEL.dg.datagrid('reload',{});
 });
 </script>

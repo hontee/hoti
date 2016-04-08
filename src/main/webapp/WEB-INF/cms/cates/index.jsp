@@ -173,6 +173,7 @@ catesEL.count.click(function() {
 
 // 重载
 catesEL.reload.click(function() {
+	catesEL.dg.datagrid('clearSelections');
 	catesEL.dg.datagrid('reload',{});
 });
 </script>

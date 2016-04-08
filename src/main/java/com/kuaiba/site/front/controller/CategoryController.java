@@ -26,73 +26,71 @@ import com.kuaiba.site.service.GroupService;
 @Controller
 @Scope("prototype")
 public class CategoryController {
-	
-	@Resource
-	private BookmarkService bookmarkService;
-	@Resource
-	private GroupService groupService;
-	@Resource
-	private CategoryService categoryService;
-	@Resource
-	private DomainService ds;
 
-	/**
-	 * @WebPage 分类下的所有站点 （支持分页）
-	 * @param id
-	 * @param model
-	 * @return
-	 * @throws SecurityException
-	 */
-	@RequestMapping(value = "/cates/{id}", method = RequestMethod.GET)
-	public String cateBm(
-			@PathVariable Long id, 
-			Model model, 
-			@RequestParam(defaultValue = "site") String f, 
-			Pagination p) throws SecurityException {
-		
-		p.initFrontRows();
-		ModelUtil.addHeader(model, "快吧分类", ds);
-		
-		if ("site".equals(f)) { // 查询书签
-			byBookmark(id, p, model);
-		} else { // 查询主题
-			byGroup(id, p, model);
-		}
-		
-		return "category.ftl";
-	}
-	
-	/**
-	 * 书签
-	 * @throws SecurityException 
-	 */
-	private void byBookmark(long id, Pagination p, Model model) throws SecurityException {
-		Category record = categoryService.findOne(id);
-		
-		BookmarkExample example = new BookmarkExample();
-		example.createCriteria().andCategoryEqualTo(id);
-		PageInfo<Bookmark> pageInfo = bookmarkService.find(example, p);
-		
-		ModelUtil.addCategory(model, record);
-		ModelUtil.addPager(model, pageInfo, "/cates/"+id +"?f=site");
-		ModelUtil.addBookmarks(model, pageInfo.getList());
-		ModelUtil.addF(model, "site");
-	}
-	
-	/**
-	 * 主题
-	 */
-	private void byGroup(long id, Pagination p, Model model) throws SecurityException {
-		Category record = categoryService.findOne(id);
-		
-		GroupExample example = new GroupExample();
-		example.createCriteria().andCategoryEqualTo(id);
-		PageInfo<Group> pageInfo = groupService.find(example, p);
-		
-		ModelUtil.addCategory(model, record);
-		ModelUtil.addPager(model, pageInfo, "/cates/"+id +"?f=group");
-		ModelUtil.addGroups(model, pageInfo.getList());
-		ModelUtil.addF(model, "group");
-	}
+  @Resource
+  private BookmarkService bs;
+  @Resource
+  private GroupService gs;
+  @Resource
+  private CategoryService cs;
+  @Resource
+  private DomainService ds;
+
+  /**
+   * @WebPage 分类下的所有站点 （支持分页）
+   * @param id
+   * @param model
+   * @return
+   * @throws SecurityException
+   */
+  @RequestMapping(value = "/cates/{id}", method = RequestMethod.GET)
+  public String cateBm(@PathVariable Long id, Model model,
+      @RequestParam(defaultValue = "site") String f, Pagination p) throws SecurityException {
+
+    p.initFrontRows();
+    ModelUtil.addHeader(model, "快吧分类", ds);
+
+    if ("site".equals(f)) { // 查询书签
+      byBookmark(id, p, model);
+    } else { // 查询主题
+      byGroup(id, p, model);
+    }
+
+    return "category.ftl";
+  }
+
+  /**
+   * 书签
+   * 
+   * @throws SecurityException
+   */
+  private void byBookmark(long id, Pagination p, Model model) throws SecurityException {
+    Category record = cs.findOne(id);
+
+    BookmarkExample example = new BookmarkExample();
+    example.createCriteria().andCategoryEqualTo(id);
+    PageInfo<Bookmark> pageInfo = bs.find(example, p);
+
+    ModelUtil.addCategory(model, record);
+    ModelUtil.addPager(model, pageInfo, "/cates/" + id + "?f=site");
+    ModelUtil.addBookmarks(model, pageInfo.getList());
+    ModelUtil.addF(model, "site");
+  }
+
+  /**
+   * 主题
+   */
+  private void byGroup(long id, Pagination p, Model model) throws SecurityException {
+    Category record = cs.findOne(id);
+
+    GroupExample example = new GroupExample();
+    example.createCriteria().andCategoryEqualTo(id);
+    PageInfo<Group> pageInfo = gs.find(example, p);
+
+    ModelUtil.addCategory(model, record);
+    ModelUtil.addPager(model, pageInfo, "/cates/" + id + "?f=group");
+    ModelUtil.addGroups(model, pageInfo.getList());
+    ModelUtil.addF(model, "group");
+  }
 
 }

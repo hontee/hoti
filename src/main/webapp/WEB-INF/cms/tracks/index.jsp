@@ -101,6 +101,7 @@ tracksEL.batchRemove.click(function() {
 
 // 重载
 tracksEL.reload.click(function() {
+	tracksEL.dg.datagrid('clearSelections');
 	tracksEL.dg.datagrid('reload',{});
 });
 </script>

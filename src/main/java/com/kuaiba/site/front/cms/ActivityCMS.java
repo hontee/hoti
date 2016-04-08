@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,68 +24,71 @@ import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.db.entity.SiteResponse;
 import com.kuaiba.site.db.entity.TableIDs;
 import com.kuaiba.site.front.controller.SiteUtil;
-import com.kuaiba.site.interceptor.SiteLog;
 import com.kuaiba.site.service.ActivityService;
 
 @Controller
 @RequestMapping("/cms/activities")
 public class ActivityCMS {
-	
-	@Resource
-	private ActivityService activityService;
-	
-	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String index(Model model) throws SecurityException {
-		model.addAttribute("records", TableIDs.getList());
-		return "cms/activities/index";
-	}
 
-	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String view(@PathVariable Long id, Model model) throws SecurityException {
-		model.addAttribute("record", activityService.findOne(id));
-		return "cms/activities/view";
-	}
+  private Logger logger = LoggerFactory.getLogger(ActivityCMS.class);
 
-	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/list")
-	public @ResponseBody DataGrid<Activity> dataGrid(
-			@RequestParam(required = false) String name, 
-			@RequestParam(required = false) String tbl, 
-			Pagination p) throws SecurityException {
-		
-		ActivityExample example = new ActivityExample();
-		ActivityExample.Criteria criteria = example.createCriteria();
-		
-		if (StringUtils.isNotBlank(name)) {
-			criteria.andNameLike("%" + name + "%"); // 模糊查询
-		}
-		
-		if (TableIDs.getList().contains(tbl)) {
-			criteria.andTblEqualTo(tbl);
-		}
-		
-		PageInfo<Activity> pageInfo = activityService.find(example, p);
-		return new DataGrid<>(pageInfo);
-	}
-	
-	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
-	@SiteLog(action = "后台删除记录", table = TableIDs.ACTIVITY)
-	public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
-			throws SecurityException {
-		activityService.delete(id);
-		return SiteUtil.ok();
-	}
-	
-	@RequiresRoles(value = "admin")
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	@SiteLog(action = "后台批量删除记录", table = TableIDs.ACTIVITY, clazz = String.class)
-	public @ResponseBody SiteResponse delete(@RequestParam String ids, HttpServletRequest request)
-			throws SecurityException {
-		activityService.delete(ids.split(","));
-		return SiteUtil.ok();
-	}
-	
+  @Resource
+  private ActivityService as;
+
+  @RequiresRoles(value = "admin")
+  @RequestMapping(value = "", method = RequestMethod.GET)
+  public String index(Model model) throws SecurityException {
+    model.addAttribute("records", TableIDs.getList());
+    return "cms/activities/index";
+  }
+
+  @RequiresRoles(value = "admin")
+  @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+  public String view(@PathVariable Long id, Model model) throws SecurityException {
+    model.addAttribute("record", as.findOne(id));
+    return "cms/activities/view";
+  }
+
+  @RequiresRoles(value = "admin")
+  @RequestMapping(value = "/list")
+  public @ResponseBody DataGrid<Activity> dataGrid(@RequestParam(required = false) String name,
+      @RequestParam(required = false) String tbl, Pagination p) throws SecurityException {
+
+    ActivityExample example = new ActivityExample();
+    ActivityExample.Criteria criteria = example.createCriteria();
+
+    if (StringUtils.isNotBlank(name)) {
+      criteria.andNameLike("%" + name + "%"); // 模糊查询
+    }
+
+    if (TableIDs.getList().contains(tbl)) {
+      criteria.andTblEqualTo(tbl);
+    }
+
+    PageInfo<Activity> pageInfo = as.find(example, p);
+    return new DataGrid<>(pageInfo);
+  }
+
+  @RequiresRoles(value = "admin")
+  @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
+  public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
+      throws SecurityException {
+    as.addLogger("后台删除记录", TableIDs.ACTIVITY, id.toString(), request);
+    logger.info("后台删除记录: {}", id);
+
+    as.delete(id);
+    return SiteUtil.ok();
+  }
+
+  @RequiresRoles(value = "admin")
+  @RequestMapping(value = "/delete", method = RequestMethod.POST)
+  public @ResponseBody SiteResponse delete(@RequestParam String ids, HttpServletRequest request)
+      throws SecurityException {
+    as.addLogger("后台批量删除记录", TableIDs.ACTIVITY, ids, request);
+    logger.info("后台批量删除记录: {}", ids);
+
+    as.delete(ids.split(","));
+    return SiteUtil.ok();
+  }
+
 }

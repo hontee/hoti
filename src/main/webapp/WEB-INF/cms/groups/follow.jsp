@@ -84,6 +84,7 @@ groupsUsersEL.search = function(value){
 
 // 重载
 groupsUsersEL.reload.click(function() {
+	groupsUsersEL.dg.datagrid('clearSelections');
 	groupsUsersEL.dg.datagrid('reload',{});
 });
 </script>
