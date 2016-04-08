@@ -22,60 +22,62 @@ import com.kuaiba.site.service.UserService;
 
 /**
  * 自定义用户Realm
+ * 
  * @author larry.qi
  */
 public class UserRealm extends AuthorizingRealm {
 
-	private Logger logger = LoggerFactory.getLogger(UserRealm.class);
-	
-	private UserService service;
-	
-	public void setService(UserService service) {
-		this.service = service;
-	}
+  private Logger logger = LoggerFactory.getLogger(UserRealm.class);
 
-	/**
-	 * 登录成功的用户：角色和权限设置<br>
-	 * TODO: 由于SHIRO过滤器每次都会进行权限验证，Roles和Permissions最好使用缓存
-	 */
-	@Override
-	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		logger.info("为登录成功的用户：{}，添加角色和权限", principals.getPrimaryPrincipal());
-		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		Set<String> roles = new HashSet<>();
-		if (AuthzUtil.isAdmin()) { // 登录用户是否为管理员
-			roles.add("admin");
-			roles.add("user");
-			info.setRoles(roles);
-		} else {
-			roles.add("user");
-			info.setRoles(roles);
-		}
+  private UserService service;
 
-		return info;
-	}
+  public void setService(UserService service) {
+    this.service = service;
+  }
 
-	/**
-	 * 用户身份验证
-	 */
-	@Override
-	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-		String username = (String)token.getPrincipal();
-		logger.info("用户身份验证：{}", username);
-		
-		User currentUser = null;
-		try {
-			currentUser = service.findByName(username);
-		} catch (SecurityException e) {
-			logger.info("用户名或密码错误：{}", e.getMessage());
-		}
-		
-		if (currentUser == null) {
-			throw new UnknownAccountException("用户名或密码错误");
-		}
-		// 授权登录
-		return new SimpleAuthenticationInfo(currentUser.getName(), currentUser.getPassword(),
-				ByteSource.Util.bytes(currentUser.getSalt()), getName());
-	}
-	
+  /**
+   * 登录成功的用户：角色和权限设置<br>
+   * TODO: 由于SHIRO过滤器每次都会进行权限验证，Roles和Permissions最好使用缓存
+   */
+  @Override
+  protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+    logger.info("为登录成功的用户：{}，添加角色和权限", principals.getPrimaryPrincipal());
+    SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+    Set<String> roles = new HashSet<>();
+    if (AuthzUtil.isAdmin()) { // 登录用户是否为管理员
+      roles.add("admin");
+      roles.add("user");
+      info.setRoles(roles);
+    } else {
+      roles.add("user");
+      info.setRoles(roles);
+    }
+
+    return info;
+  }
+
+  /**
+   * 用户身份验证
+   */
+  @Override
+  protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
+      throws AuthenticationException {
+    String username = (String) token.getPrincipal();
+    logger.info("用户身份验证：{}", username);
+
+    User currentUser = null;
+    try {
+      currentUser = service.findByName(username);
+    } catch (SecurityException e) {
+      logger.info("用户名或密码错误：{}", e.getMessage());
+    }
+
+    if (currentUser == null) {
+      throw new UnknownAccountException("用户名或密码错误");
+    }
+    // 授权登录
+    return new SimpleAuthenticationInfo(currentUser.getName(), currentUser.getPassword(),
+        ByteSource.Util.bytes(currentUser.getSalt()), getName());
+  }
+
 }

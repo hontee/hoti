@@ -11,54 +11,55 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
 /**
+ * 覆盖初始内容
  * @author Larry.qi
  */
 public class OverrideDirective implements TemplateDirectiveModel {
 
-	public final static String DIRECTIVE_NAME = "override";
+  public final static String DIRECTIVE_NAME = "override";
 
-	@SuppressWarnings("rawtypes")
-	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
-			throws TemplateException, IOException {
-		
-		String name = DirectiveUtils.getRequiredParam(params, "name");
-		String overrideVariableName = DirectiveUtils.getOverrideVariableName(name);
+  @SuppressWarnings("rawtypes")
+  public void execute(Environment env, Map params, TemplateModel[] loopVars,
+      TemplateDirectiveBody body) throws TemplateException, IOException {
 
-		TemplateDirectiveBodyOverrideWraper override = DirectiveUtils.getOverrideBody(env, name);
-		TemplateDirectiveBodyOverrideWraper current = new TemplateDirectiveBodyOverrideWraper(body, env);
-		
-		if (override == null) {
-			env.setVariable(overrideVariableName, current);
-		} else {
-			DirectiveUtils.setTopBodyForParentBody(env, current, override);
-		}
-	}
+    String name = DirectiveUtils.getRequiredParam(params, "name");
+    String overrideVariableName = DirectiveUtils.getOverrideVariableName(name);
 
-	static class TemplateDirectiveBodyOverrideWraper implements TemplateDirectiveBody, TemplateModel {
-		private TemplateDirectiveBody body;
-		public TemplateDirectiveBodyOverrideWraper parentBody;
-		public Environment env;
+    TemplateDirectiveBodyOverrideWraper override = DirectiveUtils.getOverrideBody(env, name);
+    TemplateDirectiveBodyOverrideWraper current =
+        new TemplateDirectiveBodyOverrideWraper(body, env);
 
-		public TemplateDirectiveBodyOverrideWraper(TemplateDirectiveBody body, Environment env) {
-			super();
-			this.body = body;
-			this.env = env;
-		}
+    if (override == null) {
+      env.setVariable(overrideVariableName, current);
+    } else {
+      DirectiveUtils.setTopBodyForParentBody(env, current, override);
+    }
+  }
 
-		public void render(Writer out) throws TemplateException, IOException {
-			if (body == null)
-				return;
-			
-			TemplateDirectiveBodyOverrideWraper preOverridy = (TemplateDirectiveBodyOverrideWraper) env
-					.getVariable(DirectiveUtils.OVERRIDE_CURRENT_NODE);
-			
-			try {
-				env.setVariable(DirectiveUtils.OVERRIDE_CURRENT_NODE, this);
-				body.render(out);
-			} finally {
-				env.setVariable(DirectiveUtils.OVERRIDE_CURRENT_NODE, preOverridy);
-			}
-		}
-	}
+  static class TemplateDirectiveBodyOverrideWraper implements TemplateDirectiveBody, TemplateModel {
+    private TemplateDirectiveBody body;
+    public TemplateDirectiveBodyOverrideWraper parentBody;
+    public Environment env;
+
+    public TemplateDirectiveBodyOverrideWraper(TemplateDirectiveBody body, Environment env) {
+      super();
+      this.body = body;
+      this.env = env;
+    }
+
+    public void render(Writer out) throws TemplateException, IOException {
+      if (body == null) return;
+
+      TemplateDirectiveBodyOverrideWraper preOverridy = (TemplateDirectiveBodyOverrideWraper) env
+          .getVariable(DirectiveUtils.OVERRIDE_CURRENT_NODE);
+
+      try {
+        env.setVariable(DirectiveUtils.OVERRIDE_CURRENT_NODE, this);
+        body.render(out);
+      } finally {
+        env.setVariable(DirectiveUtils.OVERRIDE_CURRENT_NODE, preOverridy);
+      }
+    }
+  }
 
 }

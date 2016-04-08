@@ -8,10 +8,10 @@ package com.kuaiba.site.core.exception;
  */
 public interface StandardException {
 
-	/**
-	 * 获取错误码
-	 * 
-	 * @return 错误码 {@link ErrorIDs}
-	 */
-	ErrorIDs getErrorId();
+  /**
+   * 获取错误码
+   * 
+   * @return 错误码 {@link ErrorIDs}
+   */
+  ErrorIDs getErrorId();
 }

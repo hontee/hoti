@@ -6,20 +6,20 @@ package com.kuaiba.site.core.exception;
  * @author larry.qi
  */
 public class SecurityException extends BaseException {
-	
-	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * Create exception with error id and message.
-	 */
-	public SecurityException(ErrorIDs errorId, String msg) {
-		super(errorId, msg);
-	}
 
-	/**
-	 * Create exception with error id, message and related exception.
-	 */
-	public SecurityException(ErrorIDs errorId, String msg, Exception e) {
-		super(errorId, msg, e);
-	}
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * Create exception with error id and message.
+   */
+  public SecurityException(ErrorIDs errorId, String msg) {
+    super(errorId, msg);
+  }
+
+  /**
+   * Create exception with error id, message and related exception.
+   */
+  public SecurityException(ErrorIDs errorId, String msg, Exception e) {
+    super(errorId, msg, e);
+  }
 }
