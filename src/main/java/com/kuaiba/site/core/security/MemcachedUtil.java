@@ -2,6 +2,11 @@ package com.kuaiba.site.core.security;
 
 import java.io.IOException;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Component;
+
 import com.kuaiba.site.core.exception.CacheException;
 import com.kuaiba.site.core.exception.SecurityException;
 
@@ -10,11 +15,22 @@ import net.spy.memcached.BinaryConnectionFactory;
 import net.spy.memcached.MemcachedClient;
 import net.spy.memcached.internal.OperationFuture;
 
+@Component
 public class MemcachedUtil {
-
-  private final static String HOST = "127.0.0.1";
-  private final static String PORT = "11211";
-
+  
+  @Resource
+  private ApplicationProps props;
+  private static MemcachedUtil mu;
+  
+  /**
+   * 初始化静态方法
+   */
+  @PostConstruct
+  public void init() {
+    mu = this;
+    mu.props = this.props;
+  }
+  
   /**
    * 获取连接
    * 
@@ -23,7 +39,7 @@ public class MemcachedUtil {
    */
   private static MemcachedClient getMemcachedClient() throws IOException {
     return new MemcachedClient(new BinaryConnectionFactory(),
-        AddrUtil.getAddresses(HOST + ":" + PORT));
+        AddrUtil.getAddresses(mu.props.getHost() + ":" + mu.props.getPort()));
   }
 
   /**
@@ -84,16 +100,19 @@ public class MemcachedUtil {
    * @param value
    */
   public static void delete(String key) throws SecurityException {
-    MemcachedClient client = null;
-    try {
-      client = getMemcachedClient();
-      OperationFuture<Boolean> future = client.delete(key);
-      future.get();
-    } catch (Exception e) {
-      throw new CacheException("删除缓存失败: " + key, e);
-    } finally {
-      destory(client);
-    }
+    ThreadUtil.execute(new Runnable() {
+      public void run() {
+        MemcachedClient client = null;
+        try {
+          client = getMemcachedClient();
+          OperationFuture<Boolean> future = client.delete(key);
+          future.get();
+        } catch (Exception e) {
+        } finally {
+          destory(client);
+        }
+      }
+    });
   }
 
   /**
