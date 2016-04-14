@@ -23,7 +23,6 @@ import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.service.BookmarkService;
-import com.kuaiba.site.service.DomainService;
 import com.kuaiba.site.service.GroupService;
 
 @Controller
@@ -36,9 +35,6 @@ public class SearchController {
   private BookmarkService bs;
   @Resource
   private GroupService gs;
-  @Resource
-  private DomainService ds;
-
 
   /**
    * @WebPage 搜索结果页
@@ -55,7 +51,7 @@ public class SearchController {
 
     logger.info("用户输入搜索：{}, 过滤条件：{}", q, f);
 
-    ModelUtil.addHeader(model, "快吧搜索", ds);
+    ModelUtil.addHeader(model, "快吧搜索");
     ModelUtil.addQ(model, q);
 
     p.initFrontRows();

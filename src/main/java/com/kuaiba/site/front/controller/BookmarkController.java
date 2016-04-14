@@ -18,7 +18,6 @@ import com.kuaiba.site.db.entity.BookmarkExample;
 import com.kuaiba.site.db.entity.Filter;
 import com.kuaiba.site.db.entity.Pagination;
 import com.kuaiba.site.service.BookmarkService;
-import com.kuaiba.site.service.DomainService;
 
 @Controller
 @Scope("prototype")
@@ -26,8 +25,6 @@ public class BookmarkController {
 
   @Resource
   private BookmarkService bs;
-  @Resource
-  private DomainService ds;
 
   /**
    * @WebPage 首页 = 我 | 猜你喜欢 | 全部 规则一：用户未登录则转发到 [发现页面] 规则二：用户已登录则查询 [我 / 全部]
@@ -67,7 +64,7 @@ public class BookmarkController {
     ModelUtil.addF(model, f);
     ModelUtil.addPager(model, pageInfo, "/?f=" + f);
     ModelUtil.addBookmarks(model, pageInfo.getList());
-    ModelUtil.addHeader(model, "快吧 - 关注你喜欢的站点", ds);
+    ModelUtil.addHeader(model, "快吧 - 关注你喜欢的站点");
     return "index.ftl";
   }
 
@@ -90,7 +87,7 @@ public class BookmarkController {
    */
   @RequestMapping(value = "/share", method = RequestMethod.GET)
   public String share(Model model) throws SecurityException {
-    ModelUtil.addHeader(model, "分享你喜欢的站点 - 快吧", ds);
+    ModelUtil.addHeader(model, "分享你喜欢的站点 - 快吧");
     return "share.ftl";
   }
 

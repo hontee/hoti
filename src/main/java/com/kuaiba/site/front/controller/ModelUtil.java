@@ -9,11 +9,8 @@ import com.kuaiba.site.core.exception.SecurityException;
 import com.kuaiba.site.core.security.AuthzUtil;
 import com.kuaiba.site.db.entity.Bookmark;
 import com.kuaiba.site.db.entity.Category;
-import com.kuaiba.site.db.entity.Domain;
-import com.kuaiba.site.db.entity.DomainExample;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.PagerUtil;
-import com.kuaiba.site.service.DomainService;
 
 /**
  * 模块工具
@@ -31,9 +28,9 @@ public class ModelUtil {
    * @param ds
    * @throws SecurityException
    */
-  public static void addHeader(Model model, String title, DomainService ds)
+  public static void addHeader(Model model, String title)
       throws SecurityException {
-    addHeader(model, title, null, null, ds);
+    addHeader(model, title, null, null);
   }
 
   /**
@@ -46,19 +43,11 @@ public class ModelUtil {
    * @param ds
    * @throws SecurityException
    */
-  public static void addHeader(Model model, String title, String keywords, String desc,
-      DomainService ds) throws SecurityException {
-
+  public static void addHeader(Model model, String title, String keywords, String desc) throws SecurityException {
     model.addAttribute("title", title);
     model.addAttribute("keywords", keywords);
     model.addAttribute("description", desc);
     model.addAttribute("user", AuthzUtil.isAuthorized() ? AuthzUtil.getUsername() : null);
-
-    DomainExample oe = new DomainExample();
-    oe.createCriteria().andStateEqualTo((byte) 1);
-    oe.setOrderByClause("weight DESC");
-    List<Domain> domains = ds.findAllWithCates(oe);
-    model.addAttribute("domains", domains);
   }
 
   /**

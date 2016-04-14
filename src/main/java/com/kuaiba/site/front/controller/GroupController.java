@@ -19,7 +19,6 @@ import com.kuaiba.site.db.entity.Filter;
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
 import com.kuaiba.site.db.entity.Pagination;
-import com.kuaiba.site.service.DomainService;
 import com.kuaiba.site.service.GroupService;
 
 @Controller
@@ -28,8 +27,6 @@ public class GroupController {
 
   @Resource
   private GroupService gs;
-  @Resource
-  private DomainService ds;
 
   /**
    * @WebPage 群组 = 我 | 猜你喜欢 | 全部
@@ -64,7 +61,7 @@ public class GroupController {
       pageInfo = gs.find(example, p);
     }
 
-    ModelUtil.addHeader(model, "快吧主题", ds);
+    ModelUtil.addHeader(model, "快吧主题");
     ModelUtil.addF(model, f);
     ModelUtil.addPager(model, pageInfo, "/groups?f=" + f);
     ModelUtil.addGroups(model, pageInfo.getList());
@@ -101,7 +98,7 @@ public class GroupController {
     }
 
     PageInfo<Bookmark> pageInfo = gs.find(example, p);
-    ModelUtil.addHeader(model, "快吧主题", ds);
+    ModelUtil.addHeader(model, "快吧主题");
     ModelUtil.addF(model, f);
     ModelUtil.addPager(model, pageInfo, "/groups/" + id + "/?f=" + f);
     ModelUtil.addGroup(model, record);
