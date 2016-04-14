@@ -1,9 +1,11 @@
 package com.kuaiba.site.db.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.kuaiba.site.db.entity.Group;
 import com.kuaiba.site.db.entity.GroupExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface GroupMapper {
 	

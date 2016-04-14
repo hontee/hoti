@@ -1,9 +1,11 @@
 package com.kuaiba.site.db.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.kuaiba.site.db.entity.User;
 import com.kuaiba.site.db.entity.UserExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
 	

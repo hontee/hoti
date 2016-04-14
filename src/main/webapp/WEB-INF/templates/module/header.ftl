@@ -11,10 +11,10 @@
 <meta name="description" content="${description!"关注你喜欢的站点"}">
 
 <@block name="resources">
-<link href="/primer/css/primer.css" rel="stylesheet">
-<script src="/primer/js/jquery.min.js"></script>
-<script src="/primer/js/jquery.mmenu.all.min.js"></script>
-<script src="/primer/js/layout.js"></script>
+<link href="/assets/css/primer.css" rel="stylesheet">
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/jquery.mmenu.all.min.js"></script>
+<script src="/assets/js/layout.js"></script>
 </@block>
 </head>
 

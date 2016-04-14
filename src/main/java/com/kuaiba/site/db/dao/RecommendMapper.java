@@ -1,9 +1,11 @@
 package com.kuaiba.site.db.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.kuaiba.site.db.entity.Recommend;
 import com.kuaiba.site.db.entity.RecommendExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface RecommendMapper {
 	
