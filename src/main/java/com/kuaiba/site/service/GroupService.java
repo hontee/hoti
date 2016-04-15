@@ -147,6 +147,20 @@ public interface GroupService extends Pager<Group, GroupExample> {
      * @throws SecurityException
      */
     void unfollow(Long fid) throws SecurityException;
+    
+    /**
+     * 添加精选
+     * @param ids
+     * @throws SecurityException
+     */
+    void pick(Long[] ids) throws SecurityException;
+    
+    /**
+     * 取消精选
+     * @param ids
+     * @throws SecurityException
+     */
+    void unpick(Long[] ids) throws SecurityException;
 
     /**
 	 * 验证属性值是否存在

@@ -1,3 +1,5 @@
+<#if (!page.previous??) && (!page.next??)>
+<#else>
 <div class="toolbar">
   <div class="container">
     <div class="columns text-center">
@@ -8,3 +10,4 @@
     </div>
   </div>
 </div>
+</#if>

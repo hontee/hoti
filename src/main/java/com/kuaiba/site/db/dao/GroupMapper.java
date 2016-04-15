@@ -66,4 +66,12 @@ public interface GroupMapper {
      */
     int updateByPrimaryKey(Group record);
     
+    /**
+     * 精选操作
+     * @param pick
+     * @param ids
+     * @return
+     */
+    int updateByPick(@Param("pick") int pick, @Param("array") Long[] array);
+    
 }

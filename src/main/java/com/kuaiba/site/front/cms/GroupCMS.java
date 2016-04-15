@@ -237,6 +237,28 @@ public class GroupCMS {
     gs.update(id, vo);
     return SiteUtil.ok();
   }
+  
+  @RequiresRoles(value = "admin")
+  @RequestMapping(value = "/pick", method = RequestMethod.POST)
+  public @ResponseBody SiteResponse pick(@RequestParam Long[] ids,
+      HttpServletRequest request) throws SecurityException {
+    as.addLogger("后台群组精选", TableIDs.GROUP, ", [" + ids + "]", request);
+    logger.info("后台群组精选: {}", ids);
+    
+    gs.pick(ids);
+    return SiteUtil.ok();
+  }
+  
+  @RequiresRoles(value = "admin")
+  @RequestMapping(value = "/unpick", method = RequestMethod.POST)
+  public @ResponseBody SiteResponse unpick(@RequestParam Long[] ids,
+      HttpServletRequest request) throws SecurityException {
+    as.addLogger("后台群组取消精选", TableIDs.GROUP, ", [" + ids + "]", request);
+    logger.info("后台群组取消精选: {}", ids);
+    
+    gs.unpick(ids);
+    return SiteUtil.ok();
+  }
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/count/task", method = RequestMethod.POST)

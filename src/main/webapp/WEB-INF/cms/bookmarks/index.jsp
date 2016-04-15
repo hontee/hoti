@@ -8,6 +8,8 @@
 	<button id="bookmarks-edit" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">编辑</button>
 	<button id="bookmarks-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
 	<button id="bookmarks-follow" class="easyui-linkbutton" data-options="iconCls:'icon-tip',disabled:true">关注</button>
+	<button id="bookmarks-pick" class="easyui-linkbutton" data-options="iconCls:'icon-add',disabled:true">精选</button>
+	<button id="bookmarks-unpick" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">取消精选</button>
 	<button id="bookmarks-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
@@ -31,6 +33,8 @@ var bookmarksEL = {
 	edit: $("#bookmarks-edit"),
 	remove: $("#bookmarks-remove"),
 	follow: $("#bookmarks-follow"),
+	pick: $("#bookmarks-pick"),
+	unpick: $("#bookmarks-unpick"),
 	reload: $("#bookmarks-reload"),
 	dg: $("#bookmarks-dg"),
 	win: $("#bookmarks-win")
@@ -117,8 +121,12 @@ bookmarksEL.reset = function() {
 		bookmarksEL.linkButton(true, true, true);
 	} else if (length == 1) { // 可编辑和删除
 		bookmarksEL.linkButton(false, false, true);
+		bookmarksEL.pick.linkbutton({disabled: false});
+		bookmarksEL.unpick.linkbutton({disabled: false});
 	} else { // 可批量操作
 		bookmarksEL.linkButton(true, true, false);
+		bookmarksEL.pick.linkbutton({disabled: false});
+		bookmarksEL.unpick.linkbutton({disabled: false});
 	}
 }
 
@@ -176,6 +184,16 @@ bookmarksEL.edit.click(function() {
 // 删除
 bookmarksEL.remove.click(function() {
 	CMS.removeSubmitHandler(bookmarksEL, 'bookmarks');
+});
+
+// 精选
+bookmarksEL.pick.click(function() {
+	CMS.pickSubmitHandler(bookmarksEL, 'bookmarks');
+});
+
+// 取消精选
+bookmarksEL.unpick.click(function() {
+	CMS.unpickSubmitHandler(bookmarksEL, 'bookmarks');
 });
 
 // 关注

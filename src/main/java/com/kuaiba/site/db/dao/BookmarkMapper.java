@@ -73,4 +73,12 @@ public interface BookmarkMapper {
 	 */
 	int updateByPrimaryKey(Bookmark record);
 	
+    /**
+     * 精选操作
+     * @param pick
+     * @param ids
+     * @return
+     */
+    int updateByPick(@Param("pick") int pick, @Param("array") Long[] array);
+	
 }

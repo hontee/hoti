@@ -165,5 +165,27 @@ public class BookmarkCMS {
     bs.update(id, vo);
     return SiteUtil.ok();
   }
+  
+  @RequiresRoles(value = "admin")
+  @RequestMapping(value = "/pick", method = RequestMethod.POST)
+  public @ResponseBody SiteResponse pick(@RequestParam Long[] ids,
+      HttpServletRequest request) throws SecurityException {
+    as.addLogger("后台站点精选", TableIDs.BOOKMARK, ", [" + ids + "]", request);
+    logger.info("后台站点精选: {}", ids);
+    
+    bs.pick(ids);
+    return SiteUtil.ok();
+  }
+  
+  @RequiresRoles(value = "admin")
+  @RequestMapping(value = "/unpick", method = RequestMethod.POST)
+  public @ResponseBody SiteResponse unpick(@RequestParam Long[] ids,
+      HttpServletRequest request) throws SecurityException {
+    as.addLogger("后台站点取消精选", TableIDs.BOOKMARK, ", [" + ids + "]", request);
+    logger.info("后台站点取消精选: {}", ids);
+    
+    bs.unpick(ids);
+    return SiteUtil.ok();
+  }
 
 }

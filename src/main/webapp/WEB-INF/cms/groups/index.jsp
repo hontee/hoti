@@ -10,6 +10,8 @@
 	<button id="groups-manager" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">管理站点</button>
 	<button id="groups-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
 	<button id="groups-follow" class="easyui-linkbutton" data-options="iconCls:'icon-tip',disabled:true">关注</button>
+	<button id="groups-pick" class="easyui-linkbutton" data-options="iconCls:'icon-add',disabled:true">精选</button>
+	<button id="groups-unpick" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">取消精选</button>
 	<button id="groups-count" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">更新统计</button>
 	<button id="groups-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
@@ -42,6 +44,8 @@ var groupsEL = {
 	bookmarks: $("#groups-bookmarks"),
 	manager: $("#groups-manager"),
 	follow: $("#groups-follow"),
+	pick: $("#groups-pick"),
+	unpick: $("#groups-unpick"),
 	count: $("#groups-count"),
 	reload: $("#groups-reload"),
 	dg: $("#groups-dg"),
@@ -129,8 +133,12 @@ groupsEL.reset = function() {
 		groupsEL.linkButton(true, true, true);
 	} else if (length == 1) { // 可编辑和删除
 		groupsEL.linkButton(false, false, true);
+		groupsEL.pick.linkbutton({disabled: false});
+		groupsEL.unpick.linkbutton({disabled: false});
 	} else { // 可批量操作
 		groupsEL.linkButton(true, true, false);
+		groupsEL.pick.linkbutton({disabled: false});
+		groupsEL.unpick.linkbutton({disabled: false});
 	}
 }
 
@@ -191,6 +199,16 @@ groupsEL.edit.click(function() {
 // 删除
 groupsEL.remove.click(function() {
 	CMS.removeSubmitHandler(groupsEL, 'groups');
+});
+
+//精选
+groupsEL.pick.click(function() {
+	CMS.pickSubmitHandler(groupsEL, 'groups');
+});
+
+// 取消精选
+groupsEL.unpick.click(function() {
+	CMS.unpickSubmitHandler(groupsEL, 'groups');
 });
 
 // 添加站点

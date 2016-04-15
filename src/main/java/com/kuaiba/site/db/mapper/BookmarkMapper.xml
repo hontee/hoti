@@ -375,4 +375,14 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <!-- 精选操作 -->
+  <update id="updateByPick" parameterType="map">
+  	UPDATE t_bookmark 
+	SET pick = #{pick,jdbcType=BIGINT}
+	WHERE id in 
+	<foreach collection="array" item="id" open="(" separator="," close=")">
+   	<trim>#{id}</trim>
+   	</foreach>
+  </update>
 </mapper>

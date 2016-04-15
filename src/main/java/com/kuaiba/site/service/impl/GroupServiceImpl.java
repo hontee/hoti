@@ -269,6 +269,16 @@ public class GroupServiceImpl implements GroupService {
   }
 
   @Override
+  public void pick(Long[] ids) throws SecurityException {
+    pick(1, ids, "添加精选操作失败");
+  }
+
+  @Override
+  public void unpick(Long[] ids) throws SecurityException {
+    pick(0, ids, "取消精选操作失败");
+  }
+
+  @Override
   public boolean validate(Attribute attr, String value) throws SecurityException {
     try {
       VUtil.assertNotNull(value);
@@ -293,6 +303,14 @@ public class GroupServiceImpl implements GroupService {
       return cacheMgr.readUserFollowGroup().contains(fid);
     } catch (Exception e) {
       throw new ReadException("判断用户是否关注群组失败", e);
+    }
+  }
+  
+  private void pick(int pick, Long[] ids, String message) throws SecurityException {
+    try {
+      mapper.updateByPick(pick, ids);
+    } catch (Exception e) {
+      throw new UpdateException(message, e);
     }
   }
 
