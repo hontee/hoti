@@ -47,9 +47,6 @@ public class BookmarkController {
 
     if (filter == Filter.MY) { // 我的站点
       pageInfo = bs.find(example, p);
-    } else if (filter == Filter.LIKE) { // 猜你喜欢
-      p.setOrderBy("hit", "DESC");
-      pageInfo = bs.find(example, p);
     } else if (filter == Filter.NEW) { // 最新
       p.setOrderBy("created", "DESC");
       pageInfo = bs.find(example, p);

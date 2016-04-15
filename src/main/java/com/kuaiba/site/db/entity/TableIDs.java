@@ -25,6 +25,7 @@ public interface TableIDs {
 	String RECOMMEND = "t_recommend";
 	String TRACK = "t_track";
 	String USER = "t_user";
+	String REGION = "t_region";
 	
 	/**
 	 * 获取表名信息

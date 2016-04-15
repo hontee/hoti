@@ -18,11 +18,6 @@ public enum Filter {
 	MY, 
 	
 	/**
-	 * 猜你喜欢 f=like
-	 */
-	LIKE, 
-	
-	/**
 	 * 最新 f=new
 	 */
 	NEW,
@@ -50,19 +45,16 @@ public enum Filter {
 		}
 		
 		if (filter == null) {
-			filter = AuthzUtil.isAuthorized()? Filter.MY: Filter.LIKE;
+			filter = AuthzUtil.isAuthorized()? Filter.MY: Filter.PICK;
 		} 
 
 		// 用户未登录的情况下f=my请求自动转换成f=like
 		if (filter == Filter.MY && !AuthzUtil.isAuthorized()) {
-			return Filter.LIKE;
+			return Filter.PICK;
 		}
 		
 		
 		return filter;
 	}
-	
-	public static void main(String[] args) {
-		System.out.println(parse("news"));
-	}
+
 }

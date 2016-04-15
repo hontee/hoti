@@ -47,9 +47,6 @@ public class GroupController {
 
     if (filter == Filter.MY) { // 我的站点
       pageInfo = gs.find(example, p);
-    } else if (filter == Filter.LIKE) { // 猜你喜欢
-      p.setOrderBy("count", "DESC");
-      pageInfo = gs.find(example, p);
     } else if (filter == Filter.NEW) { // 最新
       p.setOrderBy("created", "DESC");
       pageInfo = gs.find(example, p);
@@ -94,7 +91,7 @@ public class GroupController {
     } else if (filter == Filter.NEW) {
       p.setOrderBy("created", "DESC");
     } else if (filter == Filter.PICK) {
-      // TODO
+      criteria.andPickEqualTo((byte) 1);
     }
 
     PageInfo<Bookmark> pageInfo = gs.find(example, p);
