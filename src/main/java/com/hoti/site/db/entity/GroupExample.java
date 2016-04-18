@@ -1005,66 +1005,6 @@ public class GroupExample {
             return (Criteria) this;
         }
 
-        public Criteria andMtypeIsNull() {
-            addCriterion("mtype is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMtypeIsNotNull() {
-            addCriterion("mtype is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMtypeEqualTo(Long value) {
-            addCriterion("mtype =", value, "mtype");
-            return (Criteria) this;
-        }
-
-        public Criteria andMtypeNotEqualTo(Long value) {
-            addCriterion("mtype <>", value, "mtype");
-            return (Criteria) this;
-        }
-
-        public Criteria andMtypeGreaterThan(Long value) {
-            addCriterion("mtype >", value, "mtype");
-            return (Criteria) this;
-        }
-
-        public Criteria andMtypeGreaterThanOrEqualTo(Long value) {
-            addCriterion("mtype >=", value, "mtype");
-            return (Criteria) this;
-        }
-
-        public Criteria andMtypeLessThan(Long value) {
-            addCriterion("mtype <", value, "mtype");
-            return (Criteria) this;
-        }
-
-        public Criteria andMtypeLessThanOrEqualTo(Long value) {
-            addCriterion("mtype <=", value, "mtype");
-            return (Criteria) this;
-        }
-
-        public Criteria andMtypeIn(List<Long> values) {
-            addCriterion("mtype in", values, "mtype");
-            return (Criteria) this;
-        }
-
-        public Criteria andMtypeNotIn(List<Long> values) {
-            addCriterion("mtype not in", values, "mtype");
-            return (Criteria) this;
-        }
-
-        public Criteria andMtypeBetween(Long value1, Long value2) {
-            addCriterion("mtype between", value1, value2, "mtype");
-            return (Criteria) this;
-        }
-
-        public Criteria andMtypeNotBetween(Long value1, Long value2) {
-            addCriterion("mtype not between", value1, value2, "mtype");
-            return (Criteria) this;
-        }
-
         public Criteria andCategoryIsNull() {
             addCriterion("category is null");
             return (Criteria) this;

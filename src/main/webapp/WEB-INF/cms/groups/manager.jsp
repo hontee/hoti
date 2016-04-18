@@ -51,9 +51,6 @@ groupsMgtEL.dg.datagrid({
         {field:'category',title:'所属分类',width:100, sortable: true, formatter: function(value,row,index) {
         	return row.cateTitle;
         }},
-        {field:'mtype',title:'类型',width:100, sortable: true, formatter: function(value,row,index) {
-        	return row.mtTitle;
-        }},
         {field:'state',title:'状态',width:100, sortable: true, formatter: function(value,row,index) {
         	if (value == '1') {
 				return '启用';

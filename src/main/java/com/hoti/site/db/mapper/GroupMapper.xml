@@ -17,7 +17,6 @@
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
     <result column="create_by" property="createBy" jdbcType="BIGINT" />
-    <result column="mtype" property="mtype" jdbcType="BIGINT" />
     <result column="category" property="category" jdbcType="BIGINT" />
     <result column="cate_title" property="cateTitle" jdbcType="VARCHAR" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
@@ -85,7 +84,7 @@
   
   <sql id="Base_Column_List" >
     id, name, title, description, gtype, avatar, cover, star, count, state, pick, created, 
-    last_modified, create_by, mtype, category, creator, cate_title
+    last_modified, create_by, category, creator, cate_title
   </sql>
   
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hoti.site.db.entity.GroupExample" >
@@ -167,9 +166,6 @@
       <if test="createBy != null" >
         create_by,
       </if>
-      <if test="mtype != null" >
-        mtype,
-      </if>
       <if test="category != null" >
         category,
       </if>
@@ -216,9 +212,6 @@
       </if>
       <if test="createBy != null" >
         #{createBy,jdbcType=BIGINT},
-      </if>
-      <if test="mtype != null" >
-        #{mtype,jdbcType=BIGINT},
       </if>
       <if test="category != null" >
         #{category,jdbcType=BIGINT},
@@ -278,9 +271,6 @@
       <if test="record.createBy != null" >
         create_by = #{record.createBy,jdbcType=BIGINT},
       </if>
-      <if test="record.mtype != null" >
-        mtype = #{record.mtype,jdbcType=BIGINT},
-      </if>
       <if test="record.category != null" >
         category = #{record.category,jdbcType=BIGINT},
       </if>
@@ -331,9 +321,6 @@
       </if>
       <if test="createBy != null" >
         create_by = #{createBy,jdbcType=BIGINT},
-      </if>
-      <if test="mtype != null" >
-        mtype = #{mtype,jdbcType=BIGINT},
       </if>
       <if test="category != null" >
         category = #{category,jdbcType=BIGINT},

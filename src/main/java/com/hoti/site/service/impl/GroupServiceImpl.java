@@ -68,7 +68,6 @@ public class GroupServiceImpl implements GroupService {
       PagerUtil.startPage(p);
       List<Bookmark> list = bmMapper.selectByRelation(example);
       for (Bookmark bm : list) {
-        bm.setMt(cacheMgr.readMtype(bm.getMtype()));
         bm.setFollow(bookmarkService.validateFollow(bm.getId()) ? 1 : 0);
       }
 
@@ -138,7 +137,6 @@ public class GroupServiceImpl implements GroupService {
       record.setCount(0);
       record.setCreateBy(AuthzUtil.getUserId());
       record.setDescription(vo.getDescription());
-      record.setMtype(vo.getMtype());
       record.setName(vo.getNameUUID());
       record.setStar(0);
       record.setState(vo.getState());
@@ -174,7 +172,6 @@ public class GroupServiceImpl implements GroupService {
       VUtil.assertNotNull(example);
       List<Group> list = mapper.selectByExample(example);
       for (Group g : list) {
-        g.setMt(cacheMgr.readMtype(g.getMtype()));
         g.setFollow(validateFollow(g.getId()) ? 1 : 0);
       }
       return list;
@@ -213,7 +210,6 @@ public class GroupServiceImpl implements GroupService {
       record.setId(id);
       record.setCategory(vo.getCategory());
       record.setDescription(vo.getDescription());
-      record.setMtype(vo.getMtype());
       record.setState(vo.getState());
       record.setTitle(vo.getTitle());
       mapper.updateByPrimaryKey(record);

@@ -23,11 +23,9 @@ public class Group implements Serializable {
     private Date created;
     private Date lastModified;
     private Long createBy;
-    private Long mtype;
     private Long category;
     private String cateTitle;
     private String creator;
-    private Mtype mt;
     private int follow;
     
     private List<Bookmark> bookmarks; 
@@ -144,14 +142,6 @@ public class Group implements Serializable {
         this.createBy = createBy;
     }
 
-    public Long getMtype() {
-        return mtype;
-    }
-
-    public void setMtype(Long mtype) {
-        this.mtype = mtype;
-    }
-
     public Long getCategory() {
         return category;
     }
@@ -174,14 +164,6 @@ public class Group implements Serializable {
 
 	public void setCreator(String creator) {
 		this.creator = creator;
-	}
-
-	public Mtype getMt() {
-		return mt;
-	}
-
-	public void setMt(Mtype mt) {
-		this.mt = mt;
 	}
 
 	public int getFollow() {

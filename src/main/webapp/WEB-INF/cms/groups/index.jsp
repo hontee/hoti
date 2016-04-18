@@ -97,9 +97,6 @@ groupsEL.dg.datagrid({
         {field:'createBy',title:'创建人',width:100, sortable: true, formatter: function(value,row,index) {
         	return row.creator;
         }},
-        {field:'mtype',title:'类型',width:100, sortable: true, formatter: function(value,row,index) {
-        	return row.mt.title;
-        }},
         {field:'category',title:'所属分类',width:100, sortable: true, formatter: function(value,row,index) {
         	return row.cateTitle;
         }}

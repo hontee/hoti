@@ -20,11 +20,9 @@ public interface TableIDs {
 	String GROUP_BOOKMARK = "t_group_bookmark";
 	String GROUP_FOLLOW = "t_group_follow";
 	String MENU = "t_menu";
-	String MTYPE = "t_mtype";
 	String RECOMMEND = "t_recommend";
 	String TRACK = "t_track";
 	String USER = "t_user";
-	String REGION = "t_region";
 	
 	/**
 	 * 获取表名信息

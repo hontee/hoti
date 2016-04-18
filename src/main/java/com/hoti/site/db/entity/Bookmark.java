@@ -25,11 +25,9 @@ public class Bookmark implements Serializable {
     private Date lastModified;
     private Long createBy;
     private Long category;
-    private Long mtype;
     private String cateTitle;
     private String creator;
     private int follow;
-    private Mtype mt;
     
     // 扩展主题关联字段 v_group_bookmark
     private Long gid;
@@ -170,14 +168,6 @@ public class Bookmark implements Serializable {
         this.category = category;
     }
 
-    public Long getMtype() {
-        return mtype;
-    }
-
-    public void setMtype(Long mtype) {
-        this.mtype = mtype;
-    }
-
 	public String getCateTitle() {
 		return cateTitle;
 	}
@@ -200,14 +190,6 @@ public class Bookmark implements Serializable {
 
 	public void setFollow(int follow) {
 		this.follow = follow;
-	}
-
-	public Mtype getMt() {
-		return mt;
-	}
-
-	public void setMt(Mtype mt) {
-		this.mt = mt;
 	}
 
 	public Long getGid() {

@@ -19,7 +19,6 @@
     <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
     <result column="create_by" property="createBy" jdbcType="BIGINT" />
     <result column="category" property="category" jdbcType="BIGINT" />
-    <result column="mtype" property="mtype" jdbcType="BIGINT" />
     <result column="cate_title" property="cateTitle" jdbcType="VARCHAR" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
     <result column="gid" property="gid" jdbcType="BIGINT" />
@@ -88,7 +87,7 @@
   
   <sql id="Base_Column_List" >
     id, name, title, url, description, avatar, reffer, star, hit, state, pick, audit, created, 
-    last_modified, create_by, category, mtype, cate_title, creator
+    last_modified, create_by, category, cate_title, creator
   </sql>
   
   <sql id="Group_Bookmark_Column_List" >
@@ -195,9 +194,6 @@
       <if test="category != null" >
         category,
       </if>
-      <if test="mtype != null" >
-        mtype,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -247,9 +243,6 @@
       </if>
       <if test="category != null" >
         #{category,jdbcType=BIGINT},
-      </if>
-      <if test="mtype != null" >
-        #{mtype,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -312,9 +305,6 @@
       <if test="record.category != null" >
         category = #{record.category,jdbcType=BIGINT},
       </if>
-      <if test="record.mtype != null" >
-        mtype = #{record.mtype,jdbcType=BIGINT},
-      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -368,9 +358,6 @@
       </if>
       <if test="category != null" >
         category = #{category,jdbcType=BIGINT},
-      </if>
-      <if test="mtype != null" >
-        mtype = #{mtype,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}

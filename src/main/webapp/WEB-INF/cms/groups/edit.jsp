@@ -14,12 +14,6 @@
     	style="width:100%; height:32px">
     </div>
     <div class="cms-mb20">
-      <div class="cms-mb5">媒体类型:</div>
-      <input class="easyui-combobox" name="mtype"
-    	data-options="panelHeight:'auto',editable: false, value: '${record.mtype}', valueField:'id',textField:'title',url:'/cms/mtypes/datalist'" 
-    	style="width:100%; height:32px">
-    </div>
-    <div class="cms-mb20">
       <div class="cms-mb5">状态:</div>
       <select class="easyui-combobox" name="state" data-options="panelHeight:'auto',editable: false" style="width:100%; height:32px">
         <option value="1" <c:if test="${record.state == 1}">selected</c:if>>启动</option>
