@@ -14,9 +14,8 @@
     <result column="state" property="state" jdbcType="TINYINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
-    <result column="domain" property="domain" jdbcType="BIGINT" />
+    <result column="parent" property="parent" jdbcType="BIGINT" />
     <result column="create_by" property="createBy" jdbcType="BIGINT" />
-    <result column="domain_title" property="domainTitle" jdbcType="VARCHAR" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
   </resultMap>
   
@@ -82,7 +81,7 @@
   
   <sql id="Base_Column_List" >
     id, name, title, description, avatar, cover, count, group_count, state, created, last_modified, 
-    domain, create_by, domain_title, creator
+    parent, create_by, creator
   </sql>
   
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hoti.site.db.entity.CategoryExample" >
@@ -155,8 +154,8 @@
       <if test="lastModified != null" >
         last_modified,
       </if>
-      <if test="domain != null" >
-        domain,
+      <if test="parent != null" >
+        parent,
       </if>
       <if test="createBy != null" >
         create_by,
@@ -196,8 +195,8 @@
       <if test="lastModified != null" >
         #{lastModified,jdbcType=TIMESTAMP},
       </if>
-      <if test="domain != null" >
-        #{domain,jdbcType=BIGINT},
+      <if test="parent != null" >
+        #{parent,jdbcType=BIGINT},
       </if>
       <if test="createBy != null" >
         #{createBy,jdbcType=BIGINT},
@@ -248,8 +247,8 @@
       <if test="record.lastModified != null" >
         last_modified = #{record.lastModified,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.domain != null" >
-        domain = #{record.domain,jdbcType=BIGINT},
+      <if test="record.parent != null" >
+        parent = #{record.parent,jdbcType=BIGINT},
       </if>
       <if test="record.createBy != null" >
         create_by = #{record.createBy,jdbcType=BIGINT},
@@ -293,8 +292,8 @@
       <if test="lastModified != null" >
         last_modified = #{lastModified,jdbcType=TIMESTAMP},
       </if>
-      <if test="domain != null" >
-        domain = #{domain,jdbcType=BIGINT},
+      <if test="parent != null" >
+        parent = #{parent,jdbcType=BIGINT},
       </if>
       <if test="createBy != null" >
         create_by = #{createBy,jdbcType=BIGINT},

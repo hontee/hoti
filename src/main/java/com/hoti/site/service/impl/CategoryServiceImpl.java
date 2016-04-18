@@ -90,7 +90,7 @@ public class CategoryServiceImpl implements CategoryService {
       record.setTitle(vo.getTitle());
       record.setDescription(vo.getDescription());
       record.setState(vo.getState());
-      record.setDomain(vo.getDomain());
+      record.setParent(vo.getParent());
       record.setCreateBy(AuthzUtil.getUserId());
       mapper.insert(record);
     } catch (Exception e) {
@@ -145,7 +145,7 @@ public class CategoryServiceImpl implements CategoryService {
       record.setTitle(vo.getTitle());
       record.setDescription(vo.getDescription());
       record.setState(vo.getState());
-      record.setDomain(vo.getDomain());
+      record.setParent(vo.getParent());
       mapper.updateByPrimaryKey(record);
     } catch (Exception e) {
       throw new UpdateException("更新分类失败", e);
@@ -164,18 +164,6 @@ public class CategoryServiceImpl implements CategoryService {
       mapper.updateByPrimaryKey(record);
     } catch (Exception e) {
       throw new UpdateException("更新统计分类失败", e);
-    }
-  }
-
-  @Override
-  public List<Category> find(Long domain) throws SecurityException {
-    try {
-      VUtil.assertNotNull(domain);
-      CategoryExample example = new CategoryExample();
-      example.createCriteria().andDomainEqualTo(domain);
-      return findAll(example);
-    } catch (Exception e) {
-      throw new ReadException("读取分类失败", e);
     }
   }
 

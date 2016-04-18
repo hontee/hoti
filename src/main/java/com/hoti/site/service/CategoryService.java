@@ -63,14 +63,6 @@ public interface CategoryService extends Pager<Category, CategoryExample> {
     Category findOne(Long id) throws SecurityException;
     
     /**
-     * 根据Domain查询
-     * @param domain
-     * @return
-     * @throws SecurityException
-     */
-    List<Category> find(Long domain) throws SecurityException;
-    
-    /**
      * 按条件更新
      * @param record
      * @param example

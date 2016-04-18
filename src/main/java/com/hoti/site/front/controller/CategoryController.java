@@ -17,14 +17,11 @@ import com.hoti.site.core.exception.SecurityException;
 import com.hoti.site.db.entity.Bookmark;
 import com.hoti.site.db.entity.BookmarkExample;
 import com.hoti.site.db.entity.Category;
-import com.hoti.site.db.entity.Domain;
-import com.hoti.site.db.entity.DomainExample;
 import com.hoti.site.db.entity.Group;
 import com.hoti.site.db.entity.GroupExample;
 import com.hoti.site.db.entity.Pagination;
 import com.hoti.site.service.BookmarkService;
 import com.hoti.site.service.CategoryService;
-import com.hoti.site.service.DomainService;
 import com.hoti.site.service.GroupService;
 
 @Controller
@@ -37,19 +34,13 @@ public class CategoryController {
   private GroupService gs;
   @Resource
   private CategoryService cs;
-  @Resource
-  private DomainService ds;
   
   @RequestMapping(value = "/category", method = RequestMethod.GET)
   public String  cate(Model model) throws SecurityException {
     ModelUtil.addHeader(model, "红提 | 所有分类");
     
-    
-    DomainExample oe = new DomainExample();
-    oe.createCriteria().andStateEqualTo((byte) 1);
-    oe.setOrderByClause("weight DESC");
-    List<Domain> domains = ds.findAllWithCates(oe);
-    model.addAttribute("domains", domains);
+    List<Category> list = cs.findAll();
+    model.addAttribute("cates", list);
     
     return "category.ftl";
   }

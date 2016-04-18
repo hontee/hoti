@@ -77,7 +77,7 @@ public class CategoryCMS {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/list")
   public @ResponseBody DataGrid<Category> dataGrid(@RequestParam(required = false) String title,
-      @RequestParam(required = false) Long domain, @RequestParam(required = false) Byte state,
+      @RequestParam(required = false) Long parent, @RequestParam(required = false) Byte state,
       Pagination p) throws SecurityException {
 
     CategoryExample example = new CategoryExample();
@@ -87,8 +87,8 @@ public class CategoryCMS {
       criteria.andTitleLike("%" + title + "%"); // 模糊查询
     }
 
-    if (domain != null && domain > 0) {
-      criteria.andDomainEqualTo(domain);
+    if (parent != null && parent > 0) {
+      criteria.andParentEqualTo(parent);
     }
 
     if (StateUtil.validate(state)) {

@@ -12,14 +12,11 @@ import com.hoti.site.core.exception.SecurityException;
 import com.hoti.site.db.dao.MapMapper;
 import com.hoti.site.db.entity.BookmarkExample;
 import com.hoti.site.db.entity.Category;
-import com.hoti.site.db.entity.CategoryExample;
-import com.hoti.site.db.entity.Domain;
 import com.hoti.site.db.entity.Group;
 import com.hoti.site.db.entity.GroupExample;
 import com.hoti.site.service.BookmarkService;
 import com.hoti.site.service.CategoryService;
 import com.hoti.site.service.Countable;
-import com.hoti.site.service.DomainService;
 import com.hoti.site.service.GroupService;
 
 @Service
@@ -28,8 +25,6 @@ public class CountMgrImpl implements Countable {
 	private Logger logger = LoggerFactory.getLogger(CountMgrImpl.class);
 	
 	@Resource
-	private DomainService domainService;
-	@Resource
 	private CategoryService categoryService;
 	@Resource
 	private BookmarkService bookmarkService;
@@ -37,23 +32,6 @@ public class CountMgrImpl implements Countable {
 	private GroupService groupService;
 	@Resource
 	private MapMapper mapMapper;
-
-	@Override
-	public void countDomainTask() throws SecurityException {
-		
-		List<Domain> list = domainService.findAll();
-		
-		list.forEach((d) -> {
-			try {
-				CategoryExample example = new CategoryExample();
-				example.createCriteria().andDomainEqualTo(d.getId());
-				int count = categoryService.count(example);
-				domainService.update(d.getId(), count);
-			} catch (Exception e) {
-				logger.debug("统计领域数据失败");
-			}
-		});
-	}
 
 	@Override
 	public void countCategoryTask() throws SecurityException {

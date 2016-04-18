@@ -14,14 +14,11 @@ import com.hoti.site.core.exception.SecurityException;
 import com.hoti.site.core.security.AuthzUtil;
 import com.hoti.site.core.security.MemcachedUtil;
 import com.hoti.site.db.dao.CategoryMapper;
-import com.hoti.site.db.dao.DomainMapper;
 import com.hoti.site.db.dao.MapMapper;
 import com.hoti.site.db.dao.MenuMapper;
 import com.hoti.site.db.dao.MtypeMapper;
 import com.hoti.site.db.entity.Category;
 import com.hoti.site.db.entity.CategoryExample;
-import com.hoti.site.db.entity.Domain;
-import com.hoti.site.db.entity.DomainExample;
 import com.hoti.site.db.entity.Menu;
 import com.hoti.site.db.entity.MenuExample;
 import com.hoti.site.db.entity.Mtype;
@@ -39,7 +36,6 @@ public class CacheMgrImpl implements CachePolicy {
 	/*缓存常量*/
 	private final String MTYPES = "mtypes";
 	private final String CATES = "cates";
-	private final String DOMAINS = "domains";
 	private final String MENUS = "menus";
 	private final String USER_FOLLOW_BMS = "user_follow_bms";
 	private final String USER_FOLLOW_GROUP = "user_follow_group";
@@ -48,8 +44,6 @@ public class CacheMgrImpl implements CachePolicy {
 	private MtypeMapper mm;
 	@Resource
 	private CategoryMapper cm;
-	@Resource
-	private DomainMapper dm;
 	@Resource
 	private MenuMapper menum;
 	@Resource
@@ -93,21 +87,6 @@ public class CacheMgrImpl implements CachePolicy {
 		example.createCriteria().andStateEqualTo((byte)1);
 		list = cm.selectByExample(example);
 		MemcachedUtil.set(CATES, DTIME, list);
-		
-		return list;
-	}
-
-	
-	public List<Domain> readDomains() throws SecurityException {
-
-		/*Object obj = MemcachedUtil.get(DOMAINS);*/
-		List<Domain> list = new ArrayList<>();
-		
-		DomainExample example = new DomainExample();
-		example.createCriteria().andStateEqualTo((byte)1);
-		example.setOrderByClause("weight DESC"); // 按权重排序
-		list = dm.selectByExample(example);
-		MemcachedUtil.set(DOMAINS, DTIME, list);
 		
 		return list;
 	}

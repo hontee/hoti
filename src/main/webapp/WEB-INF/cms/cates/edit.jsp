@@ -12,12 +12,6 @@
       <input class="easyui-textbox" name="title" value="${record.title}" data-options="required:true, prompt:'唯一的标题'" style="width:100%;height:32px">
     </div>
     <div class="cms-mb20">
-      <div class="cms-mb5">业务领域:</div>
-      <input class="easyui-combobox" name="domain"
-    	data-options="panelHeight:'auto',editable: false, value: '${record.domain}', valueField:'id',textField:'title',url:'/cms/domains/datalist'" 
-    	style="width:100%; height:32px">
-    </div>
-    <div class="cms-mb20">
       <div class="cms-mb5">状态:</div>
       <select class="easyui-combobox" name="state" data-options="panelHeight:'auto',editable: false" style="width:100%; height:32px">
         <option value="1" <c:if test="${record.state == 1}">selected</c:if>>启动</option>

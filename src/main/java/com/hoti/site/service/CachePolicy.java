@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.hoti.site.core.exception.SecurityException;
 import com.hoti.site.db.entity.Category;
-import com.hoti.site.db.entity.Domain;
 import com.hoti.site.db.entity.Menu;
 import com.hoti.site.db.entity.Mtype;
 
@@ -31,12 +30,6 @@ public interface CachePolicy {
 	 * @return
 	 */
 	List<Category> readCates() throws SecurityException;
-	
-	/**
-	 * 从缓存中读取领域
-	 * @return
-	 */
-	List<Domain> readDomains() throws SecurityException;
 	
 	/**
 	 * 从缓存中读取菜单

@@ -23,19 +23,6 @@ public class CountTask {
 	private Countable countable;
 
 	/**
-	 * 每天凌晨2点触发
-	 */
-	@Scheduled(cron = "0 0 02 * * ?")
-	public void countDomainTask() {
-		try {
-			countable.countDomainTask();
-		} catch (SecurityException e) {
-			logger.warn("执行统计领域任务失败：{}", e.getMessage());
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * 每天凌晨2点10分触发
 	 */
 	@Scheduled(cron = "0 10 02 * * ?")

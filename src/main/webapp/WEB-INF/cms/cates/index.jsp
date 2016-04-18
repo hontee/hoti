@@ -11,9 +11,6 @@
 	<button id="cates-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
-      <input class="easyui-combobox" id="cates-domain"
-    	data-options="required:true,panelHeight:'auto',editable: false, value:'-1', valueField:'id',textField:'title',url:'/cms/domains/datalist?q=all'" 
-    	style="width:100px;">
 	  <select class="easyui-combobox" id="cates-state" data-options="panelHeight:'auto',editable: false" style="width:100px;">
         <option value="-1" selected>全部状态</option>
         <option value="1">启用</option>
@@ -57,9 +54,6 @@ catesEL.dg.datagrid({
         {field:'cover',title:'封面',width:100},
         {field:'count',title:'站点数',width:100, sortable: true},
         {field:'groupCount',title:'群组数',width:100, sortable: true},
-        {field:'domain',title:'业务领域',width:100, sortable: true, formatter: function(value,row,index) {
-        	return row.domainTitle;
-        }},
         {field:'state',title:'状态',width:100, sortable: true, formatter: function(value,row,index) {
         	if (value == '1') {
 				return '启用';
@@ -121,8 +115,7 @@ catesEL.linkButton = function(a, b, c) {
 catesEL.search = function(value){
 	catesEL.dg.datagrid('load',{
 		title: value, 
-		state: $('#cates-state').combobox('getValue'),
-		domain: $('#cates-domain').combobox('getValue')
+		state: $('#cates-state').combobox('getValue')
 	});
 }
 

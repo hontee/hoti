@@ -2,7 +2,6 @@ package com.hoti.site.service;
 
 import com.hoti.site.core.exception.SecurityException;
 import com.hoti.site.db.entity.Category;
-import com.hoti.site.db.entity.Domain;
 import com.hoti.site.db.entity.Group;
 
 /**
@@ -11,11 +10,6 @@ import com.hoti.site.db.entity.Group;
  *
  */
 public interface Countable {
-	
-	/**
-	 * 统计 {@link Domain}
-	 */
-	public void countDomainTask() throws SecurityException;
 	
 	/**
 	 * 统计 {@link Category}

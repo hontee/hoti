@@ -815,63 +815,63 @@ public class CategoryExample {
             return (Criteria) this;
         }
 
-        public Criteria andDomainIsNull() {
-            addCriterion("domain is null");
+        public Criteria andParentIsNull() {
+            addCriterion("parent is null");
             return (Criteria) this;
         }
 
-        public Criteria andDomainIsNotNull() {
-            addCriterion("domain is not null");
+        public Criteria andParentIsNotNull() {
+            addCriterion("parent is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDomainEqualTo(Long value) {
-            addCriterion("domain =", value, "domain");
+        public Criteria andParentEqualTo(Long value) {
+            addCriterion("parent =", value, "parent");
             return (Criteria) this;
         }
 
-        public Criteria andDomainNotEqualTo(Long value) {
-            addCriterion("domain <>", value, "domain");
+        public Criteria andParentNotEqualTo(Long value) {
+            addCriterion("parent <>", value, "parent");
             return (Criteria) this;
         }
 
-        public Criteria andDomainGreaterThan(Long value) {
-            addCriterion("domain >", value, "domain");
+        public Criteria andParentGreaterThan(Long value) {
+            addCriterion("parent >", value, "parent");
             return (Criteria) this;
         }
 
-        public Criteria andDomainGreaterThanOrEqualTo(Long value) {
-            addCriterion("domain >=", value, "domain");
+        public Criteria andParentGreaterThanOrEqualTo(Long value) {
+            addCriterion("parent >=", value, "parent");
             return (Criteria) this;
         }
 
-        public Criteria andDomainLessThan(Long value) {
-            addCriterion("domain <", value, "domain");
+        public Criteria andParentLessThan(Long value) {
+            addCriterion("parent <", value, "parent");
             return (Criteria) this;
         }
 
-        public Criteria andDomainLessThanOrEqualTo(Long value) {
-            addCriterion("domain <=", value, "domain");
+        public Criteria andParentLessThanOrEqualTo(Long value) {
+            addCriterion("parent <=", value, "parent");
             return (Criteria) this;
         }
 
-        public Criteria andDomainIn(List<Long> values) {
-            addCriterion("domain in", values, "domain");
+        public Criteria andParentIn(List<Long> values) {
+            addCriterion("parent in", values, "parent");
             return (Criteria) this;
         }
 
-        public Criteria andDomainNotIn(List<Long> values) {
-            addCriterion("domain not in", values, "domain");
+        public Criteria andParentNotIn(List<Long> values) {
+            addCriterion("parent not in", values, "parent");
             return (Criteria) this;
         }
 
-        public Criteria andDomainBetween(Long value1, Long value2) {
-            addCriterion("domain between", value1, value2, "domain");
+        public Criteria andParentBetween(Long value1, Long value2) {
+            addCriterion("parent between", value1, value2, "parent");
             return (Criteria) this;
         }
 
-        public Criteria andDomainNotBetween(Long value1, Long value2) {
-            addCriterion("domain not between", value1, value2, "domain");
+        public Criteria andParentNotBetween(Long value1, Long value2) {
+            addCriterion("parent not between", value1, value2, "parent");
             return (Criteria) this;
         }
 

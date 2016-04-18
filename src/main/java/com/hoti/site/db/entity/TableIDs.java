@@ -16,7 +16,6 @@ public interface TableIDs {
 	String BOOKMARK = "t_bookmark";
 	String BOOKMARK_FOLLOW = "t_bookmark_follow";
 	String CATEGORY = "t_category";
-	String DOMAIN = "t_domain";
 	String GROUP = "t_group";
 	String GROUP_BOOKMARK = "t_group_bookmark";
 	String GROUP_FOLLOW = "t_group_follow";
