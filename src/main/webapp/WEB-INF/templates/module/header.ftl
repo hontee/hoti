@@ -6,9 +6,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <link rel="shortcut icon" href="/favicon.ico">
 
-<title>${title!"快吧"}</title>
-<meta name="keywords" content="${keywords!"快吧"}">
-<meta name="description" content="${description!"关注你喜欢的站点"}">
+<title>${title!"红提 | 为开发者而生"}</title>
+<meta name="keywords" content="${keywords!"红提,HOTI,开发者,开发者服务,资源,文档,开发工具,开源项目,SDK,API,数据平台"}">
+<meta name="description" content="${description!"红提 HOTI.io 为开发者而生！汇聚国内外最优质资源，打造最有影响力的开发者服务中心。"}">
 
 <@block name="resources">
 <link href="/primer/css/primer.css" rel="stylesheet">
@@ -22,9 +22,9 @@
 <@block name="navbar">
 <nav class="navbar">
   <div class="container">
-    <a class="navbar-brand" href="/">快吧</a>
+    <a class="navbar-brand" href="/">红提</a>
     <form class="left" action="/search" method="get">
-      <input class="form-control navbar-search" name="q" value="${q!}" placeholder="搜索 站点与主题" autocomplete="off">
+      <input class="form-control navbar-search" name="q" value="${q!}" placeholder="搜索 产品与主题" autocomplete="off">
     </form>
     <ul class="navbar-ul right">
       <li><a class="link" href="/">发现</a></li>
