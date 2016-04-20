@@ -103,7 +103,7 @@ public class TopicCMS {
       criteria.andCidEqualTo(category);
     }
 
-    if (StateUtil.validate(state)) {
+    if (StateUtil.userValidate(state)) {
       criteria.andStateEqualTo(state);
     }
 

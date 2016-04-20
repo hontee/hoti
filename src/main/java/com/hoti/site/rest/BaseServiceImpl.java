@@ -611,9 +611,8 @@ public class BaseServiceImpl implements BaseService {
   @Override
   public void addUser(UserVO vo) throws SecurityException {
     User record = new User();
-    record.randomSalt();
-    record.encryptPassword(vo.getPassword()); // 密码加密
-    record.setType(vo.getUserType());
+    record.setPasswordEncrypt(vo.getPassword());
+    record.setType(vo.getType());
     record.setName(vo.getName());
     record.setState(vo.getState());
     record.setTitle(vo.getName());
@@ -658,7 +657,7 @@ public class BaseServiceImpl implements BaseService {
   public void updateUser(Long id, UserVO vo) throws SecurityException {
     User record = new User();
     record.setId(id);
-    record.setType(vo.getUserType());
+    record.setType(vo.getType());
     record.setName(vo.getName());
     record.setState(vo.getState());
     record.setTitle(vo.getTitle());
@@ -671,7 +670,7 @@ public class BaseServiceImpl implements BaseService {
     /* 更新密码，同时也更新盐值 */
     User record = new User();
     record.setId(id);
-    record.encryptPassword(password);
+    record.setPasswordEncrypt(password);
     updateUser(record);
   }
 

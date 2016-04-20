@@ -5,9 +5,9 @@
   <li><label>ID：</label>${record.id}</li>
   <li><label>用户名：</label>${record.name}</li>
   <li><label>介绍：</label>${record.description}</li>
-  <li><label>用户类型：</label>${record.userType}
-    <c:if test="${record.userType == 1}">普通用户</c:if>
-    <c:if test="${record.userType == 2}">管理员</c:if>
+  <li><label>用户类型：</label>${record.type}
+    <c:if test="${record.type == 1}">普通用户</c:if>
+    <c:if test="${record.type == 2}">管理员</c:if>
   </li>
   <li><label>状态：</label>${record.state}
     <c:if test="${record.state == 3}">已删除</c:if>

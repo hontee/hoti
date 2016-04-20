@@ -14,8 +14,8 @@
     <div class="cms-mb20">
       <div class="cms-mb5">用户类型:</div>
       <select class="easyui-combobox" data-options="panelHeight:'auto',editable: false" name="userType" style="width:100%; height:32px">
-        <option value="1" <c:if test="${record.userType == 1}">selected</c:if>>普通用户</option>
-        <option value="2" <c:if test="${record.userType == 2}">selected</c:if>>管理员</option>
+        <option value="1" <c:if test="${record.type == 1}">selected</c:if>>普通用户</option>
+        <option value="2" <c:if test="${record.type == 2}">selected</c:if>>管理员</option>
       </select>
     </div>
     <div class="cms-mb20">

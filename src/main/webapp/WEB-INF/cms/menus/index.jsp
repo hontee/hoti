@@ -99,8 +99,10 @@ menusEL.reset = function() {
 		/* 编辑和删除按钮 启用 */
 		menusEL.edit.linkbutton({disabled: false});
 		menusEL.remove.linkbutton({disabled: false});
-	} else { 
-		/* 批量操作 */
+	} else {
+		/* 编辑和删除按钮 禁用 */
+		menusEL.edit.linkbutton({disabled: true});
+		menusEL.remove.linkbutton({disabled: true});
 	}
 }
 

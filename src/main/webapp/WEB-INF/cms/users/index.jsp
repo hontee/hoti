@@ -59,7 +59,7 @@ usersEL.dg.datagrid({
         {field:'description',title:'签名',width:200},
         {field:'password',title:'密码',width:100, hidden: true},
         {field:'salt',title:'盐',width:100, hidden: true},
-        {field:'userType',title:'用户类型',width:60, sortable: true, formatter: function(value,row,index) {
+        {field:'type',title:'用户类型',width:60, sortable: true, formatter: function(value,row,index) {
         	if (value == '2') {
 				return '管理员';
 			} else {
@@ -67,14 +67,16 @@ usersEL.dg.datagrid({
 			}
         }},
         {field:'state',title:'状态',width:60, sortable: true, formatter: function(value,row,index) {
-        	if (value == '1') {
+        	if (value == '0') {
+        		return '禁用';
+			} else if (value == '1') {
 				return '启用';
 			} else if (value == '2') {
 				return '已锁定';
 			} else if (value == '3') {
 				return '已删除';
 			} else {
-				return '禁用';
+				return '异常状态';
 			}
         }},
         {field:'created',title:'创建时间',width:60, sortable: true, formatter: function(value,row,index) {
@@ -109,20 +111,22 @@ usersEL.dg.datagrid({
 // 根据选择记录触发: 重置按钮状态
 usersEL.reset = function() {
 	var length = usersEL.dg.datagrid("getSelections").length;
-	if (length == 0) { // 全部禁用
-		usersEL.linkButton(true, true, true);
+	if (length == 0) {
+		/* 编辑，修改密码，删除按钮 禁用 */
+		usersEL.edit.linkbutton({disabled: true});
+		usersEL.editPw.linkbutton({disabled: true});
+		usersEL.remove.linkbutton({disabled: true});
 	} else if (length == 1) { // 可编辑和删除
-		usersEL.linkButton(false, false, true);
-	} else { // 可批量操作
-		usersEL.linkButton(true, true, false);
+		/* 编辑，修改密码，删除按钮 启用 */
+		usersEL.edit.linkbutton({disabled: false});
+		usersEL.editPw.linkbutton({disabled: false});
+		usersEL.remove.linkbutton({disabled: false});
+	} else {
+		/* 编辑，修改密码，删除按钮 禁用 */
+		usersEL.edit.linkbutton({disabled: true});
+		usersEL.editPw.linkbutton({disabled: true});
+		usersEL.remove.linkbutton({disabled: true});
 	}
-}
-
-// 设置按钮是否可用
-usersEL.linkButton = function(a, b, c) {
-	usersEL.edit.linkbutton({disabled: a});
-	usersEL.editPw.linkbutton({disabled: a});
-	usersEL.remove.linkbutton({disabled: b});
 }
 
 // 搜索
@@ -177,7 +181,7 @@ usersEL.editPw.click(function() {
 			width: 480,
 			height: 280,
 			modal: true,
-			title: '修改密码',
+			title: '修改用户密码',
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
@@ -193,7 +197,7 @@ usersEL.remove.click(function() {
 	CMS.removeSubmitHandler(usersEL, 'users');
 });
 
-// 重载
+// 刷新
 usersEL.reload.click(function() {
 	usersEL.dg.datagrid('clearSelections');
 	usersEL.dg.datagrid('reload',{});

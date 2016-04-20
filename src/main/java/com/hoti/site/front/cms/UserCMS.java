@@ -25,6 +25,7 @@ import com.hoti.site.db.entity.StateUtil;
 import com.hoti.site.db.entity.User;
 import com.hoti.site.db.entity.UserExample;
 import com.hoti.site.db.entity.UserTypeUtil;
+import com.hoti.site.front.controller.ModelUtil;
 import com.hoti.site.front.controller.SiteUtil;
 import com.hoti.site.front.vo.UserVO;
 import com.hoti.site.rest.BaseService;
@@ -38,32 +39,63 @@ public class UserCMS {
   @Resource
   private BaseService service;
 
+  /**
+   * 用户管理首页
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "", method = RequestMethod.GET)
   public String index() throws SecurityException {
     return "cms/users/index";
   }
 
+  /**
+   * 新建用户页
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/new", method = RequestMethod.GET)
   public String addPage() throws SecurityException {
     return "cms/users/new";
   }
 
+  /**
+   * 修改用户密码页
+   * @param id 用户ID
+   * @param model
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/password", method = RequestMethod.GET)
   public String passwordPage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", service.findUser(id));
+    ModelUtil.addRecord(model, service.findUser(id));
     return "cms/users/password";
   }
 
+  /**
+   * 编辑用户页
+   * @param id 用户ID
+   * @param model
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
   public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", service.findUser(id));
+    ModelUtil.addRecord(model, service.findUser(id));
     return "cms/users/edit";
   }
 
+  /**
+   * 用户详情页
+   * @param id 用户ID
+   * @param model
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) throws SecurityException {
@@ -71,24 +103,36 @@ public class UserCMS {
     return "cms/users/view";
   }
 
+  /**
+   * 用户数据列表，支持分页的查询
+   * @param name 用户名
+   * @param type 用户类型 1=普通用户 2=管理员
+   * @param state 状态 0=禁用 1=启用 2=锁定 3=删除
+   * @param p 分页组件
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/list")
   public @ResponseBody DataGrid<User> dataGrid(@RequestParam(required = false) String name,
-      @RequestParam(required = false) Byte userType, @RequestParam(required = false) Byte state,
+      @RequestParam(required = false) Byte type, @RequestParam(required = false) Byte state,
       Pagination p) throws SecurityException {
 
     UserExample example = new UserExample();
     UserExample.Criteria criteria = example.createCriteria();
 
+    /* 用户名 模糊查询*/
     if (StringUtils.isNotBlank(name)) {
-      criteria.andNameLike("%" + name + "%"); // 模糊查询
+      criteria.andNameLike("%" + name + "%");
     }
 
-    if (UserTypeUtil.validate(userType)) {
-      criteria.andTypeEqualTo(userType);
+    /* 验证用户类型 */
+    if (UserTypeUtil.validate(type)) {
+      criteria.andTypeEqualTo(type);
     }
 
-    if (StateUtil.validate(state)) {
+    /* 验证用户状态 */
+    if (StateUtil.userValidate(state)) {
       criteria.andStateEqualTo(state);
     }
 
@@ -96,6 +140,13 @@ public class UserCMS {
     return new DataGrid<>(pageInfo);
   }
 
+  /**
+   * 新建用户
+   * @param vo 请求参数
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/new", method = RequestMethod.POST)
   public @ResponseBody SiteResponse add(UserVO vo, HttpServletRequest request)
@@ -105,6 +156,13 @@ public class UserCMS {
     return SiteUtil.ok();
   }
 
+  /**
+   * 删除用户
+   * @param id 用户ID
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
   public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
@@ -114,6 +172,14 @@ public class UserCMS {
     return SiteUtil.ok();
   }
 
+  /**
+   * 编辑用户
+   * @param id 用户ID
+   * @param vo 请求参数
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
   public @ResponseBody SiteResponse edit(@PathVariable Long id, UserVO vo,
@@ -123,6 +189,14 @@ public class UserCMS {
     return SiteUtil.ok();
   }
 
+  /**
+   * 修改用户密码
+   * @param id 用户ID
+   * @param password 新密码
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/password", method = RequestMethod.POST)
   public @ResponseBody SiteResponse password(@PathVariable Long id, @RequestParam String password,
@@ -131,4 +205,5 @@ public class UserCMS {
     service.updateUser(id, password);
     return SiteUtil.ok();
   }
+  
 }
