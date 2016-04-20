@@ -29,7 +29,7 @@
     <ul class="navbar-ul right">
       <li><a class="link" href="/">发现</a></li>
       <li><a class="link" href="/groups">主题</a></li>
-      <li><a class="link" href="/category">分类</a></li>
+      <li><a class="link" href="/category">类别</a></li>
       <#if user??>
       <li><a class="btn" href="/">你好，${user!}</a></li>
       <#else>

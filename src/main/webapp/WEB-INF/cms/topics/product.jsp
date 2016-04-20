@@ -48,7 +48,7 @@ groupsBmEL.dg.datagrid({
         {field:'title',title:'标题',width:400, sortable: true},
         {field:'star',title:'星',width:100, sortable: true},
         {field:'hit',title:'点击数',width:100, sortable: true},
-        {field:'cid',title:'所属分类',width:100, sortable: true, formatter: function(value,row,index) {
+        {field:'cid',title:'所属类别',width:100, sortable: true, formatter: function(value,row,index) {
         	return row.category;
         }},
         {field:'pick',title:'精选',width:100, sortable: true, formatter: function(value,row,index) {

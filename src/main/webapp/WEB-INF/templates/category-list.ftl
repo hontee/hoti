@@ -9,7 +9,7 @@
 <div class="toolbar">
   <div class="container">
     <div class="btn-group left">
-      <a class="btn btn-outline <#if f=='site'>selected</#if>" href="/category/${category.id}/?f=site">站点 / ${category.count}</a>
+      <a class="btn btn-outline <#if f=='site'>selected</#if>" href="/category/${category.id}/?f=site">产品 / ${category.count}</a>
       <a class="btn btn-outline <#if f!='site'>selected</#if>" href="/category/${category.id}/?f=group">主题 / ${category.groupCount}</a>
     </div>
   </div>

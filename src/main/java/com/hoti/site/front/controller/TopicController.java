@@ -29,7 +29,7 @@ public class TopicController {
   private BaseService service;
 
   /**
-   * @WebPage 群组 = 我 | 猜你喜欢 | 全部
+   * @WebPage 主题 = 我 | 猜你喜欢 | 全部
    * @param model
    * @return
    * @throws SecurityException
@@ -45,7 +45,7 @@ public class TopicController {
     TopicExample example = new TopicExample();
     TopicExample.Criteria criteria = example.createCriteria();
 
-    if (filter == Filter.MY) { // 我的站点
+    if (filter == Filter.MY) { // 我的产品
       pageInfo = service.findUserTopics(AuthzUtil.getUserId(), p);
     } else if (filter == Filter.NEW) { // 最新
       p.setOrderBy("created", "DESC");
@@ -66,7 +66,7 @@ public class TopicController {
   }
 
   /**
-   * @WebPage 群组下的所有站点（支持分页）
+   * @WebPage 主题下的所有产品（支持分页）
    * @param id
    * @param model
    * @param p

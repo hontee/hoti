@@ -46,7 +46,7 @@ public class ProductController {
     ProductExample example = new ProductExample();
     ProductExample.Criteria criteria = example.createCriteria();
 
-    if (filter == Filter.MY) { // 我的站点
+    if (filter == Filter.MY) { // 我的产品
       pageInfo = service.findUserProducts(AuthzUtil.getUserId(), p);
     } else if (filter == Filter.NEW) { // 最新
       p.setOrderBy("created", "DESC");
@@ -67,7 +67,7 @@ public class ProductController {
   }
 
   /**
-   * @WebAPI 更新站点点击率和获取响应URL
+   * @WebAPI 更新产品点击率和获取响应URL
    * @param id
    * @param model
    * @return
@@ -79,7 +79,7 @@ public class ProductController {
   }
 
   /**
-   * @WebPage 分享站点
+   * @WebPage 分享产品
    * @return
    * @throws SecurityException
    */

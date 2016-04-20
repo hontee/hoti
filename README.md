@@ -6,9 +6,9 @@
 ### 数据模型
 
 - 用户 (User)
-- 站点 (Bookmark)
-- 分类 (Category)
-- 群组 (Group)
+- 产品 (Bookmark)
+- 类别 (Category)
+- 主题 (Group)
 - 异常 (Track)
 - 记录 (Activity)
 - 类型 (Mtype)
@@ -24,10 +24,10 @@
 - about / 关于我们
 - search / 搜索结果
 - home / 首页
-- recommend / 推荐站点
+- recommend / 推荐产品
 - login / 登录
-- group / 群组
-- group-bm / 群组管理的站点
-- cate-bm / 分类管理的站点
+- group / 主题
+- group-bm / 主题管理的产品
+- cate-bm / 类别管理的产品
 - dashbord / 用户中心
 - settings / 用户设置

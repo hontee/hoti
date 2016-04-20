@@ -4,35 +4,35 @@ import org.apache.ibatis.annotations.Param;
 
 /**
  * 触发更新记录<br>
- * 注意：还需要实现产品更新和主题更新的触发操作，即分类ID变更时触发
+ * 注意：还需要实现产品更新和主题更新的触发操作，即类别ID变更时触发
  * @author larry.qi
  */
 public interface TriggerMapper {
 
   /**
    * 添加产品时触发产品数+1
-   * @param cid 分类ID
+   * @param cid 类别ID
    * @return
    */
   int insertProduct(@Param("cid") Long cid);
 
   /**
    * 删除产品时触发产品数-1
-   * @param cid 分类ID
+   * @param cid 类别ID
    * @return
    */
   int deleteProduct(@Param("cid") Long cid);
 
   /**
    * 添加主题时触发主题数+1
-   * @param cid 分类ID
+   * @param cid 类别ID
    * @return
    */
   int insertTopic(@Param("cid") Long cid);
 
   /**
    * 删除主题时触发主题数-1
-   * @param cid 分类ID
+   * @param cid 类别ID
    * @return
    */
   int deleteTopic(@Param("cid") Long cid);

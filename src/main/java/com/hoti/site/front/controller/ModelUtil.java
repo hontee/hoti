@@ -93,7 +93,7 @@ public class ModelUtil {
   }
 
   /**
-   * 设置分类模块
+   * 设置类别模块
    * 
    * @param model
    * @param group
@@ -123,7 +123,7 @@ public class ModelUtil {
   }
 
   /**
-   * 设置站点列表
+   * 设置产品列表
    * 
    * @param model
    * @param list

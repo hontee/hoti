@@ -28,7 +28,7 @@ public class RestAPIController {
   private BaseService service;
 
   /**
-   * @WebAPI 关注站点
+   * @WebAPI 关注产品
    * @param id
    * @return
    * @throws SecurityException
@@ -36,13 +36,13 @@ public class RestAPIController {
   @RequiresRoles(value = {"user", "admin"})
   @RequestMapping(value = "/bookmarks/{id}/follow", method = RequestMethod.POST)
   public SiteResponse followBookmark(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
-    logger.info("关注站点: {}", id);
+    logger.info("关注产品: {}", id);
     service.followProduct(AuthzUtil.getUserId(), id);
     return SiteUtil.ok();
   }
 
   /**
-   * @WebAPI 取消关注站点
+   * @WebAPI 取消关注产品
    * @param id
    * @return
    * @throws SecurityException
@@ -51,25 +51,25 @@ public class RestAPIController {
   @RequestMapping(value = "/bookmarks/{id}/unfollow", method = RequestMethod.POST)
   public SiteResponse unfollowBookmark(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
-    logger.info("取消关注站点: {}", id);    
+    logger.info("取消关注产品: {}", id);    
     service.unfollowProduct(AuthzUtil.getUserId(), id);
     return SiteUtil.ok();
   }
 
   /**
-   * @WebAPI 分享站点
+   * @WebAPI 分享产品
    * @return
    * @throws SecurityException
    */
   @RequestMapping(value = "/share", method = RequestMethod.POST)
   public SiteResponse share(@RequestParam String url, HttpServletRequest request) throws SecurityException {
-    logger.info("分享站点", url);
+    logger.info("分享产品", url);
     service.addRecommend(url);
     return SiteUtil.ok();
   }
 
   /**
-   * @WebAPI 关注群组
+   * @WebAPI 关注主题
    * @param id
    * @return
    * @throws SecurityException
@@ -84,7 +84,7 @@ public class RestAPIController {
   }
 
   /**
-   * @WebAPI 取消关注群组
+   * @WebAPI 取消关注主题
    * @param id
    * @return
    * @throws SecurityException

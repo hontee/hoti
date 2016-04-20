@@ -84,7 +84,7 @@ productsEL.dg.datagrid({
 				return '禁用';
 			}
         }},
-        {field:'category',title:'所属分类',width:100, sortable: true},
+        {field:'category',title:'所属类别',width:100, sortable: true},
         {field:'created',title:'创建时间',width:100, sortable: true, formatter: function(value,row,index) {
         	return new Date(value).format();  
         }},

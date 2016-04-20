@@ -5,7 +5,7 @@
   <p>${group.description!}</p>
   <footer>
     <small><span id="star">${group.star}</span>人关注</small> · 
-    <small>${group.count}个站点</small>
+    <small>${group.count}个产品</small>
   </footer>
   </div>
 </div>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="right">
-      <!--a class="btn" href="/share?group=${group.id}">添加新站点</a>
+      <!--a class="btn" href="/share?group=${group.id}">添加新产品</a>
       <a class="btn" href="/groups/${group.id}/manager">管理</a-->
       <#if group.follow==1>
       <button class="btn btn-primary" id="follow" data-href="/groups/${group.id}/unfollow">取消关注</button>

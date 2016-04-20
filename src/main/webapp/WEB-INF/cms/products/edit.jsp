@@ -20,7 +20,7 @@
       <input class="easyui-textbox" name="reffer" value="${record.reffer}" style="width:100%;height:32px">
     </div>
     <div class="cms-mb20">
-      <div class="cms-mb5">所属分类:</div>
+      <div class="cms-mb5">所属类别:</div>
       <input class="easyui-combobox" name="cid"
     	data-options="required:true, value: '${record.cid}', valueField:'id',textField:'title',url:'/cms/categories/datalist'" 
     	style="width:100%; height:32px">

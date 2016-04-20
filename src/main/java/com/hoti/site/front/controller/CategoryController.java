@@ -31,14 +31,14 @@ public class CategoryController {
   
   @RequestMapping(value = "/category", method = RequestMethod.GET)
   public String  cate(Model model) throws SecurityException {
-    ModelUtil.addHeader(model, "红提 | 所有分类");
+    ModelUtil.addHeader(model, "红提 | 所有类别");
     List<Category> list = service.findAllCategories();
     model.addAttribute("cates", list);
     return "category.ftl";
   }
 
   /**
-   * @WebPage 分类下的所有站点 （支持分页）
+   * @WebPage 类别下的所有产品 （支持分页）
    * @param id
    * @param model
    * @return
@@ -49,7 +49,7 @@ public class CategoryController {
       @RequestParam(defaultValue = "site") String f, Pagination p) throws SecurityException {
 
     p.initFrontRows();
-    ModelUtil.addHeader(model, "红提 | 所有分类");
+    ModelUtil.addHeader(model, "红提 | 所有类别");
 
     if ("site".equals(f)) { // 查询书签
       byBookmark(id, p, model);

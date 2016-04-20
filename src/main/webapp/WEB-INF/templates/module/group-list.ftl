@@ -8,7 +8,7 @@
           <p class="card-text">${g.description!}</p>
           <footer>
             <small class="text-muted"><span data-follow="star">${g.star}</span>人关注</small> ·
-            <small class="text-muted">${g.count}个站点</small>
+            <small class="text-muted">${g.count}个产品</small>
           </footer>
         </blockquote>
       </a>
