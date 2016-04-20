@@ -91,19 +91,17 @@ menusEL.dg.datagrid({
 // 根据选择记录触发: 重置按钮状态
 menusEL.reset = function() {
 	var length = menusEL.dg.datagrid("getSelections").length;
-	if (length == 0) { // 全部禁用
-		menusEL.linkButton(true, true, true);
-	} else if (length == 1) { // 可编辑和删除
-		menusEL.linkButton(false, false, true);
-	} else { // 可批量操作
-		menusEL.linkButton(true, true, false);
+	if (length == 0) { 
+		/* 编辑和删除按钮 禁用 */
+		menusEL.edit.linkbutton({disabled: true});
+		menusEL.remove.linkbutton({disabled: true});
+	} else if (length == 1) { 
+		/* 编辑和删除按钮 启用 */
+		menusEL.edit.linkbutton({disabled: false});
+		menusEL.remove.linkbutton({disabled: false});
+	} else { 
+		/* 批量操作 */
 	}
-}
-
-// 设置按钮是否可用
-menusEL.linkButton = function(a, b, c) {
-	menusEL.edit.linkbutton({disabled: a});
-	menusEL.remove.linkbutton({disabled: b});
 }
 
 // 搜索
@@ -154,7 +152,7 @@ menusEL.remove.click(function() {
 	CMS.removeSubmitHandler(menusEL, 'menus');
 });
 
-// 重载
+// 刷新
 menusEL.reload.click(function() {
 	menusEL.dg.datagrid('clearSelections');
 	menusEL.dg.datagrid('reload',{});

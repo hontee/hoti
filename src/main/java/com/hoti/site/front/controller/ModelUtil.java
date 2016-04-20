@@ -80,6 +80,17 @@ public class ModelUtil {
   public static void addPager(Model model, PageInfo<?> pageInfo, String url) {
     model.addAttribute("page", PagerUtil.of(pageInfo, url));
   }
+  
+  /**
+   * 设置统一的记录映射
+   * 
+   * @param model
+   * @param pageInfo
+   * @param url
+   */
+  public static void addRecord(Model model, Object record) {
+    model.addAttribute("record", record);
+  }
 
   /**
    * 设置分类模块
