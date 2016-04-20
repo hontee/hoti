@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div class="easyui-layout" data-options="fit:true">
   <div data-options="region:'center', border:false" class="cms-wbox">
-  <form id="cates-add-form" action="/cms/categories/new" method="post">
+  <form id="categories-add-form" action="/cms/categories/new" method="post">
     <div class="cms-mb20">
       <div class="cms-mb5">名称:</div>
       <input class="easyui-textbox" name="name" data-options="required:true" style="width:100%; height:32px">
@@ -18,18 +18,28 @@
       </select>
     </div>
     <div class="cms-mb20">
+      <div class="cms-mb5">所属类别:</div>
+      <input class="easyui-combobox" name="parent"
+    	data-options="required:true, valueField:'id',textField:'title',url:'/cms/categories/datalist?q=all'" 
+    	style="width:100%; height:32px">
+    </div>
+    <div class="cms-mb20">
+      <div class="cms-mb5">权重:</div>
+      <input class="easyui-textbox" name="weight" style="width:100%;height:32px">
+    </div>
+    <div class="cms-mb20">
       <div class="cms-mb5">描述:</div>
       <input class="easyui-textbox" name="description" data-options="multiline:true" style="width:100%;height:64px">
     </div>
-    <button class="easyui-linkbutton" onclick="catesAddSubmitForm()" style="width:100%;height:32px">创建</button>
+    <button class="easyui-linkbutton" onclick="categoriesAddSubmitForm()" style="width:100%;height:32px">创建</button>
   </form>
   </div>
 </div>
 <script>
-function catesAddSubmitForm(){
-  $('#cates-add-form').form({
+function categoriesAddSubmitForm(){
+  $('#categories-add-form').form({
     success: function(data) {
-    	CMS.addSubmitHandler(data, catesEL);
+    	CMS.addSubmitHandler(data, categoriesEL);
     }
   });
 }

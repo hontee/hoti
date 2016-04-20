@@ -8,7 +8,10 @@
   <li><label>描述：</label>${record.description}</li>
   <li><label>头像：</label>${record.avatar}</li>
   <li><label>封面：</label>${record.cover}</li>
-  <li><label>计数：</label>${record.count}</li>
+  <li><label>所属类别：</label>${record.parent}</li>
+  <li><label>产品数：</label>${record.product}</li>
+  <li><label>主题数：</label>${record.topic}</li>
+  <li><label>权重：</label>${record.weight}</li>
   <li><label>状态：</label>${record.state}
     <c:if test="${record.state == 1}">启用</c:if>
     <c:if test="${record.state == 0}">禁用</c:if>

@@ -808,6 +808,7 @@ public class BaseServiceImpl implements BaseService {
     record.setDescription(vo.getDescription());
     record.setState(vo.getState());
     record.setParent(vo.getParent());
+    record.setWeight(vo.getWeight());
     record.setCreator(AuthzUtil.getUsername());
     addCategory(record);
   }
@@ -830,6 +831,7 @@ public class BaseServiceImpl implements BaseService {
     record.setDescription(vo.getDescription());
     record.setState(vo.getState());
     record.setParent(vo.getParent());
+    record.setWeight(vo.getWeight());
     updateCategory(record);
   }
 

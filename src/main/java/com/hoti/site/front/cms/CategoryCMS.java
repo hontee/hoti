@@ -28,6 +28,7 @@ import com.hoti.site.db.entity.DataGrid;
 import com.hoti.site.db.entity.Pagination;
 import com.hoti.site.db.entity.SiteResponse;
 import com.hoti.site.db.entity.StateUtil;
+import com.hoti.site.front.controller.ModelUtil;
 import com.hoti.site.front.controller.SiteUtil;
 import com.hoti.site.front.vo.CategoryVO;
 import com.hoti.site.rest.BaseService;
@@ -41,50 +42,84 @@ public class CategoryCMS {
   @Resource
   private BaseService service;
 
+  /**
+   * 类别管理首页
+   * 
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "", method = RequestMethod.GET)
   public String index() throws SecurityException {
-    return "cms/cates/index";
+    return "cms/categories/index";
   }
 
+  /**
+   * 新建类别页
+   * 
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/new", method = RequestMethod.GET)
   public String addPage() throws SecurityException {
-    return "cms/cates/new";
+    return "cms/categories/new";
   }
 
+  /**
+   * 编辑类别页
+   * 
+   * @param id
+   * @param model
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
   public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", service.findCategory(id));
-    return "cms/cates/edit";
+    ModelUtil.addRecord(model, service.findCategory(id));
+    return "cms/categories/edit";
   }
 
+  /**
+   * 查看类别详情页
+   * 
+   * @param id
+   * @param model
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", service.findCategory(id));
-    return "cms/cates/view";
+    ModelUtil.addRecord(model, service.findCategory(id));
+    return "cms/categories/view";
   }
 
+  /**
+   * 类别数据列表，支持查询和分页
+   * 
+   * @param title 标题
+   * @param state 状态 0=禁用 1=启用
+   * @param p 分页组件
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/list")
   public @ResponseBody DataGrid<Category> dataGrid(@RequestParam(required = false) String title,
-      @RequestParam(required = false) Long parent, @RequestParam(required = false) Byte state,
-      Pagination p) throws SecurityException {
+      @RequestParam(required = false) Byte state, Pagination p) throws SecurityException {
 
     CategoryExample example = new CategoryExample();
     CategoryExample.Criteria criteria = example.createCriteria();
 
+    /* 标题 模糊查询 */
     if (StringUtils.isNotBlank(title)) {
-      criteria.andTitleLike("%" + title + "%"); // 模糊查询
+      criteria.andTitleLike("%" + title + "%");
     }
 
-    if (parent != null && parent > 0) {
-      criteria.andParentEqualTo(parent);
-    }
-
-    if (StateUtil.userValidate(state)) {
+    /* 验证查询状态 */
+    if (StateUtil.baseValidate(state)) {
       criteria.andStateEqualTo(state);
     }
 
@@ -92,58 +127,98 @@ public class CategoryCMS {
     return new DataGrid<>(pageInfo);
   }
 
+  /**
+   * 所有类别列表
+   * 
+   * @param q 如果q=all则添加 [全部类别]
+   * @param fid 过滤掉的ID，当修改时不能指定当前ID作为父ID
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/datalist")
-  public @ResponseBody List<ComboBox> datalist(@RequestParam(required = false) String q)
+  public @ResponseBody List<ComboBox> datalist(@RequestParam(required = false) String q, @RequestParam(defaultValue = "0") Long fid)
       throws SecurityException {
     List<Category> list = service.findAllCategories();
     List<ComboBox> boxes = new ArrayList<>();
 
-    /**
-     * 如果传入 ?q=all 则返回全部分类
-     */
+    /* 如果传入 ?q=all 则返回全部类别 */
     if ("all".equals(q)) {
-      boxes.add(new ComboBox(-1L, "全部分类"));
+      boxes.add(new ComboBox(0L, "全部类别"));
     }
-    list.forEach((c) -> boxes.add(new ComboBox(c.getId(), c.getTitle())));
+    
+    list.forEach((c) -> {
+      /* 过滤掉的ID，当修改时不能指定当前ID作为父ID */
+      if (fid != c.getId()) {
+        boxes.add(new ComboBox(c.getId(), c.getTitle()));
+      }
+    });
     return boxes;
   }
 
+  /**
+   * 新建类别
+   * 
+   * @param vo 请求参数
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/new", method = RequestMethod.POST)
   public @ResponseBody SiteResponse add(CategoryVO vo, HttpServletRequest request)
       throws SecurityException {
-    logger.info("后台添加分类: {}", JSON.toJSONString(vo));
-    
+    logger.info("后台添加类别: {}", JSON.toJSONString(vo));
     service.addCategory(vo);
     return SiteUtil.ok();
   }
 
+  /**
+   * 删除类别
+   * 
+   * @param id 类别ID
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
   public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
-    logger.info("后台删除分类: {}", id);
-    
+    logger.info("后台删除类别: {}", id);
     service.deleteCategory(id);
     return SiteUtil.ok();
   }
 
+  /**
+   * 编辑类别
+   * 
+   * @param id 类别ID
+   * @param vo 请求参数
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
   public @ResponseBody SiteResponse edit(@PathVariable Long id, CategoryVO vo,
       HttpServletRequest request) throws SecurityException {
-    logger.info("后台编辑分类：{}, {}", id, JSON.toJSONString(vo));
-    
+    logger.info("后台编辑类别：{}, {}", id, JSON.toJSONString(vo));
     service.updateCategory(id, vo);
     return SiteUtil.ok();
   }
 
+  /**
+   * 统计类别 [产品数和主题数]
+   * 
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/count/task", method = RequestMethod.POST)
   public @ResponseBody SiteResponse countTask(HttpServletRequest request) throws SecurityException {
-    logger.info("后台统计分类数据");
-    
+    logger.info("后台统计类别数据");
     // TODO
     return SiteUtil.ok();
   }
