@@ -5,7 +5,7 @@
   <p>${group.description!}</p>
   <footer>
     <small><span id="star">${group.star}</span>人关注</small> · 
-    <small>${group.count}个产品</small>
+    <small>${group.product}个产品</small>
   </footer>
   </div>
 </div>
@@ -30,7 +30,7 @@
   </div>
 </div>
 
-<@extends name="bookmark-list.ftl"/>
+<@extends name="product-list.ftl"/>
 
 <@extends name="pager.ftl"/>
 

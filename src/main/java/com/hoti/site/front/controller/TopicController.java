@@ -62,7 +62,7 @@ public class TopicController {
     ModelUtil.addF(model, f);
     ModelUtil.addPager(model, pageInfo, "/groups?f=" + f);
     ModelUtil.addGroups(model, pageInfo.getList());
-    return "group.ftl";
+    return "topic.ftl";
   }
 
   /**
@@ -88,7 +88,7 @@ public class TopicController {
     ModelUtil.addPager(model, pageInfo, "/groups/" + id + "/?f=" + f);
     ModelUtil.addGroup(model, record);
     ModelUtil.addBookmarks(model, pageInfo.getList());
-    return "group-bm.ftl";
+    return "topic-product.ftl";
   }
 
 }

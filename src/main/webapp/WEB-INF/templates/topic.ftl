@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<@extends name="group-list.ftl"/>
+<@extends name="topic-list.ftl"/>
 
 <@extends name="pager.ftl"/>
 

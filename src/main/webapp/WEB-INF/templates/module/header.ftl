@@ -11,10 +11,10 @@
 <meta name="description" content="${description!"红提 HOTI.io 为开发者而生！汇聚国内外最优质资源，打造最有影响力的开发者服务中心。"}">
 
 <@block name="resources">
-<link href="/primer/css/primer.css" rel="stylesheet">
-<script src="/primer/js/jquery.min.js"></script>
-<script src="/primer/js/jquery.mmenu.all.min.js"></script>
-<script src="/primer/js/layout.js"></script>
+<link href="/assets/css/primer.css" rel="stylesheet">
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/jquery.mmenu.all.min.js"></script>
+<script src="/assets/js/layout.js"></script>
 </@block>
 </head>
 

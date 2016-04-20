@@ -4,7 +4,7 @@
     <#list cates as r>
     <li>
       <a href="/category/${r.id}">${r.title!}</a>
-      <em class="mm-counter mm-badge">${r.count}</em>
+      <em class="mm-counter mm-badge">${r.product}</em>
     </li>
     </#list>
   </ul>

@@ -10,11 +10,11 @@
 
 <#if f == 'site'>
 
-  <@extends name="bookmark-list.ftl"/>
+  <@extends name="product-list.ftl"/>
   
 <#else>
 
-  <@extends name="group-list.ftl"/>
+  <@extends name="topic-list.ftl"/>
   
 </#if>
 

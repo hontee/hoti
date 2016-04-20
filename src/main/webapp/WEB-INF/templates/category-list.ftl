@@ -9,19 +9,19 @@
 <div class="toolbar">
   <div class="container">
     <div class="btn-group left">
-      <a class="btn btn-outline <#if f=='site'>selected</#if>" href="/category/${category.id}/?f=site">产品 / ${category.count}</a>
-      <a class="btn btn-outline <#if f!='site'>selected</#if>" href="/category/${category.id}/?f=group">主题 / ${category.groupCount}</a>
+      <a class="btn btn-outline <#if f=='site'>selected</#if>" href="/category/${category.id}/?f=site">产品 / ${category.product}</a>
+      <a class="btn btn-outline <#if f!='site'>selected</#if>" href="/category/${category.id}/?f=group">主题 / ${category.topic}</a>
     </div>
   </div>
 </div>
 
 <#if f == 'site'>
 
-  <@extends name="bookmark-list.ftl"/>
+  <@extends name="product-list.ftl"/>
   
 <#else>
 
-  <@extends name="group-list.ftl"/>
+  <@extends name="topic-list.ftl"/>
   
 </#if>
 

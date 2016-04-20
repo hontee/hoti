@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<@extends name="bookmark-list.ftl"/>
+<@extends name="product-list.ftl"/>
 
 <@extends name="pager.ftl"/>
 
