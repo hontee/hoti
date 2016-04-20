@@ -313,6 +313,16 @@ public interface BaseDao {
    * @return
    */
   PageInfo<User> findProductUsers(Long fid, Pagination p) throws Exception;
+  
+  /**
+   * 关注产品的用户列表
+   * @param fid 产品ID
+   * @param name 用户名
+   * @param type 用户类型 1=普通用户 2=管理员
+   * @param state 用户状态 0=禁用 1=启用 2=锁定 3=已删除
+   * @return
+   */
+  PageInfo<User> findProductUsers(Long fid, String name, Byte type, Byte state, Pagination p) throws Exception;
 
   /**
    * 关注主题的用户列表
@@ -320,6 +330,16 @@ public interface BaseDao {
    * @return
    */
   PageInfo<User> findTopicUsers(Long fid, Pagination p) throws Exception;
+  
+  /**
+   * 关注主题的用户列表
+   * @param fid 产品ID
+   * @param name 用户名
+   * @param type 用户类型 1=普通用户 2=管理员
+   * @param state 用户状态 0=禁用 1=启用 2=锁定 3=已删除
+   * @return
+   */
+  PageInfo<User> findTopicUsers(Long fid, String name, Byte type, Byte state, Pagination p) throws Exception;
 
   /**
    * 更新类别

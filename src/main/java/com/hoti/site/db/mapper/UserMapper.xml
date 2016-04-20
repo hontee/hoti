@@ -98,17 +98,32 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
   
+  <!-- 关注的用户列表查询条件 -->
+  <sql id="follow_user_where">
+  	<where>
+	  	fid = #{fid}
+	  	<if test="name != null">
+	  	and name like CONCAT('%','${name}','%' )
+	  	</if>
+	  	<if test="type != null">
+	  	and type = #{type}
+	  	</if>
+	  	<if test="state != null">
+	  	and state = #{state}
+	  	</if>
+  	</where>
+  </sql>
   <!-- 关注主题的用户列表 -->
-  <select id="followTopicUser" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  <select id="followTopicUser" resultMap="BaseResultMap" parameterType="map">
     select id, name, title, type, state, fid, ftime
     from v_follow_topic_user
-    WHERE fid = #{fid}
+    <include refid="follow_user_where" />
   </select>
   <!-- 关注产品的用户列表 -->
-  <select id="followProductUser" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  <select id="followProductUser" resultMap="BaseResultMap" parameterType="map">
     select id, name, title, type, state, fid, ftime
     from v_follow_product_user
-    WHERE fid = #{fid}
+    <include refid="follow_user_where" />
   </select>
   
   <!-- 用户关注的产品IDs -->

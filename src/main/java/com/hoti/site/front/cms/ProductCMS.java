@@ -25,8 +25,10 @@ import com.hoti.site.db.entity.ProductExample;
 import com.hoti.site.db.entity.SiteResponse;
 import com.hoti.site.db.entity.StateUtil;
 import com.hoti.site.db.entity.User;
+import com.hoti.site.db.entity.UserTypeUtil;
+import com.hoti.site.front.controller.ModelUtil;
 import com.hoti.site.front.controller.SiteUtil;
-import com.hoti.site.front.vo.BookmarkVO;
+import com.hoti.site.front.vo.ProductVO;
 import com.hoti.site.rest.BaseService;
 
 @Controller
@@ -38,57 +40,100 @@ public class ProductCMS {
   @Resource
   private BaseService service;
 
+  /**
+   * 产品管理首页
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "", method = RequestMethod.GET)
   public String index() throws SecurityException {
-    return "cms/bookmarks/index";
+    return "cms/products/index";
   }
 
+  /**
+   * 新建产品页
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/new", method = RequestMethod.GET)
   public String addPage() throws SecurityException {
-    return "cms/bookmarks/new";
+    return "cms/products/new";
   }
 
+  /**
+   * 编辑产品页
+   * @param id 产品ID
+   * @param model
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
   public String editPage(@PathVariable Long id, Model model) throws SecurityException {
     model.addAttribute("record", service.findProduct(id));
-    return "cms/bookmarks/edit";
+    return "cms/products/edit";
   }
 
+  /**
+   * 关注产品的用户列表页
+   * @param id 产品ID
+   * @param model
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/follow", method = RequestMethod.GET)
   public String followPage(@PathVariable Long id, Model model) throws SecurityException {
     model.addAttribute("id", id);
-    return "cms/bookmarks/follow";
+    return "cms/products/follow";
   }
 
+  /**
+   * 产品详情页
+   * @param id 产品ID
+   * @param model
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", service.findProduct(id));
-    return "cms/bookmarks/view";
+    ModelUtil.addRecord(model, service.findProduct(id));
+    return "cms/products/view";
   }
 
+  /**
+   * 产品数据列表，支持分页和查询
+   * @param title 标题
+   * @param cid 类别ID
+   * @param state 状态
+   * @param p 分页组件
+   * @return
+   * @throws Exception
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/list")
   public @ResponseBody DataGrid<Product> dataGrid(@RequestParam(required = false) String title,
-      @RequestParam(required = false) Long category, @RequestParam(required = false) Byte state,
+      @RequestParam(defaultValue = "0") Long cid, @RequestParam(required = false) Byte state,
       Pagination p) throws Exception {
 
     ProductExample example = new ProductExample();
     ProductExample.Criteria criteria = example.createCriteria();
 
+    /* 标题 模糊查询 */
     if (StringUtils.isNotBlank(title)) {
-      criteria.andTitleLike("%" + title + "%"); // 模糊查询
+      criteria.andTitleLike("%" + title + "%");
     }
 
-    if (category != null && category > 0) {
-      criteria.andCidEqualTo(category);
+    /* 类别ID */
+    if (cid > 0) {
+      criteria.andCidEqualTo(cid);
     }
 
-    if (StateUtil.userValidate(state)) {
+    /* 验证产品状态 */
+    if (StateUtil.baseValidate(state)) {
       criteria.andStateEqualTo(state);
     }
 
@@ -96,56 +141,114 @@ public class ProductCMS {
     return new DataGrid<>(pageInfo);
   }
 
+  /**
+   * 关注产品的用户列表
+   * @param id 产品ID
+   * @param name 用户名
+   * @param type 用户类型 1=普通用户 2=管理员
+   * @param state 用户状态 0=禁用 1=启用 2=锁定3=已删除
+   * @param p 分页组件
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
-  @RequestMapping(value = "/{id}/follows")
+  @RequestMapping(value = "/{id}/users")
   public @ResponseBody DataGrid<User> followUsers(@PathVariable Long id,
-      @RequestParam(required = false) String name, @RequestParam(required = false) Byte userType,
+      @RequestParam(required = false) String name, @RequestParam(required = false) Byte type,
       @RequestParam(required = false) Byte state, Pagination p) throws SecurityException {
-    PageInfo<User> pageInfo = service.findProductUsers(id, p);
+    
+    /* 用户信息过滤 */
+    if (StringUtils.isEmpty(name)) {
+      name = null;
+    }
+    if (!StateUtil.userValidate(state)) {
+      state = null;
+    }
+    if (!UserTypeUtil.validate(type)) {
+      type = null;
+    }
+    
+    PageInfo<User> pageInfo = service.findProductUsers(id, name, type, state, p);
     return new DataGrid<>(pageInfo);
   }
 
+  /**
+   * 新建产品
+   * @param vo 请求参数
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/new", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse add(BookmarkVO vo, HttpServletRequest request)
+  public @ResponseBody SiteResponse add(ProductVO vo, HttpServletRequest request)
       throws SecurityException {
-    logger.info("后台添加站点: {}", JSON.toJSONString(vo));
+    logger.info("后台添加产品: {}", JSON.toJSONString(vo));
     service.addProduct(vo);
     return SiteUtil.ok();
   }
 
+  /**
+   * 删除产品
+   * @param id 产品ID
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
   public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
-    logger.info("后台删除站点: {}", id);
+    logger.info("后台删除产品: {}", id);
     service.deleteProduct(id);
     return SiteUtil.ok();
   }
 
+  /**
+   * 编辑产品
+   * @param id 产品ID
+   * @param vo 请求参数
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse edit(@PathVariable Long id, BookmarkVO vo,
+  public @ResponseBody SiteResponse edit(@PathVariable Long id, ProductVO vo,
       HttpServletRequest request) throws SecurityException {
-    logger.info("后台编辑站点: {}, {}", id, JSON.toJSONString(vo));
+    logger.info("后台编辑产品: {}, {}", id, JSON.toJSONString(vo));
     service.updateProduct(id, vo);
     return SiteUtil.ok();
   }
   
+  /**
+   * 批量精选产品
+   * @param ids 产品IDs
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/pick", method = RequestMethod.POST)
   public @ResponseBody SiteResponse pick(@RequestParam Long[] ids,
       HttpServletRequest request) throws SecurityException {
-    logger.info("后台站点精选: {}", ids);
+    logger.info("后台产品精选: {}", ids);
     service.pickProduct(ids);
     return SiteUtil.ok();
   }
   
+  /**
+   * 批量取消精选产品IDs
+   * @param ids 产品IDs
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/unpick", method = RequestMethod.POST)
   public @ResponseBody SiteResponse unpick(@RequestParam Long[] ids,
       HttpServletRequest request) throws SecurityException {
-    logger.info("后台站点取消精选: {}", ids);
+    logger.info("后台产品取消精选: {}", ids);
     service.unpickProduct(ids);
     return SiteUtil.ok();
   }

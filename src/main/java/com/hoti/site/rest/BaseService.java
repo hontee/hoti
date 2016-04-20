@@ -17,7 +17,7 @@ import com.hoti.site.db.entity.Topic;
 import com.hoti.site.db.entity.TopicExample;
 import com.hoti.site.db.entity.User;
 import com.hoti.site.db.entity.UserExample;
-import com.hoti.site.front.vo.BookmarkVO;
+import com.hoti.site.front.vo.ProductVO;
 import com.hoti.site.front.vo.CategoryVO;
 import com.hoti.site.front.vo.GroupVO;
 import com.hoti.site.front.vo.MenuVO;
@@ -185,7 +185,7 @@ public interface BaseService {
    * @param record
    * @return
    */
-  void addProduct(BookmarkVO vo) throws SecurityException;
+  void addProduct(ProductVO vo) throws SecurityException;
 
   /**
    * 添加推荐
@@ -405,7 +405,17 @@ public interface BaseService {
    * @return
    */
   PageInfo<User> findProductUsers(Long fid, Pagination p) throws SecurityException;
-
+  
+  /**
+   * 关注产品的用户列表
+   * @param fid 产品ID
+   * @param name 用户名
+   * @param type 用户类型 1=普通用户 2=管理员
+   * @param state 用户状态 0=禁用 1=启用 2=锁定 3=已删除
+   * @return
+   */
+  PageInfo<User> findProductUsers(Long fid, String name, Byte type, Byte state, Pagination p) throws SecurityException;
+  
   /**
    * 关注主题的用户列表
    * 
@@ -413,6 +423,16 @@ public interface BaseService {
    * @return
    */
   PageInfo<User> findTopicUsers(Long fid, Pagination p) throws SecurityException;
+  
+  /**
+   * 关注主题的用户列表
+   * @param fid 产品ID
+   * @param name 用户名
+   * @param type 用户类型 1=普通用户 2=管理员
+   * @param state 用户状态 0=禁用 1=启用 2=锁定 3=已删除
+   * @return
+   */
+  PageInfo<User> findTopicUsers(Long fid, String name, Byte type, Byte state, Pagination p) throws SecurityException;
 
 
   /**
@@ -474,7 +494,7 @@ public interface BaseService {
    * @param id
    * @param remark
    */
-  void auditRecommendOk(Long id, BookmarkVO vo) throws SecurityException;
+  void auditRecommendOk(Long id, ProductVO vo) throws SecurityException;
 
   /**
    * 审核拒绝
@@ -533,7 +553,7 @@ public interface BaseService {
    * @param vo
    * @throws SecurityException
    */
-  void updateProduct(Long id, BookmarkVO vo) throws SecurityException;
+  void updateProduct(Long id, ProductVO vo) throws SecurityException;
 
   /**
    * 更新产品点击，并获取返回URL

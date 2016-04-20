@@ -25,7 +25,7 @@ import com.hoti.site.db.entity.RecommendExample;
 import com.hoti.site.db.entity.SiteResponse;
 import com.hoti.site.db.entity.StateAuditUtil;
 import com.hoti.site.front.controller.SiteUtil;
-import com.hoti.site.front.vo.BookmarkVO;
+import com.hoti.site.front.vo.ProductVO;
 import com.hoti.site.front.vo.RecommendVO;
 import com.hoti.site.rest.BaseService;
 
@@ -127,7 +127,7 @@ public class RecommendCMS {
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/ok", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse auditOk(@PathVariable Long id, BookmarkVO vo,
+  public @ResponseBody SiteResponse auditOk(@PathVariable Long id, ProductVO vo,
       HttpServletRequest request) throws SecurityException {
     logger.info("后台审核推荐通过: {}, {}", id, JSON.toJSONString(vo));
     service.auditRecommendOk(id, vo);

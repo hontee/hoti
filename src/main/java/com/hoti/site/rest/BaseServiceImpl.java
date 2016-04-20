@@ -42,7 +42,7 @@ import com.hoti.site.db.entity.Topic;
 import com.hoti.site.db.entity.TopicExample;
 import com.hoti.site.db.entity.User;
 import com.hoti.site.db.entity.UserExample;
-import com.hoti.site.front.vo.BookmarkVO;
+import com.hoti.site.front.vo.ProductVO;
 import com.hoti.site.front.vo.CategoryVO;
 import com.hoti.site.front.vo.GroupVO;
 import com.hoti.site.front.vo.MenuVO;
@@ -437,11 +437,35 @@ public class BaseServiceImpl implements BaseService {
       throw new FindException(e);
     }
   }
+  
+  
+
+  @Override
+  public PageInfo<User> findProductUsers(Long fid, String name, Byte type, Byte state, Pagination p)
+      throws SecurityException {
+    try {
+      return dao.findProductUsers(fid, name, type, state, p);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new FindException(e);
+    }
+  }
 
   @Override
   public PageInfo<User> findTopicUsers(Long fid, Pagination p) throws SecurityException {
     try {
       return dao.findTopicUsers(fid, p);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new FindException(e);
+    }
+  }
+  
+  @Override
+  public PageInfo<User> findTopicUsers(Long fid, String name, Byte type, Byte state, Pagination p)
+      throws SecurityException {
+    try {
+      return dao.findTopicUsers(fid, name, type, state, p);
     } catch (Exception e) {
       e.printStackTrace();
       throw new FindException(e);
@@ -694,7 +718,7 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public void auditRecommendOk(Long id, BookmarkVO vo) throws SecurityException {
+  public void auditRecommendOk(Long id, ProductVO vo) throws SecurityException {
     Recommend record = new Recommend();
     record.setId(id);
     record.setState((byte) 2); // 审核通过
@@ -722,16 +746,17 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public void addProduct(BookmarkVO vo) throws SecurityException {
+  public void addProduct(ProductVO vo) throws SecurityException {
     Product record = new Product();
     record.setName(vo.getNameUUID());
     record.setTitle(vo.getTitle());
     record.setUrl(vo.getUrl());
     record.setDescription(vo.getDescription());
+    record.setTags(vo.getTags());
     record.setState(vo.getState());
     record.setCreateBy(AuthzUtil.getUserId());
     record.setCreator(AuthzUtil.getUsername());
-    record.setCid(vo.getCategory());
+    record.setCid(vo.getCid());
     record.setCategory("111");
     record.setReffer(GlobalIDs.REFFER);
     addProduct(record);
@@ -752,15 +777,16 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public void updateProduct(Long id, BookmarkVO vo) throws SecurityException {
+  public void updateProduct(Long id, ProductVO vo) throws SecurityException {
     Product record = new Product();
     record.setId(id);
     record.setTitle(vo.getTitle());
     record.setUrl(vo.getUrl());
     record.setDescription(vo.getDescription());
+    record.setTags(vo.getTags());
     record.setState(vo.getState());
     record.setReffer(vo.getReffer());
-    record.setCid(vo.getCategory());
+    record.setCid(vo.getCid());
     updateProduct(record);
   }
 

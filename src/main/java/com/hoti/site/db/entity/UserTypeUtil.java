@@ -20,8 +20,8 @@ public class UserTypeUtil {
 	 * @param userType
 	 * @return
 	 */
-	public static boolean validate(Byte userType) {
-		return Arrays.asList(USER_TYPES).contains(userType);
+	public static boolean validate(Byte type) {
+		return Arrays.asList(USER_TYPES).contains(type);
 	}
 
 }

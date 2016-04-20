@@ -333,19 +333,33 @@ public class BaseDaoImpl implements BaseDao {
   @Override
   public PageInfo<User> findProductUsers(Long fid, Pagination p) throws Exception {
     logger.info("分页查询关注产品[{}]的用户列表", fid);
+    return findProductUsers(fid, null, null, null, p);
+  }
+
+  @Override
+  public PageInfo<User> findProductUsers(Long fid, String name, Byte type, Byte state, Pagination p)
+      throws Exception {
+    logger.info("分页查询关注产品[{}]的用户列表", fid);
     addPageHelper(p);
-    List<User> list = um.followProductUser(fid);
+    List<User> list = um.followProductUser(fid, name, type, state);
     return new PageInfo<>(list);
   }
 
   @Override
   public PageInfo<User> findTopicUsers(Long fid, Pagination p) throws Exception {
     logger.info("分页查询关注主题[{}]的用户列表", fid);
-    addPageHelper(p);
-    List<User> list = um.followTopicUser(fid);
-    return new PageInfo<>(list);
+    return findTopicUsers(fid, null, null, null, p);
   }
 
+  @Override
+  public PageInfo<User> findTopicUsers(Long fid, String name, Byte type, Byte state, Pagination p)
+      throws Exception {
+    logger.info("分页查询关注主题[{}]的用户列表", fid);
+    addPageHelper(p);
+    List<User> list = um.followTopicUser(fid, name, type, state);
+    return new PageInfo<>(list);
+  }
+  
   @Override
   public int updateCategory(Category record) throws Exception {
     logger.info("更新类别：{}", JSON.toJSONString(record));
