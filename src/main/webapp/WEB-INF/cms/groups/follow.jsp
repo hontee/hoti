@@ -34,7 +34,7 @@ var groupsUsersEL = {
 
 // DataGrid
 groupsUsersEL.dg.datagrid({
-    url:'/cms/groups/${id}/follows',
+    url:'/cms/topics/${id}/follows',
     fitColumns: true,
     border: false,
     idField: "id",

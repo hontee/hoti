@@ -74,7 +74,7 @@ public class AuthzUtil {
    * @return
    */
   public static boolean isAdmin() {
-    return isAuthorized() ? (getUser().getUserType() == 2L) : false;
+    return isAuthorized() ? (getUser().getType() == 2L) : false;
   }
 
 }

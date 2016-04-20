@@ -1,8 +1,5 @@
 package com.hoti.site.front.cms;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,22 +18,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.hoti.site.core.exception.SecurityException;
-import com.hoti.site.db.entity.Category;
-import com.hoti.site.db.entity.CategoryExample;
-import com.hoti.site.db.entity.ComboBox;
 import com.hoti.site.db.entity.DataGrid;
 import com.hoti.site.db.entity.Pagination;
+import com.hoti.site.db.entity.Product;
+import com.hoti.site.db.entity.ProductExample;
 import com.hoti.site.db.entity.SiteResponse;
 import com.hoti.site.db.entity.StateUtil;
+import com.hoti.site.db.entity.User;
 import com.hoti.site.front.controller.SiteUtil;
-import com.hoti.site.front.vo.CategoryVO;
+import com.hoti.site.front.vo.BookmarkVO;
 import com.hoti.site.rest.BaseService;
 
 @Controller
-@RequestMapping("/cms/categories")
-public class CategoryCMS {
+@RequestMapping("/cms/products")
+public class ProductCMS {
 
-  private Logger logger = LoggerFactory.getLogger(CategoryCMS.class);
+  private Logger logger = LoggerFactory.getLogger(ProductCMS.class);
 
   @Resource
   private BaseService service;
@@ -44,78 +41,76 @@ public class CategoryCMS {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "", method = RequestMethod.GET)
   public String index() throws SecurityException {
-    return "cms/cates/index";
+    return "cms/bookmarks/index";
   }
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/new", method = RequestMethod.GET)
   public String addPage() throws SecurityException {
-    return "cms/cates/new";
+    return "cms/bookmarks/new";
   }
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
   public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", service.findCategory(id));
-    return "cms/cates/edit";
+    model.addAttribute("record", service.findProduct(id));
+    return "cms/bookmarks/edit";
+  }
+
+  @RequiresRoles(value = "admin")
+  @RequestMapping(value = "/{id}/follow", method = RequestMethod.GET)
+  public String followPage(@PathVariable Long id, Model model) throws SecurityException {
+    model.addAttribute("id", id);
+    return "cms/bookmarks/follow";
   }
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", service.findCategory(id));
-    return "cms/cates/view";
+    model.addAttribute("record", service.findProduct(id));
+    return "cms/bookmarks/view";
   }
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/list")
-  public @ResponseBody DataGrid<Category> dataGrid(@RequestParam(required = false) String title,
-      @RequestParam(required = false) Long parent, @RequestParam(required = false) Byte state,
-      Pagination p) throws SecurityException {
+  public @ResponseBody DataGrid<Product> dataGrid(@RequestParam(required = false) String title,
+      @RequestParam(required = false) Long category, @RequestParam(required = false) Byte state,
+      Pagination p) throws Exception {
 
-    CategoryExample example = new CategoryExample();
-    CategoryExample.Criteria criteria = example.createCriteria();
+    ProductExample example = new ProductExample();
+    ProductExample.Criteria criteria = example.createCriteria();
 
     if (StringUtils.isNotBlank(title)) {
       criteria.andTitleLike("%" + title + "%"); // 模糊查询
     }
 
-    if (parent != null && parent > 0) {
-      criteria.andParentEqualTo(parent);
+    if (category != null && category > 0) {
+      criteria.andCidEqualTo(category);
     }
 
     if (StateUtil.validate(state)) {
       criteria.andStateEqualTo(state);
     }
 
-    PageInfo<Category> pageInfo = service.findCategories(example, p);
+    PageInfo<Product> pageInfo = service.findProducts(example, p);
     return new DataGrid<>(pageInfo);
   }
 
   @RequiresRoles(value = "admin")
-  @RequestMapping(value = "/datalist")
-  public @ResponseBody List<ComboBox> datalist(@RequestParam(required = false) String q)
-      throws SecurityException {
-    List<Category> list = service.findAllCategories();
-    List<ComboBox> boxes = new ArrayList<>();
-
-    /**
-     * 如果传入 ?q=all 则返回全部分类
-     */
-    if ("all".equals(q)) {
-      boxes.add(new ComboBox(-1L, "全部分类"));
-    }
-    list.forEach((c) -> boxes.add(new ComboBox(c.getId(), c.getTitle())));
-    return boxes;
+  @RequestMapping(value = "/{id}/follows")
+  public @ResponseBody DataGrid<User> followUsers(@PathVariable Long id,
+      @RequestParam(required = false) String name, @RequestParam(required = false) Byte userType,
+      @RequestParam(required = false) Byte state, Pagination p) throws SecurityException {
+    PageInfo<User> pageInfo = service.findProductUsers(id, p);
+    return new DataGrid<>(pageInfo);
   }
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/new", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse add(CategoryVO vo, HttpServletRequest request)
+  public @ResponseBody SiteResponse add(BookmarkVO vo, HttpServletRequest request)
       throws SecurityException {
-    logger.info("后台添加分类: {}", JSON.toJSONString(vo));
-    
-    service.addCategory(vo);
+    logger.info("后台添加站点: {}", JSON.toJSONString(vo));
+    service.addProduct(vo);
     return SiteUtil.ok();
   }
 
@@ -123,28 +118,35 @@ public class CategoryCMS {
   @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
   public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
-    logger.info("后台删除分类: {}", id);
-    
-    service.deleteCategory(id);
+    logger.info("后台删除站点: {}", id);
+    service.deleteProduct(id);
     return SiteUtil.ok();
   }
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse edit(@PathVariable Long id, CategoryVO vo,
+  public @ResponseBody SiteResponse edit(@PathVariable Long id, BookmarkVO vo,
       HttpServletRequest request) throws SecurityException {
-    logger.info("后台编辑分类：{}, {}", id, JSON.toJSONString(vo));
-    
-    service.updateCategory(id, vo);
+    logger.info("后台编辑站点: {}, {}", id, JSON.toJSONString(vo));
+    service.updateProduct(id, vo);
     return SiteUtil.ok();
   }
-
+  
   @RequiresRoles(value = "admin")
-  @RequestMapping(value = "/count/task", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse countTask(HttpServletRequest request) throws SecurityException {
-    logger.info("后台统计分类数据");
-    
-    // TODO
+  @RequestMapping(value = "/pick", method = RequestMethod.POST)
+  public @ResponseBody SiteResponse pick(@RequestParam Long[] ids,
+      HttpServletRequest request) throws SecurityException {
+    logger.info("后台站点精选: {}", ids);
+    service.pickProduct(ids);
+    return SiteUtil.ok();
+  }
+  
+  @RequiresRoles(value = "admin")
+  @RequestMapping(value = "/unpick", method = RequestMethod.POST)
+  public @ResponseBody SiteResponse unpick(@RequestParam Long[] ids,
+      HttpServletRequest request) throws SecurityException {
+    logger.info("后台站点取消精选: {}", ids);
+    service.unpickProduct(ids);
     return SiteUtil.ok();
   }
 

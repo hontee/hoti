@@ -7,10 +7,10 @@ import org.springframework.ui.Model;
 import com.github.pagehelper.PageInfo;
 import com.hoti.site.core.exception.SecurityException;
 import com.hoti.site.core.security.AuthzUtil;
-import com.hoti.site.db.entity.Bookmark;
 import com.hoti.site.db.entity.Category;
-import com.hoti.site.db.entity.Group;
 import com.hoti.site.db.entity.PagerUtil;
+import com.hoti.site.db.entity.Product;
+import com.hoti.site.db.entity.Topic;
 
 /**
  * 模块工具
@@ -97,7 +97,7 @@ public class ModelUtil {
    * @param model
    * @param group
    */
-  public static void addGroup(Model model, Group group) {
+  public static void addGroup(Model model, Topic group) {
     model.addAttribute("group", group);
   }
 
@@ -107,7 +107,7 @@ public class ModelUtil {
    * @param model
    * @param list
    */
-  public static void addGroups(Model model, List<Group> list) {
+  public static void addGroups(Model model, List<Topic> list) {
     model.addAttribute("groups", list);
   }
 
@@ -117,7 +117,7 @@ public class ModelUtil {
    * @param model
    * @param list
    */
-  public static void addBookmarks(Model model, List<Bookmark> list) {
+  public static void addBookmarks(Model model, List<Product> list) {
     model.addAttribute("bookmarks", list);
   }
 

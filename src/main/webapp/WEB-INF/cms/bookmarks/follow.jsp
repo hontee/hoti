@@ -34,7 +34,7 @@ var bookmarksUsersEL = {
 
 // DataGrid
 bookmarksUsersEL.dg.datagrid({
-    url:'/cms/bookmarks/${id}/follows',
+    url:'/cms/products/${id}/follows',
     fitColumns: true,
     border: false,
     idField: "id",

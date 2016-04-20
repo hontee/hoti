@@ -26,11 +26,9 @@ import com.hoti.site.db.entity.MenuExample;
 import com.hoti.site.db.entity.Pagination;
 import com.hoti.site.db.entity.SiteResponse;
 import com.hoti.site.db.entity.StateUtil;
-import com.hoti.site.db.entity.TableIDs;
 import com.hoti.site.front.controller.SiteUtil;
 import com.hoti.site.front.vo.MenuVO;
-import com.hoti.site.service.ActivityService;
-import com.hoti.site.service.MenuService;
+import com.hoti.site.rest.BaseService;
 
 @Controller
 @RequestMapping("/cms/menus")
@@ -39,9 +37,7 @@ public class MenuCMS {
   private Logger logger = LoggerFactory.getLogger(MenuCMS.class);
 
   @Resource
-  private MenuService ms;
-  @Resource
-  private ActivityService as;
+  private BaseService service;
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "", method = RequestMethod.GET)
@@ -58,21 +54,21 @@ public class MenuCMS {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
   public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", ms.findOne(id));
+    model.addAttribute("record", service.findMenu(id));
     return "cms/menus/edit";
   }
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", ms.findOne(id));
+    model.addAttribute("record", service.findMenu(id));
     return "cms/menus/view";
   }
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/datalist")
   public @ResponseBody List<Menu> datalist() throws SecurityException {
-    return ms.findAll();
+    return service.findAllMenus();
   }
 
   @RequiresRoles(value = "admin")
@@ -91,7 +87,7 @@ public class MenuCMS {
       criteria.andStateEqualTo(state);
     }
 
-    PageInfo<Menu> pageInfo = ms.find(example, p);
+    PageInfo<Menu> pageInfo = service.findMenus(example, p);
     return new DataGrid<>(pageInfo);
   }
 
@@ -100,9 +96,7 @@ public class MenuCMS {
   public @ResponseBody SiteResponse add(MenuVO vo, HttpServletRequest request)
       throws SecurityException {
     logger.info("后台添加菜单: {}", JSON.toJSONString(vo));
-    as.addLogger("后台添加菜单", TableIDs.MENU, JSON.toJSONString(vo), request);
-
-    ms.add(vo);
+    service.addMenu(vo);
     return SiteUtil.ok();
   }
 
@@ -111,9 +105,7 @@ public class MenuCMS {
   public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
     logger.info("后台删除菜单: {}", id);
-    as.addLogger("后台删除菜单", TableIDs.MENU, id.toString(), request);
-    
-    ms.delete(id);
+    service.deleteMenu(id);
     return SiteUtil.ok();
   }
 
@@ -122,10 +114,7 @@ public class MenuCMS {
   public @ResponseBody SiteResponse edit(@PathVariable Long id, MenuVO vo,
       HttpServletRequest request) throws SecurityException {
     logger.info("后台编辑菜单: {}, {}", id, JSON.toJSONString(vo));
-    as.addLogger("后台编辑菜单", TableIDs.MENU, id + ", " + JSON.toJSONString(vo), request);
-    
-    
-    ms.update(id, vo);
+    service.updateMenu(id, vo);
     return SiteUtil.ok();
   }
 

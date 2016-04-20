@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import com.hoti.site.core.exception.SecurityException;
 import com.hoti.site.db.entity.User;
-import com.hoti.site.service.UserService;
+import com.hoti.site.rest.BaseService;
 
 /**
  * 自定义用户Realm
@@ -29,9 +29,9 @@ public class UserRealm extends AuthorizingRealm {
 
   private Logger logger = LoggerFactory.getLogger(UserRealm.class);
 
-  private UserService service;
+  private BaseService service;
 
-  public void setService(UserService service) {
+  public void setService(BaseService service) {
     this.service = service;
   }
 
@@ -67,7 +67,7 @@ public class UserRealm extends AuthorizingRealm {
 
     User currentUser = null;
     try {
-      currentUser = service.findByName(username);
+      currentUser = service.findUser(username);
     } catch (SecurityException e) {
       logger.info("用户名或密码错误：{}", e.getMessage());
     }

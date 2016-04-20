@@ -38,7 +38,7 @@ var recmdsEL = {
 
 // DataGrid
 recmdsEL.dg.datagrid({
-    url:'/cms/recmds/list',
+    url:'/cms/recommends/list',
     fitColumns: true,
     border: false,
     idField: "id",
@@ -91,7 +91,7 @@ recmdsEL.dg.datagrid({
     },
     // 双击查看
     onDblClickRow: function(index,row) {
-    	CMS.viewHandler("/cms/recmds/" + row.id);
+    	CMS.viewHandler("/cms/recommends/" + row.id);
     }
 });
 
@@ -133,7 +133,7 @@ recmdsEL.add.click(function() {
 		collapsible: false,
 		minimizable: false,
 		maximizable: false,
-		href: '/cms/recmds/new',
+		href: '/cms/recommends/new',
 		method: 'get',
 		cache: false
 	});
@@ -151,7 +151,7 @@ recmdsEL.edit.click(function() {
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
-			href: '/cms/recmds/' + row.id + '/edit',
+			href: '/cms/recommends/' + row.id + '/edit',
 			method: 'get',
 			cache: false
 		});
@@ -170,7 +170,7 @@ recmdsEL.auditOk.click(function() {
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
-			href: '/cms/recmds/' + row.id + '/ok',
+			href: '/cms/recommends/' + row.id + '/ok',
 			method: 'get',
 			cache: false
 		});
@@ -189,7 +189,7 @@ recmdsEL.auditNot.click(function() {
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
-			href: '/cms/recmds/' + row.id + '/refuse',
+			href: '/cms/recommends/' + row.id + '/refuse',
 			method: 'get',
 			cache: false
 		});

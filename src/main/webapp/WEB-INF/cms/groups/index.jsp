@@ -17,7 +17,7 @@
 	
 	<span class="cms-dg-search">
 	  <input class="easyui-combobox" id="groups-category"
-    	data-options="required:true, value:'-1', valueField:'id',textField:'title',url:'/cms/cates/datalist?q=all'" 
+    	data-options="required:true, value:'-1', valueField:'id',textField:'title',url:'/cms/categories/datalist?q=all'" 
     	style="width:100px;">
 	  <select class="easyui-combobox" id="groups-gtype" data-options="panelHeight:'auto',editable: false" style="width:100px;">
         <option value="all" selected>全部机构</option>
@@ -54,7 +54,7 @@ var groupsEL = {
 
 // DataGrid
 groupsEL.dg.datagrid({
-    url:'/cms/groups/list',
+    url:'/cms/topics/list',
     fitColumns: true,
     border: false,
     idField: "id",
@@ -119,7 +119,7 @@ groupsEL.dg.datagrid({
     },
     // 双击查看
     onDblClickRow: function(index,row) {
-    	CMS.viewHandler("/cms/groups/" + row.id);
+    	CMS.viewHandler("/cms/topics/" + row.id);
     }
 });
 
@@ -168,7 +168,7 @@ groupsEL.add.click(function() {
 		collapsible: false,
 		minimizable: false,
 		maximizable: false,
-		href: '/cms/groups/new',
+		href: '/cms/topics/new',
 		method: 'get',
 		cache: false
 	});
@@ -186,7 +186,7 @@ groupsEL.edit.click(function() {
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
-			href: '/cms/groups/' + row.id + '/edit',
+			href: '/cms/topics/' + row.id + '/edit',
 			method: 'get',
 			cache: false
 		});
@@ -220,7 +220,7 @@ groupsEL.bookmarks.click(function() {
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
-			href: '/cms/groups/' + row.id + '/bookmark',
+			href: '/cms/topics/' + row.id + '/bookmark',
 			method: 'get',
 			cache: false
 		});
@@ -239,7 +239,7 @@ groupsEL.manager.click(function() {
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
-			href: '/cms/groups/' + row.id + '/manager',
+			href: '/cms/topics/' + row.id + '/manager',
 			method: 'get',
 			cache: false
 		});
@@ -258,7 +258,7 @@ groupsEL.follow.click(function() {
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
-			href: '/cms/groups/' + row.id + '/follow',
+			href: '/cms/topics/' + row.id + '/follow',
 			method: 'get',
 			cache: false
 		});

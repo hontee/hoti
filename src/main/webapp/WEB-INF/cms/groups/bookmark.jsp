@@ -9,7 +9,7 @@
 	
 	<span class="cms-dg-search">
 	  <input class="easyui-combobox" id="groups-bm-category"
-    	data-options="required:true, value:'-1', valueField:'id',textField:'title',url:'/cms/cates/datalist?q=all'" 
+    	data-options="required:true, value:'-1', valueField:'id',textField:'title',url:'/cms/categories/datalist?q=all'" 
     	style="width:100px;">
 	  <select class="easyui-combobox" id="groups-bm-state" data-options="panelHeight:'auto',editable: false" style="width:100px;">
         <option value="-1" selected>全部状态</option>
@@ -32,7 +32,7 @@ var groupsBmEL = {
 
 // DataGrid
 groupsBmEL.dg.datagrid({
-    url:'/cms/bookmarks/list',
+    url:'/cms/products/list',
     fitColumns: true,
     border: false,
     idField: "id",
@@ -84,7 +84,7 @@ groupsBmEL.add.click(function() {
 	    }
 		$.messager.confirm("信息提示", "确定添加吗？", function(ok){
 	      if (ok){
-	        var url = '/cms/groups/${id}/bookmark?ids=' + ids;
+	        var url = '/cms/topics/${id}/bookmark?ids=' + ids;
 	        $.post(url, function(data) {
 	        	console.log(data);
 	          var r = $.parseJSON(data);

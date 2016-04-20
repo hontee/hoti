@@ -21,7 +21,7 @@
   <!-- 配置自定义Realm -->
   <beans:bean id="userRealm" class="com.hoti.site.core.security.UserRealm">
     <beans:property name="credentialsMatcher" ref="credentialsMatcher" />
-    <beans:property name="service" ref="userServiceImpl" />
+    <beans:property name="service" ref="baseServiceImpl" />
   </beans:bean>
   <beans:bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
     <beans:property name="realm" ref="userRealm" />

@@ -22,14 +22,12 @@ import com.hoti.site.db.entity.DataGrid;
 import com.hoti.site.db.entity.Pagination;
 import com.hoti.site.db.entity.SiteResponse;
 import com.hoti.site.db.entity.StateUtil;
-import com.hoti.site.db.entity.TableIDs;
 import com.hoti.site.db.entity.User;
 import com.hoti.site.db.entity.UserExample;
 import com.hoti.site.db.entity.UserTypeUtil;
 import com.hoti.site.front.controller.SiteUtil;
 import com.hoti.site.front.vo.UserVO;
-import com.hoti.site.service.ActivityService;
-import com.hoti.site.service.UserService;
+import com.hoti.site.rest.BaseService;
 
 @Controller
 @RequestMapping("/cms/users")
@@ -38,9 +36,7 @@ public class UserCMS {
   private Logger logger = LoggerFactory.getLogger(UserCMS.class);
 
   @Resource
-  private UserService us;
-  @Resource
-  private ActivityService as;
+  private BaseService service;
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "", method = RequestMethod.GET)
@@ -57,21 +53,21 @@ public class UserCMS {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/password", method = RequestMethod.GET)
   public String passwordPage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", us.findOne(id));
+    model.addAttribute("record", service.findUser(id));
     return "cms/users/password";
   }
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
   public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", us.findOne(id));
+    model.addAttribute("record", service.findUser(id));
     return "cms/users/edit";
   }
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", us.findOne(id));
+    model.addAttribute("record", service.findUser(id));
     return "cms/users/view";
   }
 
@@ -89,14 +85,14 @@ public class UserCMS {
     }
 
     if (UserTypeUtil.validate(userType)) {
-      criteria.andUserTypeEqualTo(userType);
+      criteria.andTypeEqualTo(userType);
     }
 
     if (StateUtil.validate(state)) {
       criteria.andStateEqualTo(state);
     }
 
-    PageInfo<User> pageInfo = us.find(example, p);
+    PageInfo<User> pageInfo = service.findUsers(example, p);
     return new DataGrid<>(pageInfo);
   }
 
@@ -105,9 +101,7 @@ public class UserCMS {
   public @ResponseBody SiteResponse add(UserVO vo, HttpServletRequest request)
       throws SecurityException {
     logger.info("后台添加用户: {}", JSON.toJSONString(vo));
-    as.addLogger("后台添加用户", TableIDs.USER, JSON.toJSONString(vo), request);
-    
-    us.add(vo);
+    service.addUser(vo);
     return SiteUtil.ok();
   }
 
@@ -115,10 +109,8 @@ public class UserCMS {
   @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
   public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
-    as.addLogger("后台删除用户", TableIDs.USER, id.toString(), request);
     logger.info("后台删除用户：{}", id);
-    
-    us.delete(id);
+    service.deleteUser(id);
     return SiteUtil.ok();
   }
 
@@ -127,9 +119,7 @@ public class UserCMS {
   public @ResponseBody SiteResponse edit(@PathVariable Long id, UserVO vo,
       HttpServletRequest request) throws SecurityException {
     logger.info("后台编辑用户: {}, {}", id, JSON.toJSONString(vo));
-    as.addLogger("后台编辑用户", TableIDs.USER, id + ", " + JSON.toJSONString(vo), request);
-    
-    us.update(id, vo);
+    service.updateUser(id, vo);
     return SiteUtil.ok();
   }
 
@@ -138,9 +128,7 @@ public class UserCMS {
   public @ResponseBody SiteResponse password(@PathVariable Long id, @RequestParam String password,
       HttpServletRequest request) throws SecurityException {
     logger.info("后台修改用户密码: {}", id);
-    as.addLogger("后台修改用户密码", TableIDs.USER, id.toString(), request);
-    
-    us.update(id, password);
+    service.updateUser(id, password);
     return SiteUtil.ok();
   }
 }

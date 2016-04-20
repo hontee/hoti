@@ -35,7 +35,7 @@ var catesEL = {
 
 // DataGrid
 catesEL.dg.datagrid({
-    url:'/cms/cates/list',
+    url:'/cms/categories/list',
     fitColumns: true,
     border: false,
     idField: "id",
@@ -89,7 +89,7 @@ catesEL.dg.datagrid({
     },
     // 双击查看
     onDblClickRow: function(index,row) {
-    	CMS.viewHandler("/cms/cates/" + row.id);
+    	CMS.viewHandler("/cms/categories/" + row.id);
     }
 });
 
@@ -129,7 +129,7 @@ catesEL.add.click(function() {
 		collapsible: false,
 		minimizable: false,
 		maximizable: false,
-		href: '/cms/cates/new',
+		href: '/cms/categories/new',
 		method: 'get',
 		cache: false
 	});
@@ -147,7 +147,7 @@ catesEL.edit.click(function() {
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
-			href: '/cms/cates/' + row.id + '/edit',
+			href: '/cms/categories/' + row.id + '/edit',
 			method: 'get',
 			cache: false
 		});

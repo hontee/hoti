@@ -14,34 +14,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
 import com.hoti.site.core.exception.SecurityException;
-import com.hoti.site.db.entity.Bookmark;
-import com.hoti.site.db.entity.BookmarkExample;
 import com.hoti.site.db.entity.Category;
-import com.hoti.site.db.entity.Group;
-import com.hoti.site.db.entity.GroupExample;
 import com.hoti.site.db.entity.Pagination;
-import com.hoti.site.service.BookmarkService;
-import com.hoti.site.service.CategoryService;
-import com.hoti.site.service.GroupService;
+import com.hoti.site.db.entity.Product;
+import com.hoti.site.db.entity.ProductExample;
+import com.hoti.site.db.entity.Topic;
+import com.hoti.site.db.entity.TopicExample;
+import com.hoti.site.rest.BaseService;
 
 @Controller
 @Scope("prototype")
 public class CategoryController {
 
   @Resource
-  private BookmarkService bs;
-  @Resource
-  private GroupService gs;
-  @Resource
-  private CategoryService cs;
+  private BaseService service;
   
   @RequestMapping(value = "/category", method = RequestMethod.GET)
   public String  cate(Model model) throws SecurityException {
     ModelUtil.addHeader(model, "红提 | 所有分类");
-    
-    List<Category> list = cs.findAll();
+    List<Category> list = service.findAllCategories();
     model.addAttribute("cates", list);
-    
     return "category.ftl";
   }
 
@@ -74,11 +66,11 @@ public class CategoryController {
    * @throws SecurityException
    */
   private void byBookmark(long id, Pagination p, Model model) throws SecurityException {
-    Category record = cs.findOne(id);
+    Category record = service.findCategory(id);
 
-    BookmarkExample example = new BookmarkExample();
-    example.createCriteria().andCategoryEqualTo(id);
-    PageInfo<Bookmark> pageInfo = bs.find(example, p);
+    ProductExample example = new ProductExample();
+    example.createCriteria().andCidEqualTo(id);
+    PageInfo<Product> pageInfo = service.findProducts(example, p);
 
     ModelUtil.addCategory(model, record);
     ModelUtil.addPager(model, pageInfo, "/category/" + id + "?f=site");
@@ -90,11 +82,11 @@ public class CategoryController {
    * 主题
    */
   private void byGroup(long id, Pagination p, Model model) throws SecurityException {
-    Category record = cs.findOne(id);
+    Category record = service.findCategory(id);
 
-    GroupExample example = new GroupExample();
-    example.createCriteria().andCategoryEqualTo(id);
-    PageInfo<Group> pageInfo = gs.find(example, p);
+    TopicExample example = new TopicExample();
+    example.createCriteria().andCidEqualTo(id);
+    PageInfo<Topic> pageInfo = service.findTopics(example, p);
 
     ModelUtil.addCategory(model, record);
     ModelUtil.addPager(model, pageInfo, "/category/" + id + "?f=group");

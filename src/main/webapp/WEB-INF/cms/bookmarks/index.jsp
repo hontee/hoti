@@ -14,7 +14,7 @@
 	
 	<span class="cms-dg-search">
 	  <input class="easyui-combobox" id="bookmarks-category"
-    	data-options="required:true, value:'-1', valueField:'id',textField:'title',url:'/cms/cates/datalist?q=all'" 
+    	data-options="required:true, value:'-1', valueField:'id',textField:'title',url:'/cms/categories/datalist?q=all'" 
     	style="width:100px;">
 	  <select class="easyui-combobox" id="bookmarks-state" data-options="panelHeight:'auto',editable: false" style="width:100px;">
         <option value="-1" selected>全部状态</option>
@@ -42,7 +42,7 @@ var bookmarksEL = {
 
 // DataGrid
 bookmarksEL.dg.datagrid({
-    url:'/cms/bookmarks/list',
+    url:'/cms/products/list',
     fitColumns: true,
     border: false,
     idField: "id",
@@ -107,7 +107,7 @@ bookmarksEL.dg.datagrid({
     },
     // 双击查看
     onDblClickRow: function(index,row) {
-    	CMS.viewHandler("/cms/bookmarks/" + row.id);
+    	CMS.viewHandler("/cms/products/" + row.id);
     }
 });
 
@@ -153,7 +153,7 @@ bookmarksEL.add.click(function() {
 		collapsible: false,
 		minimizable: false,
 		maximizable: false,
-		href: '/cms/bookmarks/new',
+		href: '/cms/products/new',
 		method: 'get',
 		cache: false
 	});
@@ -171,7 +171,7 @@ bookmarksEL.edit.click(function() {
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
-			href: '/cms/bookmarks/' + row.id + '/edit',
+			href: '/cms/products/' + row.id + '/edit',
 			method: 'get',
 			cache: false
 		});
@@ -205,7 +205,7 @@ bookmarksEL.follow.click(function() {
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
-			href: '/cms/bookmarks/' + row.id + '/follow',
+			href: '/cms/products/' + row.id + '/follow',
 			method: 'get',
 			cache: false
 		});

@@ -24,23 +24,19 @@ import com.hoti.site.db.entity.Recommend;
 import com.hoti.site.db.entity.RecommendExample;
 import com.hoti.site.db.entity.SiteResponse;
 import com.hoti.site.db.entity.StateAuditUtil;
-import com.hoti.site.db.entity.TableIDs;
 import com.hoti.site.front.controller.SiteUtil;
 import com.hoti.site.front.vo.BookmarkVO;
 import com.hoti.site.front.vo.RecommendVO;
-import com.hoti.site.service.ActivityService;
-import com.hoti.site.service.RecommendService;
+import com.hoti.site.rest.BaseService;
 
 @Controller
-@RequestMapping("/cms/recmds")
+@RequestMapping("/cms/recommends")
 public class RecommendCMS {
 
   private Logger logger = LoggerFactory.getLogger(RecommendCMS.class);
 
   @Resource
-  private RecommendService rs;
-  @Resource
-  private ActivityService as;
+  private BaseService service;
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "", method = RequestMethod.GET)
@@ -57,28 +53,28 @@ public class RecommendCMS {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
   public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", rs.findOne(id));
+    model.addAttribute("record", service.findRecommend(id));
     return "cms/recmds/edit";
   }
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/ok", method = RequestMethod.GET)
   public String auditOKPage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", rs.findOne(id));
+    model.addAttribute("record", service.findRecommend(id));
     return "cms/recmds/ok";
   }
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/refuse", method = RequestMethod.GET)
   public String auditRefusePage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", rs.findOne(id));
+    model.addAttribute("record", service.findRecommend(id));
     return "cms/recmds/refuse";
   }
 
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", rs.findOne(id));
+    model.addAttribute("record", service.findRecommend(id));
     return "cms/recmds/view";
   }
 
@@ -98,7 +94,7 @@ public class RecommendCMS {
       criteria.andStateEqualTo(state);
     }
 
-    PageInfo<Recommend> pageInfo = rs.find(example, p);
+    PageInfo<Recommend> pageInfo = service.findRecommends(example, p);
     return new DataGrid<>(pageInfo);
   }
 
@@ -106,10 +102,8 @@ public class RecommendCMS {
   @RequestMapping(value = "/new", method = RequestMethod.POST)
   public @ResponseBody SiteResponse add(@RequestParam String url, HttpServletRequest request)
       throws SecurityException {
-    as.addLogger("后台添加推荐", TableIDs.RECOMMEND, url, request);
     logger.info("后台添加推荐: {}", url);
-    
-    rs.add(url);
+    service.addRecommend(url);
     return SiteUtil.ok();
   }
 
@@ -117,10 +111,8 @@ public class RecommendCMS {
   @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
   public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
-    as.addLogger("后台删除推荐", TableIDs.RECOMMEND, id.toString(), request);
     logger.info("后台删除推荐: {}", id);
-    
-    rs.delete(id);
+    service.deleteRecommend(id);
     return SiteUtil.ok();
   }
 
@@ -128,10 +120,8 @@ public class RecommendCMS {
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
   public @ResponseBody SiteResponse edit(@PathVariable Long id, RecommendVO vo,
       HttpServletRequest request) throws SecurityException {
-    as.addLogger("后台编辑推荐", TableIDs.RECOMMEND, id + ", " +JSON.toJSONString(vo), request);
     logger.info("后台编辑推荐: {}, {}", id, JSON.toJSONString(vo));
-    
-    rs.update(id, vo);
+    service.updateRecommend(id, vo);
     return SiteUtil.ok();
   }
 
@@ -139,10 +129,8 @@ public class RecommendCMS {
   @RequestMapping(value = "/{id}/ok", method = RequestMethod.POST)
   public @ResponseBody SiteResponse auditOk(@PathVariable Long id, BookmarkVO vo,
       HttpServletRequest request) throws SecurityException {
-    as.addLogger("后台审核推荐通过", TableIDs.BOOKMARK, id + ", " + JSON.toJSONString(vo), request);
     logger.info("后台审核推荐通过: {}, {}", id, JSON.toJSONString(vo));
-    
-    rs.audit(id, vo);
+    service.auditRecommendOk(id, vo);
     return SiteUtil.ok();
   }
 
@@ -150,10 +138,8 @@ public class RecommendCMS {
   @RequestMapping(value = "/{id}/refuse", method = RequestMethod.POST)
   public @ResponseBody SiteResponse auditRefuse(@PathVariable Long id, @RequestParam String remark,
       HttpServletRequest request) throws SecurityException {
-    as.addLogger("后台审核推荐拒绝", TableIDs.RECOMMEND, id + ", " + remark, request);
     logger.info("后台审核推荐拒绝: {}, {}", id, remark);
-    
-    rs.audit(id, remark);
+    service.auditRecommendRefuse(id, remark);
     return SiteUtil.ok();
   }
 

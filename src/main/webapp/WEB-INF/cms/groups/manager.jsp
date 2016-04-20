@@ -9,7 +9,7 @@
 	
 	<span class="cms-dg-search">
 	  <input class="easyui-combobox" id="groups-mgt-category"
-    	data-options="required:true, value:'-1', valueField:'id',textField:'title',url:'/cms/cates/datalist?q=all'" 
+    	data-options="required:true, value:'-1', valueField:'id',textField:'title',url:'/cms/categories/datalist?q=all'" 
     	style="width:100px;">
 	  <select class="easyui-combobox" id="groups-mgt-state" data-options="panelHeight:'auto',editable: false" style="width:100px;">
         <option value="-1" selected>全部状态</option>
@@ -32,7 +32,7 @@ var groupsMgtEL = {
 
 // DataGrid
 groupsMgtEL.dg.datagrid({
-    url:'/cms/groups/${id}/bookmarks',
+    url:'/cms/topics/${id}/bookmarks',
     fitColumns: true,
     border: false,
     idField: "id",
@@ -83,7 +83,7 @@ groupsMgtEL.remove.click(function() {
 	    }
 		$.messager.confirm("信息提示", "确定移除吗？", function(ok){
 	      if (ok){
-	        var url = '/cms/groups/${id}/manager?ids=' + ids;
+	        var url = '/cms/topics/${id}/manager?ids=' + ids;
 	        $.post(url, function(data) {
 	          var r = $.parseJSON(data);
 	          if (r.success) {

@@ -22,4 +22,5 @@ public class SecurityException extends BaseException {
   public SecurityException(ErrorIDs errorId, String msg, Exception e) {
     super(errorId, msg, e);
   }
+  
 }

@@ -14,13 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoti.site.core.exception.SecurityException;
+import com.hoti.site.core.security.AuthzUtil;
 import com.hoti.site.db.entity.SiteResponse;
-import com.hoti.site.db.entity.TableIDs;
-import com.hoti.site.service.ActivityService;
-import com.hoti.site.service.BookmarkService;
-import com.hoti.site.service.GroupService;
-import com.hoti.site.service.RecommendService;
-import com.hoti.site.service.UserService;
+import com.hoti.site.rest.BaseService;
 
 @RestController
 @Scope("prototype")
@@ -29,15 +25,7 @@ public class RestAPIController {
   private Logger logger = LoggerFactory.getLogger(RestAPIController.class);
 
   @Resource
-  private BookmarkService bs;
-  @Resource
-  private RecommendService rs;
-  @Resource
-  private GroupService gs;
-  @Resource
-  private UserService us;
-  @Resource
-  private ActivityService as;
+  private BaseService service;
 
   /**
    * @WebAPI 关注站点
@@ -49,9 +37,7 @@ public class RestAPIController {
   @RequestMapping(value = "/bookmarks/{id}/follow", method = RequestMethod.POST)
   public SiteResponse followBookmark(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
     logger.info("关注站点: {}", id);
-    as.addLogger("关注站点", TableIDs.BOOKMARK_FOLLOW, id.toString(), request);
-    
-    bs.follow(id);
+    service.followProduct(AuthzUtil.getUserId(), id);
     return SiteUtil.ok();
   }
 
@@ -66,9 +52,7 @@ public class RestAPIController {
   public SiteResponse unfollowBookmark(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
     logger.info("取消关注站点: {}", id);    
-    as.addLogger("取消关注站点", TableIDs.BOOKMARK_FOLLOW, id.toString(), request);
-
-    bs.unfollow(id);
+    service.unfollowProduct(AuthzUtil.getUserId(), id);
     return SiteUtil.ok();
   }
 
@@ -80,9 +64,7 @@ public class RestAPIController {
   @RequestMapping(value = "/share", method = RequestMethod.POST)
   public SiteResponse share(@RequestParam String url, HttpServletRequest request) throws SecurityException {
     logger.info("分享站点", url);
-    as.addLogger("分享站点", TableIDs.RECOMMEND, url, request);
-    
-    rs.add(url);
+    service.addRecommend(url);
     return SiteUtil.ok();
   }
 
@@ -97,9 +79,7 @@ public class RestAPIController {
   public SiteResponse followGroup(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
     logger.info("关注主题：{}", id);
-    as.addLogger("关注主题", TableIDs.GROUP_FOLLOW, id.toString(), request);
-  
-    gs.follow(id);
+    service.followTopic(AuthzUtil.getUserId(), id);
     return SiteUtil.ok();
   }
 
@@ -113,9 +93,7 @@ public class RestAPIController {
   @RequestMapping(value = "/groups/{id}/unfollow", method = RequestMethod.POST)
   public SiteResponse unfollowGroup(@PathVariable Long id, HttpServletRequest request) throws SecurityException {
     logger.info("取消关注主题: {}", id);
-    as.addLogger("取消关注主题", TableIDs.GROUP_FOLLOW, id.toString(), request);
-    
-    gs.unfollow(id);
+    service.unfollowTopic(AuthzUtil.getUserId(), id);
     return SiteUtil.ok();
   }
 
@@ -131,9 +109,7 @@ public class RestAPIController {
   public SiteResponse login(@RequestParam String username, @RequestParam String password,
       HttpServletRequest request) throws SecurityException {
     logger.info("用户登录：{}", username);
-    as.addLogger("用户登录", TableIDs.USER, username, request);
-    
-    us.authenticate(username, password);
+    service.authenticate(username, password);
     return SiteUtil.ok();
   }
 

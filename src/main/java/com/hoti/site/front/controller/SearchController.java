@@ -17,24 +17,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
 import com.hoti.site.core.exception.SecurityException;
-import com.hoti.site.db.entity.Bookmark;
-import com.hoti.site.db.entity.BookmarkExample;
-import com.hoti.site.db.entity.Group;
-import com.hoti.site.db.entity.GroupExample;
 import com.hoti.site.db.entity.Pagination;
-import com.hoti.site.service.BookmarkService;
-import com.hoti.site.service.GroupService;
+import com.hoti.site.db.entity.Product;
+import com.hoti.site.db.entity.ProductExample;
+import com.hoti.site.db.entity.Topic;
+import com.hoti.site.db.entity.TopicExample;
+import com.hoti.site.rest.BaseService;
 
 @Controller
 @Scope("prototype")
 public class SearchController {
 
-  private Logger logger = LoggerFactory.getLogger(GroupController.class);
+  private Logger logger = LoggerFactory.getLogger(TopicController.class);
 
   @Resource
-  private BookmarkService bs;
-  @Resource
-  private GroupService gs;
+  private BaseService service;
 
   /**
    * @WebPage 搜索结果页
@@ -71,15 +68,15 @@ public class SearchController {
    * @throws SecurityException
    */
   private void searchByBookmark(String q, Pagination p, Model model) throws SecurityException {
-    BookmarkExample example = new BookmarkExample();
-    BookmarkExample.Criteria criteria = example.createCriteria();
+    ProductExample example = new ProductExample();
+    ProductExample.Criteria criteria = example.createCriteria();
 
     if (StringUtils.isNotEmpty(q)) {
       criteria.andTitleLike("%" + q + "%"); // 模糊查询
     }
 
-    PageInfo<Bookmark> pageInfo = bs.find(example, p);
-    List<Bookmark> list = pageInfo.getList();
+    PageInfo<Product> pageInfo = service.findProducts(example, p);
+    List<Product> list = pageInfo.getList();
 
     logger.info("用户搜索结果数：{}", pageInfo.getTotal());
 
@@ -87,29 +84,29 @@ public class SearchController {
     ModelUtil.addF(model, "site");
     ModelUtil.addBookmarks(model, list);
     model.addAttribute("bcount", pageInfo.getTotal());
-    model.addAttribute("gcount", gs.count(q));
+    model.addAttribute("gcount", 0 /*gs.count(q)*/);
   }
 
   /**
    * 主题搜索
    */
   private void searchByGroup(String q, Pagination p, Model model) throws SecurityException {
-    GroupExample example = new GroupExample();
-    GroupExample.Criteria criteria = example.createCriteria();
+    TopicExample example = new TopicExample();
+    TopicExample.Criteria criteria = example.createCriteria();
 
     if (StringUtils.isNotEmpty(q)) {
       criteria.andTitleLike("%" + q + "%"); // 模糊查询
     }
 
-    PageInfo<Group> pageInfo = gs.find(example, p);
-    List<Group> list = pageInfo.getList();
+    PageInfo<Topic> pageInfo = service.findTopics(example, p);
+    List<Topic> list = pageInfo.getList();
 
     logger.info("用户搜索结果数：{}", pageInfo.getTotal());
 
     ModelUtil.addPager(model, pageInfo, "/search?f=group&q=" + q);
     ModelUtil.addF(model, "group");
     ModelUtil.addGroups(model, list);
-    model.addAttribute("bcount", bs.count(q));
+    model.addAttribute("bcount", 0 /*bs.count(q)*/);
     model.addAttribute("gcount", pageInfo.getTotal());
   }
 }

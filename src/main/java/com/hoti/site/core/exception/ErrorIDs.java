@@ -58,9 +58,9 @@ public enum ErrorIDs {
   READ_FAILIED,
 
   /**
-   * REST请求失败
+   * 统计失败
    */
-  REST_FAILIED,
+  COUNT_FAILIED,
 
   /**
    * 取消关注失败

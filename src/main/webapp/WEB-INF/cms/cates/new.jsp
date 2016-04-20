@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div class="easyui-layout" data-options="fit:true">
   <div data-options="region:'center', border:false" class="cms-wbox">
-  <form id="cates-add-form" action="/cms/cates/new" method="post">
+  <form id="cates-add-form" action="/cms/categories/new" method="post">
     <div class="cms-mb20">
       <div class="cms-mb5">名称:</div>
       <input class="easyui-textbox" name="name" data-options="required:true" style="width:100%; height:32px">

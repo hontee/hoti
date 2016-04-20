@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoti.site.db.dao.TriggerMapper">
+  
+  <!-- 添加产品和删除产品 -->
+  <delete id="insertProduct" parameterType="map">
+  	UPDATE t_category SET product = product + 1 WHERE id = #{cid}
+  </delete>
+  <delete id="deleteProduct" parameterType="map">
+  	UPDATE t_category SET product=product-1 WHERE id = #{cid}
+  </delete>
+  
+  
+  <!-- 添加主题和删除主题 -->
+  <delete id="insertTopic" parameterType="map">
+  	UPDATE t_category SET topic = topic + 1 WHERE id = #{cid}
+  </delete>
+  <delete id="deleteTopic" parameterType="map">
+  	UPDATE t_category SET topic = topic - 1 WHERE id = #{cid}
+  </delete>
+  
+  
+  <!-- 添加主题关联的产品和删除主题关联的产品 -->
+  <delete id="insertTopicProduct" parameterType="map">
+  	UPDATE t_topic SET product = product + 1 WHERE id = #{tid}
+  </delete>
+  <delete id="deleteTopicProduct" parameterType="map">
+  	UPDATE t_topic SET product = product - 1 WHERE id = #{tid}
+  </delete>
+  
+  
+  <!-- 关注产品和取消关注产品 -->
+  <delete id="followProduct" parameterType="map">
+  	UPDATE t_product SET star = star + 1 WHERE id = #{pid}
+  </delete>
+  <delete id="unfollowProduct" parameterType="map">
+  	UPDATE t_product SET star = star - 1 WHERE id = #{pid}
+  </delete>
+  
+  
+  <!-- 关注主题和取消关注主题 -->
+  <delete id="followTopic" parameterType="map">
+  	UPDATE t_topic SET star = star + 1 WHERE id = #{tid}
+  </delete>
+  <delete id="unfollowTopic" parameterType="map">
+  	UPDATE t_topic SET star = star - 1 WHERE id = #{tid}
+  </delete>
+  
+  <!-- 更新产品类别名称 -->
+  <update id="updateProductCategory" parameterType="map">
+    UPDATE t_product SET category = #{category} WHERE cid = #{cid}
+  </update>
+  <!-- 更新主题类别名称 -->
+  <update id="updateTopicCategory" parameterType="map">
+    UPDATE t_topic SET category = #{category} WHERE cid = #{cid}
+  </update>
+
+</mapper>

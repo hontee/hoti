@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="easyui-layout" data-options="fit:true">
   <div data-options="region:'center', border:false" class="cms-wbox">
-  <form id="recmds-ok-form" action="/cms/recmds/${record.id}/ok" method="post">
+  <form id="recmds-ok-form" action="/cms/recommends/${record.id}/ok" method="post">
   	<div class="cms-mb20">
       <div class="cms-mb5">网址:</div>
       <input class="easyui-textbox" name="url" value="${record.url}" data-options="required:true" style="width:100%; height:32px">
@@ -14,7 +14,7 @@
     <div class="cms-mb20">
       <div class="cms-mb5">所属分类:</div>
       <input class="easyui-combobox" name="category"
-    	data-options="required:true,panelHeight:'auto',editable: false, valueField:'id',textField:'title',url:'/cms/cates/datalist'" 
+    	data-options="required:true,panelHeight:'auto',editable: false, valueField:'id',textField:'title',url:'/cms/categories/datalist'" 
     	style="width:100%; height:32px">
     </div>
     <div class="cms-mb20">

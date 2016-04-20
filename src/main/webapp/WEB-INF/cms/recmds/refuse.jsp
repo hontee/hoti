@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="easyui-layout" data-options="fit:true">
   <div data-options="region:'center', border:false" class="cms-wbox">
-  <form id="recmds-refuse-form" action="/cms/recmds/${record.id}/refuse" method="post">
+  <form id="recmds-refuse-form" action="/cms/recommends/${record.id}/refuse" method="post">
   	<div class="cms-mb20">
       <div class="cms-mb5">网址:</div>
       <input class="easyui-textbox" value="${record.url}" data-options="readonly:true" style="width:100%; height:32px">
