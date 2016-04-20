@@ -24,6 +24,7 @@ import com.hoti.site.db.entity.Recommend;
 import com.hoti.site.db.entity.RecommendExample;
 import com.hoti.site.db.entity.SiteResponse;
 import com.hoti.site.db.entity.StateAuditUtil;
+import com.hoti.site.front.controller.ModelUtil;
 import com.hoti.site.front.controller.SiteUtil;
 import com.hoti.site.front.vo.ProductVO;
 import com.hoti.site.front.vo.RecommendVO;
@@ -38,46 +39,99 @@ public class RecommendCMS {
   @Resource
   private BaseService service;
 
+  /**
+   * 推荐管理首页
+   * 
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "", method = RequestMethod.GET)
   public String index() throws SecurityException {
     return "cms/recmds/index";
   }
 
+  /**
+   * 新建推荐页
+   * 
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/new", method = RequestMethod.GET)
   public String addPage() throws SecurityException {
     return "cms/recmds/new";
   }
 
+  /**
+   * 编辑推荐页
+   * 
+   * @param id 推荐ID
+   * @param model
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
   public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", service.findRecommend(id));
+    ModelUtil.addRecord(model, service.findRecommend(id));
     return "cms/recmds/edit";
   }
 
+  /**
+   * 审核通过页
+   * 
+   * @param id 推荐ID
+   * @param model
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/ok", method = RequestMethod.GET)
   public String auditOKPage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", service.findRecommend(id));
+    ModelUtil.addRecord(model, service.findRecommend(id));
     return "cms/recmds/ok";
   }
 
+  /**
+   * 审核拒绝页
+   * 
+   * @param id 推荐ID
+   * @param model
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/refuse", method = RequestMethod.GET)
   public String auditRefusePage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", service.findRecommend(id));
+    ModelUtil.addRecord(model, service.findRecommend(id));
     return "cms/recmds/refuse";
   }
 
+  /**
+   * 推荐详情页
+   * 
+   * @param id 推荐ID
+   * @param model
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", service.findRecommend(id));
+    ModelUtil.addRecord(model, service.findRecommend(id));
     return "cms/recmds/view";
   }
 
+  /**
+   * 推荐数据列表, 支持分页和查询条件
+   * 
+   * @param title 标题
+   * @param state 状态 1=未审核 2=审核通过 3=审核拒绝
+   * @param p 分页组件
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/list")
   public @ResponseBody DataGrid<Recommend> dataGrid(@RequestParam(required = false) String title,
@@ -98,6 +152,14 @@ public class RecommendCMS {
     return new DataGrid<>(pageInfo);
   }
 
+  /**
+   * 新建推荐
+   * 
+   * @param url 推荐网址
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/new", method = RequestMethod.POST)
   public @ResponseBody SiteResponse add(@RequestParam String url, HttpServletRequest request)
@@ -107,6 +169,14 @@ public class RecommendCMS {
     return SiteUtil.ok();
   }
 
+  /**
+   * 删除推荐
+   * 
+   * @param id 推荐ID
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
   public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
@@ -116,6 +186,15 @@ public class RecommendCMS {
     return SiteUtil.ok();
   }
 
+  /**
+   * 编辑推荐
+   * 
+   * @param id 推荐ID
+   * @param vo 请求参数
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
   public @ResponseBody SiteResponse edit(@PathVariable Long id, RecommendVO vo,
@@ -125,6 +204,15 @@ public class RecommendCMS {
     return SiteUtil.ok();
   }
 
+  /**
+   * 审核通过
+   * 
+   * @param id 推荐ID
+   * @param vo 请求参数
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/ok", method = RequestMethod.POST)
   public @ResponseBody SiteResponse auditOk(@PathVariable Long id, ProductVO vo,
@@ -134,6 +222,15 @@ public class RecommendCMS {
     return SiteUtil.ok();
   }
 
+  /**
+   * 审核拒绝
+   * 
+   * @param id 推荐ID
+   * @param remark 拒绝理由
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/refuse", method = RequestMethod.POST)
   public @ResponseBody SiteResponse auditRefuse(@PathVariable Long id, @RequestParam String remark,

@@ -164,7 +164,7 @@ recmdsEL.auditOk.click(function() {
 	if (row) {
 		recmdsEL.win.window({
 			width: 480,
-			height: 500,
+			height: 580,
 			modal: true,
 			title: '审核',
 			collapsible: false,
@@ -198,7 +198,7 @@ recmdsEL.auditNot.click(function() {
 
 // 删除
 recmdsEL.remove.click(function() {
-	CMS.removeSubmitHandler(recmdsEL, 'recmds');
+	CMS.removeSubmitHandler(recmdsEL, 'recommends');
 });
 
 // 重载
