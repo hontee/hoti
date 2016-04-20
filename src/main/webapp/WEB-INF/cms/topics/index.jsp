@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../_header.jsp" %>
-<title>群组管理</title>
+<title>主题管理</title>
 </head>
 <body>
 <header id="groups-header" class="cms-dg-header">
 	<button id="groups-add" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新建</button>
 	<button id="groups-edit" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">编辑</button>
-	<button id="groups-bookmarks" class="easyui-linkbutton" data-options="iconCls:'icon-add',disabled:true">添加站点</button>
-	<button id="groups-manager" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">管理站点</button>
+	<button id="groups-bookmarks" class="easyui-linkbutton" data-options="iconCls:'icon-add',disabled:true">添加产品</button>
+	<button id="groups-manager" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">管理产品</button>
 	<button id="groups-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
 	<button id="groups-follow" class="easyui-linkbutton" data-options="iconCls:'icon-tip',disabled:true">关注</button>
 	<button id="groups-pick" class="easyui-linkbutton" data-options="iconCls:'icon-add',disabled:true">精选</button>
@@ -17,13 +17,13 @@
 	
 	<span class="cms-dg-search">
 	  <input class="easyui-combobox" id="groups-category"
-    	data-options="required:true, value:'-1', valueField:'id',textField:'title',url:'/cms/categories/datalist?q=all'" 
+    	data-options="required:true, value:'0', valueField:'id',textField:'title',url:'/cms/categories/datalist?q=all'" 
     	style="width:100px;">
-	  <select class="easyui-combobox" id="groups-gtype" data-options="panelHeight:'auto',editable: false" style="width:100px;">
-        <option value="all" selected>全部机构</option>
-        <option value="user">用户</option>
-        <option value="topic">主题</option>
-        <option value="org">组织</option>
+	  <select class="easyui-combobox" id="groups-type" data-options="panelHeight:'auto',editable: false" style="width:100px;">
+        <option value="all" selected>全部类型</option>
+        <option value="user">用户主题</option>
+        <option value="topic">官方主题</option>
+        <option value="org">组织主题</option>
       </select>
 	  <select class="easyui-combobox" id="groups-state" data-options="panelHeight:'auto',editable: false" style="width:100px;">
         <option value="-1" selected>全部状态</option>
@@ -69,16 +69,15 @@ groupsEL.dg.datagrid({
         {field:'name',title:'名称',width:100, hidden: true},
         {field:'title',title:'标题',width:100, sortable: true},
         {field:'description',title:'描述',width:100},
-        {field:'gtype',title:'机构',width:100, sortable: true},
         {field:'avatar',title:'头像',width:100},
         {field:'cover',title:'封面',width:100},
-        {field:'star',title:'关注',width:100, sortable: true},
-        {field:'count',title:'计数',width:100, sortable: true},
-        {field:'state',title:'状态',width:100, sortable: true, formatter: function(value,row,index) {
+        {field:'star',title:'关注数',width:100, sortable: true},
+        {field:'product',title:'产品数',width:100, sortable: true},
+        {field:'audit',title:'审核',width:100, sortable: true, formatter: function(value,row,index) {
         	if (value == '1') {
-				return '启用';
+				return '已认证';
 			} else {
-				return '禁用';
+				return '未认证';
 			}
         }},
         {field:'pick',title:'精选',width:100, sortable: true, formatter: function(value,row,index) {
@@ -88,6 +87,25 @@ groupsEL.dg.datagrid({
 				return '否';
 			}
         }},
+        {field:'type',title:'类型',width:100, sortable: true, formatter: function(value,row,index) {
+        	if (value == '1') {
+				return '用户主题';
+			} else if(value == '2') {
+				return '官方主题';
+			} else if(value == '3') {
+				return '组织主题';
+			}
+        }},
+        {field:'state',title:'状态',width:100, sortable: true, formatter: function(value,row,index) {
+        	if (value == '1') {
+				return '启用';
+			} else {
+				return '禁用';
+			}
+        }},
+        {field:'cid',title:'所属类别',width:100, sortable: true, formatter: function(value,row,index) {
+        	return row.category;
+        }},
         {field:'created',title:'创建时间',width:100, sortable: true, formatter: function(value,row,index) {
         	return new Date(value).format();  
         }},
@@ -96,9 +114,6 @@ groupsEL.dg.datagrid({
         }},
         {field:'createBy',title:'创建人',width:100, sortable: true, formatter: function(value,row,index) {
         	return row.creator;
-        }},
-        {field:'category',title:'所属分类',width:100, sortable: true, formatter: function(value,row,index) {
-        	return row.cateTitle;
         }}
     ]],
  	// 当选择一行时触发
@@ -127,25 +142,30 @@ groupsEL.dg.datagrid({
 groupsEL.reset = function() {
 	var length = groupsEL.dg.datagrid("getSelections").length;
 	if (length == 0) { // 全部禁用
-		groupsEL.linkButton(true, true, true);
+		groupsEL.edit.linkbutton({disabled: true});
+		groupsEL.bookmarks.linkbutton({disabled: true});
+		groupsEL.manager.linkbutton({disabled: true});
+		groupsEL.follow.linkbutton({disabled: true});
+		groupsEL.remove.linkbutton({disabled: true});
+		groupsEL.pick.linkbutton({disabled: true});
+		groupsEL.unpick.linkbutton({disabled: true});
 	} else if (length == 1) { // 可编辑和删除
-		groupsEL.linkButton(false, false, true);
+		groupsEL.edit.linkbutton({disabled: false});
+		groupsEL.bookmarks.linkbutton({disabled: false});
+		groupsEL.manager.linkbutton({disabled: false});
+		groupsEL.follow.linkbutton({disabled: false});
+		groupsEL.remove.linkbutton({disabled: false});
 		groupsEL.pick.linkbutton({disabled: false});
 		groupsEL.unpick.linkbutton({disabled: false});
 	} else { // 可批量操作
-		groupsEL.linkButton(true, true, false);
+		groupsEL.edit.linkbutton({disabled: true});
+		groupsEL.bookmarks.linkbutton({disabled: true});
+		groupsEL.manager.linkbutton({disabled: true});
+		groupsEL.follow.linkbutton({disabled: true});
+		groupsEL.remove.linkbutton({disabled: true});
 		groupsEL.pick.linkbutton({disabled: false});
 		groupsEL.unpick.linkbutton({disabled: false});
 	}
-}
-
-// 设置按钮是否可用
-groupsEL.linkButton = function(a, b, c) {
-	groupsEL.edit.linkbutton({disabled: a});
-	groupsEL.bookmarks.linkbutton({disabled: a});
-	groupsEL.manager.linkbutton({disabled: a});
-	groupsEL.follow.linkbutton({disabled: a});
-	groupsEL.remove.linkbutton({disabled: b});
 }
 
 // 搜索
@@ -153,8 +173,8 @@ groupsEL.search = function(value){
 	groupsEL.dg.datagrid('load',{
 		title: value,
 		state: $('#groups-state').combobox('getValue'),
-		gtype: $('#groups-gtype').combobox('getValue'),
-		category: $('#groups-category').combobox('getValue')
+		type: $('#groups-type').combobox('getValue'),
+		cid: $('#groups-category').combobox('getValue')
 	});
 }
 
@@ -164,7 +184,7 @@ groupsEL.add.click(function() {
 		width: 480,
 		height: 500,
 		modal: true,
-		title: '新建群组',
+		title: '新建主题',
 		collapsible: false,
 		minimizable: false,
 		maximizable: false,
@@ -182,7 +202,7 @@ groupsEL.edit.click(function() {
 			width: 480,
 			height: 500,
 			modal: true,
-			title: '编辑群组',
+			title: '编辑主题',
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
@@ -195,20 +215,20 @@ groupsEL.edit.click(function() {
 
 // 删除
 groupsEL.remove.click(function() {
-	CMS.removeSubmitHandler(groupsEL, 'groups');
+	CMS.removeSubmitHandler(groupsEL, 'topics');
 });
 
 //精选
 groupsEL.pick.click(function() {
-	CMS.pickSubmitHandler(groupsEL, 'groups');
+	CMS.pickSubmitHandler(groupsEL, 'topics');
 });
 
 // 取消精选
 groupsEL.unpick.click(function() {
-	CMS.unpickSubmitHandler(groupsEL, 'groups');
+	CMS.unpickSubmitHandler(groupsEL, 'topics');
 });
 
-// 添加站点
+// 添加产品
 groupsEL.bookmarks.click(function() {
 	var row = groupsEL.dg.datagrid('getSelected');
 	if (row) {
@@ -216,7 +236,7 @@ groupsEL.bookmarks.click(function() {
 			width: 980,
 			height: 640,
 			modal: true,
-			title: '添加站点',
+			title: '添加产品',
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
@@ -227,7 +247,7 @@ groupsEL.bookmarks.click(function() {
 	}
 });
 
-// 管理站点
+// 管理产品
 groupsEL.manager.click(function() {
 	var row = groupsEL.dg.datagrid('getSelected');
 	if (row) {
@@ -235,7 +255,7 @@ groupsEL.manager.click(function() {
 			width: 980,
 			height: 640,
 			modal: true,
-			title: '管理站点',
+			title: '管理产品',
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
@@ -254,7 +274,7 @@ groupsEL.follow.click(function() {
 			width: 980,
 			height: 600,
 			modal: true,
-			title: '关注',
+			title: '用户列表',
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
@@ -268,7 +288,7 @@ groupsEL.follow.click(function() {
 
 // 更新统计
 groupsEL.count.click(function() {
-	CMS.countSubmitHandler(groupsEL, 'groups');
+	CMS.countSubmitHandler(groupsEL, 'topics');
 });
 
 // 重载

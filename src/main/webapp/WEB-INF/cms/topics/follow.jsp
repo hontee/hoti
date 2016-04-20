@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../_header.jsp" %>
-<title>群组用户</title>
+<title>关注主题的用户列表</title>
 </head>
 <body>
 <header id="groups-users-header" class="cms-dg-header">
@@ -34,7 +34,7 @@ var groupsUsersEL = {
 
 // DataGrid
 groupsUsersEL.dg.datagrid({
-    url:'/cms/topics/${id}/follows',
+    url:'/cms/topics/${id}/users',
     fitColumns: true,
     border: false,
     idField: "id",
@@ -45,39 +45,38 @@ groupsUsersEL.dg.datagrid({
     header: '#groups-users-header',
     fit: true,
     columns:[[
-        {field: 'id', checkbox: true},
-        {field:'name',title:'用户名',width:100, sortable: true},
-        {field:'title',title:'昵称',width:100, sortable: true},
-        {field:'description',title:'签名',width:200},
-        {field:'userType',title:'用户类型',width:60, sortable: true, formatter: function(value,row,index) {
-        	if (value == '2') {
-				return '管理员';
-			} else {
-				return '普通用户';
-			}
-        }},
-        {field:'state',title:'状态',width:60, sortable: true, formatter: function(value,row,index) {
-        	if (value == '1') {
-				return '启用';
-			} else if (value == '2') {
-				return '已锁定';
-			} else if (value == '3') {
-				return '已删除';
-			} else {
-				return '禁用';
-			}
-        }},
-        {field:'created',title:'关注时间',width:60, sortable: true, formatter: function(value,row,index) {
-        	return new Date(value).format();
-        }}
-    ]]
+       {field: 'id', checkbox: true},
+       {field:'name',title:'用户名',width:100, sortable: true},
+       {field:'title',title:'昵称',width:100, sortable: true},
+       {field:'type',title:'用户类型',width:60, sortable: true, formatter: function(value,row,index) {
+       	if (value == '2') {
+			return '管理员';
+		} else {
+			return '普通用户';
+		}
+       }},
+       {field:'state',title:'状态',width:60, sortable: true, formatter: function(value,row,index) {
+       	if (value == '1') {
+			return '启用';
+		} else if (value == '2') {
+			return '已锁定';
+		} else if (value == '3') {
+			return '已删除';
+		} else {
+			return '禁用';
+		}
+       }},
+       {field:'ftime',title:'关注时间',width:60, sortable: true, formatter: function(value,row,index) {
+       	return new Date(value).format();
+       }}
+   ]]
 });
 
 // 搜索
 groupsUsersEL.search = function(value){
 	groupsUsersEL.dg.datagrid('load',{
 		name: value,
-		userType: $('#groups-users-type').combobox('getValue'),
+		type: $('#groups-users-type').combobox('getValue'),
 		state: $('#groups-users-state').combobox('getValue')
 	});
 }

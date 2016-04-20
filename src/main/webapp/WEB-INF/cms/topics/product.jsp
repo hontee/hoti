@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../_header.jsp" %>
-<title>群组管理-添加站点</title>
+<title>主题添加关联产品</title>
 </head>
 <body>
 <header id="groups-bm-header" class="cms-dg-header">
@@ -9,7 +9,7 @@
 	
 	<span class="cms-dg-search">
 	  <input class="easyui-combobox" id="groups-bm-category"
-    	data-options="required:true, value:'-1', valueField:'id',textField:'title',url:'/cms/categories/datalist?q=all'" 
+    	data-options="required:true, value:'0', valueField:'id',textField:'title',url:'/cms/categories/datalist?q=all'" 
     	style="width:100px;">
 	  <select class="easyui-combobox" id="groups-bm-state" data-options="panelHeight:'auto',editable: false" style="width:100px;">
         <option value="-1" selected>全部状态</option>
@@ -48,8 +48,22 @@ groupsBmEL.dg.datagrid({
         {field:'title',title:'标题',width:400, sortable: true},
         {field:'star',title:'星',width:100, sortable: true},
         {field:'hit',title:'点击数',width:100, sortable: true},
-        {field:'category',title:'所属分类',width:100, sortable: true, formatter: function(value,row,index) {
-        	return row.cateTitle;
+        {field:'cid',title:'所属分类',width:100, sortable: true, formatter: function(value,row,index) {
+        	return row.category;
+        }},
+        {field:'pick',title:'精选',width:100, sortable: true, formatter: function(value,row,index) {
+        	if (value == '1') {
+				return '是';
+			} else {
+				return '否';
+			}
+        }},
+        {field:'audit',title:'审核',width:100, sortable: true, formatter: function(value,row,index) {
+        	if (value == '1') {
+				return '已认证';
+			} else {
+				return '未认证';
+			}
         }},
         {field:'state',title:'状态',width:100, sortable: true, formatter: function(value,row,index) {
         	if (value == '1') {
@@ -60,8 +74,7 @@ groupsBmEL.dg.datagrid({
         }},
         {field:'created',title:'创建时间',width:120, sortable: true, formatter: function(value,row,index) {
         	return new Date(value).format();  
-        }},
-        {field:'extCategoryTitle',title:'分类标题', hidden: true}
+        }}
     ]]
 });
 
@@ -70,7 +83,7 @@ groupsBmEL.search = function(value){
 	groupsBmEL.dg.datagrid('load',{
 		title: value,
 		state: $('#groups-bm-state').combobox('getValue'),
-		category: $('#groups-bm-category').combobox('getValue')
+		cid: $('#groups-bm-category').combobox('getValue')
 	});
 }
 

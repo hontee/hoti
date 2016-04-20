@@ -247,6 +247,18 @@ public interface BaseDao {
    * @return
    */
   PageInfo<Product> findTopicProducts(Long tid, Pagination p) throws Exception;
+  
+  /**
+   * 主题关联的产品列表
+   * 
+   * @param tid 主题ID
+   * @param title 产品标题
+   * @param cid 类别ID
+   * @param state 产品状态
+   * @return
+   */
+  PageInfo<Product> findTopicProducts(Long tid, String title, Long cid, Byte state, Pagination p)
+      throws Exception;
 
   /**
    * 用户关注的产品列表

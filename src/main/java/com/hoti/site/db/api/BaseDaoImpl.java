@@ -265,9 +265,15 @@ public class BaseDaoImpl implements BaseDao {
 
   @Override
   public PageInfo<Product> findTopicProducts(Long tid, Pagination p) throws Exception {
+    return findTopicProducts(tid, null, null, null, p);
+  }
+
+  @Override
+  public PageInfo<Product> findTopicProducts(Long tid, String title, Long cid, Byte state,
+      Pagination p) throws Exception {
     logger.info("分页查询主题关联的产品：{}", tid);
     addPageHelper(p);
-    List<Product> list = pm.selectByTid(tid);
+    List<Product> list = pm.selectByTid(tid, title, cid, state);
     return new PageInfo<>(list);
   }
 

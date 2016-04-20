@@ -30,10 +30,14 @@ public interface ProductMapper {
   
   /**
    * 主题关联的产品列表
-   * @param uid 用户ID
+   * @param tid 主题ID
+   * @param title 产品标题
+   * @param cid 类别ID
+   * @param state 产品状态
    * @return
    */
-  List<Product> selectByTid(@Param("tid") Long tid);
+  List<Product> selectByTid(@Param("tid") Long tid, @Param("title") String title,
+      @Param("cid") Long cid, @Param("state") Byte state);
 
   int updateByExample(@Param("record") Product record, @Param("example") ProductExample example);
 

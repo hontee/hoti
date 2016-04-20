@@ -346,6 +346,19 @@ public class BaseServiceImpl implements BaseService {
       throw new FindException(e);
     }
   }
+  
+  
+
+  @Override
+  public PageInfo<Product> findTopicProducts(Long tid, String title, Long cid, Byte state,
+      Pagination p) throws SecurityException {
+    try {
+      return dao.findTopicProducts(tid, title, cid, state, p);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new FindException(e);
+    }
+  }
 
   @Override
   public PageInfo<Product> findUserProducts(Long uid, Pagination p) throws SecurityException {
@@ -625,7 +638,7 @@ public class BaseServiceImpl implements BaseService {
   @Override
   public void unpickTopic(Long[] array) throws SecurityException {
     try {
-      dao.unpickProduct(array);
+      dao.unpickTopic(array);
     } catch (Exception e) {
       e.printStackTrace();
       throw new UpdateException(e);
@@ -883,7 +896,7 @@ public class BaseServiceImpl implements BaseService {
     record.setName(vo.getNameUUID());
     record.setState(vo.getState());
     record.setTitle(vo.getTitle());
-    addTopic(vo);
+    addTopic(record);
   }
 
   @Override
