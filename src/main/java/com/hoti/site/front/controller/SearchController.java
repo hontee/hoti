@@ -34,7 +34,7 @@ public class SearchController {
   private BaseService service;
 
   /**
-   * @WebPage 搜索结果页
+   * 搜索结果页
    * @param q
    * @param p
    * @param model
@@ -43,7 +43,7 @@ public class SearchController {
    * @注意：解决请求参数乱码问题需修改TOMCAT <Connector> 添加 URIEncoding="UTF-8"
    */
   @RequestMapping(value = "/search", method = RequestMethod.GET)
-  public String search(@RequestParam String q, @RequestParam(defaultValue = "site") String f,
+  public String searchProduct(@RequestParam String q, @RequestParam(defaultValue = "site") String f,
       Pagination p, HttpServletRequest request, Model model) throws SecurityException {
 
     logger.info("用户输入搜索：{}, 过滤条件：{}", q, f);
@@ -52,22 +52,7 @@ public class SearchController {
     ModelUtil.addQ(model, q);
 
     p.initFrontRows();
-
-    if ("site".equals(f)) { // 查询书签
-      searchByBookmark(q, p, model);
-    } else { // 查询主题
-      searchByGroup(q, p, model);
-    }
-
-    return "search.ftl";
-  }
-
-  /**
-   * 书签搜索
-   * 
-   * @throws SecurityException
-   */
-  private void searchByBookmark(String q, Pagination p, Model model) throws SecurityException {
+    
     ProductExample example = new ProductExample();
     ProductExample.Criteria criteria = example.createCriteria();
 
@@ -81,16 +66,34 @@ public class SearchController {
     logger.info("用户搜索结果数：{}", pageInfo.getTotal());
 
     ModelUtil.addPager(model, pageInfo, "/search?q=" + q);
-    ModelUtil.addF(model, "site");
+    ModelUtil.addF(model, "product");
     ModelUtil.addBookmarks(model, list);
     model.addAttribute("bcount", pageInfo.getTotal());
     model.addAttribute("gcount", 0 /*gs.count(q)*/);
-  }
 
+    return "search.ftl";
+  }
+  
   /**
-   * 主题搜索
+   * 搜索结果页
+   * @param q
+   * @param p
+   * @param model
+   * @return
+   * @throws SecurityException
+   * @注意：解决请求参数乱码问题需修改TOMCAT <Connector> 添加 URIEncoding="UTF-8"
    */
-  private void searchByGroup(String q, Pagination p, Model model) throws SecurityException {
+  @RequestMapping(value = "/search/topic", method = RequestMethod.GET)
+  public String searchTopic(@RequestParam String q, @RequestParam(defaultValue = "site") String f,
+      Pagination p, HttpServletRequest request, Model model) throws SecurityException {
+
+    logger.info("用户输入搜索：{}, 过滤条件：{}", q, f);
+
+    ModelUtil.addHeader(model, "红提 | 搜索结果");
+    ModelUtil.addQ(model, q);
+
+    p.initFrontRows();
+    
     TopicExample example = new TopicExample();
     TopicExample.Criteria criteria = example.createCriteria();
 
@@ -103,10 +106,12 @@ public class SearchController {
 
     logger.info("用户搜索结果数：{}", pageInfo.getTotal());
 
-    ModelUtil.addPager(model, pageInfo, "/search?f=group&q=" + q);
-    ModelUtil.addF(model, "group");
+    ModelUtil.addPager(model, pageInfo, "/search/group?q=" + q);
+    ModelUtil.addF(model, "topic");
     ModelUtil.addGroups(model, list);
     model.addAttribute("bcount", 0 /*bs.count(q)*/);
     model.addAttribute("gcount", pageInfo.getTotal());
+    return "search.ftl";
   }
+
 }

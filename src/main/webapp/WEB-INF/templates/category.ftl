@@ -1,10 +1,10 @@
 <@override name="body">
 <nav id="mmenu">
   <ul class="listview-icons">
-    <#list cates as r>
+    <#list categories as c>
     <li>
-      <a href="/category/${r.id}">${r.title!}</a>
-      <em class="mm-counter mm-badge">${r.product}</em>
+      <a href="/categories/${c.id}">${c.title!}</a>
+      <em class="mm-counter mm-badge">${c.product}</em>
     </li>
     </#list>
   </ul>

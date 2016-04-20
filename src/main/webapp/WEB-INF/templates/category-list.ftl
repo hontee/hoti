@@ -9,20 +9,18 @@
 <div class="toolbar">
   <div class="container">
     <div class="btn-group left">
-      <a class="btn btn-outline <#if f=='site'>selected</#if>" href="/category/${category.id}/?f=site">产品 / ${category.product}</a>
-      <a class="btn btn-outline <#if f!='site'>selected</#if>" href="/category/${category.id}/?f=group">主题 / ${category.topic}</a>
+      <a class="btn btn-outline <#if f=='product'>selected</#if>" href="/categories/${category.id}">产品 / ${category.product}</a>
+      <a class="btn btn-outline <#if f=='topic'>selected</#if>" href="/categories/${category.id}/topic">主题 / ${category.topic}</a>
     </div>
   </div>
 </div>
 
-<#if f == 'site'>
-
+<#if f == 'product'>
   <@extends name="product-list.ftl"/>
-  
-<#else>
+</#if>
 
+<#if f == 'topic'>
   <@extends name="topic-list.ftl"/>
-  
 </#if>
 
 <@extends name="pager.ftl"/>

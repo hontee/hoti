@@ -3,6 +3,7 @@ package com.hoti.site.front.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -10,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
 import com.hoti.site.core.exception.SecurityException;
@@ -28,70 +28,80 @@ public class CategoryController {
 
   @Resource
   private BaseService service;
-  
-  @RequestMapping(value = "/category", method = RequestMethod.GET)
-  public String  cate(Model model) throws SecurityException {
-    ModelUtil.addHeader(model, "红提 | 所有类别");
-    List<Category> list = service.findAllCategories();
-    model.addAttribute("cates", list);
-    return "category.ftl";
-  }
 
   /**
-   * @WebPage 类别下的所有产品 （支持分页）
-   * @param id
+   * 类别首页
+   * 
    * @param model
    * @return
    * @throws SecurityException
    */
-  @RequestMapping(value = "/category/{id}", method = RequestMethod.GET)
-  public String cateBm(@PathVariable Long id, Model model,
-      @RequestParam(defaultValue = "site") String f, Pagination p) throws SecurityException {
-
-    p.initFrontRows();
+  @RequestMapping(value = "/categories", method = RequestMethod.GET)
+  public String findAllCategories(Model model) throws SecurityException {
     ModelUtil.addHeader(model, "红提 | 所有类别");
-
-    if ("site".equals(f)) { // 查询书签
-      byBookmark(id, p, model);
-    } else { // 查询主题
-      byGroup(id, p, model);
-    }
-
-    return "category-list.ftl";
+    List<Category> list = service.findAllCategories();
+    ModelUtil.addCategories(model, list);
+    return "category.ftl";
   }
 
   /**
-   * 书签
+   * 根据类别获取产品
    * 
+   * @param id 类别ID
+   * @param model
+   * @return
    * @throws SecurityException
    */
-  private void byBookmark(long id, Pagination p, Model model) throws SecurityException {
+  @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET)
+  public String findProducts(@PathVariable Long id, Model model, Pagination p,
+      HttpServletRequest request) throws SecurityException {
+
+    System.err.println("======================" + request.getContextPath());
+    
+    p.initFrontRows();
     Category record = service.findCategory(id);
+    ModelUtil.addHeader(model, record.getTitle().concat(" | 红提"));
 
     ProductExample example = new ProductExample();
     example.createCriteria().andCidEqualTo(id);
     PageInfo<Product> pageInfo = service.findProducts(example, p);
 
     ModelUtil.addCategory(model, record);
-    ModelUtil.addPager(model, pageInfo, "/category/" + id + "?f=site");
+    ModelUtil.addPager(model, pageInfo, "/categories/" + id);
     ModelUtil.addBookmarks(model, pageInfo.getList());
-    ModelUtil.addF(model, "site");
+    ModelUtil.addF(model, "product");
+    
+    return "category-list.ftl";
   }
-
+  
   /**
-   * 主题
+   * 根据类别获取主题
+   * 
+   * @param id 类别ID
+   * @param model
+   * @return
+   * @throws SecurityException
    */
-  private void byGroup(long id, Pagination p, Model model) throws SecurityException {
+  @RequestMapping(value = "/categories/{id}/topic", method = RequestMethod.GET)
+  public String findTopics(@PathVariable Long id, Model model, Pagination p,
+      HttpServletRequest request) throws SecurityException {
+
+    System.err.println("======================" + request.getContextPath());
+    
+    p.initFrontRows();
     Category record = service.findCategory(id);
+    ModelUtil.addHeader(model, record.getTitle().concat(" | 红提"));
 
     TopicExample example = new TopicExample();
     example.createCriteria().andCidEqualTo(id);
     PageInfo<Topic> pageInfo = service.findTopics(example, p);
 
     ModelUtil.addCategory(model, record);
-    ModelUtil.addPager(model, pageInfo, "/category/" + id + "?f=group");
+    ModelUtil.addPager(model, pageInfo, "/categories/" + id + "/topic");
     ModelUtil.addGroups(model, pageInfo.getList());
-    ModelUtil.addF(model, "group");
+    ModelUtil.addF(model, "topic");
+
+    return "category-list.ftl";
   }
 
 }

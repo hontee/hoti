@@ -29,13 +29,14 @@ public class TopicController {
   private BaseService service;
 
   /**
-   * @WebPage 主题 = 我 | 猜你喜欢 | 全部
+   * 主题 = 我的关注 | 精选 | 最热 | 最新
+   * 
    * @param model
    * @return
    * @throws SecurityException
    */
-  @RequestMapping(value = "/groups", method = RequestMethod.GET)
-  public String group(@RequestParam(required = false) String f, Pagination p, Model model,
+  @RequestMapping(value = "/topics", method = RequestMethod.GET)
+  public String findTopics(@RequestParam(required = false) String f, Pagination p, Model model,
       HttpServletRequest request) throws SecurityException {
 
     p.initFrontRows();
@@ -60,21 +61,21 @@ public class TopicController {
 
     ModelUtil.addHeader(model, "红提主题 | 更好的产品组织者");
     ModelUtil.addF(model, f);
-    ModelUtil.addPager(model, pageInfo, "/groups?f=" + f);
+    ModelUtil.addPager(model, pageInfo, "/topics?f=" + f);
     ModelUtil.addGroups(model, pageInfo.getList());
     return "topic.ftl";
   }
 
   /**
-   * @WebPage 主题下的所有产品（支持分页）
+   * 查找主题下的产品（支持分页）
    * @param id
    * @param model
    * @param p
    * @return
    * @throws SecurityException
    */
-  @RequestMapping(value = "/groups/{id}", method = RequestMethod.GET)
-  public String group(@PathVariable Long id, @RequestParam(defaultValue = "hot") String f,
+  @RequestMapping(value = "/topics/{id}", method = RequestMethod.GET)
+  public String findTopics(@PathVariable Long id, @RequestParam(defaultValue = "hot") String f,
       Model model, Pagination p, HttpServletRequest request) throws SecurityException {
 
     p.initFrontRows();
@@ -83,9 +84,9 @@ public class TopicController {
     Topic record = service.findTopic(id);
     
     PageInfo<Product> pageInfo = service.findTopicProducts(id, p);
-    ModelUtil.addHeader(model, "红提主题 | 更好的产品组织者");
+    ModelUtil.addHeader(model, record.getTitle().concat(" | 红提主题"));
     ModelUtil.addF(model, f);
-    ModelUtil.addPager(model, pageInfo, "/groups/" + id + "/?f=" + f);
+    ModelUtil.addPager(model, pageInfo, "/topics/" + id + "/?f=" + f);
     ModelUtil.addGroup(model, record);
     ModelUtil.addBookmarks(model, pageInfo.getList());
     return "topic-product.ftl";

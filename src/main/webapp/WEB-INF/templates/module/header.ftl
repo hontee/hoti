@@ -28,8 +28,8 @@
     </form>
     <ul class="navbar-ul right">
       <li><a class="link" href="/">发现</a></li>
-      <li><a class="link" href="/groups">主题</a></li>
-      <li><a class="link" href="/category">类别</a></li>
+      <li><a class="link" href="/topics">主题</a></li>
+      <li><a class="link" href="/categories">类别</a></li>
       <#if user??>
       <li><a class="btn" href="/">你好，${user!}</a></li>
       <#else>

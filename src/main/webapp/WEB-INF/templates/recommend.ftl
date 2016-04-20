@@ -22,7 +22,7 @@
 <script>
 $(function() {
 	$("#submit").click(function() {
-		$.post("/share", $("#form").serialize(), function(data) {
+		$.post("/recommend", $("#form").serialize(), function(data) {
 			var r = $.parseJSON(data);
 			if (r.success) {
 				window.location.href = "/";

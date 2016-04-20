@@ -2,7 +2,7 @@
   <div class="card-columns">
     <#list bookmarks as r>
     <div class="card">
-      <a href="/bookmarks/${r.id}/hit" target="_blank">
+      <a href="/products/${r.id}/hit" target="_blank">
         <blockquote class="card-block">
           <h3 class="card-title">${r.title!}</h3>
           <p class="card-text">${r.description!}</p>
@@ -13,9 +13,9 @@
         </blockquote>
       </a>
       <#if r.follow==1>
-      <footer class="card-footer" data-follow="follow" data-href="/bookmarks/${r.id}/unfollow">取消关注</footer>
+      <footer class="card-footer" data-follow="follow" data-href="/products/${r.id}/unfollow">取消关注</footer>
       <#else>
-      <footer class="card-footer" data-follow="follow" data-href="/bookmarks/${r.id}/follow">关注</footer>
+      <footer class="card-footer" data-follow="follow" data-href="/products/${r.id}/follow">关注</footer>
       </#if>
     </div>
     </#list>

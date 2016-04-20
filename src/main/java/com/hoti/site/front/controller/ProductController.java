@@ -28,8 +28,10 @@ public class ProductController {
   private BaseService service;
 
   /**
-   * @WebPage 首页 = 我 | 猜你喜欢 | 全部 规则一：用户未登录则转发到 [发现页面] 规则二：用户已登录则查询 [我 / 全部]
-   * @param p
+   * 首页 = 我的关注 | 精选 | 最热 | 最新 <br>
+   * 如果用户未登录，则默认为[精选]
+   * 
+   * @param p 分页组件
    * @param model
    * @return
    * @throws SecurityException
@@ -67,26 +69,27 @@ public class ProductController {
   }
 
   /**
-   * @WebAPI 更新产品点击率和获取响应URL
-   * @param id
+   * 更新产品点击率和获取响应URL
+   * @param id 产品ID
    * @param model
    * @return
    * @throws SecurityException
    */
-  @RequestMapping(value = "/bookmarks/{id}/hit", method = RequestMethod.GET)
-  public String hit(@PathVariable Long id, Model model) throws SecurityException {
+  @RequestMapping(value = "/products/{id}/hit", method = RequestMethod.GET)
+  public String productHit(@PathVariable Long id, Model model) throws SecurityException {
     return SiteUtil.redirect(service.updateProductHit(id));
   }
 
   /**
-   * @WebPage 分享产品
+   * 推荐产品
+   * 
    * @return
    * @throws SecurityException
    */
-  @RequestMapping(value = "/share", method = RequestMethod.GET)
-  public String share(Model model) throws SecurityException {
+  @RequestMapping(value = "/recommend", method = RequestMethod.GET)
+  public String recommend(Model model) throws SecurityException {
     ModelUtil.addHeader(model, "红提 | 推荐你喜欢的资源、文档、技术与开源项目");
-    return "share.ftl";
+    return "recommend.ftl";
   }
 
 }

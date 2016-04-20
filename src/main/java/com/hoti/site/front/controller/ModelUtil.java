@@ -101,6 +101,16 @@ public class ModelUtil {
   public static void addCategory(Model model, Category category) {
     model.addAttribute("category", category);
   }
+  
+  /**
+   * 设置类别模块
+   * 
+   * @param model
+   * @param group
+   */
+  public static void addCategories(Model model, List<Category> list) {
+    model.addAttribute("categories", list);
+  }
 
   /**
    * 设置主题模块
