@@ -97,7 +97,7 @@ groupsBmEL.add.click(function() {
 	    }
 		$.messager.confirm("信息提示", "确定添加吗？", function(ok){
 	      if (ok){
-	        var url = '/cms/topics/${id}/bookmark?ids=' + ids;
+	        var url = '/cms/topics/${id}/product?ids=' + ids;
 	        $.post(url, function(data) {
 	        	console.log(data);
 	          var r = $.parseJSON(data);

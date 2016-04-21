@@ -21,20 +21,19 @@ import com.hoti.site.core.exception.SecurityException;
 import com.hoti.site.db.entity.DataGrid;
 import com.hoti.site.db.entity.Pagination;
 import com.hoti.site.db.entity.Product;
-import com.hoti.site.db.entity.SiteResponse;
-import com.hoti.site.db.entity.StateUtil;
 import com.hoti.site.db.entity.Topic;
 import com.hoti.site.db.entity.TopicExample;
 import com.hoti.site.db.entity.User;
-import com.hoti.site.db.entity.UserTypeUtil;
+import com.hoti.site.db.entity.VUtil;
+import com.hoti.site.front.controller.BaseController;
 import com.hoti.site.front.controller.ModelUtil;
-import com.hoti.site.front.controller.SiteUtil;
 import com.hoti.site.front.vo.GroupVO;
+import com.hoti.site.front.vo.ResponseVO;
 import com.hoti.site.rest.BaseService;
 
 @Controller
 @RequestMapping("/cms/topics")
-public class TopicCMS {
+public class TopicCMS extends BaseController {
 
   private Logger logger = LoggerFactory.getLogger(TopicCMS.class);
 
@@ -43,6 +42,7 @@ public class TopicCMS {
 
   /**
    * 主题管理首页
+   * 
    * @return
    * @throws SecurityException
    */
@@ -54,6 +54,7 @@ public class TopicCMS {
 
   /**
    * 新建主题页
+   * 
    * @return
    * @throws SecurityException
    */
@@ -65,6 +66,7 @@ public class TopicCMS {
 
   /**
    * 编辑主题页
+   * 
    * @param id 主题ID
    * @param model
    * @return
@@ -79,6 +81,7 @@ public class TopicCMS {
 
   /**
    * 关注主题的用户列表页
+   * 
    * @param id 主题ID
    * @param model
    * @return
@@ -87,26 +90,28 @@ public class TopicCMS {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/follow", method = RequestMethod.GET)
   public String followPage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("id", id);
+    ModelUtil.addId(model, id);
     return "cms/topics/follow";
   }
 
   /**
    * 主题添加关联产品页
+   * 
    * @param id 主题ID
    * @param model
    * @return
    * @throws SecurityException
    */
   @RequiresRoles(value = "admin")
-  @RequestMapping(value = "/{id}/bookmark", method = RequestMethod.GET)
-  public String bookmarkPage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("id", id);
+  @RequestMapping(value = "/{id}/product", method = RequestMethod.GET)
+  public String productPage(@PathVariable Long id, Model model) throws SecurityException {
+    ModelUtil.addId(model, id);
     return "cms/topics/product";
   }
 
   /**
    * 主题管理关联产品页
+   * 
    * @param id 主题ID
    * @param model
    * @return
@@ -115,12 +120,13 @@ public class TopicCMS {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/manager", method = RequestMethod.GET)
   public String managerPage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("id", id);
+    ModelUtil.addId(model, id);
     return "cms/topics/manager";
   }
 
   /**
    * 主题详情页
+   * 
    * @param id
    * @param model
    * @return
@@ -135,6 +141,7 @@ public class TopicCMS {
 
   /**
    * 主题数据列表，支持分页和查询
+   * 
    * @param title 标题
    * @param cid 类别
    * @param type 类别
@@ -160,7 +167,7 @@ public class TopicCMS {
       criteria.andCidEqualTo(cid);
     }
 
-    if (StateUtil.baseValidate(state)) {
+    if (VUtil.assertBaseState(state)) {
       criteria.andStateEqualTo(state);
     }
 
@@ -170,6 +177,7 @@ public class TopicCMS {
 
   /**
    * 主题关联的产品列表
+   * 
    * @param id
    * @param title
    * @param category
@@ -179,11 +187,11 @@ public class TopicCMS {
    * @throws SecurityException
    */
   @RequiresRoles(value = "admin")
-  @RequestMapping(value = "/{id}/bookmarks")
-  public @ResponseBody DataGrid<Product> groupBookmarks(@PathVariable Long id,
+  @RequestMapping(value = "/{id}/products")
+  public @ResponseBody DataGrid<Product> findTopicProducts(@PathVariable Long id,
       @RequestParam(required = false) String title, @RequestParam(defaultValue = "0") Long cid,
       @RequestParam(required = false) Byte state, Pagination p) throws SecurityException {
-    
+
     /* 产品信息过滤 */
     if (StringUtils.isEmpty(title)) {
       title = null;
@@ -191,16 +199,17 @@ public class TopicCMS {
     if (cid <= 0) {
       cid = null;
     }
-    if (!StateUtil.baseValidate(state)) {
+    if (!VUtil.assertBaseState(state)) {
       state = null;
     }
-    
+
     PageInfo<Product> pageInfo = service.findTopicProducts(id, title, cid, state, p);
     return new DataGrid<>(pageInfo);
   }
 
   /**
    * 关注主题的用户列表
+   * 
    * @param id
    * @param name
    * @param userType
@@ -211,7 +220,7 @@ public class TopicCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/users")
-  public @ResponseBody DataGrid<User> followUsers(@PathVariable Long id,
+  public @ResponseBody DataGrid<User> findTopicUsers(@PathVariable Long id,
       @RequestParam(required = false) String name, @RequestParam(required = false) Byte type,
       @RequestParam(required = false) Byte state, Pagination p) throws SecurityException {
 
@@ -219,19 +228,20 @@ public class TopicCMS {
     if (StringUtils.isEmpty(name)) {
       name = null;
     }
-    if (!StateUtil.userValidate(state)) {
+    if (!VUtil.assertBaseState(state)) {
       state = null;
     }
-    if (!UserTypeUtil.validate(type)) {
+    if (!VUtil.assertUserType(type)) {
       type = null;
     }
-    
+
     PageInfo<User> pageInfo = service.findTopicUsers(id, name, type, state, p);
     return new DataGrid<>(pageInfo);
   }
 
   /**
    * 新建主题
+   * 
    * @param vo
    * @param request
    * @return
@@ -239,15 +249,16 @@ public class TopicCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/new", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse add(GroupVO vo, HttpServletRequest request)
+  public @ResponseBody ResponseVO addTopic(GroupVO vo, HttpServletRequest request)
       throws SecurityException {
     logger.info("后台添加主题: {}", JSON.toJSONString(vo));
     service.addTopic(vo);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
    * 主题批量添加关联产品
+   * 
    * @param ids
    * @param id
    * @param request
@@ -255,16 +266,17 @@ public class TopicCMS {
    * @throws SecurityException
    */
   @RequiresRoles(value = "admin")
-  @RequestMapping(value = "/{id}/bookmark", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse addBookmark(@RequestParam Long[] ids, @PathVariable Long id,
+  @RequestMapping(value = "/{id}/product", method = RequestMethod.POST)
+  public @ResponseBody ResponseVO addProducts(@RequestParam Long[] ids, @PathVariable Long id,
       HttpServletRequest request) throws SecurityException {
     logger.info("后台主题批量添加产品: {}, {}", id, ids);
     service.addTopicProduct(id, ids);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
    * 主题批量移除关联产品
+   * 
    * @param ids
    * @param id
    * @param request
@@ -273,15 +285,16 @@ public class TopicCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/manager", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse removeBookmarks(@RequestParam Long[] ids, @PathVariable Long id,
+  public @ResponseBody ResponseVO deleteProducts(@RequestParam Long[] ids, @PathVariable Long id,
       HttpServletRequest request) throws SecurityException {
     logger.info("后台主题批量移除产品: {}, {}", id, ids);
     service.deleteTopicProduct(id, ids);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
    * 删除主题
+   * 
    * @param id
    * @param request
    * @return
@@ -289,15 +302,16 @@ public class TopicCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
+  public @ResponseBody ResponseVO deleteTopic(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
     logger.info("后台删除主题: {}", id);
     service.deleteTopic(id);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
    * 编辑主题
+   * 
    * @param id
    * @param vo
    * @param request
@@ -306,15 +320,16 @@ public class TopicCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse edit(@PathVariable Long id, GroupVO vo,
+  public @ResponseBody ResponseVO editTopic(@PathVariable Long id, GroupVO vo,
       HttpServletRequest request) throws SecurityException {
     logger.info("后台编辑主题：{}, {}", id, JSON.toJSONString(vo));
     service.updateTopic(id, vo);
-    return SiteUtil.ok();
+    return buildResponse();
   }
-  
+
   /**
    * 批量精选主题
+   * 
    * @param ids
    * @param request
    * @return
@@ -322,15 +337,16 @@ public class TopicCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/pick", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse pick(@RequestParam Long[] ids,
-      HttpServletRequest request) throws SecurityException {
+  public @ResponseBody ResponseVO pickTopic(@RequestParam Long[] ids, HttpServletRequest request)
+      throws SecurityException {
     logger.info("后台主题精选: {}", ids);
     service.pickTopic(ids);
-    return SiteUtil.ok();
+    return buildResponse();
   }
-  
+
   /**
    * 批量取消精选主题
+   * 
    * @param ids
    * @param request
    * @return
@@ -338,25 +354,26 @@ public class TopicCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/unpick", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse unpick(@RequestParam Long[] ids,
-      HttpServletRequest request) throws SecurityException {
+  public @ResponseBody ResponseVO unpickTopic(@RequestParam Long[] ids, HttpServletRequest request)
+      throws SecurityException {
     logger.info("后台主题取消精选: {}", ids);
     service.unpickTopic(ids);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
    * 统计任务
+   * 
    * @param request
    * @return
    * @throws SecurityException
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/count/task", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse countTask(HttpServletRequest request) throws SecurityException {
+  public @ResponseBody ResponseVO countTask(HttpServletRequest request) throws SecurityException {
     logger.info("后台统计主题数据");
     // TODO
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
 }

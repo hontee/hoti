@@ -32,7 +32,7 @@ var groupsMgtEL = {
 
 // DataGrid
 groupsMgtEL.dg.datagrid({
-    url:'/cms/topics/${id}/bookmarks',
+    url:'/cms/topics/${id}/products',
     fitColumns: true,
     border: false,
     idField: "id",

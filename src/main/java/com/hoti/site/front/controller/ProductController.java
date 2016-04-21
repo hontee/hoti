@@ -22,7 +22,7 @@ import com.hoti.site.rest.BaseService;
 
 @Controller
 @Scope("prototype")
-public class ProductController {
+public class ProductController extends BaseController {
 
   @Resource
   private BaseService service;
@@ -63,7 +63,7 @@ public class ProductController {
 
     ModelUtil.addF(model, f);
     ModelUtil.addPager(model, pageInfo, "/?f=" + f);
-    ModelUtil.addBookmarks(model, pageInfo.getList());
+    ModelUtil.addProducts(model, pageInfo.getList());
     ModelUtil.addHeader(model, "红提 | 为开发者而生");
     return "index.ftl";
   }
@@ -77,7 +77,7 @@ public class ProductController {
    */
   @RequestMapping(value = "/products/{id}/hit", method = RequestMethod.GET)
   public String productHit(@PathVariable Long id, Model model) throws SecurityException {
-    return SiteUtil.redirect(service.updateProductHit(id));
+    return redirect(service.updateProductHit(id));
   }
 
   /**

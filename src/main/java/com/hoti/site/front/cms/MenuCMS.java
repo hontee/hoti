@@ -24,16 +24,16 @@ import com.hoti.site.db.entity.DataGrid;
 import com.hoti.site.db.entity.Menu;
 import com.hoti.site.db.entity.MenuExample;
 import com.hoti.site.db.entity.Pagination;
-import com.hoti.site.db.entity.SiteResponse;
-import com.hoti.site.db.entity.StateUtil;
+import com.hoti.site.db.entity.VUtil;
+import com.hoti.site.front.controller.BaseController;
 import com.hoti.site.front.controller.ModelUtil;
-import com.hoti.site.front.controller.SiteUtil;
 import com.hoti.site.front.vo.MenuVO;
+import com.hoti.site.front.vo.ResponseVO;
 import com.hoti.site.rest.BaseService;
 
 @Controller
 @RequestMapping("/cms/menus")
-public class MenuCMS {
+public class MenuCMS extends BaseController {
 
   private Logger logger = LoggerFactory.getLogger(MenuCMS.class);
 
@@ -42,6 +42,7 @@ public class MenuCMS {
 
   /**
    * 菜单管理首页
+   * 
    * @return
    * @throws SecurityException
    */
@@ -53,6 +54,7 @@ public class MenuCMS {
 
   /**
    * 新建菜单页
+   * 
    * @return
    * @throws SecurityException
    */
@@ -64,6 +66,7 @@ public class MenuCMS {
 
   /**
    * 编辑菜单页
+   * 
    * @param id
    * @param model
    * @return
@@ -93,6 +96,7 @@ public class MenuCMS {
 
   /**
    * 所有菜单数据, 用于Home.jsp
+   * 
    * @return
    * @throws SecurityException
    */
@@ -125,7 +129,7 @@ public class MenuCMS {
     }
 
     /* 验证状态 0=禁用，1=启用 */
-    if (StateUtil.baseValidate(state)) {
+    if (VUtil.assertBaseState(state)) {
       criteria.andStateEqualTo(state);
     }
 
@@ -143,11 +147,11 @@ public class MenuCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/new", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse add(MenuVO vo, HttpServletRequest request)
+  public @ResponseBody ResponseVO addMenu(MenuVO vo, HttpServletRequest request)
       throws SecurityException {
     logger.info("后台添加菜单: {}", JSON.toJSONString(vo));
     service.addMenu(vo);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
@@ -160,11 +164,11 @@ public class MenuCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
+  public @ResponseBody ResponseVO deleteMenu(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
     logger.info("后台删除菜单: {}", id);
     service.deleteMenu(id);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
@@ -178,11 +182,11 @@ public class MenuCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse edit(@PathVariable Long id, MenuVO vo,
+  public @ResponseBody ResponseVO editMenu(@PathVariable Long id, MenuVO vo,
       HttpServletRequest request) throws SecurityException {
     logger.info("后台编辑菜单: {}, {}", id, JSON.toJSONString(vo));
     service.updateMenu(id, vo);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
 }

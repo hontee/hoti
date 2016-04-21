@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hoti.site.db.entity.SiteResponse;
+import com.hoti.site.front.vo.ResponseVO;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -16,8 +16,8 @@ public class GlobalExceptionHandler {
    * @return
    */
   @ExceptionHandler({BaseException.class})
-  public @ResponseBody SiteResponse handle(BaseException e) {
-    return new SiteResponse(e);
+  public @ResponseBody ResponseVO handle(BaseException e) {
+    return new ResponseVO(e);
   }
 
   /**
@@ -27,8 +27,8 @@ public class GlobalExceptionHandler {
    * @return
    */
   @ExceptionHandler({BaseRuntimeException.class})
-  public @ResponseBody SiteResponse handle(BaseRuntimeException e) {
-    return new SiteResponse(e);
+  public @ResponseBody ResponseVO handle(BaseRuntimeException e) {
+    return new ResponseVO(e);
   }
 
   /**
@@ -38,9 +38,9 @@ public class GlobalExceptionHandler {
    * @return
    */
   @ExceptionHandler({Exception.class})
-  public @ResponseBody SiteResponse handle(Exception e) {
+  public @ResponseBody ResponseVO handle(Exception e) {
     SecurityException ex = new SecurityException(ErrorIDs.UNKNOWN, "未知错误");
-    return new SiteResponse(ex);
+    return new ResponseVO(ex);
   }
 
 }

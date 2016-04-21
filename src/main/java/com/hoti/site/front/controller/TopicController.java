@@ -62,7 +62,7 @@ public class TopicController {
     ModelUtil.addHeader(model, "红提主题 | 更好的产品组织者");
     ModelUtil.addF(model, f);
     ModelUtil.addPager(model, pageInfo, "/topics?f=" + f);
-    ModelUtil.addGroups(model, pageInfo.getList());
+    ModelUtil.addTopics(model, pageInfo.getList());
     return "topic.ftl";
   }
 
@@ -87,8 +87,8 @@ public class TopicController {
     ModelUtil.addHeader(model, record.getTitle().concat(" | 红提主题"));
     ModelUtil.addF(model, f);
     ModelUtil.addPager(model, pageInfo, "/topics/" + id + "/?f=" + f);
-    ModelUtil.addGroup(model, record);
-    ModelUtil.addBookmarks(model, pageInfo.getList());
+    ModelUtil.addTopic(model, record);
+    ModelUtil.addProducts(model, pageInfo.getList());
     return "topic-product.ftl";
   }
 

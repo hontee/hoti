@@ -22,18 +22,17 @@ import com.hoti.site.db.entity.DataGrid;
 import com.hoti.site.db.entity.Pagination;
 import com.hoti.site.db.entity.Product;
 import com.hoti.site.db.entity.ProductExample;
-import com.hoti.site.db.entity.SiteResponse;
-import com.hoti.site.db.entity.StateUtil;
 import com.hoti.site.db.entity.User;
-import com.hoti.site.db.entity.UserTypeUtil;
+import com.hoti.site.db.entity.VUtil;
+import com.hoti.site.front.controller.BaseController;
 import com.hoti.site.front.controller.ModelUtil;
-import com.hoti.site.front.controller.SiteUtil;
 import com.hoti.site.front.vo.ProductVO;
+import com.hoti.site.front.vo.ResponseVO;
 import com.hoti.site.rest.BaseService;
 
 @Controller
 @RequestMapping("/cms/products")
-public class ProductCMS {
+public class ProductCMS extends BaseController {
 
   private Logger logger = LoggerFactory.getLogger(ProductCMS.class);
 
@@ -42,6 +41,7 @@ public class ProductCMS {
 
   /**
    * 产品管理首页
+   * 
    * @return
    * @throws SecurityException
    */
@@ -53,6 +53,7 @@ public class ProductCMS {
 
   /**
    * 新建产品页
+   * 
    * @return
    * @throws SecurityException
    */
@@ -64,6 +65,7 @@ public class ProductCMS {
 
   /**
    * 编辑产品页
+   * 
    * @param id 产品ID
    * @param model
    * @return
@@ -72,12 +74,13 @@ public class ProductCMS {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
   public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", service.findProduct(id));
+    ModelUtil.addRecord(model, service.findProduct(id));
     return "cms/products/edit";
   }
 
   /**
    * 关注产品的用户列表页
+   * 
    * @param id 产品ID
    * @param model
    * @return
@@ -86,12 +89,13 @@ public class ProductCMS {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/follow", method = RequestMethod.GET)
   public String followPage(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("id", id);
+    ModelUtil.addId(model, id);
     return "cms/products/follow";
   }
 
   /**
    * 产品详情页
+   * 
    * @param id 产品ID
    * @param model
    * @return
@@ -106,6 +110,7 @@ public class ProductCMS {
 
   /**
    * 产品数据列表，支持分页和查询
+   * 
    * @param title 标题
    * @param cid 类别ID
    * @param state 状态
@@ -133,7 +138,7 @@ public class ProductCMS {
     }
 
     /* 验证产品状态 */
-    if (StateUtil.baseValidate(state)) {
+    if (VUtil.assertBaseState(state)) {
       criteria.andStateEqualTo(state);
     }
 
@@ -143,6 +148,7 @@ public class ProductCMS {
 
   /**
    * 关注产品的用户列表
+   * 
    * @param id 产品ID
    * @param name 用户名
    * @param type 用户类型 1=普通用户 2=管理员
@@ -153,27 +159,28 @@ public class ProductCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/users")
-  public @ResponseBody DataGrid<User> followUsers(@PathVariable Long id,
+  public @ResponseBody DataGrid<User> findProductUsers(@PathVariable Long id,
       @RequestParam(required = false) String name, @RequestParam(required = false) Byte type,
       @RequestParam(required = false) Byte state, Pagination p) throws SecurityException {
-    
+
     /* 用户信息过滤 */
     if (StringUtils.isEmpty(name)) {
       name = null;
     }
-    if (!StateUtil.userValidate(state)) {
+    if (!VUtil.assertBaseState(state)) {
       state = null;
     }
-    if (!UserTypeUtil.validate(type)) {
+    if (!VUtil.assertUserType(type)) {
       type = null;
     }
-    
+
     PageInfo<User> pageInfo = service.findProductUsers(id, name, type, state, p);
     return new DataGrid<>(pageInfo);
   }
 
   /**
    * 新建产品
+   * 
    * @param vo 请求参数
    * @param request
    * @return
@@ -181,15 +188,16 @@ public class ProductCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/new", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse add(ProductVO vo, HttpServletRequest request)
+  public @ResponseBody ResponseVO addProduct(ProductVO vo, HttpServletRequest request)
       throws SecurityException {
     logger.info("后台添加产品: {}", JSON.toJSONString(vo));
     service.addProduct(vo);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
    * 删除产品
+   * 
    * @param id 产品ID
    * @param request
    * @return
@@ -197,15 +205,16 @@ public class ProductCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
+  public @ResponseBody ResponseVO deleteProduct(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
     logger.info("后台删除产品: {}", id);
     service.deleteProduct(id);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
    * 编辑产品
+   * 
    * @param id 产品ID
    * @param vo 请求参数
    * @param request
@@ -214,15 +223,16 @@ public class ProductCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse edit(@PathVariable Long id, ProductVO vo,
+  public @ResponseBody ResponseVO editProduct(@PathVariable Long id, ProductVO vo,
       HttpServletRequest request) throws SecurityException {
     logger.info("后台编辑产品: {}, {}", id, JSON.toJSONString(vo));
     service.updateProduct(id, vo);
-    return SiteUtil.ok();
+    return buildResponse();
   }
-  
+
   /**
    * 批量精选产品
+   * 
    * @param ids 产品IDs
    * @param request
    * @return
@@ -230,15 +240,16 @@ public class ProductCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/pick", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse pick(@RequestParam Long[] ids,
-      HttpServletRequest request) throws SecurityException {
+  public @ResponseBody ResponseVO pickProduct(@RequestParam Long[] ids, HttpServletRequest request)
+      throws SecurityException {
     logger.info("后台产品精选: {}", ids);
     service.pickProduct(ids);
-    return SiteUtil.ok();
+    return buildResponse();
   }
-  
+
   /**
    * 批量取消精选产品IDs
+   * 
    * @param ids 产品IDs
    * @param request
    * @return
@@ -246,11 +257,11 @@ public class ProductCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/unpick", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse unpick(@RequestParam Long[] ids,
+  public @ResponseBody ResponseVO unpickProduct(@RequestParam Long[] ids,
       HttpServletRequest request) throws SecurityException {
     logger.info("后台产品取消精选: {}", ids);
     service.unpickProduct(ids);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
 }

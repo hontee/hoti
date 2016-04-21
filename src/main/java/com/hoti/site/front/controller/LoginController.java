@@ -13,7 +13,7 @@ import com.hoti.site.core.security.AuthzUtil;
 
 @Controller
 @Scope("prototype")
-public class LoginController {
+public class LoginController extends BaseController {
 
   /**
    * 用户登录页
@@ -22,7 +22,7 @@ public class LoginController {
    */
   @RequestMapping(value = "/login", method = RequestMethod.GET)
   public String login(HttpServletRequest request, Model model) {
-    return AuthzUtil.isAuthorized() ? SiteUtil.redirect("/") : "login.ftl";
+    return AuthzUtil.isAuthorized() ? redirect("/") : "login.ftl";
   }
 
   /**
@@ -33,7 +33,7 @@ public class LoginController {
   @RequestMapping(value = "/logout", method = RequestMethod.GET)
   public String logout() {
     SecurityUtils.getSubject().logout();
-    return SiteUtil.redirect("/");
+    return redirect("/");
   }
 
 }

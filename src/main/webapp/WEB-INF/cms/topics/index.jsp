@@ -240,7 +240,7 @@ groupsEL.bookmarks.click(function() {
 			collapsible: false,
 			minimizable: false,
 			maximizable: false,
-			href: '/cms/topics/' + row.id + '/bookmark',
+			href: '/cms/topics/' + row.id + '/product',
 			method: 'get',
 			cache: false
 		});

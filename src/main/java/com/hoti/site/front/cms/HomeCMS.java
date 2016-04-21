@@ -9,10 +9,10 @@ import com.hoti.site.core.exception.SecurityException;
 @Controller
 @RequestMapping("/cms")
 public class HomeCMS {
-	
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String home() throws SecurityException {
-		return "cms/home";
-	}
+
+  @RequestMapping(value = "", method = RequestMethod.GET)
+  public String home() throws SecurityException {
+    return "cms/home";
+  }
 
 }

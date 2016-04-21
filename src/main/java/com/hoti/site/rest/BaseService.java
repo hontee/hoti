@@ -49,6 +49,14 @@ public interface BaseService {
    * @return
    */
   int countProduct(ProductExample example) throws SecurityException;
+  
+  /**
+   * 统计产品
+   * 
+   * @param title
+   * @return
+   */
+  int countProduct(String title) throws SecurityException;
 
   /**
    * 统计推荐
@@ -65,6 +73,14 @@ public interface BaseService {
    * @return
    */
   int countTopic(TopicExample example) throws SecurityException;
+  
+  /**
+   * 统计主题
+   * 
+   * @param title
+   * @return
+   */
+  int countTopic(String title) throws SecurityException;
 
   /**
    * 统计用户
@@ -666,7 +682,7 @@ public interface BaseService {
    * @param fid 产品ID
    * @return
    */
-  void followProduct(Long uid, Long fid) throws SecurityException;
+  void followProduct(Long fid) throws SecurityException;
 
   /**
    * 取消关注产品
@@ -675,7 +691,7 @@ public interface BaseService {
    * @param fid 产品ID
    * @return
    */
-  void unfollowProduct(Long uid, Long fid) throws SecurityException;
+  void unfollowProduct(Long fid) throws SecurityException;
 
   /**
    * 关注主题
@@ -684,7 +700,7 @@ public interface BaseService {
    * @param fid 主题ID
    * @return
    */
-  void followTopic(Long uid, Long fid) throws SecurityException;
+  void followTopic(Long fid) throws SecurityException;
 
   /**
    * 取消关注主题
@@ -693,7 +709,7 @@ public interface BaseService {
    * @param fid 主题ID
    * @return
    */
-  void unfollowTopic(Long uid, Long fid) throws SecurityException;
+  void unfollowTopic(Long fid) throws SecurityException;
 
   /**
    * 精选产品

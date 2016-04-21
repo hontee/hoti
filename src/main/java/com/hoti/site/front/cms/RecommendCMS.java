@@ -22,17 +22,17 @@ import com.hoti.site.db.entity.DataGrid;
 import com.hoti.site.db.entity.Pagination;
 import com.hoti.site.db.entity.Recommend;
 import com.hoti.site.db.entity.RecommendExample;
-import com.hoti.site.db.entity.SiteResponse;
-import com.hoti.site.db.entity.StateAuditUtil;
+import com.hoti.site.db.entity.VUtil;
+import com.hoti.site.front.controller.BaseController;
 import com.hoti.site.front.controller.ModelUtil;
-import com.hoti.site.front.controller.SiteUtil;
 import com.hoti.site.front.vo.ProductVO;
 import com.hoti.site.front.vo.RecommendVO;
+import com.hoti.site.front.vo.ResponseVO;
 import com.hoti.site.rest.BaseService;
 
 @Controller
 @RequestMapping("/cms/recommends")
-public class RecommendCMS {
+public class RecommendCMS extends BaseController {
 
   private Logger logger = LoggerFactory.getLogger(RecommendCMS.class);
 
@@ -144,7 +144,7 @@ public class RecommendCMS {
       criteria.andTitleLike("%" + title + "%"); // 模糊查询
     }
 
-    if (StateAuditUtil.validate(state)) {
+    if (VUtil.assertAudit(state)) {
       criteria.andStateEqualTo(state);
     }
 
@@ -162,11 +162,11 @@ public class RecommendCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/new", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse add(@RequestParam String url, HttpServletRequest request)
+  public @ResponseBody ResponseVO addRecommend(@RequestParam String url, HttpServletRequest request)
       throws SecurityException {
     logger.info("后台添加推荐: {}", url);
     service.addRecommend(url);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
@@ -179,11 +179,11 @@ public class RecommendCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
+  public @ResponseBody ResponseVO deleteRecommend(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
     logger.info("后台删除推荐: {}", id);
     service.deleteRecommend(id);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
@@ -197,11 +197,11 @@ public class RecommendCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse edit(@PathVariable Long id, RecommendVO vo,
+  public @ResponseBody ResponseVO editRecommend(@PathVariable Long id, RecommendVO vo,
       HttpServletRequest request) throws SecurityException {
     logger.info("后台编辑推荐: {}, {}", id, JSON.toJSONString(vo));
     service.updateRecommend(id, vo);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
@@ -215,11 +215,11 @@ public class RecommendCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/ok", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse auditOk(@PathVariable Long id, ProductVO vo,
+  public @ResponseBody ResponseVO auditRecommendOk(@PathVariable Long id, ProductVO vo,
       HttpServletRequest request) throws SecurityException {
     logger.info("后台审核推荐通过: {}, {}", id, JSON.toJSONString(vo));
     service.auditRecommendOk(id, vo);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
@@ -233,11 +233,11 @@ public class RecommendCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/refuse", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse auditRefuse(@PathVariable Long id, @RequestParam String remark,
-      HttpServletRequest request) throws SecurityException {
+  public @ResponseBody ResponseVO auditRecommendRefuse(@PathVariable Long id,
+      @RequestParam String remark, HttpServletRequest request) throws SecurityException {
     logger.info("后台审核推荐拒绝: {}, {}", id, remark);
     service.auditRecommendRefuse(id, remark);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
 }

@@ -68,7 +68,7 @@ public class CategoryController {
 
     ModelUtil.addCategory(model, record);
     ModelUtil.addPager(model, pageInfo, "/categories/" + id);
-    ModelUtil.addBookmarks(model, pageInfo.getList());
+    ModelUtil.addProducts(model, pageInfo.getList());
     ModelUtil.addF(model, "product");
     
     return "category-list.ftl";
@@ -98,7 +98,7 @@ public class CategoryController {
 
     ModelUtil.addCategory(model, record);
     ModelUtil.addPager(model, pageInfo, "/categories/" + id + "/topic");
-    ModelUtil.addGroups(model, pageInfo.getList());
+    ModelUtil.addTopics(model, pageInfo.getList());
     ModelUtil.addF(model, "topic");
 
     return "category-list.ftl";

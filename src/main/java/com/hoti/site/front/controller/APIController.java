@@ -14,15 +14,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoti.site.core.exception.SecurityException;
-import com.hoti.site.core.security.AuthzUtil;
-import com.hoti.site.db.entity.SiteResponse;
+import com.hoti.site.front.vo.ResponseVO;
 import com.hoti.site.rest.BaseService;
 
 @RestController
 @Scope("prototype")
-public class ApiController {
+public class APIController extends BaseController {
   
-  private Logger logger = LoggerFactory.getLogger(ApiController.class);
+  private Logger logger = LoggerFactory.getLogger(APIController.class);
 
   @Resource
   private BaseService service;
@@ -37,11 +36,11 @@ public class ApiController {
    * @throws SecurityException
    */
   @RequestMapping(value = "/login", method = RequestMethod.POST)
-  public SiteResponse login(@RequestParam String username, @RequestParam String password,
+  public ResponseVO login(@RequestParam String username, @RequestParam String password,
       HttpServletRequest request) throws SecurityException {
     logger.info("用户登录：{}", username);
     service.authenticate(username, password);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
@@ -50,11 +49,11 @@ public class ApiController {
    * @throws SecurityException
    */
   @RequestMapping(value = "/recommend", method = RequestMethod.POST)
-  public SiteResponse recommend(@RequestParam String url, HttpServletRequest request)
+  public ResponseVO recommend(@RequestParam String url, HttpServletRequest request)
       throws SecurityException {
     logger.info("推荐产品", url);
     service.addRecommend(url);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
@@ -66,11 +65,11 @@ public class ApiController {
    */
   @RequiresRoles(value = {"user", "admin"})
   @RequestMapping(value = "/products/{id}/follow", method = RequestMethod.POST)
-  public SiteResponse followProduct(@PathVariable Long id, HttpServletRequest request)
+  public ResponseVO followProduct(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
     logger.info("关注产品: {}", id);
-    service.followProduct(AuthzUtil.getUserId(), id);
-    return SiteUtil.ok();
+    service.followProduct(id);
+    return buildResponse();
   }
 
   /**
@@ -82,11 +81,11 @@ public class ApiController {
    */
   @RequiresRoles(value = {"user", "admin"})
   @RequestMapping(value = "/products/{id}/unfollow", method = RequestMethod.POST)
-  public SiteResponse unfollowProduct(@PathVariable Long id, HttpServletRequest request)
+  public ResponseVO unfollowProduct(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
     logger.info("取消关注产品: {}", id);
-    service.unfollowProduct(AuthzUtil.getUserId(), id);
-    return SiteUtil.ok();
+    service.unfollowProduct(id);
+    return buildResponse();
   }
 
   /**
@@ -98,11 +97,11 @@ public class ApiController {
    */
   @RequiresRoles(value = {"user", "admin"})
   @RequestMapping(value = "/topics/{id}/follow", method = RequestMethod.POST)
-  public SiteResponse followTopic(@PathVariable Long id, HttpServletRequest request)
+  public ResponseVO followTopic(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
     logger.info("关注主题：{}", id);
-    service.followTopic(AuthzUtil.getUserId(), id);
-    return SiteUtil.ok();
+    service.followTopic(id);
+    return buildResponse();
   }
 
   /**
@@ -114,11 +113,11 @@ public class ApiController {
    */
   @RequiresRoles(value = {"user", "admin"})
   @RequestMapping(value = "/topics/{id}/unfollow", method = RequestMethod.POST)
-  public SiteResponse unfollowTopic(@PathVariable Long id, HttpServletRequest request)
+  public ResponseVO unfollowTopic(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
     logger.info("取消关注主题: {}", id);
-    service.unfollowTopic(AuthzUtil.getUserId(), id);
-    return SiteUtil.ok();
+    service.unfollowTopic(id);
+    return buildResponse();
   }
 
 }

@@ -11,7 +11,7 @@
     </div>
 
     <!-- <div class="right">
-      <a class="btn btn-primary" href="/group/new">创建主题</a>
+      <a class="btn btn-primary" href="/topic/new">创建主题</a>
     </div> -->
   </div>
 </div>

@@ -67,10 +67,8 @@ public class SearchController {
 
     ModelUtil.addPager(model, pageInfo, "/search?q=" + q);
     ModelUtil.addF(model, "product");
-    ModelUtil.addBookmarks(model, list);
-    model.addAttribute("bcount", pageInfo.getTotal());
-    model.addAttribute("gcount", 0 /*gs.count(q)*/);
-
+    ModelUtil.addProducts(model, list);
+    ModelUtil.addCount(model, pageInfo.getTotal(), service.countTopic(q));
     return "search.ftl";
   }
   
@@ -106,11 +104,10 @@ public class SearchController {
 
     logger.info("用户搜索结果数：{}", pageInfo.getTotal());
 
-    ModelUtil.addPager(model, pageInfo, "/search/group?q=" + q);
+    ModelUtil.addPager(model, pageInfo, "/search/topic?q=" + q);
     ModelUtil.addF(model, "topic");
-    ModelUtil.addGroups(model, list);
-    model.addAttribute("bcount", 0 /*bs.count(q)*/);
-    model.addAttribute("gcount", pageInfo.getTotal());
+    ModelUtil.addTopics(model, list);
+    ModelUtil.addCount(model, service.countProduct(q), pageInfo.getTotal());
     return "search.ftl";
   }
 

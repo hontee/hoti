@@ -84,6 +84,13 @@ public class BaseServiceImpl implements BaseService {
       throw new CountException(e);
     }
   }
+  
+  @Override
+  public int countProduct(String title) throws SecurityException {
+    ProductExample example = new ProductExample();
+    example.createCriteria().andTitleLike("%" + title + "%");
+    return countProduct(example);
+  }
 
   @Override
   public int countRecommend(RecommendExample example) throws SecurityException {
@@ -94,7 +101,7 @@ public class BaseServiceImpl implements BaseService {
       throw new CountException(e);
     }
   }
-
+  
   @Override
   public int countTopic(TopicExample example) throws SecurityException {
     try {
@@ -103,6 +110,13 @@ public class BaseServiceImpl implements BaseService {
       e.printStackTrace();
       throw new CountException(e);
     }
+  }
+  
+  @Override
+  public int countTopic(String title) throws SecurityException {
+    TopicExample example = new TopicExample();
+    example.createCriteria().andTitleLike("%" + title + "%");
+    return countTopic(example);
   }
 
   @Override
@@ -566,9 +580,9 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public void followProduct(Long uid, Long fid) throws SecurityException {
+  public void followProduct(Long fid) throws SecurityException {
     try {
-      dao.followProduct(uid, fid);
+      dao.followProduct(AuthzUtil.getUserId(), fid);
     } catch (Exception e) {
       e.printStackTrace();
       throw new FollowException(e);
@@ -576,9 +590,9 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public void unfollowProduct(Long uid, Long fid) throws SecurityException {
+  public void unfollowProduct(Long fid) throws SecurityException {
     try {
-      dao.unfollowProduct(uid, fid);
+      dao.unfollowProduct(AuthzUtil.getUserId(), fid);
     } catch (Exception e) {
       e.printStackTrace();
       throw new FollowException(e);
@@ -586,9 +600,9 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public void followTopic(Long uid, Long fid) throws SecurityException {
+  public void followTopic(Long fid) throws SecurityException {
     try {
-      dao.followTopic(uid, fid);
+      dao.followTopic(AuthzUtil.getUserId(), fid);
     } catch (Exception e) {
       e.printStackTrace();
       throw new FollowException(e);
@@ -596,9 +610,9 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public void unfollowTopic(Long uid, Long fid) throws SecurityException {
+  public void unfollowTopic(Long fid) throws SecurityException {
     try {
-      dao.unfollowTopic(uid, fid);
+      dao.unfollowTopic(AuthzUtil.getUserId(), fid);
     } catch (Exception e) {
       e.printStackTrace();
       throw new FollowException(e);

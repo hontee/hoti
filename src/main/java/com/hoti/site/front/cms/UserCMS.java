@@ -20,19 +20,18 @@ import com.github.pagehelper.PageInfo;
 import com.hoti.site.core.exception.SecurityException;
 import com.hoti.site.db.entity.DataGrid;
 import com.hoti.site.db.entity.Pagination;
-import com.hoti.site.db.entity.SiteResponse;
-import com.hoti.site.db.entity.StateUtil;
 import com.hoti.site.db.entity.User;
 import com.hoti.site.db.entity.UserExample;
-import com.hoti.site.db.entity.UserTypeUtil;
+import com.hoti.site.db.entity.VUtil;
+import com.hoti.site.front.controller.BaseController;
 import com.hoti.site.front.controller.ModelUtil;
-import com.hoti.site.front.controller.SiteUtil;
+import com.hoti.site.front.vo.ResponseVO;
 import com.hoti.site.front.vo.UserVO;
 import com.hoti.site.rest.BaseService;
 
 @Controller
 @RequestMapping("/cms/users")
-public class UserCMS {
+public class UserCMS extends BaseController {
 
   private Logger logger = LoggerFactory.getLogger(UserCMS.class);
 
@@ -41,6 +40,7 @@ public class UserCMS {
 
   /**
    * 用户管理首页
+   * 
    * @return
    * @throws SecurityException
    */
@@ -52,6 +52,7 @@ public class UserCMS {
 
   /**
    * 新建用户页
+   * 
    * @return
    * @throws SecurityException
    */
@@ -63,6 +64,7 @@ public class UserCMS {
 
   /**
    * 修改用户密码页
+   * 
    * @param id 用户ID
    * @param model
    * @return
@@ -77,6 +79,7 @@ public class UserCMS {
 
   /**
    * 编辑用户页
+   * 
    * @param id 用户ID
    * @param model
    * @return
@@ -91,6 +94,7 @@ public class UserCMS {
 
   /**
    * 用户详情页
+   * 
    * @param id 用户ID
    * @param model
    * @return
@@ -99,12 +103,13 @@ public class UserCMS {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) throws SecurityException {
-    model.addAttribute("record", service.findUser(id));
+    ModelUtil.addRecord(model, service.findUser(id));
     return "cms/users/view";
   }
 
   /**
    * 用户数据列表，支持分页的查询
+   * 
    * @param name 用户名
    * @param type 用户类型 1=普通用户 2=管理员
    * @param state 状态 0=禁用 1=启用 2=锁定 3=删除
@@ -121,18 +126,18 @@ public class UserCMS {
     UserExample example = new UserExample();
     UserExample.Criteria criteria = example.createCriteria();
 
-    /* 用户名 模糊查询*/
+    /* 用户名 模糊查询 */
     if (StringUtils.isNotBlank(name)) {
       criteria.andNameLike("%" + name + "%");
     }
 
     /* 验证用户类型 */
-    if (UserTypeUtil.validate(type)) {
+    if (VUtil.assertUserType(type)) {
       criteria.andTypeEqualTo(type);
     }
 
     /* 验证用户状态 */
-    if (StateUtil.userValidate(state)) {
+    if (VUtil.assertUserState(state)) {
       criteria.andStateEqualTo(state);
     }
 
@@ -142,6 +147,7 @@ public class UserCMS {
 
   /**
    * 新建用户
+   * 
    * @param vo 请求参数
    * @param request
    * @return
@@ -149,15 +155,16 @@ public class UserCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/new", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse add(UserVO vo, HttpServletRequest request)
+  public @ResponseBody ResponseVO addUser(UserVO vo, HttpServletRequest request)
       throws SecurityException {
     logger.info("后台添加用户: {}", JSON.toJSONString(vo));
     service.addUser(vo);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
    * 删除用户
+   * 
    * @param id 用户ID
    * @param request
    * @return
@@ -165,15 +172,16 @@ public class UserCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse delete(@PathVariable Long id, HttpServletRequest request)
+  public @ResponseBody ResponseVO deleteUser(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
     logger.info("后台删除用户：{}", id);
     service.deleteUser(id);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
    * 编辑用户
+   * 
    * @param id 用户ID
    * @param vo 请求参数
    * @param request
@@ -182,15 +190,16 @@ public class UserCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse edit(@PathVariable Long id, UserVO vo,
+  public @ResponseBody ResponseVO editUser(@PathVariable Long id, UserVO vo,
       HttpServletRequest request) throws SecurityException {
     logger.info("后台编辑用户: {}, {}", id, JSON.toJSONString(vo));
     service.updateUser(id, vo);
-    return SiteUtil.ok();
+    return buildResponse();
   }
 
   /**
    * 修改用户密码
+   * 
    * @param id 用户ID
    * @param password 新密码
    * @param request
@@ -199,11 +208,11 @@ public class UserCMS {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/password", method = RequestMethod.POST)
-  public @ResponseBody SiteResponse password(@PathVariable Long id, @RequestParam String password,
-      HttpServletRequest request) throws SecurityException {
+  public @ResponseBody ResponseVO updatePassword(@PathVariable Long id,
+      @RequestParam String password, HttpServletRequest request) throws SecurityException {
     logger.info("后台修改用户密码: {}", id);
     service.updateUser(id, password);
-    return SiteUtil.ok();
+    return buildResponse();
   }
-  
+
 }

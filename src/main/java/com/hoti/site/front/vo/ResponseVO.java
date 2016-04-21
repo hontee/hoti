@@ -1,11 +1,11 @@
-package com.hoti.site.db.entity;
+package com.hoti.site.front.vo;
 
 import java.io.Serializable;
 
 import com.hoti.site.core.exception.BaseException;
 import com.hoti.site.core.exception.BaseRuntimeException;
 
-public class SiteResponse implements Serializable {
+public class ResponseVO implements Serializable {
 	
 	private static final long serialVersionUID = -8290882370006935102L;
 
@@ -13,17 +13,17 @@ public class SiteResponse implements Serializable {
 	private Error error; // 错误
 	private Object result; // 成功
 	
-	protected SiteResponse() {}
+	protected ResponseVO() {}
 	
-	public SiteResponse(Object result) {
+	public ResponseVO(Object result) {
 		this.setResult(result);
 	}
 	
-	public SiteResponse(BaseException e) {
+	public ResponseVO(BaseException e) {
 		this.setError(e.getErrorId().name(), e.getMessage());
 	}
 	
-	public SiteResponse(BaseRuntimeException e) {
+	public ResponseVO(BaseRuntimeException e) {
 		this.setError(e.getErrorId().name(), e.getMessage());
 	}
 	
