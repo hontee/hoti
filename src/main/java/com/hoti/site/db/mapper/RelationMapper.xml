@@ -38,4 +38,13 @@
     values (#{uid,jdbcType=BIGINT}, #{fid,jdbcType=BIGINT})
   </insert>
   
+  <!-- 用户关注的产品列表 -->
+  <select id="followProductIds" resultType="Long" parameterType="map">
+  select fid from t_follow_product WHERE uid = #{uid}
+  </select>
+  <!-- 用户关注的主题列表 -->
+  <select id="followTopicIds" resultType="Long" parameterType="map">
+  select fid from t_follow_topic WHERE uid = #{uid}
+  </select>
+  
 </mapper>

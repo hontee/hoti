@@ -461,6 +461,19 @@ public interface BaseService {
    */
   PageInfo<User> findTopicUsers(Long fid, String name, Byte type, Byte state, Pagination p) throws SecurityException;
 
+  /**
+   * 判断用户是否关注产品
+   * @param pid 产品ID
+   * @return
+   */
+  boolean isFollowProduct(Long pid);
+  
+  /**
+   * 判断用户是否关注主题
+   * @param tid 主题ID
+   * @return
+   */
+  boolean isFollowTopic(Long tid);
 
   /**
    * 验证类别名称是否存在

@@ -24,6 +24,7 @@ import com.hoti.site.core.exception.FollowException;
 import com.hoti.site.core.exception.SecurityException;
 import com.hoti.site.core.exception.UpdateException;
 import com.hoti.site.core.security.AuthzUtil;
+import com.hoti.site.core.security.MemcachedUtil;
 import com.hoti.site.core.security.ThreadUtil;
 import com.hoti.site.db.api.BaseDao;
 import com.hoti.site.db.entity.Category;
@@ -333,10 +334,19 @@ public class BaseServiceImpl implements BaseService {
   @Override
   public Product findProduct(Long id) throws SecurityException {
     try {
-      return dao.findProduct(id);
+      /* 判断是否关注 */
+      Product product = dao.findProduct(id);
+      
+      if (isFollowProduct(product.getId())) {
+        product.setFollow(1);
+      }
+      
+      return product;
     } catch (Exception e) {
       e.printStackTrace();
       throw new FindException(e);
+    } finally {
+      MemcachedUtil.delete("follow.product");
     }
   }
 
@@ -344,20 +354,26 @@ public class BaseServiceImpl implements BaseService {
   public PageInfo<Product> findProducts(ProductExample example, Pagination p)
       throws SecurityException {
     try {
-      return dao.findProducts(example, p);
+      PageInfo<Product> pageInfo = dao.findProducts(example, p);
+      return followProductHandler(pageInfo); /* 判断是否关注 */
     } catch (Exception e) {
       e.printStackTrace();
       throw new FindException(e);
+    } finally {
+      MemcachedUtil.delete("follow.product");
     }
   }
 
   @Override
   public PageInfo<Product> findTopicProducts(Long tid, Pagination p) throws SecurityException {
     try {
-      return dao.findTopicProducts(tid, p);
+      PageInfo<Product> pageInfo = dao.findTopicProducts(tid, p);
+      return followProductHandler(pageInfo); /* 判断是否关注 */
     } catch (Exception e) {
       e.printStackTrace();
       throw new FindException(e);
+    } finally {
+      MemcachedUtil.delete("follow.product");
     }
   }
   
@@ -367,20 +383,26 @@ public class BaseServiceImpl implements BaseService {
   public PageInfo<Product> findTopicProducts(Long tid, String title, Long cid, Byte state,
       Pagination p) throws SecurityException {
     try {
-      return dao.findTopicProducts(tid, title, cid, state, p);
+      PageInfo<Product> pageInfo = dao.findTopicProducts(tid, title, cid, state, p);
+      return followProductHandler(pageInfo); /* 判断是否关注 */
     } catch (Exception e) {
       e.printStackTrace();
       throw new FindException(e);
+    } finally {
+      MemcachedUtil.delete("follow.product");
     }
   }
 
   @Override
   public PageInfo<Product> findUserProducts(Long uid, Pagination p) throws SecurityException {
     try {
-      return dao.findUserProducts(uid, p);
+      PageInfo<Product> pageInfo = dao.findUserProducts(uid, p);
+      return followProductHandler(pageInfo); /* 判断是否关注 */
     } catch (Exception e) {
       e.printStackTrace();
       throw new FindException(e);
+    } finally {
+      MemcachedUtil.delete("follow.product");
     }
   }
 
@@ -408,30 +430,44 @@ public class BaseServiceImpl implements BaseService {
   @Override
   public Topic findTopic(Long id) throws SecurityException {
     try {
-      return dao.findTopic(id);
+      Topic t = dao.findTopic(id);
+      
+      if (isFollowTopic(t.getId())) {
+        t.setFollow(1);
+      }
+      
+      return t;
     } catch (Exception e) {
       e.printStackTrace();
       throw new FindException(e);
+    } finally {
+      MemcachedUtil.delete("follow.topic");
     }
   }
 
   @Override
   public PageInfo<Topic> findTopics(TopicExample example, Pagination p) throws SecurityException {
     try {
-      return dao.findTopics(example, p);
+      PageInfo<Topic> pageInfo = dao.findTopics(example, p);
+      return followTopicHandler(pageInfo); /* 判断是否关注 */
     } catch (Exception e) {
       e.printStackTrace();
       throw new FindException(e);
+    } finally {
+      MemcachedUtil.delete("follow.topic");
     }
   }
 
   @Override
   public PageInfo<Topic> findUserTopics(Long uid, Pagination p) throws SecurityException {
     try {
-      return dao.findUserTopics(uid, p);
+      PageInfo<Topic> pageInfo = dao.findUserTopics(uid, p);
+      return followTopicHandler(pageInfo); /* 判断是否关注 */
     } catch (Exception e) {
       e.printStackTrace();
       throw new FindException(e);
+    }  finally {
+      MemcachedUtil.delete("follow.topic");
     }
   }
 
@@ -497,6 +533,32 @@ public class BaseServiceImpl implements BaseService {
       e.printStackTrace();
       throw new FindException(e);
     }
+  }
+
+  @Override
+  public boolean isFollowProduct(Long pid) {
+    try {
+      MemcachedUtil.set("follow.product", 3600, dao.findProductIds(AuthzUtil.getUserId()));
+      @SuppressWarnings("unchecked")
+      List<Long> list = (List<Long>)MemcachedUtil.get("follow.product");
+      return list.contains(pid);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return false;
+  }
+
+  @Override
+  public boolean isFollowTopic(Long tid) {
+    try {
+      MemcachedUtil.set("follow.topic", 3600, dao.findTopicIds(AuthzUtil.getUserId()));
+      @SuppressWarnings("unchecked")
+      List<Long> list = (List<Long>)MemcachedUtil.get("follow.topic");
+      return list.contains(tid);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return false;
   }
 
   @Override
@@ -948,6 +1010,38 @@ public class BaseServiceImpl implements BaseService {
     record.setProduct(product);
     record.setStar(star);
     updateTopic(record);
+  }
+  
+  /**
+   * 处理用户是否关注产品
+   * 
+   * @param pageInfo
+   * @return
+   */
+  private PageInfo<Product> followProductHandler(PageInfo<Product> pageInfo) {
+    List<Product> list = pageInfo.getList();
+    list.stream().forEach((p) -> {
+      if (isFollowProduct(p.getId())) {
+        p.setFollow(1);
+      }
+    });
+    return pageInfo;
+  }
+  
+  /**
+   * 处理用户是否关注主题
+   * 
+   * @param pageInfo
+   * @return
+   */
+  private PageInfo<Topic> followTopicHandler(PageInfo<Topic> pageInfo) {
+    List<Topic> list = pageInfo.getList();
+    list.stream().forEach((t) -> {
+      if (isFollowTopic(t.getId())) {
+        t.setFollow(1);
+      }
+    });
+    return pageInfo;
   }
 
 }

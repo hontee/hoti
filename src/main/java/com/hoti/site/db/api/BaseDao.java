@@ -352,6 +352,20 @@ public interface BaseDao {
    * @return
    */
   PageInfo<User> findTopicUsers(Long fid, String name, Byte type, Byte state, Pagination p) throws Exception;
+  
+  /**
+   * 用户关注产品的列表
+   * @param uid 用户ID
+   * @return
+   */
+  List<Long> findProductIds(Long uid) throws Exception;
+  
+  /**
+   * 用户关注主题的列表
+   * @param uid 用户ID
+   * @return
+   */
+  List<Long> findTopicIds(Long uid) throws Exception;
 
   /**
    * 更新类别

@@ -367,6 +367,18 @@ public class BaseDaoImpl implements BaseDao {
   }
   
   @Override
+  public List<Long> findProductIds(Long uid) throws Exception {
+    logger.info("用户[{}]关注的产品IDs", uid);
+    return re.followProductIds(uid);
+  }
+
+  @Override
+  public List<Long> findTopicIds(Long uid) throws Exception {
+    logger.info("用户[{}]关注的主题IDs", uid);
+    return re.followTopicIds(uid);
+  }
+
+  @Override
   public int updateCategory(Category record) throws Exception {
     logger.info("更新类别：{}", JSON.toJSONString(record));
     

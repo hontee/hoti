@@ -1,5 +1,7 @@
 package com.hoti.site.db.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface RelationMapper {
@@ -51,5 +53,19 @@ public interface RelationMapper {
    * @return
    */
   int unfollowTopic(@Param("uid") Long uid, @Param("fid") Long fid);
+  
+  /**
+   * 用户关注产品的列表
+   * @param uid 用户ID
+   * @return
+   */
+  List<Long> followProductIds(@Param("uid") Long uid);
+  
+  /**
+   * 用户关注主题的列表
+   * @param uid 用户ID
+   * @return
+   */
+  List<Long> followTopicIds(@Param("uid") Long uid);
 
 }
