@@ -103,6 +103,24 @@ public class BaseDaoImpl implements BaseDao {
   }
 
   @Override
+  public int countProductStar() throws Exception {
+    logger.info("统计产品的关注数");
+    return trigger.countProductStar();
+  }
+
+  @Override
+  public int countCategoryPT() throws Exception {
+    logger.info("统计类别的产品数和主题数");
+    return trigger.countCategoryPT();
+  }
+
+  @Override
+  public int countTopicStar() throws Exception {
+    logger.info("统计主题的产品数和关注数");
+    return trigger.countTopicStar();
+  }
+
+  @Override
   public int deleteCategory(Long id) throws Exception {
     logger.info("删除类别：{}", id);
     return cm.deleteByPrimaryKey(id);

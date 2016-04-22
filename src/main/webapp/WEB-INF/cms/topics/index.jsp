@@ -12,7 +12,6 @@
 	<button id="groups-follow" class="easyui-linkbutton" data-options="iconCls:'icon-tip',disabled:true">关注</button>
 	<button id="groups-pick" class="easyui-linkbutton" data-options="iconCls:'icon-add',disabled:true">精选</button>
 	<button id="groups-unpick" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">取消精选</button>
-	<button id="groups-count" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">更新统计</button>
 	<button id="groups-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
@@ -46,7 +45,6 @@ var groupsEL = {
 	follow: $("#groups-follow"),
 	pick: $("#groups-pick"),
 	unpick: $("#groups-unpick"),
-	count: $("#groups-count"),
 	reload: $("#groups-reload"),
 	dg: $("#groups-dg"),
 	win: $("#groups-win")
@@ -283,12 +281,6 @@ groupsEL.follow.click(function() {
 			cache: false
 		});
 	}
-});
-
-
-// 更新统计
-groupsEL.count.click(function() {
-	CMS.countSubmitHandler(groupsEL, 'topics');
 });
 
 // 重载

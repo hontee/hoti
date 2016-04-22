@@ -361,19 +361,4 @@ public class TopicCMS extends BaseController {
     return buildResponse();
   }
 
-  /**
-   * 统计任务
-   * 
-   * @param request
-   * @return
-   * @throws SecurityException
-   */
-  @RequiresRoles(value = "admin")
-  @RequestMapping(value = "/count/task", method = RequestMethod.POST)
-  public @ResponseBody ResponseVO countTask(HttpServletRequest request) throws SecurityException {
-    logger.info("后台统计主题数据");
-    // TODO
-    return buildResponse();
-  }
-
 }

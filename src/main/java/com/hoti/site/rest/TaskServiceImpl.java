@@ -36,4 +36,40 @@ public class TaskServiceImpl implements TaskService {
 
   }
 
+  @Override
+  public void rebuildCountTask() throws SecurityException {
+    
+    ThreadUtil.execute(new Runnable() {
+
+      @Override
+      public void run() {
+        try {
+          dao.countCategoryPT();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }        
+      }
+      
+    });
+    
+    ThreadUtil.execute(new Runnable() {
+
+      @Override
+      public void run() {
+        try {
+          dao.countTopicStar();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }        
+      }
+      
+    });
+    
+    try {
+      dao.countProductStar();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
 }

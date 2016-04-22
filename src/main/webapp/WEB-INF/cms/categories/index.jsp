@@ -7,7 +7,6 @@
 	<button id="categories-add" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新建</button>
 	<button id="categories-edit" class="easyui-linkbutton" data-options="iconCls:'icon-edit',disabled:true">编辑</button>
 	<button id="categories-remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove',disabled:true">删除</button>
-	<button id="categories-count" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">更新统计</button>
 	<button id="categories-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
@@ -27,7 +26,6 @@ var categoriesEL = {
 	add: $("#categories-add"),
 	edit: $("#categories-edit"),
 	remove: $("#categories-remove"),
-	count: $("#categories-count"),
 	reload: $("#categories-reload"),
 	dg: $("#categories-dg"),
 	win: $("#categories-win")
@@ -157,11 +155,6 @@ categoriesEL.edit.click(function() {
 // 删除
 categoriesEL.remove.click(function() {
 	CMS.removeSubmitHandler(categoriesEL, 'categories');
-});
-
-// 更新统计
-categoriesEL.count.click(function() {
-	CMS.countSubmitHandler(categoriesEL, 'categories');
 });
 
 // 重载

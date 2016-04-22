@@ -96,5 +96,23 @@ public interface TriggerMapper {
    * @return
    */
   int updateTopicCategory(@Param("cid") Long cid);
+  
+  /**
+   * 统计产品的关注数
+   * @return
+   */
+  int countProductStar();
+  
+  /**
+   * 统计类别的产品数和主题数
+   * @return
+   */
+  int countCategoryPT();
+  
+  /**
+   * 统计主题的产品数和关注数
+   * @return
+   */
+  int countTopicStar();
 
 }

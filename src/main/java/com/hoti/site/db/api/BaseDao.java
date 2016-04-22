@@ -66,6 +66,24 @@ public interface BaseDao {
   int countUser(UserExample example) throws Exception;
   
   /**
+   * 统计产品的关注数
+   * @return
+   */
+  int countProductStar() throws Exception;
+  
+  /**
+   * 统计类别的产品数和主题数
+   * @return
+   */
+  int countCategoryPT() throws Exception;
+  
+  /**
+   * 统计主题的产品数和关注数
+   * @return
+   */
+  int countTopicStar() throws Exception;
+  
+  /**
    * 删除类别
    * 
    * @param id

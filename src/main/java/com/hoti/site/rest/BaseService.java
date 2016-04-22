@@ -639,16 +639,6 @@ public interface BaseService {
   void updateTopic(Long id, TopicVO vo) throws SecurityException;
   
   /**
-   * 更新主题统计
-   * 
-   * @param id
-   * @param product
-   * @param star
-   * @throws SecurityException
-   */
-  void updateTopic(Long id, int product, int star) throws SecurityException;
-
-  /**
    * 更新用户
    * 
    * @param record

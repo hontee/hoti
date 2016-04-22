@@ -33,7 +33,7 @@ public class TaskController {
     try {
       service.rebuildPTCategory();
     } catch (SecurityException e) {
-      logger.debug("重构所有产品和主题类别名称失败: {}", e.getMessage());
+      e.printStackTrace();
     }
   }
 
@@ -41,8 +41,13 @@ public class TaskController {
    * 每天凌晨2点40分触发
    */
   @Scheduled(cron = "0 40 02 * * ?")
-  public void countGroupTask() {
-
+  public void rebuildCountTask() {
+    logger.info("重构所有统计数据...");
+    try {
+      service.rebuildCountTask();
+    } catch (SecurityException e) {
+      e.printStackTrace();
+    }
   }
 
 }

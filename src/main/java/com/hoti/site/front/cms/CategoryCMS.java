@@ -208,19 +208,4 @@ public class CategoryCMS extends BaseController {
     return buildResponse();
   }
 
-  /**
-   * 统计类别 [产品数和主题数]
-   * 
-   * @param request
-   * @return
-   * @throws SecurityException
-   */
-  @RequiresRoles(value = "admin")
-  @RequestMapping(value = "/count/task", method = RequestMethod.POST)
-  public @ResponseBody ResponseVO countTask(HttpServletRequest request) throws SecurityException {
-    logger.info("后台统计类别数据");
-    // TODO
-    return buildResponse();
-  }
-
 }

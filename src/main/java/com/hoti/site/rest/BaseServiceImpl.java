@@ -1016,15 +1016,6 @@ public class BaseServiceImpl implements BaseService {
     updateTopic(record);
   }
 
-  @Override
-  public void updateTopic(Long id, int product, int star) throws SecurityException {
-    Topic record = new Topic();
-    record.setId(id);
-    record.setProduct(product);
-    record.setStar(star);
-    updateTopic(record);
-  }
-
   /**
    * 处理用户是否关注产品
    * 
