@@ -382,20 +382,25 @@ public class BaseDaoImpl implements BaseDao {
   public int updateCategory(Category record) throws Exception {
     logger.info("更新类别：{}", JSON.toJSONString(record));
     
-    /*更新类别时，如果类别名称修改则触发更新产品表和主题表的类别名称*/
-    ThreadUtil.execute(new Runnable() {
-      public void run() {
-        try {
-          Category category = findCategory(record.getId());
-          if (!record.getTitle().equals(category.getTitle())) {
-            trigger.updateProductCategory(record.getId(), record.getTitle());
-            trigger.updateTopicCategory(record.getId(), record.getTitle());
+    Category c = cm.selectByPrimaryKey(record.getId());
+    
+    if (!record.getTitle().equals(c.getTitle())) {
+      /*更新类别时，如果类别名称修改则触发更新产品表和主题表的类别名称*/
+      ThreadUtil.execute(new Runnable() {
+        public void run() {
+          
+          try {
+            Category category = findCategory(record.getId());
+            if (!record.getTitle().equals(category.getTitle())) {
+              trigger.updateProductCategory(record.getId());
+              trigger.updateTopicCategory(record.getId());
+            }
+          } catch (Exception e) {
+            e.printStackTrace();
           }
-        } catch (Exception e) {
-          e.printStackTrace();
         }
-      }
-    });
+      });
+    }
     
     return cm.updateByPrimaryKey(record);
   }
@@ -448,6 +453,18 @@ public class BaseDaoImpl implements BaseDao {
   public int updateUser(User record) throws Exception {
     logger.info("更新用户：{}", JSON.toJSONString(record));
     return um.updateByPrimaryKey(record);
+  }
+  
+  @Override
+  public int rebuildProductCategory() throws Exception {
+    logger.info("重构所有产品类别名称");
+    return trigger.updateProductCategory(null);
+  }
+
+  @Override
+  public int rebuildTopicCategory() throws Exception {
+    logger.info("重构所有主题类别名称");
+    return trigger.updateTopicCategory(null);
   }
 
   @Override

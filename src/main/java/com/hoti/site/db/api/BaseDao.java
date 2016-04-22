@@ -416,6 +416,22 @@ public interface BaseDao {
   int updateUser(User record) throws Exception;
   
   /**
+   * 重构产品类别名称
+   * 
+   * @param record
+   * @return
+   */
+  int rebuildProductCategory() throws Exception;
+  
+  /**
+   * 重构主题类别名称
+   * 
+   * @param record
+   * @return
+   */
+  int rebuildTopicCategory() throws Exception;
+  
+  /**
    * 用户关注产品IDs
    * 
    * @param uid 用户ID

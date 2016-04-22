@@ -27,7 +27,7 @@ import com.hoti.site.db.entity.User;
 import com.hoti.site.db.entity.VUtil;
 import com.hoti.site.front.controller.BaseController;
 import com.hoti.site.front.controller.ModelUtil;
-import com.hoti.site.front.vo.GroupVO;
+import com.hoti.site.front.vo.TopicVO;
 import com.hoti.site.front.vo.ResponseVO;
 import com.hoti.site.rest.BaseService;
 
@@ -249,7 +249,7 @@ public class TopicCMS extends BaseController {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/new", method = RequestMethod.POST)
-  public @ResponseBody ResponseVO addTopic(GroupVO vo, HttpServletRequest request)
+  public @ResponseBody ResponseVO addTopic(TopicVO vo, HttpServletRequest request)
       throws SecurityException {
     logger.info("后台添加主题: {}", JSON.toJSONString(vo));
     service.addTopic(vo);
@@ -320,7 +320,7 @@ public class TopicCMS extends BaseController {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-  public @ResponseBody ResponseVO editTopic(@PathVariable Long id, GroupVO vo,
+  public @ResponseBody ResponseVO editTopic(@PathVariable Long id, TopicVO vo,
       HttpServletRequest request) throws SecurityException {
     logger.info("后台编辑主题：{}, {}", id, JSON.toJSONString(vo));
     service.updateTopic(id, vo);

@@ -43,16 +43,16 @@ import com.hoti.site.db.entity.Topic;
 import com.hoti.site.db.entity.TopicExample;
 import com.hoti.site.db.entity.User;
 import com.hoti.site.db.entity.UserExample;
-import com.hoti.site.front.vo.ProductVO;
 import com.hoti.site.front.vo.CategoryVO;
-import com.hoti.site.front.vo.GroupVO;
 import com.hoti.site.front.vo.MenuVO;
+import com.hoti.site.front.vo.ProductVO;
 import com.hoti.site.front.vo.RecommendVO;
+import com.hoti.site.front.vo.TopicVO;
 import com.hoti.site.front.vo.UserVO;
 
 @Service
 public class BaseServiceImpl implements BaseService {
-  
+
   @Resource
   private BaseDao dao;
 
@@ -85,7 +85,7 @@ public class BaseServiceImpl implements BaseService {
       throw new CountException(e);
     }
   }
-  
+
   @Override
   public int countProduct(String title) throws SecurityException {
     ProductExample example = new ProductExample();
@@ -102,7 +102,7 @@ public class BaseServiceImpl implements BaseService {
       throw new CountException(e);
     }
   }
-  
+
   @Override
   public int countTopic(TopicExample example) throws SecurityException {
     try {
@@ -112,7 +112,7 @@ public class BaseServiceImpl implements BaseService {
       throw new CountException(e);
     }
   }
-  
+
   @Override
   public int countTopic(String title) throws SecurityException {
     TopicExample example = new TopicExample();
@@ -336,11 +336,11 @@ public class BaseServiceImpl implements BaseService {
     try {
       /* 判断是否关注 */
       Product product = dao.findProduct(id);
-      
+
       if (isFollowProduct(product.getId())) {
         product.setFollow(1);
       }
-      
+
       return product;
     } catch (Exception e) {
       e.printStackTrace();
@@ -376,8 +376,8 @@ public class BaseServiceImpl implements BaseService {
       MemcachedUtil.delete("follow.product");
     }
   }
-  
-  
+
+
 
   @Override
   public PageInfo<Product> findTopicProducts(Long tid, String title, Long cid, Byte state,
@@ -431,11 +431,11 @@ public class BaseServiceImpl implements BaseService {
   public Topic findTopic(Long id) throws SecurityException {
     try {
       Topic t = dao.findTopic(id);
-      
+
       if (isFollowTopic(t.getId())) {
         t.setFollow(1);
       }
-      
+
       return t;
     } catch (Exception e) {
       e.printStackTrace();
@@ -466,7 +466,7 @@ public class BaseServiceImpl implements BaseService {
     } catch (Exception e) {
       e.printStackTrace();
       throw new FindException(e);
-    }  finally {
+    } finally {
       MemcachedUtil.delete("follow.topic");
     }
   }
@@ -500,8 +500,8 @@ public class BaseServiceImpl implements BaseService {
       throw new FindException(e);
     }
   }
-  
-  
+
+
 
   @Override
   public PageInfo<User> findProductUsers(Long fid, String name, Byte type, Byte state, Pagination p)
@@ -523,7 +523,7 @@ public class BaseServiceImpl implements BaseService {
       throw new FindException(e);
     }
   }
-  
+
   @Override
   public PageInfo<User> findTopicUsers(Long fid, String name, Byte type, Byte state, Pagination p)
       throws SecurityException {
@@ -750,7 +750,7 @@ public class BaseServiceImpl implements BaseService {
     example.createCriteria().andNameEqualTo(username);
     PageInfo<User> pageInfo = findUsers(example, new Pagination());
     List<User> list = pageInfo.getList();
-    return CollectionUtils.isNotEmpty(list)? list.get(0): null;
+    return CollectionUtils.isNotEmpty(list) ? list.get(0) : null;
   }
 
   @Override
@@ -858,7 +858,7 @@ public class BaseServiceImpl implements BaseService {
     record.setCreateBy(AuthzUtil.getUserId());
     record.setCreator(AuthzUtil.getUsername());
     record.setCid(vo.getCid());
-    record.setCategory("111");
+    record.setCategory(findCTitle(vo.getCid()));
     record.setReffer(GlobalIDs.REFFER);
     addProduct(record);
   }
@@ -888,6 +888,7 @@ public class BaseServiceImpl implements BaseService {
     record.setState(vo.getState());
     record.setReffer(vo.getReffer());
     record.setCid(vo.getCid());
+    record.setCategory(findCTitle(vo.getCid()));
     updateProduct(record);
   }
 
@@ -965,19 +966,19 @@ public class BaseServiceImpl implements BaseService {
   @Override
   public void deleteTopicProduct(Long tid, Long[] pids) throws SecurityException {
     Arrays.asList(pids).forEach((pid) -> {
-        try {
-          deleteTopicProduct(tid, pid);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
+      try {
+        deleteTopicProduct(tid, pid);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     });
   }
 
   @Override
-  public void addTopic(GroupVO vo) throws SecurityException {
+  public void addTopic(TopicVO vo) throws SecurityException {
     Topic record = new Topic();
-    record.setCid(vo.getCategory());
-    record.setCategory("111");
+    record.setCid(vo.getCid());
+    record.setCategory(findCTitle(vo.getCid()));
     record.setCreateBy(AuthzUtil.getUserId());
     record.setCreator(AuthzUtil.getUsername());
     record.setDescription(vo.getDescription());
@@ -995,7 +996,7 @@ public class BaseServiceImpl implements BaseService {
       } catch (Exception e) {
         e.printStackTrace();
       }
-  });
+    });
   }
 
   @Override
@@ -1004,11 +1005,11 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public void updateTopic(Long id, GroupVO vo) throws SecurityException {
+  public void updateTopic(Long id, TopicVO vo) throws SecurityException {
     Topic record = new Topic();
     record.setId(id);
-    record.setCid(vo.getCategory());
-    record.setCategory("111");
+    record.setCid(vo.getCid());
+    record.setCategory(findCTitle(vo.getCid()));
     record.setDescription(vo.getDescription());
     record.setState(vo.getState());
     record.setTitle(vo.getTitle());
@@ -1023,7 +1024,7 @@ public class BaseServiceImpl implements BaseService {
     record.setStar(star);
     updateTopic(record);
   }
-  
+
   /**
    * 处理用户是否关注产品
    * 
@@ -1039,7 +1040,7 @@ public class BaseServiceImpl implements BaseService {
     });
     return pageInfo;
   }
-  
+
   /**
    * 处理用户是否关注主题
    * 
@@ -1054,6 +1055,23 @@ public class BaseServiceImpl implements BaseService {
       }
     });
     return pageInfo;
+  }
+
+  /**
+   * 查询类别名称
+   * 
+   * @param cid
+   * @return
+   * @throws SecurityException
+   */
+  private String findCTitle(Long cid) throws SecurityException {
+    try {
+      Category category = dao.findCategory(cid);
+      return category.getTitle();
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new FindException(e);
+    }
   }
 
 }

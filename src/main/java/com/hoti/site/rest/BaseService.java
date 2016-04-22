@@ -19,7 +19,7 @@ import com.hoti.site.db.entity.User;
 import com.hoti.site.db.entity.UserExample;
 import com.hoti.site.front.vo.ProductVO;
 import com.hoti.site.front.vo.CategoryVO;
-import com.hoti.site.front.vo.GroupVO;
+import com.hoti.site.front.vo.TopicVO;
 import com.hoti.site.front.vo.MenuVO;
 import com.hoti.site.front.vo.RecommendVO;
 import com.hoti.site.front.vo.UserVO;
@@ -232,7 +232,7 @@ public interface BaseService {
    * @param vo
    * @throws SecurityException
    */
-  void addTopic(GroupVO vo) throws SecurityException;
+  void addTopic(TopicVO vo) throws SecurityException;
 
   /**
    * 添加主题和产品的关联
@@ -636,7 +636,7 @@ public interface BaseService {
    * @param vo
    * @throws SecurityException
    */
-  void updateTopic(Long id, GroupVO vo) throws SecurityException;
+  void updateTopic(Long id, TopicVO vo) throws SecurityException;
   
   /**
    * 更新主题统计

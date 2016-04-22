@@ -49,11 +49,22 @@
   
   <!-- 更新产品类别名称 -->
   <update id="updateProductCategory" parameterType="map">
-    UPDATE t_product SET category = #{category} WHERE cid = #{cid}
+    update t_product t set category = (select title from t_category WHERE id = t.cid)
+	<where>
+	  <if test="cid != null">
+		cid = #{cid}
+	  </if>
+	</where>
   </update>
   <!-- 更新主题类别名称 -->
   <update id="updateTopicCategory" parameterType="map">
-    UPDATE t_topic SET category = #{category} WHERE cid = #{cid}
+    update t_topic t set category = (select title from t_category WHERE id = t.cid)
+	<where>
+	  <if test="cid != null">
+		cid = #{cid}
+	  </if>
+	</where>
   </update>
+  
 
 </mapper>

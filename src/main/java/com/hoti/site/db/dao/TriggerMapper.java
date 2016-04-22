@@ -86,7 +86,7 @@ public interface TriggerMapper {
    * @param category
    * @return
    */
-  int updateProductCategory(@Param("cid") Long cid, @Param("category") String category);
+  int updateProductCategory(@Param("cid") Long cid);
   
   /**
    * 更新主题类别名称
@@ -95,6 +95,6 @@ public interface TriggerMapper {
    * @param category
    * @return
    */
-  int updateTopicCategory(@Param("cid") Long cid, @Param("category") String category);
+  int updateTopicCategory(@Param("cid") Long cid);
 
 }
