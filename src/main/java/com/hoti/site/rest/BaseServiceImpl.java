@@ -538,9 +538,15 @@ public class BaseServiceImpl implements BaseService {
   @Override
   public boolean isFollowProduct(Long pid) {
     try {
-      MemcachedUtil.set("follow.product", 3600, dao.findProductIds(AuthzUtil.getUserId()));
+      Object object = MemcachedUtil.get("follow.product");
+
+      if (object == null) {
+        MemcachedUtil.set("follow.product", 3600, dao.findProductIds(AuthzUtil.getUserId()));
+        object = MemcachedUtil.get("follow.product");
+      }
+
       @SuppressWarnings("unchecked")
-      List<Long> list = (List<Long>)MemcachedUtil.get("follow.product");
+      List<Long> list = (List<Long>) object;
       return list.contains(pid);
     } catch (Exception e) {
       e.printStackTrace();
@@ -551,9 +557,15 @@ public class BaseServiceImpl implements BaseService {
   @Override
   public boolean isFollowTopic(Long tid) {
     try {
-      MemcachedUtil.set("follow.topic", 3600, dao.findTopicIds(AuthzUtil.getUserId()));
+      Object object = MemcachedUtil.get("follow.topic");
+
+      if (object == null) {
+        MemcachedUtil.set("follow.topic", 3600, dao.findTopicIds(AuthzUtil.getUserId()));
+        object = MemcachedUtil.get("follow.topic");
+      }
+
       @SuppressWarnings("unchecked")
-      List<Long> list = (List<Long>)MemcachedUtil.get("follow.topic");
+      List<Long> list = (List<Long>) object;
       return list.contains(tid);
     } catch (Exception e) {
       e.printStackTrace();
