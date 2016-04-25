@@ -14,11 +14,19 @@ public interface TaskService {
    * @throws SecurityException
    */
   void rebuildPTCategory() throws SecurityException;
-  
+
   /**
    * 重构统计任务
+   * 
    * @throws SecurityException
    */
   void rebuildCountTask() throws SecurityException;
   
+  /**
+   * 重构统计类别数任务
+   * 
+   * @throws SecurityException
+   */
+  void rebuildCountCategoryTask() throws SecurityException;
+
 }

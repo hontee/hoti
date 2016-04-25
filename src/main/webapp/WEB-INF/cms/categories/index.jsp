@@ -51,6 +51,7 @@ categoriesEL.dg.datagrid({
         {field:'avatar',title:'头像',width:100},
         {field:'cover',title:'封面',width:100},
         {field:'parent',title:'父节点',width:100, sortable: true},
+        {field:'category',title:'类别数',width:100, sortable: true},
         {field:'product',title:'产品数',width:100, sortable: true},
         {field:'topic',title:'主题数',width:100, sortable: true},
         {field:'weight',title:'权重',width:100, sortable: true},

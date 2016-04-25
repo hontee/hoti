@@ -9,6 +9,7 @@
   <li><label>头像：</label>${record.avatar}</li>
   <li><label>封面：</label>${record.cover}</li>
   <li><label>所属类别：</label>${record.parent}</li>
+  <li><label>类别数：</label>${record.category}</li>
   <li><label>产品数：</label>${record.product}</li>
   <li><label>主题数：</label>${record.topic}</li>
   <li><label>权重：</label>${record.weight}</li>

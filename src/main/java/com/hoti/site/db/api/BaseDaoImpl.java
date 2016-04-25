@@ -123,7 +123,19 @@ public class BaseDaoImpl implements BaseDao {
   @Override
   public int deleteCategory(Long id) throws Exception {
     logger.info("删除类别：{}", id);
-    return cm.deleteByPrimaryKey(id);
+    
+    Category category = cm.selectByPrimaryKey(id);
+    
+    // 删除时的安全检查
+    if (category.getCategory().equals(0L) &&
+        category.getProduct().equals(0L) &&
+        category.getTopic().equals(0L)) {
+      // 删除时触发类别
+      trigger.deleteCategory(category.getParent());
+      return cm.deleteByPrimaryKey(id);
+    } else {
+      throw new Exception("Category is not empty.");
+    }
   }
 
   @Override
@@ -179,6 +191,9 @@ public class BaseDaoImpl implements BaseDao {
   @Override
   public int addCategory(Category record) throws Exception {
     logger.info("添加类别：{}", JSON.toJSONString(record));
+    
+    // 添加类别时触发
+    trigger.insertCategory(record.getParent());
     return cm.insert(record);
   }
 
@@ -400,24 +415,28 @@ public class BaseDaoImpl implements BaseDao {
   public int updateCategory(Category record) throws Exception {
     logger.info("更新类别：{}", JSON.toJSONString(record));
     
-    Category c = cm.selectByPrimaryKey(record.getId());
+    final Category c = cm.selectByPrimaryKey(record.getId());
     
     if (!record.getTitle().equals(c.getTitle())) {
       /*更新类别时，如果类别名称修改则触发更新产品表和主题表的类别名称*/
       ThreadUtil.execute(new Runnable() {
         public void run() {
-          
+
           try {
-            Category category = findCategory(record.getId());
-            if (!record.getTitle().equals(category.getTitle())) {
-              trigger.updateProductCategory(record.getId());
-              trigger.updateTopicCategory(record.getId());
-            }
+            // 标题修改时触发标题同步
+            trigger.updateProductCategory(record.getId());
+            trigger.updateTopicCategory(record.getId());
           } catch (Exception e) {
             e.printStackTrace();
           }
         }
       });
+    }
+    
+    // Parent修改时触发类别数更新
+    if (c.getParent() != record.getParent()) {
+      trigger.deleteCategory(c.getParent());
+      trigger.insertCategory(record.getParent());
     }
     
     return cm.updateByPrimaryKey(record);
@@ -555,5 +574,5 @@ public class BaseDaoImpl implements BaseDao {
     logger.info("批量取消精选主题: ", Arrays.toString(array));
     return tm.updateByPick(0, array);
   }
-
+  
 }

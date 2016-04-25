@@ -8,6 +8,20 @@ import org.apache.ibatis.annotations.Param;
  * @author larry.qi
  */
 public interface TriggerMapper {
+  
+  /**
+   * 添加类别时触发类别数+1
+   * @param parent 类别ID
+   * @return
+   */
+  int insertCategory(@Param("parent") Long parent);
+  
+  /**
+   * 删除类别时触发类别数-1
+   * @param parent 类别ID
+   * @return
+   */
+  int deleteCategory(@Param("parent") Long parent);
 
   /**
    * 添加产品时触发产品数+1

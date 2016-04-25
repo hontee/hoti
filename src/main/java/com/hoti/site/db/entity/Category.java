@@ -20,6 +20,8 @@ public class Category implements Serializable {
   private String cover;
 
   private Long parent;
+  
+  private Long category;
 
   private Long product;
 
@@ -89,6 +91,14 @@ public class Category implements Serializable {
 
   public void setParent(Long parent) {
     this.parent = parent;
+  }
+
+  public Long getCategory() {
+    return category;
+  }
+
+  public void setCategory(Long category) {
+    this.category = category;
   }
 
   public Long getProduct() {

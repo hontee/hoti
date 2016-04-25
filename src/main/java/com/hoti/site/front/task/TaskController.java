@@ -25,13 +25,26 @@ public class TaskController {
   /**
    * 重构所有产品和主题类别名称
    * 
-   * @Task 每天凌晨2点10分触发
+   * @Task 每天凌晨2点00分触发
    */
-  @Scheduled(cron = "0 10 02 * * ?")
+  @Scheduled(cron = "0 0 02 * * ?")
   public void rebuildPTCategory() {
     logger.info("开始重构所有产品和主题类别名称...");
     try {
       service.rebuildPTCategory();
+    } catch (SecurityException e) {
+      e.printStackTrace();
+    }
+  }
+  
+  /**
+   * 每天凌晨2点20分触发
+   */
+  @Scheduled(cron = "0 20 02 * * ?")
+  public void rebuildCountCategoryTask() {
+    logger.info("重构统计类别数...");
+    try {
+      service.rebuildCountCategoryTask();
     } catch (SecurityException e) {
       e.printStackTrace();
     }
