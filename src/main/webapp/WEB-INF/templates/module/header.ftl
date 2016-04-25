@@ -11,29 +11,28 @@
 <meta name="description" content="${description!"红提 HOTI.io 为开发者而生！汇聚国内外最优质资源，打造最有影响力的开发者服务中心。"}">
 
 <@block name="resources">
-<link href="/assets/css/primer.css" rel="stylesheet">
-<script src="/assets/js/jquery.min.js"></script>
-<script src="/assets/js/jquery.mmenu.all.min.js"></script>
-<script src="/assets/js/layout.js"></script>
+<link href="/primer/css/primer.css" rel="stylesheet">
+<script src="/primer/js/jquery.min.js"></script>
+<script src="/primer/js/jquery.mmenu.all.min.js"></script>
+<script src="/primer/js/layout.js"></script>
 </@block>
 </head>
 
 <body>
 <@block name="navbar">
 <nav class="navbar">
-    <a class="navbar-brand" href="/">红提</a>
-    <form class="left" action="/search" method="get">
-      <input class="form-control navbar-search" name="q" value="${q!}" placeholder="搜索 产品与主题" autocomplete="off">
-    </form>
-    <ul class="navbar-ul right">
+	<ul class="navbar-ul">
       <li><a class="link" href="/">发现</a></li>
       <li><a class="link" href="/topics">主题</a></li>
       <#if user??>
-      <li><a class="btn" href="/">你好，${user!}</a></li>
+      <li class="right"><a class="link" href="/">你好，${user!}</a></li>
       <#else>
-      <li><a class="btn btn-primary" href="/login">快速登录</a></li>
+      <li class="right"><a class="link" href="/login">登录</a></li>
       </#if>
     </ul>
+    <form class="left" action="/search" method="get">
+      <input class="form-control navbar-search" name="q" value="${q!}" placeholder="搜索 产品与主题" autocomplete="off">
+    </form>
 </nav>
 </@block>
 
