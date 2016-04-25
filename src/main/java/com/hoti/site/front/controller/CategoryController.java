@@ -1,7 +1,5 @@
 package com.hoti.site.front.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,21 +28,6 @@ public class CategoryController {
   private BaseService service;
 
   /**
-   * 类别首页
-   * 
-   * @param model
-   * @return
-   * @throws SecurityException
-   */
-  @RequestMapping(value = "/categories", method = RequestMethod.GET)
-  public String findAllCategories(Model model) throws SecurityException {
-    ModelUtil.addHeader(model, "红提 | 所有类别");
-    List<Category> list = service.findAllCategories();
-    ModelUtil.addCategories(model, list);
-    return "category.ftl";
-  }
-
-  /**
    * 根据类别获取产品
    * 
    * @param id 类别ID
@@ -60,7 +43,7 @@ public class CategoryController {
     
     p.initFrontRows();
     Category record = service.findCategory(id);
-    ModelUtil.addHeader(model, record.getTitle().concat(" | 红提"));
+    ModelUtil.addHeader(model, record.getTitle().concat(" | 红提"), request);
 
     ProductExample example = new ProductExample();
     example.createCriteria().andCidEqualTo(id);
@@ -71,7 +54,7 @@ public class CategoryController {
     ModelUtil.addProducts(model, pageInfo.getList());
     ModelUtil.addF(model, "product");
     
-    return "category-list.ftl";
+    return "category.ftl";
   }
   
   /**
@@ -90,7 +73,7 @@ public class CategoryController {
     
     p.initFrontRows();
     Category record = service.findCategory(id);
-    ModelUtil.addHeader(model, record.getTitle().concat(" | 红提"));
+    ModelUtil.addHeader(model, record.getTitle().concat(" | 红提"), request);
 
     TopicExample example = new TopicExample();
     example.createCriteria().andCidEqualTo(id);
@@ -101,7 +84,7 @@ public class CategoryController {
     ModelUtil.addTopics(model, pageInfo.getList());
     ModelUtil.addF(model, "topic");
 
-    return "category-list.ftl";
+    return "category.ftl";
   }
 
 }

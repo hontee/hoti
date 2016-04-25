@@ -59,7 +59,7 @@ public class TopicController {
       pageInfo = service.findTopics(example, p);
     }
 
-    ModelUtil.addHeader(model, "红提主题 | 更好的产品组织者");
+    ModelUtil.addHeader(model, "红提主题 | 更好的产品组织者", request);
     ModelUtil.addF(model, f);
     ModelUtil.addPager(model, pageInfo, "/topics?f=" + f);
     ModelUtil.addTopics(model, pageInfo.getList());
@@ -84,7 +84,7 @@ public class TopicController {
     Topic record = service.findTopic(id);
     
     PageInfo<Product> pageInfo = service.findTopicProducts(id, p);
-    ModelUtil.addHeader(model, record.getTitle().concat(" | 红提主题"));
+    ModelUtil.addHeader(model, record.getTitle().concat(" | 红提主题"), request);
     ModelUtil.addF(model, f);
     ModelUtil.addPager(model, pageInfo, "/topics/" + id + "/?f=" + f);
     ModelUtil.addTopic(model, record);

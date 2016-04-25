@@ -1,5 +1,5 @@
 <@override name="body">
-<div class="blankslate text-center">
+<div class="blankslate">
   <div class="container">
   <h1>${topic.title!}</h1>
   <p>${topic.description!}</p>

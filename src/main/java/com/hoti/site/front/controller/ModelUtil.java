@@ -2,7 +2,11 @@ package com.hoti.site.front.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.ui.Model;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.github.pagehelper.PageInfo;
 import com.hoti.site.core.exception.SecurityException;
@@ -11,6 +15,7 @@ import com.hoti.site.db.entity.Category;
 import com.hoti.site.db.entity.PagerUtil;
 import com.hoti.site.db.entity.Product;
 import com.hoti.site.db.entity.Topic;
+import com.hoti.site.rest.BaseService;
 
 /**
  * 模块工具
@@ -28,8 +33,9 @@ public class ModelUtil {
    * @param ds
    * @throws SecurityException
    */
-  public static void addHeader(Model model, String title) throws SecurityException {
-    addHeader(model, title, null, null);
+  public static void addHeader(Model model, String title, HttpServletRequest request)
+      throws SecurityException {
+    addHeader(model, title, null, null, request);
   }
 
   /**
@@ -42,12 +48,16 @@ public class ModelUtil {
    * @param ds
    * @throws SecurityException
    */
-  public static void addHeader(Model model, String title, String keywords, String desc)
-      throws SecurityException {
+  public static void addHeader(Model model, String title, String keywords, String desc,
+      HttpServletRequest request) throws SecurityException {
     model.addAttribute("title", title);
     model.addAttribute("keywords", keywords);
     model.addAttribute("description", desc);
     model.addAttribute("user", AuthzUtil.isAuthorized() ? AuthzUtil.getUsername() : null);
+    
+    WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
+    BaseService service = wac.getBean(BaseService.class);
+    ModelUtil.addCategories(model, service.findAllCategories());
   }
 
   /**

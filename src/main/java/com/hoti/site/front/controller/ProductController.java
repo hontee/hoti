@@ -64,7 +64,7 @@ public class ProductController extends BaseController {
     ModelUtil.addF(model, f);
     ModelUtil.addPager(model, pageInfo, "/?f=" + f);
     ModelUtil.addProducts(model, pageInfo.getList());
-    ModelUtil.addHeader(model, "红提 | 为开发者而生");
+    ModelUtil.addHeader(model, "红提 | 为开发者而生", request);
     return "index.ftl";
   }
 
@@ -87,8 +87,8 @@ public class ProductController extends BaseController {
    * @throws SecurityException
    */
   @RequestMapping(value = "/recommend", method = RequestMethod.GET)
-  public String recommend(Model model) throws SecurityException {
-    ModelUtil.addHeader(model, "红提 | 推荐你喜欢的资源、文档、技术与开源项目");
+  public String recommend(Model model, HttpServletRequest request) throws SecurityException {
+    ModelUtil.addHeader(model, "红提 | 推荐你喜欢的资源、文档、技术与开源项目", request);
     return "recommend.ftl";
   }
 

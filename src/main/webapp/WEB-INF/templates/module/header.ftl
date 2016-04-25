@@ -21,7 +21,6 @@
 <body>
 <@block name="navbar">
 <nav class="navbar">
-  <div class="container">
     <a class="navbar-brand" href="/">红提</a>
     <form class="left" action="/search" method="get">
       <input class="form-control navbar-search" name="q" value="${q!}" placeholder="搜索 产品与主题" autocomplete="off">
@@ -29,14 +28,25 @@
     <ul class="navbar-ul right">
       <li><a class="link" href="/">发现</a></li>
       <li><a class="link" href="/topics">主题</a></li>
-      <li><a class="link" href="/categories">类别</a></li>
       <#if user??>
       <li><a class="btn" href="/">你好，${user!}</a></li>
       <#else>
       <li><a class="btn btn-primary" href="/login">快速登录</a></li>
       </#if>
     </ul>
-  </div>
+</nav>
+</@block>
+
+<@block name="mmenu">
+<nav id="mmenu">
+  <ul class="listview-icons">
+    <#list categories as c>
+    <li>
+      <a href="/categories/${c.id}">${c.title!}</a>
+      <em class="mm-counter mm-badge">${c.product}</em>
+    </li>
+    </#list>
+  </ul>
 </nav>
 </@block>
 

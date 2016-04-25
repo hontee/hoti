@@ -14,6 +14,7 @@ h2 {margin-bottom: 20px;}
 </@override>
 
 <@override name="navbar"></@override>
+<@override name="mmenu"></@override>
 
 <@override name="body">
 <div class="container">

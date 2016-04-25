@@ -48,7 +48,7 @@ public class SearchController {
 
     logger.info("用户输入搜索：{}, 过滤条件：{}", q, f);
 
-    ModelUtil.addHeader(model, "红提 | 搜索结果");
+    ModelUtil.addHeader(model, "红提 | 搜索结果", request);
     ModelUtil.addQ(model, q);
 
     p.initFrontRows();
@@ -87,7 +87,7 @@ public class SearchController {
 
     logger.info("用户输入搜索：{}, 过滤条件：{}", q, f);
 
-    ModelUtil.addHeader(model, "红提 | 搜索结果");
+    ModelUtil.addHeader(model, "红提 | 搜索结果", request);
     ModelUtil.addQ(model, q);
 
     p.initFrontRows();
