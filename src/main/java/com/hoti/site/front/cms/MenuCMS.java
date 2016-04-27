@@ -26,7 +26,6 @@ import com.hoti.site.db.entity.MenuExample;
 import com.hoti.site.db.entity.Pagination;
 import com.hoti.site.db.entity.VUtil;
 import com.hoti.site.front.controller.BaseController;
-import com.hoti.site.front.controller.ModelUtil;
 import com.hoti.site.front.vo.MenuVO;
 import com.hoti.site.front.vo.ResponseVO;
 import com.hoti.site.rest.BaseService;
@@ -75,7 +74,7 @@ public class MenuCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
   public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addRecord(model, service.findMenu(id));
+    super.addRecord(model, service.findMenu(id));
     return "cms/menus/edit";
   }
 
@@ -90,7 +89,7 @@ public class MenuCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addRecord(model, service.findMenu(id));
+    super.addRecord(model, service.findMenu(id));
     return "cms/menus/view";
   }
 

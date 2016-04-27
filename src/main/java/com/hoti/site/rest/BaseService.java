@@ -15,6 +15,7 @@ import com.hoti.site.db.entity.Recommend;
 import com.hoti.site.db.entity.RecommendExample;
 import com.hoti.site.db.entity.Topic;
 import com.hoti.site.db.entity.TopicExample;
+import com.hoti.site.db.entity.TopicProduct;
 import com.hoti.site.db.entity.User;
 import com.hoti.site.db.entity.UserExample;
 import com.hoti.site.front.vo.ProductVO;
@@ -332,15 +333,6 @@ public interface BaseService {
    */
   PageInfo<Product> findProducts(ProductExample example, Pagination p) throws SecurityException;
 
-
-  /**
-   * 主题关联的产品列表
-   * 
-   * @param tid 主题ID
-   * @return
-   */
-  PageInfo<Product> findTopicProducts(Long tid, Pagination p) throws SecurityException;
-
   /**
    * 主题关联的产品列表
    * 
@@ -348,9 +340,10 @@ public interface BaseService {
    * @param title 产品标题
    * @param cid 类别ID
    * @param state 产品状态
+   * @param pick 精选
    * @return
    */
-  PageInfo<Product> findTopicProducts(Long tid, String title, Long cid, Byte state, Pagination p)
+  PageInfo<Product> findTopicProducts(TopicProduct tp, Pagination p)
       throws SecurityException;
   /**
    * 用户关注的产品列表

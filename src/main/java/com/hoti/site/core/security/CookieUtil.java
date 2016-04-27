@@ -92,7 +92,7 @@ public class CookieUtil {
    * @param value
    */
   public static void setCookie(HttpServletResponse response, String name, String value) {
-    setCookie(response, name, value, GlobalIDs.COOKIE_MAX_AGE);
+    setCookie(response, name, value, GlobalIDs.cookieMaxage());
   }
 
   /**
@@ -111,7 +111,7 @@ public class CookieUtil {
     if (maxAge != 0) {
       cookie.setMaxAge(maxAge);
     } else {
-      cookie.setMaxAge(GlobalIDs.COOKIE_MAX_AGE);
+      cookie.setMaxAge(GlobalIDs.cookieMaxage());
     }
     cookie.setPath("/");
     response.addCookie(cookie);

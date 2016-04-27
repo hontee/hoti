@@ -150,8 +150,8 @@ public class HttpUtil {
 					body += "&";
 				}
 				String value = params.get(param);
-				body += URLEncoder.encode(param, GlobalIDs.CHARSET) + "=";
-				body += URLEncoder.encode(value, GlobalIDs.CHARSET);
+				body += URLEncoder.encode(param, GlobalIDs.charset()) + "=";
+				body += URLEncoder.encode(value, GlobalIDs.charset());
 			}
 		}
 
@@ -225,8 +225,8 @@ public class HttpUtil {
 					fullUrl += '&';
 				}
 				String value = params.get(param);
-				fullUrl += URLEncoder.encode(param, GlobalIDs.CHARSET) + '=';
-				fullUrl += URLEncoder.encode(value, GlobalIDs.CHARSET);
+				fullUrl += URLEncoder.encode(param, GlobalIDs.charset()) + '=';
+				fullUrl += URLEncoder.encode(value, GlobalIDs.charset());
 			}
 		}
 		
@@ -291,8 +291,8 @@ public class HttpUtil {
 				}
 			}
 			
-			params.put(URLDecoder.decode(param, GlobalIDs.CHARSET), 
-				URLDecoder.decode(value, GlobalIDs.CHARSET));
+			params.put(URLDecoder.decode(param, GlobalIDs.charset()), 
+				URLDecoder.decode(value, GlobalIDs.charset()));
 		}
 		
 		return params;

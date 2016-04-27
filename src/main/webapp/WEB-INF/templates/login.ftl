@@ -1,8 +1,14 @@
 <@override name="resources">
 <@super/>
 <style>
-body {background: #f5f5f5; padding-left:0;}
-h2 {margin-bottom: 20px;}
+body {background: #f5f5f5; padding-left:20px;}
+h1 {margin-bottom: 40px;}
+.container {
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px;
+}
 .form {
     border: 1px solid #ddd;
     border-radius: 3px;
@@ -18,14 +24,11 @@ h2 {margin-bottom: 20px;}
 
 <@override name="body">
 <div class="container">
-<div class="columns">
-<div class="one-third column centered">
-<h2 class="text-center">请登录</h2>
-
-<form class="form" id="form" action="javascript:void(0)">
+<h1 class="text-center">请登录</h1>
+<form class="form" id="loginForm" action="javascript:void(0)">
   <dl class="form-group warn">
     <dt><label for="username">用户名</label></dt>
-    <dd><input class="form-control" id="username" name="username" type="text" placeholder="用户名" required autofocus></dd>
+    <dd><input class="form-control" id="username" name="username" type="text" placeholder="用户名" required autofocus autocomplete="off"></dd>
   </dl>
   <br>
   <dl class="form-group warn" style="position: relative; top: -20px;">
@@ -33,30 +36,27 @@ h2 {margin-bottom: 20px;}
     <dd><input class="form-control" id="password" name="password" type="password" placeholder="密码" required></dd>
   </dl>
   <dl class="form-group warn">
-    <button class="btn btn-primary btn-block" id="submit">登录</button>
+    <button class="btn btn-primary btn-block" id="login">登录</button>
   </dl>
 </form>
-</div>
-</div>
 </div>
 </@override>
 
 <@override name="footer">
 <script>
 $(function() {
-	$("#submit").click(function() {
-		$.post("/login", $("#form").serialize(), function(data) {
-			var r = $.parseJSON(data);
-			if (r.success) {
-				console.log(r.result);
-				window.location.href = "/";
-			} else {
-				alert(r.error.message);
-			}
-		});
-	});
+  $("#login").click(function() {
+    $.post("/login", $("#loginForm").serialize(), function(data) {
+      var r = $.parseJSON(data);
+      if (r.success) {
+        window.location.href = "/";
+      } else {
+        alert(r.error.message);
+      }
+    });
+  });
 });
 </script>
 </@override>
 
-<@extends name="module/header.ftl"/>
+<@extends name="module/base.ftl"/>

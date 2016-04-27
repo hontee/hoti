@@ -24,7 +24,6 @@ import com.hoti.site.db.entity.User;
 import com.hoti.site.db.entity.UserExample;
 import com.hoti.site.db.entity.VUtil;
 import com.hoti.site.front.controller.BaseController;
-import com.hoti.site.front.controller.ModelUtil;
 import com.hoti.site.front.vo.ResponseVO;
 import com.hoti.site.front.vo.UserVO;
 import com.hoti.site.rest.BaseService;
@@ -73,7 +72,7 @@ public class UserCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/password", method = RequestMethod.GET)
   public String passwordPage(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addRecord(model, service.findUser(id));
+    super.addRecord(model, service.findUser(id));
     return "cms/users/password";
   }
 
@@ -88,7 +87,7 @@ public class UserCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
   public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addRecord(model, service.findUser(id));
+    super.addRecord(model, service.findUser(id));
     return "cms/users/edit";
   }
 
@@ -103,7 +102,7 @@ public class UserCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addRecord(model, service.findUser(id));
+    super.addRecord(model, service.findUser(id));
     return "cms/users/view";
   }
 

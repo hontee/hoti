@@ -41,6 +41,7 @@ import com.hoti.site.db.entity.Recommend;
 import com.hoti.site.db.entity.RecommendExample;
 import com.hoti.site.db.entity.Topic;
 import com.hoti.site.db.entity.TopicExample;
+import com.hoti.site.db.entity.TopicProduct;
 import com.hoti.site.db.entity.User;
 import com.hoti.site.db.entity.UserExample;
 import com.hoti.site.front.vo.CategoryVO;
@@ -365,25 +366,10 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public PageInfo<Product> findTopicProducts(Long tid, Pagination p) throws SecurityException {
+  public PageInfo<Product> findTopicProducts(TopicProduct tp, Pagination p)
+      throws SecurityException {
     try {
-      PageInfo<Product> pageInfo = dao.findTopicProducts(tid, p);
-      return followProductHandler(pageInfo); /* 判断是否关注 */
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw new FindException(e);
-    } finally {
-      MemcachedUtil.delete("follow.product");
-    }
-  }
-
-
-
-  @Override
-  public PageInfo<Product> findTopicProducts(Long tid, String title, Long cid, Byte state,
-      Pagination p) throws SecurityException {
-    try {
-      PageInfo<Product> pageInfo = dao.findTopicProducts(tid, title, cid, state, p);
+      PageInfo<Product> pageInfo = dao.findTopicProducts(tp, p);
       return followProductHandler(pageInfo); /* 判断是否关注 */
     } catch (Exception e) {
       e.printStackTrace();
@@ -767,8 +753,8 @@ public class BaseServiceImpl implements BaseService {
       String principal = (String) subject.getPrincipal();
       User currentUser = findUser(principal);
       Session session = subject.getSession();
-      session.setAttribute(GlobalIDs.CURRENT_USER, currentUser);
-      session.setAttribute(GlobalIDs.ADMIN_USER, AuthzUtil.isAdmin());
+      session.setAttribute(GlobalIDs.loginUser(), currentUser);
+      session.setAttribute(GlobalIDs.adminUser(), AuthzUtil.isAdmin());
     } catch (AuthenticationException e) {
       e.printStackTrace();
       throw new AuthzException("用户授权失败", e);
@@ -859,7 +845,7 @@ public class BaseServiceImpl implements BaseService {
     record.setCreator(AuthzUtil.getUsername());
     record.setCid(vo.getCid());
     record.setCategory(findCTitle(vo.getCid()));
-    record.setReffer(GlobalIDs.REFFER);
+    record.setReffer(GlobalIDs.reffer());
     addProduct(record);
   }
 
@@ -896,7 +882,19 @@ public class BaseServiceImpl implements BaseService {
   public String updateProductHit(Long id) throws SecurityException {
     Product record = findProduct(id);
     record.setHit(record.getHit() + 1);
-    updateProduct(record);
+    
+    ThreadUtil.execute(new Runnable() {
+      
+      @Override
+      public void run() {
+        try {
+          updateProduct(record);
+        } catch (SecurityException e) {
+          e.printStackTrace();
+        }
+      }
+    });
+    
     return HttpUtil.appendQueryParams(record.getUrl(), record.getReffer());
   }
 

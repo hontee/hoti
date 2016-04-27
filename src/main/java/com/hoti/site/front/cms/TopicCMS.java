@@ -23,12 +23,12 @@ import com.hoti.site.db.entity.Pagination;
 import com.hoti.site.db.entity.Product;
 import com.hoti.site.db.entity.Topic;
 import com.hoti.site.db.entity.TopicExample;
+import com.hoti.site.db.entity.TopicProduct;
 import com.hoti.site.db.entity.User;
 import com.hoti.site.db.entity.VUtil;
 import com.hoti.site.front.controller.BaseController;
-import com.hoti.site.front.controller.ModelUtil;
-import com.hoti.site.front.vo.TopicVO;
 import com.hoti.site.front.vo.ResponseVO;
+import com.hoti.site.front.vo.TopicVO;
 import com.hoti.site.rest.BaseService;
 
 @Controller
@@ -75,7 +75,7 @@ public class TopicCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
   public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addRecord(model, service.findTopic(id));
+    super.addRecord(model, service.findTopic(id));
     return "cms/topics/edit";
   }
 
@@ -90,7 +90,7 @@ public class TopicCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/follow", method = RequestMethod.GET)
   public String followPage(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addId(model, id);
+    super.addId(model, id);
     return "cms/topics/follow";
   }
 
@@ -105,7 +105,7 @@ public class TopicCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/product", method = RequestMethod.GET)
   public String productPage(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addId(model, id);
+    super.addId(model, id);
     return "cms/topics/product";
   }
 
@@ -120,7 +120,7 @@ public class TopicCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/manager", method = RequestMethod.GET)
   public String managerPage(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addId(model, id);
+    super.addId(model, id);
     return "cms/topics/manager";
   }
 
@@ -135,7 +135,7 @@ public class TopicCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addRecord(model, service.findTopic(id));
+    super.addRecord(model, service.findTopic(id));
     return "cms/topics/view";
   }
 
@@ -203,7 +203,12 @@ public class TopicCMS extends BaseController {
       state = null;
     }
 
-    PageInfo<Product> pageInfo = service.findTopicProducts(id, title, cid, state, p);
+    TopicProduct tp = new TopicProduct(id);
+    tp.setTitle(title);
+    tp.setCid(cid);
+    tp.setState(state);
+    
+    PageInfo<Product> pageInfo = service.findTopicProducts(tp, p);
     return new DataGrid<>(pageInfo);
   }
 

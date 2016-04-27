@@ -24,7 +24,6 @@ import com.hoti.site.db.entity.Recommend;
 import com.hoti.site.db.entity.RecommendExample;
 import com.hoti.site.db.entity.VUtil;
 import com.hoti.site.front.controller.BaseController;
-import com.hoti.site.front.controller.ModelUtil;
 import com.hoti.site.front.vo.ProductVO;
 import com.hoti.site.front.vo.RecommendVO;
 import com.hoti.site.front.vo.ResponseVO;
@@ -74,7 +73,7 @@ public class RecommendCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
   public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addRecord(model, service.findRecommend(id));
+    super.addRecord(model, service.findRecommend(id));
     return "cms/recmds/edit";
   }
 
@@ -89,7 +88,7 @@ public class RecommendCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/ok", method = RequestMethod.GET)
   public String auditOKPage(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addRecord(model, service.findRecommend(id));
+    super.addRecord(model, service.findRecommend(id));
     return "cms/recmds/ok";
   }
 
@@ -104,7 +103,7 @@ public class RecommendCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/refuse", method = RequestMethod.GET)
   public String auditRefusePage(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addRecord(model, service.findRecommend(id));
+    super.addRecord(model, service.findRecommend(id));
     return "cms/recmds/refuse";
   }
 
@@ -119,7 +118,7 @@ public class RecommendCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addRecord(model, service.findRecommend(id));
+    super.addRecord(model, service.findRecommend(id));
     return "cms/recmds/view";
   }
 

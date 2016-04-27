@@ -117,7 +117,7 @@
   </select>
   
   <!-- 主题关联的产品列表 -->
-  <select id="selectByTid" resultMap="BaseResultMap" parameterType="map">
+  <select id="selectByTid" resultMap="BaseResultMap" parameterType="com.hoti.site.db.entity.TopicProduct">
     select id, name, title, url, description, tags, avatar, reffer, star, hit, state, 
     audit, pick, created, last_modified, create_by, creator, cid, category, tid, ftime
     from v_topic_product
@@ -131,6 +131,9 @@
 	  	</if>
 	  	<if test="state != null">
 	  	and state = #{state}
+	  	</if>
+	  	<if test="pick != null">
+	  	and pick = #{pick}
 	  	</if>
   	</where>
   </select>

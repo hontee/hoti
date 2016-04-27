@@ -1,17 +1,15 @@
-<@override name="mmenu"></@override>
-
 <@override name="body">
 <div class="toolbar">
 <div class="container">
 <form id="form" action="javascript:void(0);">
   <dl class="form-group">
-    <dt><label for="url">请输入你要分享的产品</label></dt>
+    <dt><label for="url">请输入你要推荐的资源、文档、技术或开源项目</label></dt>
     <dd>
       <div class="left">
         <input class="form-control" id="url"name="url" placeholder="http(s)://" autocomplete="off">
       </div>
       <div class="form-actions left">
-	    <button id="submit" class="btn">分享产品</button>
+	    <button id="submit" class="btn">推荐</button>
 	  </div>
     </dd>
   </dl>
@@ -37,4 +35,4 @@ $(function() {
 </script>
 </@override>
 
-<@extends name="module/header.ftl"/>
+<@extends name="module/base.ftl"/>

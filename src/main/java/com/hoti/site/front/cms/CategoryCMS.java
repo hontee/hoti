@@ -1,6 +1,5 @@
 package com.hoti.site.front.cms;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -23,12 +22,10 @@ import com.github.pagehelper.PageInfo;
 import com.hoti.site.core.exception.SecurityException;
 import com.hoti.site.db.entity.Category;
 import com.hoti.site.db.entity.CategoryExample;
-import com.hoti.site.db.entity.ComboBox;
 import com.hoti.site.db.entity.DataGrid;
 import com.hoti.site.db.entity.Pagination;
 import com.hoti.site.db.entity.VUtil;
 import com.hoti.site.front.controller.BaseController;
-import com.hoti.site.front.controller.ModelUtil;
 import com.hoti.site.front.vo.CategoryVO;
 import com.hoti.site.front.vo.ResponseVO;
 import com.hoti.site.rest.BaseService;
@@ -77,7 +74,7 @@ public class CategoryCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
   public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addRecord(model, service.findCategory(id));
+    super.addRecord(model, service.findCategory(id));
     return "cms/categories/edit";
   }
 
@@ -92,7 +89,7 @@ public class CategoryCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addRecord(model, service.findCategory(id));
+    super.addRecord(model, service.findCategory(id));
     return "cms/categories/view";
   }
 
@@ -137,23 +134,25 @@ public class CategoryCMS extends BaseController {
    */
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/datalist")
-  public @ResponseBody List<ComboBox> datalist(@RequestParam(required = false) String q,
+  public @ResponseBody List<Category> datalist(@RequestParam(required = false) String q,
       @RequestParam(defaultValue = "0") Long fid) throws SecurityException {
+    
     List<Category> list = service.findAllCategories();
-    List<ComboBox> boxes = new ArrayList<>();
 
     /* 如果传入 ?q=all 则返回全部类别 */
     if ("all".equals(q)) {
-      boxes.add(new ComboBox(0L, "全部类别"));
+      Category category = new Category();
+      category.setId(0L);
+      category.setTitle("全部类别");
+      list.add(0, category);
     }
 
-    list.forEach((c) -> {
-      /* 过滤掉的ID，当修改时不能指定当前ID作为父ID */
-      if (fid != c.getId()) {
-        boxes.add(new ComboBox(c.getId(), c.getTitle()));
-      }
-    });
-    return boxes;
+    /* 过滤掉的ID，当修改时不能指定当前ID作为父ID */
+    if (fid > 0) {
+      list.remove(service.findCategory(fid));
+    }
+    
+    return list;
   }
 
   /**

@@ -5,9 +5,9 @@
       <#if user??>
       <a class="btn btn-outline <#if f=='my'>selected</#if>" href="/topics">我的主题</a>
       </#if>
-      <a class="btn btn-outline <#if f=='pick'>selected</#if>" href="/topics?f=pick">精选</a>
-      <a class="btn btn-outline <#if f=='hot'>selected</#if>" href="/topics?f=hot">最热</a>
-      <a class="btn btn-outline <#if f=='new'>selected</#if>" href="/topics?f=new">最新</a>
+      <a class="btn btn-outline <#if f=='pick'>selected</#if>" href="/topics/pick">精选</a>
+      <a class="btn btn-outline <#if f=='newest'>selected</#if>" href="/topics/newest">最新</a>
+      <a class="btn btn-outline <#if f=='popular'>selected</#if>" href="/topics/popular">最热</a>
     </div>
 
     <!-- <div class="right">
@@ -16,10 +16,8 @@
   </div>
 </div>
 
-<@extends name="topic-list.ftl"/>
-
+<@extends name="topics.ftl"/>
 <@extends name="pager.ftl"/>
-
 </@override>
 
-<@extends name="module/header.ftl"/>
+<@extends name="module/base.ftl"/>

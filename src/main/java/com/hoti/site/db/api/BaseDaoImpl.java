@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Preconditions;
 import com.hoti.site.core.security.ThreadUtil;
@@ -25,7 +26,6 @@ import com.hoti.site.db.entity.Category;
 import com.hoti.site.db.entity.CategoryExample;
 import com.hoti.site.db.entity.Menu;
 import com.hoti.site.db.entity.MenuExample;
-import com.hoti.site.db.entity.PagerUtil;
 import com.hoti.site.db.entity.Pagination;
 import com.hoti.site.db.entity.Product;
 import com.hoti.site.db.entity.ProductExample;
@@ -33,6 +33,7 @@ import com.hoti.site.db.entity.Recommend;
 import com.hoti.site.db.entity.RecommendExample;
 import com.hoti.site.db.entity.Topic;
 import com.hoti.site.db.entity.TopicExample;
+import com.hoti.site.db.entity.TopicProduct;
 import com.hoti.site.db.entity.User;
 import com.hoti.site.db.entity.UserExample;
 
@@ -63,7 +64,7 @@ public class BaseDaoImpl implements BaseDao {
    * @param p
    */
   private void addPageHelper(Pagination p) {
-    PagerUtil.startPage(p);
+    PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
   }
 
   @Override
@@ -297,16 +298,10 @@ public class BaseDaoImpl implements BaseDao {
   }
 
   @Override
-  public PageInfo<Product> findTopicProducts(Long tid, Pagination p) throws Exception {
-    return findTopicProducts(tid, null, null, null, p);
-  }
-
-  @Override
-  public PageInfo<Product> findTopicProducts(Long tid, String title, Long cid, Byte state,
-      Pagination p) throws Exception {
-    logger.info("分页查询主题关联的产品：{}", tid);
+  public PageInfo<Product> findTopicProducts(TopicProduct tp, Pagination p) throws Exception {
+    logger.info("分页查询主题关联的产品：{}", JSON.toJSONString(tp));
     addPageHelper(p);
-    List<Product> list = pm.selectByTid(tid, title, cid, state);
+    List<Product> list = pm.selectByTid(tp);
     return new PageInfo<>(list);
   }
 

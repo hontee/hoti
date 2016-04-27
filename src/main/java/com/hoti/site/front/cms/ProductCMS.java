@@ -25,7 +25,6 @@ import com.hoti.site.db.entity.ProductExample;
 import com.hoti.site.db.entity.User;
 import com.hoti.site.db.entity.VUtil;
 import com.hoti.site.front.controller.BaseController;
-import com.hoti.site.front.controller.ModelUtil;
 import com.hoti.site.front.vo.ProductVO;
 import com.hoti.site.front.vo.ResponseVO;
 import com.hoti.site.rest.BaseService;
@@ -74,7 +73,7 @@ public class ProductCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
   public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addRecord(model, service.findProduct(id));
+    super.addRecord(model, service.findProduct(id));
     return "cms/products/edit";
   }
 
@@ -89,7 +88,7 @@ public class ProductCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/follow", method = RequestMethod.GET)
   public String followPage(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addId(model, id);
+    super.addId(model, id);
     return "cms/products/follow";
   }
 
@@ -104,7 +103,7 @@ public class ProductCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) throws SecurityException {
-    ModelUtil.addRecord(model, service.findProduct(id));
+    super.addRecord(model, service.findProduct(id));
     return "cms/products/view";
   }
 

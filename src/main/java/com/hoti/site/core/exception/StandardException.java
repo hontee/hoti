@@ -14,4 +14,5 @@ public interface StandardException {
    * @return 错误码 {@link ErrorIDs}
    */
   ErrorIDs getErrorId();
+  
 }

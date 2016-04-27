@@ -39,20 +39,6 @@ public class User implements Serializable {
 
   private Date ftime;
   
-  /**
-   * 设置密码盐值
-   * @param password
-   */
-  private String encryptPassword(String password) {
-    
-    /* 随机生成密码盐值 */
-    if (StringUtils.isEmpty(getSalt())) {
-      setSalt(UUID.randomUUID().toString().toUpperCase());
-    }
-    
-    return EncryptUtil.encrypt(password, this.getSalt());
-  }
-
   public Long getId() {
     return id;
   }
@@ -98,7 +84,13 @@ public class User implements Serializable {
    * @param password
    */
   public void setPasswordEncrypt(String password) {
-    this.password = encryptPassword(password);
+    
+    /* 随机生成密码盐值 */
+    if (StringUtils.isEmpty(getSalt())) {
+      setSalt(UUID.randomUUID().toString().toUpperCase());
+    }
+    
+    this.password = EncryptUtil.encrypt(password, getSalt());
   }
 
   public String getSalt() {

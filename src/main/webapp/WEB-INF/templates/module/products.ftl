@@ -2,7 +2,7 @@
   <div class="card-columns">
     <#list products as p>
     <div class="card">
-      <a href="/products/${p.id}/hit" target="_blank">
+      <a href="/${p.id}/hit" target="_blank">
         <blockquote class="card-block">
           <h3 class="card-title">${p.title!}</h3>
           <p class="card-text">${p.description!}</p>

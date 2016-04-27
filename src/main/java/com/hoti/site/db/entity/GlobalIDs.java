@@ -1,17 +1,79 @@
 package com.hoti.site.db.entity;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Component;
+
+import com.hoti.site.core.security.ApplicationProps;
+
 /**
  * 常量类
  * @author larry.qi
  */
-public interface GlobalIDs {
-	
-	String CHARSET = "UTF-8"; // 字符编码
-	String CURRENT_USER = "loginUser"; // 登录用户
-	String ADMIN_USER = "admin"; // 是否为管理员
-	String REFFER = "ref=hoti"; // 默认设置来源
-
-	int COOKIE_MAX_AGE = 1000 * 60 * 60 * 24 * 7; // Cookie有效期
-	String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36";
-	int TIMEOUT = 5000;
+@Component
+public class GlobalIDs {
+  
+  @Resource
+  private ApplicationProps props;
+  private static GlobalIDs ids;
+  
+  /* 字符编码 */
+  public static String charset() {
+    return ids.props.getCharset();
+  }
+  
+  /* 当前登录用户 */
+  public static String loginUser() {
+    return ids.props.getLoginUser();
+  }
+  
+  /* 是否为管理员用户 */
+  public static String adminUser() {
+    return ids.props.getAdminUser();
+  }
+  
+  /* 默认设置来源 */
+  public static String reffer() {
+    return ids.props.getReffer();
+  }
+  
+  /* Cookie有效期 */
+  public static int cookieMaxage() {
+    return ids.props.getCookieAge();
+  }
+  
+  /* 设置自动获取URL数据的浏览器网关 */
+  public static String userAgent() {
+    return ids.props.getFetchUserAgent();
+  }
+  
+  /* 设置自动获取URL数据的超时时间 */
+  public static int timeout() {
+    return ids.props.getFetchTimeout();
+  }
+  
+  /* 设置前端分页行数：30 */
+  public static int frontRows() {
+    return ids.props.getFrontRows();
+  }
+  
+  /* MemCached Host */
+  public static String memcachedHost() {
+    return ids.props.getMemcachedHost();
+  }
+  /* MemCached Port */
+  public static String memcachedPort() {
+    return ids.props.getMemcachedPort();
+  }
+  
+  /**
+   * 初始化静态方法
+   */
+  @PostConstruct
+  public void init() {
+    ids = this;
+    ids.props = this.props;
+  }
+  
 }

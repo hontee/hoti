@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.hoti.site.db.entity.Product;
 import com.hoti.site.db.entity.ProductExample;
+import com.hoti.site.db.entity.TopicProduct;
 
 public interface ProductMapper {
   
@@ -34,10 +35,10 @@ public interface ProductMapper {
    * @param title 产品标题
    * @param cid 类别ID
    * @param state 产品状态
+   * @param pick 精选
    * @return
    */
-  List<Product> selectByTid(@Param("tid") Long tid, @Param("title") String title,
-      @Param("cid") Long cid, @Param("state") Byte state);
+  List<Product> selectByTid(TopicProduct tp);
 
   int updateByExample(@Param("record") Product record, @Param("example") ProductExample example);
 

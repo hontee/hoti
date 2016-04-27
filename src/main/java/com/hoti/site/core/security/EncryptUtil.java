@@ -1,7 +1,5 @@
 package com.hoti.site.core.security;
 
-import java.util.UUID;
-
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
 
@@ -33,15 +31,6 @@ public class EncryptUtil {
    */
   public static String encrypt(String password, ByteSource byteSource) {
     return new Md5Hash(password, byteSource).toString().toUpperCase();
-  }
-
-  /**
-   * 生成盐值=accessKey
-   * 
-   * @return
-   */
-  public static String getRandomSalt() {
-    return UUID.randomUUID().toString().toUpperCase();
   }
 
 }

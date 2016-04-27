@@ -2,35 +2,17 @@ package com.hoti.site.core.security;
 
 import java.io.IOException;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Component;
-
 import com.hoti.site.core.exception.CacheException;
 import com.hoti.site.core.exception.SecurityException;
+import com.hoti.site.db.entity.GlobalIDs;
 
 import net.spy.memcached.AddrUtil;
 import net.spy.memcached.BinaryConnectionFactory;
 import net.spy.memcached.MemcachedClient;
 import net.spy.memcached.internal.OperationFuture;
 
-@Component
 public class MemcachedUtil {
-  
-  @Resource
-  private ApplicationProps props;
-  private static MemcachedUtil mu;
-  
-  /**
-   * 初始化静态方法
-   */
-  @PostConstruct
-  public void init() {
-    mu = this;
-    mu.props = this.props;
-  }
-  
+
   /**
    * 获取连接
    * 
@@ -39,7 +21,7 @@ public class MemcachedUtil {
    */
   private static MemcachedClient getMemcachedClient() throws IOException {
     return new MemcachedClient(new BinaryConnectionFactory(),
-        AddrUtil.getAddresses(mu.props.getHost() + ":" + mu.props.getPort()));
+        AddrUtil.getAddresses(GlobalIDs.memcachedHost() + ":" + GlobalIDs.memcachedPort()));
   }
 
   /**
@@ -107,8 +89,7 @@ public class MemcachedUtil {
           client = getMemcachedClient();
           OperationFuture<Boolean> future = client.delete(key);
           future.get();
-        } catch (Exception e) {
-        } finally {
+        } catch (Exception e) {} finally {
           destory(client);
         }
       }

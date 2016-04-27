@@ -11,9 +11,9 @@ import org.springframework.web.WebApplicationInitializer;
 import com.hoti.site.core.exception.CacheException;
 
 @Component
-public class KuaibaInitializer implements WebApplicationInitializer {
+public class HotiInitializer implements WebApplicationInitializer {
 
-  private Logger logger = LoggerFactory.getLogger(KuaibaInitializer.class);
+  private Logger logger = LoggerFactory.getLogger(HotiInitializer.class);
 
   @Override
   public void onStartup(ServletContext servletContext) throws ServletException {

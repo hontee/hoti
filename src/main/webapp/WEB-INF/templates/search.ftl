@@ -9,14 +9,12 @@
 </div>
 
 <#if f == 'product'>
-  <@extends name="product-list.ftl"/>
+  <@extends name="products.ftl"/>
+<#elseif f == 'topic'>
+  <@extends name="topics.ftl"/>
 </#if>
-<#if f == 'topic'>
-  <@extends name="topic-list.ftl"/>
-</#if>
-
 <@extends name="pager.ftl"/>
 
 </@override>
 
-<@extends name="module/header.ftl"/>
+<@extends name="module/base.ftl"/>

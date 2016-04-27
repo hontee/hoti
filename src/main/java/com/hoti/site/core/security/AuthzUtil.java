@@ -30,7 +30,7 @@ public class AuthzUtil {
     try {
       Subject subject = SecurityUtils.getSubject();
       Session session = subject.getSession();
-      Object currentUser = session.getAttribute(GlobalIDs.CURRENT_USER);
+      Object currentUser = session.getAttribute(GlobalIDs.loginUser());
 
       if (currentUser instanceof User) {
         return (User) currentUser;

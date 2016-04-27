@@ -5,9 +5,9 @@
       <#if user??>
       <a class="btn btn-outline <#if f=='my'>selected</#if>" href="/">我的产品</a>
       </#if>
-      <a class="btn btn-outline <#if f=='pick'>selected</#if>" href="/?f=pick">精选</a>
-      <a class="btn btn-outline <#if f=='hot'>selected</#if>" href="/?f=hot">最热</a>
-      <a class="btn btn-outline <#if f=='new'>selected</#if>" href="/?f=new">最新</a>
+      <a class="btn btn-outline <#if f=='pick'>selected</#if>" href="/pick">精选</a>
+      <a class="btn btn-outline <#if f=='newest'>selected</#if>" href="/newest">最新</a>
+      <a class="btn btn-outline <#if f=='popular'>selected</#if>" href="/popular">最热</a>
     </div>
 
     <div class="right">
@@ -16,10 +16,8 @@
   </div>
 </div>
 
-<@extends name="product-list.ftl"/>
-
+<@extends name="products.ftl"/>
 <@extends name="pager.ftl"/>
-
 </@override>
 
-<@extends name="module/header.ftl"/>
+<@extends name="module/base.ftl"/>

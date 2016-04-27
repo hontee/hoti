@@ -60,7 +60,7 @@ public class FetchFactory {
 	 */
 	private static Document connect(String url) throws IOException {
 		try {
-			return Jsoup.connect(url).userAgent(GlobalIDs.USER_AGENT).timeout(GlobalIDs.TIMEOUT).followRedirects(true)
+			return Jsoup.connect(url).userAgent(GlobalIDs.userAgent()).timeout(GlobalIDs.timeout()).followRedirects(true)
 					.ignoreContentType(true).ignoreHttpErrors(true).get();
 		} catch (IOException e) {
 			return Jsoup.parse(HttpUtil.get(url));

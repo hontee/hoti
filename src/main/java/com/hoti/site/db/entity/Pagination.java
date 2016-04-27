@@ -10,7 +10,6 @@ public class Pagination {
 
 	public static final int PAGE = 1;
 	public static final int ROWS = 20;
-	public static final int FRONT_ROWS = 36;
 	public static final String SORT = "id";
 	public static final String ORDER = "DESC";
 	public static final Pagination DEFAULT = new Pagination();
@@ -84,9 +83,6 @@ public class Pagination {
 		setSort(sort);
 	}
 	
-	public void initFrontRows() {
-		this.setRows(FRONT_ROWS);
-	}
 	/**
 	 * 排序
 	 * @return
