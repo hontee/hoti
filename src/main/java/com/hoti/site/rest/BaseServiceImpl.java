@@ -835,7 +835,7 @@ public class BaseServiceImpl implements BaseService {
   @Override
   public void addProduct(ProductVO vo) throws SecurityException {
     Product record = new Product();
-    record.setName(vo.getNameUUID());
+    record.setName(vo.getName());
     record.setTitle(vo.getTitle());
     record.setUrl(vo.getUrl());
     record.setDescription(vo.getDescription());
@@ -980,7 +980,7 @@ public class BaseServiceImpl implements BaseService {
     record.setCreateBy(AuthzUtil.getUserId());
     record.setCreator(AuthzUtil.getUsername());
     record.setDescription(vo.getDescription());
-    record.setName(vo.getNameUUID());
+    record.setName(vo.getName());
     record.setState(vo.getState());
     record.setTitle(vo.getTitle());
     addTopic(record);

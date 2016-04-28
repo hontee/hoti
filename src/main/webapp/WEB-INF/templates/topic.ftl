@@ -10,9 +10,9 @@
       <a class="btn btn-outline <#if f=='popular'>selected</#if>" href="/topics/popular">最热</a>
     </div>
 
-    <!-- <div class="right">
-      <a class="btn btn-primary" href="/topic/new">创建主题</a>
-    </div> -->
+    <div class="right">
+      <a class="btn btn-primary" href="/topics/new">创建主题</a>
+    </div>
   </div>
 </div>
 

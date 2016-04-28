@@ -3,6 +3,8 @@ package com.hoti.site.front.vo;
 import java.io.Serializable;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class BaseVO implements Serializable {
 
   private static final long serialVersionUID = -4400433457697423053L;
@@ -16,15 +18,16 @@ public class BaseVO implements Serializable {
     return name;
   }
 
-  public String getNameUUID() {
-    return UUID.randomUUID().toString();
-  }
-
   public void setName(String name) {
     this.name = name;
   }
 
   public String getTitle() {
+    
+    if (StringUtils.isEmpty(name)) {
+      setName(UUID.randomUUID().toString());
+    }
+    
     return title;
   }
 

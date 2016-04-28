@@ -108,7 +108,9 @@ public class FrontController extends BaseController {
 
     initPagination(p);
     ProductExample example = new ProductExample();
-    example.createCriteria().andPickEqualTo((byte) 1);
+    ProductExample.Criteria criteria = example.createCriteria();
+    criteria.andPickEqualTo((byte) 1); // 精选
+    criteria.andStateEqualTo((byte) 1); // 状态为启动
     PageInfo<Product> pageInfo = service.findProducts(example, p);
 
     addHeader(model, props.getSeoSlogan(), request);
@@ -132,6 +134,8 @@ public class FrontController extends BaseController {
 
     initPagination(p, "created", "desc");
     ProductExample example = new ProductExample();
+    ProductExample.Criteria criteria = example.createCriteria();
+    criteria.andStateEqualTo((byte) 1); // 状态为启动
     PageInfo<Product> pageInfo = service.findProducts(example, p);
 
     addHeader(model, props.getSeoSlogan(), request);
@@ -155,6 +159,8 @@ public class FrontController extends BaseController {
 
     initPagination(p, "star", "desc");
     ProductExample example = new ProductExample();
+    ProductExample.Criteria criteria = example.createCriteria();
+    criteria.andStateEqualTo((byte) 1); // 状态为启动
     PageInfo<Product> pageInfo = service.findProducts(example, p);
 
     addHeader(model, props.getSeoSlogan(), request);
@@ -203,7 +209,9 @@ public class FrontController extends BaseController {
 
     initPagination(p);
     TopicExample example = new TopicExample();
-    example.createCriteria().andPickEqualTo((byte) 1);
+    TopicExample.Criteria criteria = example.createCriteria();
+    criteria.andPickEqualTo((byte) 1); // 精选
+    criteria.andStateEqualTo((byte) 1); // 状态为启动
     PageInfo<Topic> pageInfo = service.findTopics(example, p);
 
     addHeader(model, props.getSeoTopic(), request);
@@ -226,6 +234,8 @@ public class FrontController extends BaseController {
 
     initPagination(p, "created", "desc");
     TopicExample example = new TopicExample();
+    TopicExample.Criteria criteria = example.createCriteria();
+    criteria.andStateEqualTo((byte) 1); // 状态为启动
     PageInfo<Topic> pageInfo = service.findTopics(example, p);
 
     addHeader(model, props.getSeoTopic(), request);
@@ -248,6 +258,8 @@ public class FrontController extends BaseController {
 
     initPagination(p, "star", "desc");
     TopicExample example = new TopicExample();
+    TopicExample.Criteria criteria = example.createCriteria();
+    criteria.andStateEqualTo((byte) 1); // 状态为启动
     PageInfo<Topic> pageInfo = service.findTopics(example, p);
 
     addHeader(model, props.getSeoTopic(), request);
@@ -352,6 +364,7 @@ public class FrontController extends BaseController {
     initPagination(p);
     ProductExample example = new ProductExample();
     ProductExample.Criteria criteria = example.createCriteria();
+    criteria.andStateEqualTo((byte) 1); // 状态为启动
 
     if (StringUtils.isNotEmpty(q)) {
       criteria.andTitleLike("%" + q + "%"); // 模糊查询
@@ -387,7 +400,8 @@ public class FrontController extends BaseController {
     initPagination(p);
     TopicExample example = new TopicExample();
     TopicExample.Criteria criteria = example.createCriteria();
-
+    criteria.andStateEqualTo((byte) 1); // 状态为启动
+    
     if (StringUtils.isNotEmpty(q)) {
       criteria.andTitleLike("%" + q + "%"); // 模糊查询
     }
@@ -419,7 +433,9 @@ public class FrontController extends BaseController {
     initPagination(p);
     Category record = service.findCategory(id);
     ProductExample example = new ProductExample();
-    example.createCriteria().andCidEqualTo(id);
+    ProductExample.Criteria criteria = example.createCriteria();
+    criteria.andStateEqualTo((byte) 1); // 状态为启动
+    criteria.andCidEqualTo(id);
     PageInfo<Product> pageInfo = service.findProducts(example, p);
 
     addHeader(model, record.getTitle(), request);
@@ -445,7 +461,9 @@ public class FrontController extends BaseController {
     initPagination(p);
     Category record = service.findCategory(id);
     TopicExample example = new TopicExample();
-    example.createCriteria().andCidEqualTo(id);
+    TopicExample.Criteria criteria = example.createCriteria();
+    criteria.andStateEqualTo((byte) 1); // 状态为启动
+    criteria.andCidEqualTo(id);
     PageInfo<Topic> pageInfo = service.findTopics(example, p);
 
     addHeader(model, record.getTitle(), request);
@@ -491,6 +509,19 @@ public class FrontController extends BaseController {
   public String recommend(Model model, HttpServletRequest request) throws SecurityException {
     addHeader(model, props.getSeoRecommend(), request);
     return "recommend.ftl";
+  }
+  
+  /**
+   * 创建主题
+   * 
+   * @return
+   * @throws SecurityException
+   */
+  @RequestMapping(value = "/topics/new", method = RequestMethod.GET)
+  public String createTopic(Model model, HttpServletRequest request) throws SecurityException {
+    addHeader(model, "创建主题", request);
+    addCategories(model, service.findAllCategories());
+    return "topic-new.ftl";
   }
 
 }

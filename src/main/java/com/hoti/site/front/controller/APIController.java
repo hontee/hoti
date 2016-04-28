@@ -7,14 +7,17 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.hoti.site.core.exception.SecurityException;
 import com.hoti.site.front.vo.ResponseVO;
+import com.hoti.site.front.vo.TopicVO;
 import com.hoti.site.rest.BaseService;
 
 @RestController
@@ -44,7 +47,7 @@ public class APIController extends BaseController {
   }
 
   /**
-   * @WebAPI 分享产品
+   * 分享产品
    * @return
    * @throws SecurityException
    */
@@ -53,6 +56,22 @@ public class APIController extends BaseController {
       throws SecurityException {
     logger.info("推荐产品", url);
     service.addRecommend(url);
+    return buildResponse();
+  }
+  
+  /**
+   * 创建主题
+   * 
+   * @return
+   * @throws SecurityException
+   */
+  @RequiresRoles(value = {"user", "admin"})
+  @RequestMapping(value = "/topics/new", method = RequestMethod.POST)
+  public ResponseVO createTopic(Model model, TopicVO vo, HttpServletRequest request) throws SecurityException {
+    logger.info("创建主题：{}", JSON.toJSONString(vo));
+    // TODO
+    /*vo.setState((byte)2);*/ // 待审核
+    service.addTopic(vo);
     return buildResponse();
   }
 
