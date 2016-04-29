@@ -26,6 +26,7 @@ import com.hoti.site.db.entity.ProductExample;
 import com.hoti.site.db.entity.Topic;
 import com.hoti.site.db.entity.TopicExample;
 import com.hoti.site.db.entity.TopicProduct;
+import com.hoti.site.db.entity.User;
 import com.hoti.site.rest.BaseService;
 
 @Controller
@@ -65,6 +66,75 @@ public class FrontController extends BaseController {
   public String logout(HttpServletRequest request, Model model) {
     SecurityUtils.getSubject().logout();
     return redirect("/");
+  }
+  
+  /**
+   * 用户主页
+   * 
+   * @param name
+   * @param p
+   * @param model
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
+  @RequestMapping(value = "/{name}/dashbord", method = RequestMethod.GET)
+  public String userProducts(@PathVariable String name, Pagination p, Model model,
+      HttpServletRequest request) throws SecurityException {
+    initPagination(p);
+    User user = service.findUser(name);
+    PageInfo<Product> pageInfo = service.findUserProducts(user.getId(), p);
+    
+    addUser(model, user);
+    addHeader(model, name, request);
+    addProducts(model, pageInfo.getList());
+    addPager(model, pageInfo, getServletPath(request));
+    addF(model, "product");
+    return "user.ftl";
+  }
+  
+  /**
+   * 用户主题
+   * 
+   * @param name
+   * @param p
+   * @param model
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
+  @RequestMapping(value = "/{name}/topics", method = RequestMethod.GET)
+  public String userTopics(@PathVariable String name, Pagination p, Model model,
+      HttpServletRequest request) throws SecurityException {
+    initPagination(p);
+    User user = service.findUser(name);
+    PageInfo<Topic> pageInfo = service.findUserTopics(user.getId(), p);
+    
+    addUser(model, user);
+    addHeader(model, name, request);
+    addTopics(model, pageInfo.getList());
+    addPager(model, pageInfo, getServletPath(request));
+    addF(model, "topic");
+    return "user.ftl";
+  }
+  
+  /**
+   * 用户设置
+   * 
+   * @param name
+   * @param p
+   * @param model
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
+  @RequestMapping(value = "/{name}/settings", method = RequestMethod.GET)
+  public String userSettings(@PathVariable String name, Pagination p, Model model,
+      HttpServletRequest request) throws SecurityException {
+    User user = service.findUser(name);
+    addUser(model, user);
+    addHeader(model, name, request);
+    return "settings.ftl";
   }
 
   /**

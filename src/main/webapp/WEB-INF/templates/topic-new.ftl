@@ -25,7 +25,7 @@
   </dl>
   <dl class="form-group">
     <dd>
-      <button class="btn btn-primary" id="submit">创建主题</button>
+      <button class="btn btn-primary" id="submit">申请主题</button>
     </dd>
   </dl>
 </form>

@@ -22,6 +22,7 @@ import com.hoti.site.db.entity.Pager;
 import com.hoti.site.db.entity.Pagination;
 import com.hoti.site.db.entity.Product;
 import com.hoti.site.db.entity.Topic;
+import com.hoti.site.db.entity.User;
 import com.hoti.site.front.vo.ResponseVO;
 import com.hoti.site.rest.BaseService;
 
@@ -211,6 +212,17 @@ public abstract class BaseController {
    */
   public void addId(Model model, Long id) {
     model.addAttribute("id", id);
+  }
+  
+  /**
+   * 用户
+   * 
+   * @param model
+   * @param pageInfo
+   * @param url
+   */
+  public void addUser(Model model, User user) {
+    model.addAttribute("u", user);
   }
 
   /**

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.hoti.site.core.exception.SecurityException;
+import com.hoti.site.db.entity.User;
 import com.hoti.site.front.vo.ResponseVO;
 import com.hoti.site.front.vo.TopicVO;
 import com.hoti.site.rest.BaseService;
@@ -43,6 +44,26 @@ public class APIController extends BaseController {
       HttpServletRequest request) throws SecurityException {
     logger.info("用户登录：{}", username);
     service.authenticate(username, password);
+    return buildResponse();
+  }
+  
+  /**
+   * 用户登录提交
+   * 
+   * @param username
+   * @param password
+   * @param request
+   * @return
+   * @throws SecurityException
+   */
+  @RequestMapping(value = "/{name}/settings", method = RequestMethod.POST)
+  public ResponseVO userSettings(@PathVariable String name, @RequestParam String title,
+      String description, HttpServletRequest request) throws SecurityException {
+    logger.info("用户保存设置：{}", name);
+    User user = service.findUser(name);
+    user.setTitle(title);
+    user.setDescription(description);
+    service.updateUser(user);
     return buildResponse();
   }
 
