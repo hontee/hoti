@@ -13,9 +13,6 @@
 	<button id="products-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
-	  <input class="easyui-combobox" id="products-category"
-    	data-options="required:true, value:'0', valueField:'id',textField:'title',url:'/cms/categories/datalist?q=all'" 
-    	style="width:100px;">
 	  <select class="easyui-combobox" id="products-state" data-options="panelHeight:'auto',editable: false" style="width:100px;">
         <option value="-1" selected>全部状态</option>
         <option value="1">启用</option>
@@ -84,7 +81,6 @@ productsEL.dg.datagrid({
 				return '禁用';
 			}
         }},
-        {field:'category',title:'所属类别',width:100, sortable: true},
         {field:'created',title:'创建时间',width:100, sortable: true, formatter: function(value,row,index) {
         	return new Date(value).format();  
         }},
@@ -146,8 +142,7 @@ productsEL.reset = function() {
 productsEL.search = function(value){
 	productsEL.dg.datagrid('load',{
 		title: value,
-		state: $('#products-state').combobox('getValue'),
-		cid: $('#products-category').combobox('getValue')
+		state: $('#products-state').combobox('getValue')
 	});
 }
 

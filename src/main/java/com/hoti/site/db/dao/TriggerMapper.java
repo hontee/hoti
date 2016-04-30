@@ -10,48 +10,6 @@ import org.apache.ibatis.annotations.Param;
 public interface TriggerMapper {
   
   /**
-   * 添加类别时触发类别数+1
-   * @param parent 类别ID
-   * @return
-   */
-  int insertCategory(@Param("parent") Long parent);
-  
-  /**
-   * 删除类别时触发类别数-1
-   * @param parent 类别ID
-   * @return
-   */
-  int deleteCategory(@Param("parent") Long parent);
-
-  /**
-   * 添加产品时触发产品数+1
-   * @param cid 类别ID
-   * @return
-   */
-  int insertProduct(@Param("cid") Long cid);
-
-  /**
-   * 删除产品时触发产品数-1
-   * @param cid 类别ID
-   * @return
-   */
-  int deleteProduct(@Param("cid") Long cid);
-
-  /**
-   * 添加主题时触发主题数+1
-   * @param cid 类别ID
-   * @return
-   */
-  int insertTopic(@Param("cid") Long cid);
-
-  /**
-   * 删除主题时触发主题数-1
-   * @param cid 类别ID
-   * @return
-   */
-  int deleteTopic(@Param("cid") Long cid);
-
-  /**
    * 添加主题关联的产品时，主题统计数+1
    * @param tid 主题ID
    * @return
@@ -94,34 +52,10 @@ public interface TriggerMapper {
   int unfollowTopic(@Param("tid") Long tid);
   
   /**
-   * 更新产品类别名称
-   * 
-   * @param cid
-   * @param category
-   * @return
-   */
-  int updateProductCategory(@Param("cid") Long cid);
-  
-  /**
-   * 更新主题类别名称
-   * 
-   * @param cid
-   * @param category
-   * @return
-   */
-  int updateTopicCategory(@Param("cid") Long cid);
-  
-  /**
    * 统计产品的关注数
    * @return
    */
   int countProductStar();
-  
-  /**
-   * 统计类别的产品数和主题数
-   * @return
-   */
-  int countCategoryPT();
   
   /**
    * 统计主题的产品数和关注数

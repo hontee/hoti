@@ -19,8 +19,6 @@
     <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
     <result column="create_by" property="createBy" jdbcType="BIGINT" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
-    <result column="cid" property="cid" jdbcType="BIGINT" />
-    <result column="category" property="category" jdbcType="VARCHAR" />
     <result column="tid" property="tid" jdbcType="BIGINT" />
     <result column="uid" property="uid" jdbcType="BIGINT" />
     <result column="ftime" property="ftime" jdbcType="TIMESTAMP" />
@@ -85,7 +83,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, name, title, url, description, tags, avatar, reffer, star, hit, pick, audit, 
-    state, created, last_modified, create_by, creator, cid, category
+    state, created, last_modified, create_by, creator
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hoti.site.db.entity.ProductExample">
     select
@@ -111,7 +109,7 @@
   <!-- 用户关注的产品列表 -->
   <select id="selectByUid" resultMap="BaseResultMap" parameterType="java.lang.Long">
     select id, name, title, url, description, tags, avatar, reffer, star, hit, state, 
-    audit, pick, created, last_modified, create_by, creator, cid, category, uid, ftime
+    audit, pick, created, last_modified, create_by, creator, uid, ftime
     from v_user_product
     WHERE uid = #{uid}
   </select>
@@ -119,15 +117,12 @@
   <!-- 主题关联的产品列表 -->
   <select id="selectByTid" resultMap="BaseResultMap" parameterType="com.hoti.site.db.entity.TopicProduct">
     select id, name, title, url, description, tags, avatar, reffer, star, hit, state, 
-    audit, pick, created, last_modified, create_by, creator, cid, category, tid, ftime
+    audit, pick, created, last_modified, create_by, creator, tid, ftime
     from v_topic_product
     <where>
 	  	tid = #{tid}
 	  	<if test="title != null">
 	  	and title like CONCAT('%','${title}','%' )
-	  	</if>
-	  	<if test="cid != null">
-	  	and cid = #{cid}
 	  	</if>
 	  	<if test="state != null">
 	  	and state = #{state}
@@ -202,12 +197,6 @@
       <if test="creator != null">
         creator,
       </if>
-      <if test="cid != null">
-        cid,
-      </if>
-      <if test="category != null">
-        category,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -260,12 +249,6 @@
       </if>
       <if test="creator != null">
         #{creator,jdbcType=VARCHAR},
-      </if>
-      <if test="cid != null">
-        #{cid,jdbcType=BIGINT},
-      </if>
-      <if test="category != null">
-        #{category,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -329,12 +312,6 @@
       <if test="record.creator != null">
         creator = #{record.creator,jdbcType=VARCHAR},
       </if>
-      <if test="record.cid != null">
-        cid = #{record.cid,jdbcType=BIGINT},
-      </if>
-      <if test="record.category != null">
-        category = #{record.category,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -390,12 +367,6 @@
       </if>
       <if test="creator != null">
         creator = #{creator,jdbcType=VARCHAR},
-      </if>
-      <if test="cid != null">
-        cid = #{cid,jdbcType=BIGINT},
-      </if>
-      <if test="category != null">
-        category = #{category,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}

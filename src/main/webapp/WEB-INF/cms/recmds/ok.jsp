@@ -16,12 +16,6 @@
       <input class="easyui-textbox" name="tags" value="${record.keywords}" data-options="required:true" style="width:100%;height:32px">
     </div>
     <div class="cms-mb20">
-      <div class="cms-mb5">所属类别:</div>
-      <input class="easyui-combobox" name="cid"
-    	data-options="required:true,panelHeight:'auto',editable: false, valueField:'id',textField:'title',url:'/cms/categories/datalist'" 
-    	style="width:100%; height:32px">
-    </div>
-    <div class="cms-mb20">
       <div class="cms-mb5">状态:</div>
       <select class="easyui-combobox" data-options="panelHeight:'auto',editable: false" name="state" style="width:100%; height:32px">
         <option value="1">启动</option>

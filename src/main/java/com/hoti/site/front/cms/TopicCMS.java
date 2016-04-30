@@ -143,7 +143,6 @@ public class TopicCMS extends BaseController {
    * 主题数据列表，支持分页和查询
    * 
    * @param title 标题
-   * @param cid 类别
    * @param type 类别
    * @param state 状态
    * @param p 分页组件
@@ -153,18 +152,14 @@ public class TopicCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/list")
   public @ResponseBody DataGrid<Topic> dataGrid(@RequestParam(required = false) String title,
-      @RequestParam(defaultValue = "0") Long cid, @RequestParam(required = false) Byte type,
-      @RequestParam(required = false) Byte state, Pagination p) throws SecurityException {
+      @RequestParam(required = false) Byte type, @RequestParam(required = false) Byte state,
+      Pagination p) throws SecurityException {
 
     TopicExample example = new TopicExample();
     TopicExample.Criteria criteria = example.createCriteria();
 
     if (StringUtils.isNotBlank(title)) {
       criteria.andTitleLike("%" + title + "%"); // 模糊查询
-    }
-
-    if (cid > 0) {
-      criteria.andCidEqualTo(cid);
     }
 
     if (VUtil.assertBaseState(state)) {
@@ -180,7 +175,6 @@ public class TopicCMS extends BaseController {
    * 
    * @param id
    * @param title
-   * @param category
    * @param state
    * @param p
    * @return
@@ -189,15 +183,12 @@ public class TopicCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/products")
   public @ResponseBody DataGrid<Product> findTopicProducts(@PathVariable Long id,
-      @RequestParam(required = false) String title, @RequestParam(defaultValue = "0") Long cid,
-      @RequestParam(required = false) Byte state, Pagination p) throws SecurityException {
+      @RequestParam(required = false) String title, @RequestParam(required = false) Byte state,
+      Pagination p) throws SecurityException {
 
     /* 产品信息过滤 */
     if (StringUtils.isEmpty(title)) {
       title = null;
-    }
-    if (cid <= 0) {
-      cid = null;
     }
     if (!VUtil.assertBaseState(state)) {
       state = null;
@@ -205,7 +196,6 @@ public class TopicCMS extends BaseController {
 
     TopicProduct tp = new TopicProduct(id);
     tp.setTitle(title);
-    tp.setCid(cid);
     tp.setState(state);
     
     PageInfo<Product> pageInfo = service.findTopicProducts(tp, p);

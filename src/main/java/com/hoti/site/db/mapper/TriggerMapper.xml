@@ -2,33 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hoti.site.db.dao.TriggerMapper">
-
-  <!-- 添加类别和删除产品 -->
-  <update id="insertCategory" parameterType="map">
-  	UPDATE t_category SET category = category + 1 WHERE id = #{parent}
-  </update>
-  <update id="deleteCategory" parameterType="map">
-  	UPDATE t_category SET category=category-1 WHERE id = #{parent}
-  </update>
-  
-  
-  <!-- 添加产品和删除产品 -->
-  <update id="insertProduct" parameterType="map">
-  	UPDATE t_category SET product = product + 1 WHERE id = #{cid}
-  </update>
-  <update id="deleteProduct" parameterType="map">
-  	UPDATE t_category SET product=product-1 WHERE id = #{cid}
-  </update>
-  
-  
-  <!-- 添加主题和删除主题 -->
-  <update id="insertTopic" parameterType="map">
-  	UPDATE t_category SET topic = topic + 1 WHERE id = #{cid}
-  </update>
-  <update id="deleteTopic" parameterType="map">
-  	UPDATE t_category SET topic = topic - 1 WHERE id = #{cid}
-  </update>
-  
   
   <!-- 添加主题关联的产品和删除主题关联的产品 -->
   <update id="insertTopicProduct" parameterType="map">
@@ -56,38 +29,10 @@
   	UPDATE t_topic SET star = star - 1 WHERE id = #{tid}
   </update>
   
-  
-  <!-- 更新产品类别名称 -->
-  <update id="updateProductCategory" parameterType="map">
-    update t_product t set category = (select title from t_category WHERE id = t.cid)
-	<where>
-	  <if test="cid != null">
-		cid = #{cid}
-	  </if>
-	</where>
-  </update>
-  <!-- 更新主题类别名称 -->
-  <update id="updateTopicCategory" parameterType="map">
-    update t_topic t set category = (select title from t_category WHERE id = t.cid)
-	<where>
-	  <if test="cid != null">
-		cid = #{cid}
-	  </if>
-	</where>
-  </update>
-  
-  
   <!-- 统计产品的关注数 -->
   <update id="countProductStar">
   	update t_product t set 
   	star = (select count(1) from t_follow_product where fid = t.id)
-  </update>
-  
-  <!-- 统计类别的类别数，产品数和主题数 -->
-  <update id="countCategoryPT">
-  	update t_category t set
-	product = (select count(1) from t_product where cid = t.id),
-	topic = (select count(1) from t_topic where cid = t.id)
   </update>
   
   <!-- 统计主题的产品数和关注数 -->

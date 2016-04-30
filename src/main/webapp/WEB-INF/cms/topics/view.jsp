@@ -29,7 +29,6 @@
   </li>
   <li><label>创建时间：</label><fmt:formatDate value="${record.created}" pattern="yyyy-MM-dd HH:mm:ss"/></li>
   <li><label>更新时间：</label><fmt:formatDate value="${record.lastModified}" pattern="yyyy-MM-dd HH:mm:ss"/></li>
-  <li><label>所属类别：</label>${record.category}</li>
   <li><label>创建人：</label>${record.creator}</li>
 </ul>
 </body>

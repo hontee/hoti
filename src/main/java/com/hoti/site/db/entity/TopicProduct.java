@@ -10,8 +10,6 @@ public class TopicProduct implements Serializable {
 
   private String title;
 
-  private Long cid;
-
   private Byte state;
 
   private Byte pick;
@@ -34,14 +32,6 @@ public class TopicProduct implements Serializable {
 
   public void setTitle(String title) {
     this.title = title;
-  }
-
-  public Long getCid() {
-    return cid;
-  }
-
-  public void setCid(Long cid) {
-    this.cid = cid;
   }
 
   public Byte getState() {

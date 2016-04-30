@@ -6,8 +6,6 @@ public class ProductVO extends BaseVO {
 
   private String url;
 
-  private Long cid;
-
   private String reffer;
 
   private String tags;
@@ -18,14 +16,6 @@ public class ProductVO extends BaseVO {
 
   public void setUrl(String url) {
     this.url = url;
-  }
-
-  public Long getCid() {
-    return cid;
-  }
-
-  public void setCid(Long cid) {
-    this.cid = cid;
   }
 
   public String getReffer() {

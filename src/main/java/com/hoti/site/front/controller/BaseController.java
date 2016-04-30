@@ -7,16 +7,13 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.ui.Model;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.github.pagehelper.PageInfo;
 import com.hoti.site.core.exception.BaseException;
 import com.hoti.site.core.exception.ErrorIDs;
 import com.hoti.site.core.exception.SecurityException;
 import com.hoti.site.core.security.AuthzUtil;
-import com.hoti.site.db.entity.Category;
 import com.hoti.site.db.entity.GlobalIDs;
 import com.hoti.site.db.entity.Pager;
 import com.hoti.site.db.entity.Pagination;
@@ -24,7 +21,6 @@ import com.hoti.site.db.entity.Product;
 import com.hoti.site.db.entity.Topic;
 import com.hoti.site.db.entity.User;
 import com.hoti.site.front.vo.ResponseVO;
-import com.hoti.site.rest.BaseService;
 
 /**
  * 控制器基类
@@ -155,9 +151,6 @@ public abstract class BaseController {
       throws SecurityException {
     model.addAttribute("title", title.concat(" · 红提 HOTI.io"));
     model.addAttribute("user", AuthzUtil.isAuthorized() ? AuthzUtil.getUsername() : null);
-    WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
-    BaseService service = wac.getBean(BaseService.class);
-    addCategories(model, service.findAllCategories());
   }
 
   /**
@@ -245,26 +238,6 @@ public abstract class BaseController {
    */
   public void addPager(Model model, PageInfo<?> pageInfo, String url) {
     model.addAttribute("page", Pager.of(pageInfo, url));
-  }
-
-  /**
-   * 类别
-   * 
-   * @param model
-   * @param group
-   */
-  public void addCategory(Model model, Category category) {
-    model.addAttribute("category", category);
-  }
-
-  /**
-   * 所有类别
-   * 
-   * @param model
-   * @param group
-   */
-  public void addCategories(Model model, List<Category> list) {
-    model.addAttribute("categories", list);
   }
 
   /**

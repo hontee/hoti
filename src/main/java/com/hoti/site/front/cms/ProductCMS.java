@@ -111,7 +111,6 @@ public class ProductCMS extends BaseController {
    * 产品数据列表，支持分页和查询
    * 
    * @param title 标题
-   * @param cid 类别ID
    * @param state 状态
    * @param p 分页组件
    * @return
@@ -120,8 +119,7 @@ public class ProductCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/list")
   public @ResponseBody DataGrid<Product> dataGrid(@RequestParam(required = false) String title,
-      @RequestParam(defaultValue = "0") Long cid, @RequestParam(required = false) Byte state,
-      Pagination p) throws Exception {
+      @RequestParam(required = false) Byte state, Pagination p) throws Exception {
 
     ProductExample example = new ProductExample();
     ProductExample.Criteria criteria = example.createCriteria();
@@ -129,11 +127,6 @@ public class ProductCMS extends BaseController {
     /* 标题 模糊查询 */
     if (StringUtils.isNotBlank(title)) {
       criteria.andTitleLike("%" + title + "%");
-    }
-
-    /* 类别ID */
-    if (cid > 0) {
-      criteria.andCidEqualTo(cid);
     }
 
     /* 验证产品状态 */

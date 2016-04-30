@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.github.pagehelper.PageInfo;
 import com.hoti.site.core.exception.SecurityException;
-import com.hoti.site.db.entity.Category;
-import com.hoti.site.db.entity.CategoryExample;
 import com.hoti.site.db.entity.Menu;
 import com.hoti.site.db.entity.MenuExample;
 import com.hoti.site.db.entity.Pagination;
@@ -18,22 +16,13 @@ import com.hoti.site.db.entity.TopicExample;
 import com.hoti.site.db.entity.TopicProduct;
 import com.hoti.site.db.entity.User;
 import com.hoti.site.db.entity.UserExample;
-import com.hoti.site.front.vo.ProductVO;
-import com.hoti.site.front.vo.CategoryVO;
-import com.hoti.site.front.vo.TopicVO;
 import com.hoti.site.front.vo.MenuVO;
+import com.hoti.site.front.vo.ProductVO;
 import com.hoti.site.front.vo.RecommendVO;
+import com.hoti.site.front.vo.TopicVO;
 import com.hoti.site.front.vo.UserVO;
 
 public interface BaseService {
-
-  /**
-   * 统计类别
-   * 
-   * @param example
-   * @return
-   */
-  int countCategory(CategoryExample example) throws SecurityException;
 
   /**
    * 统计Menu
@@ -92,14 +81,6 @@ public interface BaseService {
   int countUser(UserExample example) throws SecurityException;
 
   /**
-   * 删除类别
-   * 
-   * @param id
-   * @return
-   */
-  void deleteCategory(Long id) throws SecurityException;
-
-  /**
    * 删除菜单
    * 
    * @param id
@@ -155,22 +136,6 @@ public interface BaseService {
    * @return
    */
   void deleteUser(Long id) throws SecurityException;
-
-  /**
-   * 添加类别
-   * 
-   * @param record
-   * @return
-   */
-  void addCategory(Category record) throws SecurityException;
-  
-  /**
-   * 添加类别
-   * 
-   * @param vo
-   * @throws SecurityException
-   */
-  void addCategory(CategoryVO vo) throws SecurityException;
 
   /**
    * 添加菜单
@@ -270,30 +235,6 @@ public interface BaseService {
   void addUser(UserVO record) throws SecurityException;
 
   /**
-   * 查询类别
-   * 
-   * @param id
-   * @return
-   */
-  Category findCategory(Long id) throws SecurityException;
-
-  /**
-   * 查询类别
-   * 
-   * @param example
-   * @return
-   */
-  PageInfo<Category> findCategories(CategoryExample example, Pagination p) throws SecurityException;
-
-  /**
-   * 查询所有类别
-   * 
-   * @param example
-   * @return
-   */
-  List<Category> findAllCategories() throws SecurityException;
-
-  /**
    * 查询菜单
    * 
    * @param id
@@ -338,7 +279,6 @@ public interface BaseService {
    * 
    * @param tid 主题ID
    * @param title 产品标题
-   * @param cid 类别ID
    * @param state 产品状态
    * @param pick 精选
    * @return
@@ -469,14 +409,6 @@ public interface BaseService {
   boolean isFollowTopic(Long tid);
 
   /**
-   * 验证类别名称是否存在
-   * 
-   * @param name
-   * @return
-   */
-  boolean checkCategory(String name) throws SecurityException;
-
-  /**
    * 检测产品的链接地址
    * 
    * @param url
@@ -536,23 +468,6 @@ public interface BaseService {
    * @param remark
    */
   void auditRecommendRefuse(Long id, String remark) throws SecurityException;
-
-  /**
-   * 更新类别
-   * 
-   * @param record
-   * @return
-   */
-  void updateCategory(Category record) throws SecurityException;
-
-  /**
-   * 更新类别
-   * 
-   * @param id
-   * @param vo
-   * @throws SecurityException
-   */
-  void updateCategory(Long id, CategoryVO vo) throws SecurityException;
 
   /**
    * 更新菜单

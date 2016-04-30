@@ -38,10 +38,6 @@ public class Topic implements Serializable {
   private Long createBy;
 
   private String creator;
-
-  private Long cid;
-
-  private String category;
   
   /*判断用户是否关注*/
   private int follow;
@@ -180,22 +176,6 @@ public class Topic implements Serializable {
     this.creator = creator;
   }
 
-  public Long getCid() {
-    return cid;
-  }
-
-  public void setCid(Long cid) {
-    this.cid = cid;
-  }
-
-  public String getCategory() {
-    return category;
-  }
-
-  public void setCategory(String category) {
-    this.category = category;
-  }
-  
   public int getFollow() {
     return follow;
   }

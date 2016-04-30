@@ -15,9 +15,6 @@
 	<button id="groups-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
-	  <input class="easyui-combobox" id="groups-category"
-    	data-options="required:true, value:'0', valueField:'id',textField:'title',url:'/cms/categories/datalist?q=all'" 
-    	style="width:100px;">
 	  <select class="easyui-combobox" id="groups-type" data-options="panelHeight:'auto',editable: false" style="width:100px;">
         <option value="all" selected>全部类型</option>
         <option value="user">用户主题</option>
@@ -101,9 +98,6 @@ groupsEL.dg.datagrid({
 				return '禁用';
 			}
         }},
-        {field:'cid',title:'所属类别',width:100, sortable: true, formatter: function(value,row,index) {
-        	return row.category;
-        }},
         {field:'created',title:'创建时间',width:100, sortable: true, formatter: function(value,row,index) {
         	return new Date(value).format();  
         }},
@@ -171,8 +165,7 @@ groupsEL.search = function(value){
 	groupsEL.dg.datagrid('load',{
 		title: value,
 		state: $('#groups-state').combobox('getValue'),
-		type: $('#groups-type').combobox('getValue'),
-		cid: $('#groups-category').combobox('getValue')
+		type: $('#groups-type').combobox('getValue')
 	});
 }
 

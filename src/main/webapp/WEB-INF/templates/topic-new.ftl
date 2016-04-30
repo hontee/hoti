@@ -6,17 +6,6 @@
     <dt><label>主题名称</label></dt>
     <dd><input class="form-control" name="title"></dd>
   </dl>
-
-  <dl class="form-group">
-    <dt><label>选择类别</label></dt>
-    <dd>
-      <select class="form-select form-control" name="cid">
-        <#list categories as c>
-        <option value="${c.id}">${c.title}</option>
-        </#list>
-      </select>
-    </dd>
-  </dl>
   <dl class="form-group">
     <dt><label>描述</label></dt>
     <dd>

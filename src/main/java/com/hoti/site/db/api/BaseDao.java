@@ -3,8 +3,6 @@ package com.hoti.site.db.api;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
-import com.hoti.site.db.entity.Category;
-import com.hoti.site.db.entity.CategoryExample;
 import com.hoti.site.db.entity.Menu;
 import com.hoti.site.db.entity.MenuExample;
 import com.hoti.site.db.entity.Pagination;
@@ -19,14 +17,6 @@ import com.hoti.site.db.entity.User;
 import com.hoti.site.db.entity.UserExample;
 
 public interface BaseDao {
-
-  /**
-   * 统计类别
-   * 
-   * @param example
-   * @return
-   */
-  int countCategory(CategoryExample example) throws Exception;
 
   /**
    * 统计Menu
@@ -74,28 +64,6 @@ public interface BaseDao {
    * @return
    */
   int countProductStar() throws Exception;
-
-  /**
-   * 统计类别的产品数和主题数
-   * 
-   * @return
-   */
-  int countCategoryPT() throws Exception;
-
-  /**
-   * 统计主题的产品数和关注数
-   * 
-   * @return
-   */
-  int countTopicStar() throws Exception;
-
-  /**
-   * 删除类别
-   * 
-   * @param id
-   * @return
-   */
-  int deleteCategory(Long id) throws Exception;
 
   /**
    * 删除菜单
@@ -147,14 +115,6 @@ public interface BaseDao {
   int deleteUser(Long id) throws Exception;
 
   /**
-   * 添加类别
-   * 
-   * @param record
-   * @return
-   */
-  int addCategory(Category record) throws Exception;
-
-  /**
    * 添加菜单
    * 
    * @param record
@@ -202,30 +162,6 @@ public interface BaseDao {
    * @return
    */
   int addUser(User record) throws Exception;
-
-  /**
-   * 查询类别
-   * 
-   * @param id
-   * @return
-   */
-  Category findCategory(Long id) throws Exception;
-
-  /**
-   * 查询类别
-   * 
-   * @param example
-   * @return
-   */
-  PageInfo<Category> findCategories(CategoryExample example, Pagination p) throws Exception;
-
-  /**
-   * 查询所有类别
-   * 
-   * @param example
-   * @return
-   */
-  List<Category> findAllCategories() throws Exception;
 
   /**
    * 查询菜单
@@ -397,14 +333,6 @@ public interface BaseDao {
   List<Long> findTopicIds(Long uid) throws Exception;
 
   /**
-   * 更新类别
-   * 
-   * @param record
-   * @return
-   */
-  int updateCategory(Category record) throws Exception;
-
-  /**
    * 更新菜单
    * 
    * @param record
@@ -445,20 +373,6 @@ public interface BaseDao {
    * @return
    */
   int updateUser(User record) throws Exception;
-
-  /**
-   * 重构产品类别名称
-   * 
-   * @return
-   */
-  int rebuildProductCategory() throws Exception;
-
-  /**
-   * 重构主题类别名称
-   * 
-   * @return
-   */
-  int rebuildTopicCategory() throws Exception;
 
   /**
    * 用户关注产品IDs

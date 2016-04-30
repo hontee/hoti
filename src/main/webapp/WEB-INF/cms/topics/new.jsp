@@ -7,12 +7,6 @@
       <input class="easyui-textbox" name="title" data-options="required:true" style="width:100%;height:32px">
     </div>
     <div class="cms-mb20">
-      <div class="cms-mb5">所属类别:</div>
-      <input class="easyui-combobox" name="category"
-    	data-options="required:true, valueField:'id',textField:'title',url:'/cms/categories/datalist'" 
-    	style="width:100%; height:32px">
-    </div>
-    <div class="cms-mb20">
       <div class="cms-mb5">类型:</div>
       <select class="easyui-combobox" data-options="panelHeight:'auto',editable: false" name="type" style="width:100%; height:32px">
         <option value="1">用户主题</option>

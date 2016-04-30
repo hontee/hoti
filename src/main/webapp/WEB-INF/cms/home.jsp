@@ -12,7 +12,6 @@
     <div id="homeTabs" class="easyui-tabs">
 	    <div title="首页" style="padding:10px">
            <ul>
-           	 <li>类别总数：${category}</li>
            	 <li>产品总数：${product}</li>
            	 <li>主题总数：${topic}</li>
            	 <li>待审核的产品数：${waitProduct}</li>

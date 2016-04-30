@@ -12,9 +12,6 @@ import org.springframework.stereotype.Repository;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.common.base.Preconditions;
-import com.hoti.site.core.security.ThreadUtil;
-import com.hoti.site.db.dao.CategoryMapper;
 import com.hoti.site.db.dao.MenuMapper;
 import com.hoti.site.db.dao.ProductMapper;
 import com.hoti.site.db.dao.RecommendMapper;
@@ -22,8 +19,6 @@ import com.hoti.site.db.dao.RelationMapper;
 import com.hoti.site.db.dao.TopicMapper;
 import com.hoti.site.db.dao.TriggerMapper;
 import com.hoti.site.db.dao.UserMapper;
-import com.hoti.site.db.entity.Category;
-import com.hoti.site.db.entity.CategoryExample;
 import com.hoti.site.db.entity.Menu;
 import com.hoti.site.db.entity.MenuExample;
 import com.hoti.site.db.entity.Pagination;
@@ -42,8 +37,6 @@ public class BaseDaoImpl implements BaseDao {
   
   private Logger logger = LoggerFactory.getLogger(BaseDaoImpl.class);
   
-  @Resource
-  private CategoryMapper cm;
   @Resource
   private MenuMapper mm;
   @Resource
@@ -65,12 +58,6 @@ public class BaseDaoImpl implements BaseDao {
    */
   private void addPageHelper(Pagination p) {
     PageHelper.startPage(p.getPage(), p.getRows(), p.getOrderByClause());
-  }
-
-  @Override
-  public int countCategory(CategoryExample example) throws Exception {
-    logger.info("统计类别信息");
-    return cm.countByExample(example);
   }
 
   @Override
@@ -110,36 +97,6 @@ public class BaseDaoImpl implements BaseDao {
   }
 
   @Override
-  public int countCategoryPT() throws Exception {
-    logger.info("统计类别的产品数和主题数");
-    return trigger.countCategoryPT();
-  }
-
-  @Override
-  public int countTopicStar() throws Exception {
-    logger.info("统计主题的产品数和关注数");
-    return trigger.countTopicStar();
-  }
-
-  @Override
-  public int deleteCategory(Long id) throws Exception {
-    logger.info("删除类别：{}", id);
-    
-    Category category = cm.selectByPrimaryKey(id);
-    
-    // 删除时的安全检查
-    if (category.getCategory().equals(0L) &&
-        category.getProduct().equals(0L) &&
-        category.getTopic().equals(0L)) {
-      // 删除时触发类别
-      trigger.deleteCategory(category.getParent());
-      return cm.deleteByPrimaryKey(id);
-    } else {
-      throw new Exception("Category is not empty.");
-    }
-  }
-
-  @Override
   public int deleteMenu(Long id) throws Exception {
     logger.info("删除菜单：{}", id);
     return mm.deleteByPrimaryKey(id);
@@ -148,11 +105,6 @@ public class BaseDaoImpl implements BaseDao {
   @Override
   public int deleteProduct(Long id) throws Exception {
     logger.info("删除产品：{}", id);
-    
-    // 触发类别的产品数-1
-    Product p = pm.selectByPrimaryKey(id);
-    Preconditions.checkNotNull(p, "产品[" + id + "]不存在");
-    trigger.deleteProduct(p.getCid());
     return pm.deleteByPrimaryKey(id);
   }
 
@@ -165,12 +117,6 @@ public class BaseDaoImpl implements BaseDao {
   @Override
   public int deleteTopic(Long id) throws Exception {
     logger.info("删除主题：{}", id);
-    
-    // 触发类别的主题数-1
-    Topic t = tm.selectByPrimaryKey(id);
-    Preconditions.checkNotNull(t, "产品[" + id + "]不存在");
-    trigger.deleteProduct(t.getCid());
-    
     return tm.deleteByPrimaryKey(id);
   }
 
@@ -190,15 +136,6 @@ public class BaseDaoImpl implements BaseDao {
   }
 
   @Override
-  public int addCategory(Category record) throws Exception {
-    logger.info("添加类别：{}", JSON.toJSONString(record));
-    
-    // 添加类别时触发
-    trigger.insertCategory(record.getParent());
-    return cm.insert(record);
-  }
-
-  @Override
   public int addMenu(Menu record) throws Exception {
     logger.info("添加菜单：{}", JSON.toJSONString(record));
     return mm.insert(record);
@@ -207,9 +144,6 @@ public class BaseDaoImpl implements BaseDao {
   @Override
   public int addProduct(Product record) throws Exception {
     logger.info("添加产品：{}", JSON.toJSONString(record));
-    
-    // 触发类别的产品数+1
-    trigger.insertProduct(record.getCid());
     return pm.insert(record);
   }
 
@@ -222,9 +156,6 @@ public class BaseDaoImpl implements BaseDao {
   @Override
   public int addTopic(Topic record) throws Exception {
     logger.info("添加主题：{}", JSON.toJSONString(record));
-    
-    // 触发类别的主题数+1
-    trigger.insertTopic(record.getCid());
     return tm.insert(record);
   }
 
@@ -241,26 +172,6 @@ public class BaseDaoImpl implements BaseDao {
   public int addUser(User record) throws Exception {
     logger.info("添加用户：{}", JSON.toJSONString(record));
     return um.insert(record);
-  }
-
-  @Override
-  public Category findCategory(Long id) throws Exception {
-    logger.info("查询类别：{}", id);
-    return cm.selectByPrimaryKey(id);
-  }
-
-  @Override
-  public PageInfo<Category> findCategories(CategoryExample example, Pagination p) throws Exception {
-    logger.info("分页查询类别");
-    addPageHelper(p);
-    List<Category> list = cm.selectByExample(example);
-    return new PageInfo<>(list);
-  }
-
-  @Override
-  public List<Category> findAllCategories() throws Exception {
-    logger.info("查询所有类别");
-    return cm.selectByExample(new CategoryExample());
   }
 
   @Override
@@ -407,37 +318,6 @@ public class BaseDaoImpl implements BaseDao {
   }
 
   @Override
-  public int updateCategory(Category record) throws Exception {
-    logger.info("更新类别：{}", JSON.toJSONString(record));
-    
-    final Category c = cm.selectByPrimaryKey(record.getId());
-    
-    if (!record.getTitle().equals(c.getTitle())) {
-      /*更新类别时，如果类别名称修改则触发更新产品表和主题表的类别名称*/
-      ThreadUtil.execute(new Runnable() {
-        public void run() {
-
-          try {
-            // 标题修改时触发标题同步
-            trigger.updateProductCategory(record.getId());
-            trigger.updateTopicCategory(record.getId());
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        }
-      });
-    }
-    
-    // Parent修改时触发类别数更新
-    if (c.getParent() != record.getParent()) {
-      trigger.deleteCategory(c.getParent());
-      trigger.insertCategory(record.getParent());
-    }
-    
-    return cm.updateByPrimaryKey(record);
-  }
-
-  @Override
   public int updateMenu(Menu record) throws Exception {
     logger.info("更新菜单：{}", JSON.toJSONString(record));
     return mm.updateByPrimaryKey(record);
@@ -446,16 +326,6 @@ public class BaseDaoImpl implements BaseDao {
   @Override
   public int updateProduct(Product record) throws Exception {
     logger.info("更新产品：{}", JSON.toJSONString(record));
-    
-    // 触发产品数+1或-1
-    Product p = pm.selectByPrimaryKey(record.getId());
-    
-    /*如果CID不一致，需同时做两次更新*/
-    if (record.getCid() != p.getCid()) {
-      trigger.deleteProduct(p.getCid());
-      trigger.insertProduct(record.getCid());
-    }
-    
     return pm.updateByPrimaryKey(record);
   }
 
@@ -468,16 +338,6 @@ public class BaseDaoImpl implements BaseDao {
   @Override
   public int updateTopic(Topic record) throws Exception {
     logger.info("更新主题：{}", JSON.toJSONString(record));
-    
-    // 触发主题数+1或-1
-    Topic t = tm.selectByPrimaryKey(record.getId());
-    
-    /*如果CID不一致，需同时做两次更新*/
-    if (record.getCid() != t.getCid()) {
-      trigger.deleteTopic(t.getCid());
-      trigger.insertTopic(record.getCid());
-    }
-    
     return tm.updateByPrimaryKey(record);
   }
 
@@ -487,18 +347,6 @@ public class BaseDaoImpl implements BaseDao {
     return um.updateByPrimaryKey(record);
   }
   
-  @Override
-  public int rebuildProductCategory() throws Exception {
-    logger.info("重构所有产品类别名称");
-    return trigger.updateProductCategory(null);
-  }
-
-  @Override
-  public int rebuildTopicCategory() throws Exception {
-    logger.info("重构所有主题类别名称");
-    return trigger.updateTopicCategory(null);
-  }
-
   @Override
   public List<Long> followProductIds(Long uid) throws Exception {
     logger.info("用户[{}]关注产品的IDs", uid);

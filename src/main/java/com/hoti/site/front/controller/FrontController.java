@@ -19,7 +19,6 @@ import com.github.pagehelper.PageInfo;
 import com.hoti.site.core.exception.SecurityException;
 import com.hoti.site.core.security.ApplicationProps;
 import com.hoti.site.core.security.AuthzUtil;
-import com.hoti.site.db.entity.Category;
 import com.hoti.site.db.entity.Pagination;
 import com.hoti.site.db.entity.Product;
 import com.hoti.site.db.entity.ProductExample;
@@ -489,62 +488,6 @@ public class FrontController extends BaseController {
   }
 
   /**
-   * 根据类别获取产品
-   * 
-   * @param id 类别ID
-   * @param model
-   * @return
-   * @throws SecurityException
-   */
-  @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET)
-  public String catProduct(@PathVariable Long id, Model model, Pagination p,
-      HttpServletRequest request) throws SecurityException {
-
-    initPagination(p);
-    Category record = service.findCategory(id);
-    ProductExample example = new ProductExample();
-    ProductExample.Criteria criteria = example.createCriteria();
-    criteria.andStateEqualTo((byte) 1); // 状态为启动
-    criteria.andCidEqualTo(id);
-    PageInfo<Product> pageInfo = service.findProducts(example, p);
-
-    addHeader(model, record.getTitle(), request);
-    addCategory(model, record);
-    addProducts(model, pageInfo.getList());
-    addPager(model, pageInfo, getServletPath(request));
-    addF(model, "product");
-    return "category.ftl";
-  }
-
-  /**
-   * 根据类别获取主题
-   * 
-   * @param id 类别ID
-   * @param model
-   * @return
-   * @throws SecurityException
-   */
-  @RequestMapping(value = "/categories/{id}/topic", method = RequestMethod.GET)
-  public String catTopic(@PathVariable Long id, Model model, Pagination p,
-      HttpServletRequest request) throws SecurityException {
-
-    initPagination(p);
-    Category record = service.findCategory(id);
-    TopicExample example = new TopicExample();
-    TopicExample.Criteria criteria = example.createCriteria();
-    criteria.andStateEqualTo((byte) 1); // 状态为启动
-    criteria.andCidEqualTo(id);
-    PageInfo<Topic> pageInfo = service.findTopics(example, p);
-
-    addHeader(model, record.getTitle(), request);
-    addCategory(model, record);
-    addTopics(model, pageInfo.getList());
-    addPager(model, pageInfo, getServletPath(request));
-    addF(model, "topic");
-    return "category.ftl";
-  }
-
-  /**
    * 关于我们
    * 
    * @return
@@ -590,7 +533,6 @@ public class FrontController extends BaseController {
   @RequestMapping(value = "/topics/new", method = RequestMethod.GET)
   public String createTopic(Model model, HttpServletRequest request) throws SecurityException {
     addHeader(model, "创建主题", request);
-    addCategories(model, service.findAllCategories());
     return "topic-new.ftl";
   }
 

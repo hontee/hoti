@@ -33,7 +33,6 @@ public interface ProductMapper {
    * 主题关联的产品列表
    * @param tid 主题ID
    * @param title 产品标题
-   * @param cid 类别ID
    * @param state 产品状态
    * @param pick 精选
    * @return

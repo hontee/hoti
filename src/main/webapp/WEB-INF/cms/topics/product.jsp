@@ -8,9 +8,6 @@
 	<button id="groups-bm-reload" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</button>
 	
 	<span class="cms-dg-search">
-	  <input class="easyui-combobox" id="groups-bm-category"
-    	data-options="required:true, value:'0', valueField:'id',textField:'title',url:'/cms/categories/datalist?q=all'" 
-    	style="width:100px;">
 	  <select class="easyui-combobox" id="groups-bm-state" data-options="panelHeight:'auto',editable: false" style="width:100px;">
         <option value="-1" selected>全部状态</option>
         <option value="1">启用</option>
@@ -48,9 +45,6 @@ groupsBmEL.dg.datagrid({
         {field:'title',title:'标题',width:400, sortable: true},
         {field:'star',title:'星',width:100, sortable: true},
         {field:'hit',title:'点击数',width:100, sortable: true},
-        {field:'cid',title:'所属类别',width:100, sortable: true, formatter: function(value,row,index) {
-        	return row.category;
-        }},
         {field:'pick',title:'精选',width:100, sortable: true, formatter: function(value,row,index) {
         	if (value == '1') {
 				return '是';
@@ -82,8 +76,7 @@ groupsBmEL.dg.datagrid({
 groupsBmEL.search = function(value){
 	groupsBmEL.dg.datagrid('load',{
 		title: value,
-		state: $('#groups-bm-state').combobox('getValue'),
-		cid: $('#groups-bm-category').combobox('getValue')
+		state: $('#groups-bm-state').combobox('getValue')
 	});
 }
 
