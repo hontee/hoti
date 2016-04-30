@@ -151,7 +151,7 @@ public class FrontController extends BaseController {
     
     /* 用户未登录，则重定向到 [精选] */
     if (!AuthzUtil.isAuthorized()) {
-      return redirect("/pick");
+      return homeByPick(p, model, request);
     }
 
     initPagination(p);
@@ -253,7 +253,7 @@ public class FrontController extends BaseController {
 
     /* 用户未登录，则重定向到 [精选] */
     if (!AuthzUtil.isAuthorized()) {
-      return redirect("/topics/pick");
+      return topicByPick(p, model, request);
     }
 
     initPagination(p);
