@@ -14,12 +14,12 @@
   </beans:bean>
   
   <!-- 凭证管理器 -->
-  <beans:bean id="credentialsMatcher" class="com.hoti.site.core.security.RetryLimitSimpleCredentialsMatcher">
+  <beans:bean id="credentialsMatcher" class="com.ikyer.site.core.security.RetryLimitSimpleCredentialsMatcher">
     <beans:constructor-arg ref="cacheManager" />
   </beans:bean>
   
   <!-- 配置自定义Realm -->
-  <beans:bean id="userRealm" class="com.hoti.site.core.security.UserRealm">
+  <beans:bean id="userRealm" class="com.ikyer.site.core.security.UserRealm">
     <beans:property name="credentialsMatcher" ref="credentialsMatcher" />
     <beans:property name="service" ref="baseServiceImpl" />
   </beans:bean>

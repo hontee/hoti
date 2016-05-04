@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ikyer.site.db.dao.TriggerMapper">
+  
+  <!-- 添加主题关联的产品和删除主题关联的产品 -->
+  <update id="insertTopicProduct" parameterType="map">
+  	UPDATE t_topic SET product = product + 1 WHERE id = #{tid}
+  </update>
+  <update id="deleteTopicProduct" parameterType="map">
+  	UPDATE t_topic SET product = product - 1 WHERE id = #{tid}
+  </update>
+  
+  
+  <!-- 关注产品和取消关注产品 -->
+  <update id="followProduct" parameterType="map">
+  	UPDATE t_product SET star = star + 1 WHERE id = #{pid}
+  </update>
+  <update id="unfollowProduct" parameterType="map">
+  	UPDATE t_product SET star = star - 1 WHERE id = #{pid}
+  </update>
+  
+  
+  <!-- 关注主题和取消关注主题 -->
+  <update id="followTopic" parameterType="map">
+  	UPDATE t_topic SET star = star + 1 WHERE id = #{tid}
+  </update>
+  <update id="unfollowTopic" parameterType="map">
+  	UPDATE t_topic SET star = star - 1 WHERE id = #{tid}
+  </update>
+  
+  <!-- 统计产品的关注数 -->
+  <update id="countProductStar">
+  	update t_product t set 
+  	star = (select count(1) from t_follow_product where fid = t.id)
+  </update>
+  
+  <!-- 统计主题的产品数和关注数 -->
+  <update id="countTopicStar">
+  	update t_topic t set
+	product = (select count(1) from t_topic_product where tid = t.id),
+	star = (select count(1) from t_follow_topic where fid = t.id)
+  </update>
+
+</mapper>

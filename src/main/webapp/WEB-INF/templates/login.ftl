@@ -50,7 +50,7 @@ $(function() {
     $.post("/login", $("#loginForm").serialize(), function(data) {
       var r = $.parseJSON(data);
       if (r.success) {
-        HOTI.redirect(r.result);
+        KYER.redirect(r.result);
       } else {
         alert(r.error.message);
       }

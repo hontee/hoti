@@ -1,8 +1,7 @@
-<%@page import="com.hoti.site.db.entity.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="_header.jsp" %>
-<title>红提后台管理</title>
+<title>快椰后台管理</title>
 </head>
 <body class="easyui-layout">
   <div data-options="region:'west',title:'菜单'" style="width:200px;">

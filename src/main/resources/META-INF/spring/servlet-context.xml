@@ -13,7 +13,7 @@
   
   <!-- Enables the Spring MVC @Controller programming model -->
   <aop:aspectj-autoproxy proxy-target-class="true" />
-  <context:component-scan base-package="com.hoti.site" />
+  <context:component-scan base-package="com.ikyer.site" />
   <context:property-placeholder location="classpath:/META-INF/spring/application.properties"/>
   
   <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
@@ -64,10 +64,10 @@
   </beans:bean>
     
   <beans:bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape" />
-  <beans:bean id="blockDirective" class="com.hoti.site.core.freemarker.BlockDirective"/>  
-  <beans:bean id="extendsDirective" class="com.hoti.site.core.freemarker.ExtendsDirective"/>  
-  <beans:bean id="overrideDirective" class="com.hoti.site.core.freemarker.OverrideDirective"/>  
-  <beans:bean id="superDirective" class="com.hoti.site.core.freemarker.SuperDirective"/>  
+  <beans:bean id="blockDirective" class="com.ikyer.site.core.freemarker.BlockDirective"/>  
+  <beans:bean id="extendsDirective" class="com.ikyer.site.core.freemarker.ExtendsDirective"/>  
+  <beans:bean id="overrideDirective" class="com.ikyer.site.core.freemarker.OverrideDirective"/>  
+  <beans:bean id="superDirective" class="com.ikyer.site.core.freemarker.SuperDirective"/>  
  
   <!-- JSON处理器 -->
   <annotation-driven>
