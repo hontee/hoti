@@ -26,6 +26,7 @@ h1 {margin-bottom: 40px;}
 <div class="container">
 <h1 class="text-center">请登录</h1>
 <form class="form" id="loginForm" action="javascript:void(0)">
+  <input type="hidden" name="redirect" value="${record}">
   <dl class="form-group warn">
     <dt><label for="username">用户名</label></dt>
     <dd><input class="form-control" id="username" name="username" type="text" placeholder="用户名" required autofocus autocomplete="off"></dd>
@@ -49,7 +50,7 @@ $(function() {
     $.post("/login", $("#loginForm").serialize(), function(data) {
       var r = $.parseJSON(data);
       if (r.success) {
-        window.location.href = "/";
+        HOTI.redirect(r.result);
       } else {
         alert(r.error.message);
       }

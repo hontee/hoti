@@ -64,6 +64,7 @@ groupsEL.dg.datagrid({
         {field:'name',title:'名称',width:100, hidden: true},
         {field:'title',title:'标题',width:100, sortable: true},
         {field:'description',title:'描述',width:100},
+        {field:'tags',title:'标签',width:100},
         {field:'avatar',title:'头像',width:100},
         {field:'cover',title:'封面',width:100},
         {field:'star',title:'关注数',width:100, sortable: true},

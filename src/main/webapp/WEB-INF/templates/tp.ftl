@@ -18,15 +18,14 @@
       <a class="btn btn-outline <#if f=="pick">selected</#if>" href="/topics/${topic.id}/pick">精选</a>
     </div>
 
-    <div class="right">
-      <!--a class="btn" href="/recommend?group=${topic.id}">添加新产品</a>
-      <a class="btn" href="/topics/${topic.id}/manager">管理</a-->
-      <#if topic.follow==1>
-      <button class="btn btn-primary" id="follow" data-href="/topics/${topic.id}/unfollow">取消关注</button>
+    <div class="form-actions">
+	  <a href="/recommend?tid=${topic.id}" class="btn btn-primary">添加新产品</a>
+	  <#if topic.follow==1>
+      <button class="btn" id="follow" data-href="/topics/${topic.id}/unfollow">取消关注</button>
       <#else>
-      <button class="btn btn-primary" id="follow" data-href="/topics/${topic.id}/follow">关注</button>
+      <button class="btn" id="follow" data-href="/topics/${topic.id}/follow">关注</button>
       </#if>
-    </div>
+	</div>
   </div>
 </div>
 

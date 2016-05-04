@@ -6,6 +6,7 @@
   <li><label>名称：</label>${record.name}</li>
   <li><label>标题：</label>${record.title}</li>
   <li><label>描述：</label>${record.description}</li>
+  <li><label>标签：</label>${record.tags}</li>
   <li><label>头像：</label>${record.avatar}</li>
   <li><label>封面：</label>${record.cover}</li>
   <li><label>关注数：</label>${record.star}</li>

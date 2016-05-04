@@ -6,16 +6,16 @@
   <meta name="renderer" content="webkit">
   <meta property="ht:user" content="${user!}">
   <meta name="keywords" content="${keywords!"红提,HOTI,开发者,开发者服务,资源,文档,开发工具,开源项目,SDK,API,数据平台"}">
-  <meta name="description" content="${description!"红提 HOTI.io 专注为开发者服务！汇聚国内外最优质资源，打造最有影响力的开发者服务中心。"}">
+  <meta name="description" content="${description!"红提（HOTI.io）是一个基于学习和分享的开发者社区，我们以汇聚国内外最优质资源，打造最有影响力的开发者平台为目标，专注于为开发者服务。"}">
 
   <title>${title!"专注为开发者服务  · 红提 Hoti.io"}</title>
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="shortcut icon" href="/favicon.ico">
   <@block name="resources">
-  <link href="/primer/css/primer.css" rel="stylesheet">
-  <script src="/primer/js/jquery.min.js"></script>
-  <script src="/primer/js/jquery.mmenu.all.min.js"></script>
-  <script src="/primer/js/layout.js"></script>
+  <link href="/assets/css/primer.css" rel="stylesheet">
+  <script src="/assets/js/vendor/modernizr-2.8.3.min.js"></script>
+  <script src="/assets/js/vendor/jquery-2.1.4.min.js"></script>
+  <script src="/assets/js/fronts.js"></script>
   </@block>
 </head>
 
@@ -48,7 +48,6 @@
   </div>
 </nav>
 </@block>
-
 
 <@block name="body"></@block>
 <@block name="footer"></@block>

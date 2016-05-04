@@ -8,6 +8,7 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="tags" property="tags" jdbcType="VARCHAR" />
     <result column="avatar" property="avatar" jdbcType="VARCHAR" />
     <result column="cover" property="cover" jdbcType="VARCHAR" />
     <result column="star" property="star" jdbcType="INTEGER" />
@@ -83,7 +84,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, title, description, avatar, cover, star, product, audit, pick, type, state, 
+    id, name, title, description, tags, avatar, cover, star, product, audit, pick, type, state, 
     created, last_modified, create_by, creator
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hoti.site.db.entity.TopicExample">
@@ -109,7 +110,7 @@
   
   <!-- 用户关注的主题 -->
   <select id="selectByUid" resultMap="BaseResultMap" parameterType="java.lang.Long">
-    select id, name, title, description, avatar, cover, star, product, audit, pick, type, 
+    select id, name, title, description, tags, avatar, cover, star, product, audit, pick, type, 
     state, created, last_modified, create_by, creator, uid, ftime
     from v_user_topic
     WHERE uid = #{uid}
@@ -139,6 +140,9 @@
       </if>
       <if test="description != null">
         description,
+      </if>
+      <if test="tags != null">
+        tags,
       </if>
       <if test="avatar != null">
         avatar,
@@ -189,6 +193,9 @@
       </if>
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        #{tags,jdbcType=VARCHAR},
       </if>
       <if test="avatar != null">
         #{avatar,jdbcType=VARCHAR},
@@ -249,6 +256,9 @@
       <if test="record.description != null">
         description = #{record.description,jdbcType=VARCHAR},
       </if>
+      <if test="record.tags != null">
+        tags = #{record.tags,jdbcType=VARCHAR},
+      </if>
       <if test="record.avatar != null">
         avatar = #{record.avatar,jdbcType=VARCHAR},
       </if>
@@ -301,6 +311,9 @@
       </if>
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        tags = #{tags,jdbcType=VARCHAR},
       </if>
       <if test="avatar != null">
         avatar = #{avatar,jdbcType=VARCHAR},

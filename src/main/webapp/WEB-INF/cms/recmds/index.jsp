@@ -55,6 +55,9 @@ recmdsEL.dg.datagrid({
         {field:'keywords',title:'关键词',width:100, hidden: true},
         {field:'description',title:'描述',width:100, hidden: true},
         {field:'url',title:'网址',width:100, sortable: true},
+        {field:'tid',title:'目标主题',width:50, sortable: true, formatter: function(value,row,index) {
+        	return row.topic;
+        }},
         {field:'state',title:'状态',width:50, sortable: true, formatter: function(value,row,index) {
         	if (value == '2') {
 				return '审核通过';

@@ -8,6 +8,8 @@
   <li><label>描述：</label>${record.description}</li>
   <li><label>关键词：</label>${record.keywords}</li>
   <li><label>网址：</label>${record.url}</li>
+  <li><label>主题：</label>${record.topic}</li>
+  <li><label>网址：</label>${record.url}</li>
   <li><label>状态：</label>${record.state}
     <c:if test="${record.state == 1}">启用</c:if>
     <c:if test="${record.state == 0}">禁用</c:if>

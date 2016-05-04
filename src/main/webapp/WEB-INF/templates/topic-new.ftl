@@ -1,24 +1,27 @@
 <@override name="body">
-<div class="toolbar">
+<div class="blankslate">
+  <div class="container">
+  <h1>创建主题</h1>
+  <p>更好地内容组织者</p>
+  </div>
+</div>
+
 <div class="container">
-<form id="form" action="javascript:void(0);">
+<form id="form" action="javascript:void(0);" style="width: 440px; padding-bottom: 20px;">
   <dl class="form-group">
     <dt><label>主题名称</label></dt>
-    <dd><input class="form-control" name="title"></dd>
+    <dd><input class="form-control" name="title" placeholder="主题名称"></dd>
   </dl>
   <dl class="form-group">
     <dt><label>描述</label></dt>
     <dd>
-      <textarea class="form-control" style="width: 440px;" name="description"></textarea>
+      <textarea class="form-control" name="description" placeholder="描述..."></textarea>
     </dd>
   </dl>
-  <dl class="form-group">
-    <dd>
-      <button class="btn btn-primary" id="submit">申请主题</button>
-    </dd>
-  </dl>
+  <div class="form-actions">
+    <button class="btn btn-primary" id="submit">创建主题</button>
+  </div>
 </form>
-</div>
 </div>
 </@override>
 

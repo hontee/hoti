@@ -14,6 +14,8 @@ public class Topic implements Serializable {
   private String title;
 
   private String description;
+  
+  private String tags;
 
   private String avatar;
 
@@ -78,6 +80,14 @@ public class Topic implements Serializable {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+  
+  public String getTags() {
+    return tags;
+  }
+
+  public void setTags(String tags) {
+    this.tags = tags;
   }
 
   public String getAvatar() {

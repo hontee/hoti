@@ -46,12 +46,15 @@ public class FrontController extends BaseController {
    * @throws SecurityException 
    */
   @RequestMapping(value = "/login", method = RequestMethod.GET)
-  public String login(HttpServletRequest request, Model model) throws SecurityException {
+  public String login(String redirect, Model model, HttpServletRequest request) throws SecurityException {
+    
+    redirect = StringUtils.isEmpty(redirect)? "/": redirect;
     
     if (AuthzUtil.isAuthorized()) {
-      return redirect("/");
+      return redirect(redirect);
     } 
     
+    addRecord(model, redirect);
     addHeader(model, props.getSeoLogin(), request);
     return "login.ftl";
   }
@@ -519,8 +522,10 @@ public class FrontController extends BaseController {
    * @throws SecurityException
    */
   @RequestMapping(value = "/recommend", method = RequestMethod.GET)
-  public String recommend(Model model, HttpServletRequest request) throws SecurityException {
+  public String recommend(Model model, Pagination p, HttpServletRequest request) throws SecurityException {
     addHeader(model, props.getSeoRecommend(), request);
+    PageInfo<Topic> pageInfo = service.findTopics(new TopicExample(), p);
+    addTopics(model, pageInfo.getList());
     return "recommend.ftl";
   }
   

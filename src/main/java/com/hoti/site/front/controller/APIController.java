@@ -3,6 +3,7 @@ package com.hoti.site.front.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.hoti.site.core.exception.SecurityException;
+import com.hoti.site.db.entity.FetchFactory;
+import com.hoti.site.db.entity.Recommend;
+import com.hoti.site.db.entity.Topic;
 import com.hoti.site.db.entity.User;
+import com.hoti.site.front.vo.RecommendVO;
 import com.hoti.site.front.vo.ResponseVO;
 import com.hoti.site.front.vo.TopicVO;
 import com.hoti.site.rest.BaseService;
@@ -41,10 +46,11 @@ public class APIController extends BaseController {
    */
   @RequestMapping(value = "/login", method = RequestMethod.POST)
   public ResponseVO login(@RequestParam String username, @RequestParam String password,
-      HttpServletRequest request) throws SecurityException {
+      @RequestParam(defaultValue = "/") String redirect, HttpServletRequest request)
+          throws SecurityException {
     logger.info("用户登录：{}", username);
     service.authenticate(username, password);
-    return buildResponse();
+    return buildResponse(redirect);
   }
   
   /**
@@ -73,10 +79,30 @@ public class APIController extends BaseController {
    * @throws SecurityException
    */
   @RequestMapping(value = "/recommend", method = RequestMethod.POST)
-  public ResponseVO recommend(@RequestParam String url, HttpServletRequest request)
-      throws SecurityException {
-    logger.info("推荐产品", url);
-    service.addRecommend(url);
+  public ResponseVO recommend(RecommendVO vo, HttpServletRequest request) throws SecurityException {
+    logger.info("推荐产品: {}", JSON.toJSONString(vo));
+
+    Recommend record = FetchFactory.get(vo.getUrl());
+
+    if (vo.getTid() != null) {
+      Topic t = service.findTopic(vo.getTid());
+      record.setTid(t.getId());
+      record.setTopic(t.getTitle());
+    }
+    
+    if (StringUtils.isNotEmpty(vo.getTitle())) {
+      record.setTitle(vo.getTitle());
+    }
+    
+    if (StringUtils.isNotEmpty(vo.getKeywords())) {
+      record.setKeywords(vo.getKeywords());
+    }
+    
+    if (StringUtils.isNotBlank(vo.getDescription())) {
+      record.setDescription(vo.getDescription());
+    }
+    
+    service.addRecommend(record);
     return buildResponse();
   }
   

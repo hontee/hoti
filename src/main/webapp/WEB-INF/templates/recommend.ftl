@@ -1,20 +1,52 @@
 <@override name="body">
-<div class="toolbar">
+<div class="blankslate">
+  <div class="container">
+  <h1>推荐</h1>
+  <p>分享你喜欢的技术文章和产品</p>
+  </div>
+</div>
+
 <div class="container">
-<form id="form" action="javascript:void(0);">
+<form id="form" action="javascript:void(0);" style="width: 440px; padding-bottom: 20px;">
   <dl class="form-group">
-    <dt><label for="url">请输入你要推荐的资源、文档、技术或开源项目</label></dt>
+    <dt><label for="url">* URL (必填)</label></dt>
     <dd>
-      <div class="left">
-        <input class="form-control" id="url"name="url" placeholder="http(s)://" autocomplete="off">
-      </div>
-      <div class="form-actions left">
-	    <button id="submit" class="btn">推荐</button>
-	  </div>
+        <input class="form-control" name="url" placeholder="http(s)://" autocomplete="off">
     </dd>
   </dl>
+  
+  <dl class="form-group">
+    <dt><label>标题</label></dt>
+    <dd><input class="form-control" name="title" placeholder="标题"></dd>
+  </dl>
+  
+  <dl class="form-group">
+    <dt><label>标签</label></dt>
+    <dd><input class="form-control" name="keywords" placeholder="标签"></dd>
+  </dl>
+
+  <dl class="form-group">
+    <dt><label>选择主题</label></dt>
+    <dd>
+      <select class="form-select form-control" name="tid">
+        <#list topics as t>
+        <option value="${t.id}">${t.title}</option>
+        </#list>
+      </select>
+    </dd>
+  </dl>
+
+  <dl class="form-group">
+    <dt><label>描述</label></dt>
+    <dd>
+      <textarea class="form-control" name="description" placeholder="描述..."></textarea>
+    </dd>
+  </dl>
+  
+  <div class="form-actions">
+    <button id="submit" class="btn btn-primary">确认推荐</button>
+  </div>
 </form>
-</div>
 </div>
 </@override>
 
