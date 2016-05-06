@@ -20,7 +20,6 @@ public interface BaseDao {
 
   /**
    * 统计Menu
-   * 
    * @param example
    * @return
    */
@@ -28,7 +27,6 @@ public interface BaseDao {
 
   /**
    * 统计产品
-   * 
    * @param example
    * @return
    */
@@ -36,7 +34,6 @@ public interface BaseDao {
 
   /**
    * 统计推荐
-   * 
    * @param example
    * @return
    */
@@ -44,7 +41,6 @@ public interface BaseDao {
 
   /**
    * 统计主题
-   * 
    * @param example
    * @return
    */
@@ -52,7 +48,6 @@ public interface BaseDao {
 
   /**
    * 统计用户
-   * 
    * @param example
    * @return
    */
@@ -60,14 +55,18 @@ public interface BaseDao {
 
   /**
    * 统计产品的关注数
-   * 
    * @return
    */
-  int countProductStar() throws Exception;
+  void countProductStar() throws Exception;
+  
+  /**
+   * 统计主题的关注数和产品数
+   * @return
+   */
+  void countTopicStar() throws Exception;
 
   /**
    * 删除菜单
-   * 
    * @param id
    * @return
    */
@@ -75,7 +74,6 @@ public interface BaseDao {
 
   /**
    * 删除产品
-   * 
    * @param id
    * @return
    */
@@ -83,7 +81,6 @@ public interface BaseDao {
 
   /**
    * 删除推荐
-   * 
    * @param id
    * @return
    */
@@ -91,24 +88,21 @@ public interface BaseDao {
 
   /**
    * 删除主题
-   * 
    * @param id
    * @return
    */
   int deleteTopic(Long id) throws Exception;
 
   /**
-   * 删除主题和产品的关联
-   * 
+   * 取消关联主题和产品
    * @param tid 主题ID
    * @param pid 产品ID
    * @return
    */
-  int deleteTopicProduct(Long tid, Long pid) throws Exception;
+  int deleteTP(Long tid, Long pid) throws Exception;
 
   /**
    * 删除用户
-   * 
    * @param id
    * @return
    */
@@ -116,7 +110,6 @@ public interface BaseDao {
 
   /**
    * 添加菜单
-   * 
    * @param record
    * @return
    */
@@ -124,7 +117,6 @@ public interface BaseDao {
 
   /**
    * 添加产品
-   * 
    * @param record
    * @return
    */
@@ -132,7 +124,6 @@ public interface BaseDao {
 
   /**
    * 添加推荐
-   * 
    * @param record
    * @return
    */
@@ -140,24 +131,21 @@ public interface BaseDao {
 
   /**
    * 添加主题
-   * 
    * @param record
    * @return
    */
   int addTopic(Topic record) throws Exception;
 
   /**
-   * 添加主题和产品的关联
-   * 
+   * 关联主题和产品
    * @param tid 主题ID
    * @param pid 产品ID
    * @return
    */
-  int addTopicProduct(Long tid, Long pid) throws Exception;
+  int addTP(Long tid, Long pid) throws Exception;
 
   /**
    * 添加用户
-   * 
    * @param record
    * @return
    */
@@ -165,7 +153,6 @@ public interface BaseDao {
 
   /**
    * 查询菜单
-   * 
    * @param id
    * @return
    */
@@ -173,7 +160,6 @@ public interface BaseDao {
 
   /**
    * 查询菜单
-   * 
    * @param example
    * @return
    */
@@ -181,7 +167,6 @@ public interface BaseDao {
 
   /**
    * 查询所有菜单
-   * 
    * @param example
    * @return
    */
@@ -189,7 +174,6 @@ public interface BaseDao {
 
   /**
    * 查询产品
-   * 
    * @param id
    * @return
    */
@@ -197,7 +181,6 @@ public interface BaseDao {
 
   /**
    * 查询产品
-   * 
    * @param example
    * @return
    */
@@ -206,23 +189,20 @@ public interface BaseDao {
 
   /**
    * 主题关联的产品列表
-   * 
    * @param tp 查询参数
    * @return
    */
-  PageInfo<Product> findTopicProducts(TopicProduct tp, Pagination p) throws Exception;
+  PageInfo<Product> findProducts(TopicProduct tp, Pagination p) throws Exception;
 
   /**
    * 用户关注的产品列表
-   * 
    * @param uid 用户ID
    * @return
    */
-  PageInfo<Product> findUserProducts(Long uid, Pagination p) throws Exception;
+  PageInfo<Product> findProducts(Long uid, Pagination p) throws Exception;
 
   /**
    * 查询推荐
-   * 
    * @param id
    * @return
    */
@@ -230,7 +210,6 @@ public interface BaseDao {
 
   /**
    * 查询推荐
-   * 
    * @param example
    * @return
    */
@@ -238,7 +217,6 @@ public interface BaseDao {
 
   /**
    * 查询主题
-   * 
    * @param id
    * @return
    */
@@ -246,7 +224,6 @@ public interface BaseDao {
 
   /**
    * 查询主题
-   * 
    * @param example
    * @return
    */
@@ -254,15 +231,13 @@ public interface BaseDao {
 
   /**
    * 用户关注的主题列表
-   * 
    * @param uid 用户ID
    * @return
    */
-  PageInfo<Topic> findUserTopics(Long uid, Pagination p) throws Exception;
+  PageInfo<Topic> findTopics(Long uid, Pagination p) throws Exception;
 
   /**
    * 查询用户
-   * 
    * @param id
    * @return
    */
@@ -270,7 +245,6 @@ public interface BaseDao {
 
   /**
    * 查询用户
-   * 
    * @param example
    * @return
    */
@@ -278,47 +252,36 @@ public interface BaseDao {
 
   /**
    * 关注产品的用户列表
-   * 
    * @param fid 产品ID
    * @return
    */
-  PageInfo<User> findProductUsers(Long fid, Pagination p) throws Exception;
+  PageInfo<User> findUsersByProduct(Long fid, Pagination p) throws Exception;
 
   /**
    * 关注产品的用户列表
-   * 
    * @param fid 产品ID
-   * @param name 用户名
-   * @param type 用户类型 1=普通用户 2=管理员
-   * @param state 用户状态 0=禁用 1=启用 2=锁定 3=已删除
+   * @param user 用户对象
    * @return
    */
-  PageInfo<User> findProductUsers(Long fid, String name, Byte type, Byte state, Pagination p)
-      throws Exception;
+  PageInfo<User> findUsersByProduct(Long fid, User user, Pagination p) throws Exception;
 
   /**
    * 关注主题的用户列表
-   * 
    * @param fid 主题ID
    * @return
    */
-  PageInfo<User> findTopicUsers(Long fid, Pagination p) throws Exception;
+  PageInfo<User> findUsersByTopic(Long fid, Pagination p) throws Exception;
 
   /**
    * 关注主题的用户列表
-   * 
    * @param fid 产品ID
-   * @param name 用户名
-   * @param type 用户类型 1=普通用户 2=管理员
-   * @param state 用户状态 0=禁用 1=启用 2=锁定 3=已删除
+   * @param user 用户对象
    * @return
    */
-  PageInfo<User> findTopicUsers(Long fid, String name, Byte type, Byte state, Pagination p)
-      throws Exception;
+  PageInfo<User> findUsersByTopic(Long fid, User user, Pagination p) throws Exception;
 
   /**
    * 用户关注产品的列表
-   * 
    * @param uid 用户ID
    * @return
    */
@@ -326,7 +289,6 @@ public interface BaseDao {
 
   /**
    * 用户关注主题的列表
-   * 
    * @param uid 用户ID
    * @return
    */
@@ -334,7 +296,6 @@ public interface BaseDao {
 
   /**
    * 更新菜单
-   * 
    * @param record
    * @return
    */
@@ -344,7 +305,6 @@ public interface BaseDao {
 
   /**
    * 更新产品
-   * 
    * @param record
    * @return
    */
@@ -352,7 +312,6 @@ public interface BaseDao {
 
   /**
    * 更新推荐
-   * 
    * @param record
    * @return
    */
@@ -360,7 +319,6 @@ public interface BaseDao {
 
   /**
    * 更新主题
-   * 
    * @param record
    * @return
    */
@@ -368,31 +326,13 @@ public interface BaseDao {
 
   /**
    * 更新用户
-   * 
    * @param record
    * @return
    */
   int updateUser(User record) throws Exception;
 
   /**
-   * 用户关注产品IDs
-   * 
-   * @param uid 用户ID
-   * @return
-   */
-  List<Long> followProductIds(Long uid) throws Exception;
-
-  /**
-   * 用户关注主题IDs
-   * 
-   * @param uid 用户ID
-   * @return
-   */
-  List<Long> followTopicIds(Long uid) throws Exception;
-
-  /**
    * 关注产品
-   * 
    * @param uid 用户ID
    * @param fid 产品ID
    * @return
@@ -401,7 +341,6 @@ public interface BaseDao {
 
   /**
    * 取消关注产品
-   * 
    * @param uid 用户ID
    * @param fid 产品ID
    * @return
@@ -410,7 +349,6 @@ public interface BaseDao {
 
   /**
    * 关注主题
-   * 
    * @param uid 用户ID
    * @param fid 主题ID
    * @return
@@ -419,7 +357,6 @@ public interface BaseDao {
 
   /**
    * 取消关注主题
-   * 
    * @param uid 用户ID
    * @param fid 主题ID
    * @return
@@ -428,7 +365,6 @@ public interface BaseDao {
 
   /**
    * 精选产品
-   * 
    * @param pick
    * @param array
    * @return
@@ -437,7 +373,6 @@ public interface BaseDao {
 
   /**
    * 取消精选产品
-   * 
    * @param pick
    * @param array
    * @return
@@ -446,7 +381,6 @@ public interface BaseDao {
 
   /**
    * 精选主题
-   * 
    * @param pick
    * @param array
    * @return
@@ -455,7 +389,6 @@ public interface BaseDao {
 
   /**
    * 取消精选主题
-   * 
    * @param pick
    * @param array
    * @return

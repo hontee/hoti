@@ -39,6 +39,16 @@ public class User implements Serializable {
 
   private Date ftime;
   
+  public User(Long id, String name) {
+    super();
+    this.id = id;
+    this.name = name;
+  }
+
+  public User() {
+    super();
+  }
+
   public Long getId() {
     return id;
   }

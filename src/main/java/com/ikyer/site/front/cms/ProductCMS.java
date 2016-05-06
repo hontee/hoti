@@ -24,7 +24,7 @@ import com.ikyer.site.db.entity.Product;
 import com.ikyer.site.db.entity.ProductExample;
 import com.ikyer.site.db.entity.User;
 import com.ikyer.site.db.entity.VUtil;
-import com.ikyer.site.front.controller.BaseController;
+import com.ikyer.site.front.BaseController;
 import com.ikyer.site.front.vo.ProductVO;
 import com.ikyer.site.front.vo.ResponseVO;
 import com.ikyer.site.rest.BaseService;
@@ -73,7 +73,7 @@ public class ProductCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
   public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-    super.addRecord(model, service.findProduct(id));
+    super.addRecord(model, service.findProduct(getUserId(), id));
     return "cms/products/edit";
   }
 
@@ -103,7 +103,7 @@ public class ProductCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) throws SecurityException {
-    super.addRecord(model, service.findProduct(id));
+    super.addRecord(model, service.findProduct(getUserId(), id));
     return "cms/products/view";
   }
 
@@ -134,7 +134,7 @@ public class ProductCMS extends BaseController {
       criteria.andStateEqualTo(state);
     }
 
-    PageInfo<Product> pageInfo = service.findProducts(example, p);
+    PageInfo<Product> pageInfo = service.findProducts(getUserId(), example, p);
     return new DataGrid<>(pageInfo);
   }
 
@@ -155,18 +155,20 @@ public class ProductCMS extends BaseController {
       @RequestParam(required = false) String name, @RequestParam(required = false) Byte type,
       @RequestParam(required = false) Byte state, Pagination p) throws SecurityException {
 
+    User user = new User();
+    
     /* 用户信息过滤 */
-    if (StringUtils.isEmpty(name)) {
-      name = null;
+    if (StringUtils.isNotEmpty(name)) {
+      user.setName(name);
     }
-    if (!VUtil.assertBaseState(state)) {
-      state = null;
+    if (VUtil.assertBaseState(state)) {
+      user.setState(state);
     }
-    if (!VUtil.assertUserType(type)) {
-      type = null;
+    if (VUtil.assertUserType(type)) {
+      user.setType(type);
     }
 
-    PageInfo<User> pageInfo = service.findProductUsers(id, name, type, state, p);
+    PageInfo<User> pageInfo = service.findUsersByProduct(id, user, p);
     return new DataGrid<>(pageInfo);
   }
 

@@ -12,7 +12,7 @@ import com.ikyer.site.core.exception.SecurityException;
 import com.ikyer.site.db.entity.ProductExample;
 import com.ikyer.site.db.entity.RecommendExample;
 import com.ikyer.site.db.entity.TopicExample;
-import com.ikyer.site.front.controller.BaseController;
+import com.ikyer.site.front.BaseController;
 import com.ikyer.site.rest.BaseService;
 
 @Controller

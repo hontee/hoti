@@ -14,9 +14,9 @@ public class TaskServiceImpl implements TaskService {
   
   @Override
   public void rebuildCountTask() throws SecurityException {
-    
     try {
       dao.countProductStar();
+      dao.countTopicStar();
     } catch (Exception e) {
       e.printStackTrace();
     }

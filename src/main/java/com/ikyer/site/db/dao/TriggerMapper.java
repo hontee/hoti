@@ -10,46 +10,46 @@ import org.apache.ibatis.annotations.Param;
 public interface TriggerMapper {
   
   /**
-   * 添加主题关联的产品时，主题统计数+1
+   * 主题的产品数+1
    * @param tid 主题ID
    * @return
    */
-  int insertTopicProduct(@Param("tid") Long tid);
+  int plusTopicProduct(@Param("tid") Long tid);
 
   /**
-   * 删除主题关联的产品时，主题统计数-1
+   * 主题的产品数-1
    * @param tid 主题ID
    * @return
    */
-  int deleteTopicProduct(@Param("tid") Long tid);
+  int minusTopicProduct(@Param("tid") Long tid);
 
   /**
-   * 关注产品时，关注数+1
+   * 产品的关注数+1
    * @param pid 产品ID
    * @return
    */
-  int followProduct(@Param("pid") Long pid);
+  int plusProductStar(@Param("pid") Long pid);
 
   /**
-   * 取消关注产品时，关注数-1
+   * 产品的关注数-1
    * @param pid 产品ID
    * @return
    */
-  int unfollowProduct(@Param("pid") Long pid);
+  int minusProductStar(@Param("pid") Long pid);
 
   /**
-   * 关注主题时，关注数+1
+   * 主题的关注数+1
    * @param tid 主题ID
    * @return
    */
-  int followTopic(@Param("tid") Long tid);
+  int plusTopicStar(@Param("tid") Long tid);
 
   /**
   * 取消关注主题时，关注数-1
   * @param tid 主题ID
   * @return
   */
-  int unfollowTopic(@Param("tid") Long tid);
+  int minusTopicStar(@Param("tid") Long tid);
   
   /**
    * 统计产品的关注数

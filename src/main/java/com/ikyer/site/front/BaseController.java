@@ -1,4 +1,4 @@
-package com.ikyer.site.front.controller;
+package com.ikyer.site.front;
 
 import java.util.List;
 
@@ -6,13 +6,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.ui.Model;
 import org.springframework.web.context.request.WebRequest;
 
 import com.github.pagehelper.PageInfo;
 import com.ikyer.site.core.exception.ErrorIDs;
 import com.ikyer.site.core.exception.SecurityException;
-import com.ikyer.site.core.security.AuthzUtil;
 import com.ikyer.site.db.entity.GlobalIDs;
 import com.ikyer.site.db.entity.Pager;
 import com.ikyer.site.db.entity.Pagination;
@@ -149,7 +151,7 @@ public abstract class BaseController {
   public void addHeader(Model model, String title, HttpServletRequest request)
       throws SecurityException {
     model.addAttribute("title", title.concat(" · 快椰 ikyer.com"));
-    model.addAttribute("user", AuthzUtil.isAuthorized() ? AuthzUtil.getUsername() : null);
+    model.addAttribute("user", isAuthorized() ? getUserName() : null);
   }
 
   /**
@@ -261,7 +263,6 @@ public abstract class BaseController {
 
   /**
    * 主题列表
-   * 
    * @param model
    * @param list
    */
@@ -271,7 +272,6 @@ public abstract class BaseController {
 
   /**
    * 查询统计产品数和主题数
-   * 
    * @param model
    * @param product 产品数
    * @param topic 主题数
@@ -279,6 +279,54 @@ public abstract class BaseController {
   public void addCount(Model model, long product, long topic) {
     model.addAttribute("product", product);
     model.addAttribute("topic", topic);
+  }
+  
+  /**
+   * 当前用户是否登录, 未登录返回false
+   * @return
+   */
+  public boolean isAuthorized() {
+    Subject subject = SecurityUtils.getSubject();
+    Session session = subject.getSession();
+    return session.getAttribute(GlobalIDs.loginUser()) != null;
+  }
+
+  /**
+   * 获取当前登录用户, 未登录则返回 NULL
+   * @return
+   */
+  public User getCurrentUser() {
+
+    if (!isAuthorized()) {
+      return new User(-1L, "anonymous");
+    }
+
+    Subject subject = SecurityUtils.getSubject();
+    Session session = subject.getSession();
+    return (User) session.getAttribute(GlobalIDs.loginUser());
+  }
+
+  /**
+   * 获取当前登录用户名, 如果当前用户未登录则返回 "anonymous".
+   * @return
+   */
+  public String getUserName() {
+    return getCurrentUser().getName();
+  }
+
+  /**
+   * 取得当前用户的登录id
+   */
+  public Long getUserId() {
+    return getCurrentUser().getId();
+  }
+
+  /**
+   * 用户是否为管理员, 未登录则返回false
+   * @return
+   */
+  public boolean isAdmin() {
+    return getCurrentUser().getType() == 2L;
   }
 
 }

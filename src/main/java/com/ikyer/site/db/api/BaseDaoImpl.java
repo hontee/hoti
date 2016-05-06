@@ -91,9 +91,15 @@ public class BaseDaoImpl implements BaseDao {
   }
 
   @Override
-  public int countProductStar() throws Exception {
+  public void countProductStar() throws Exception {
     logger.info("统计产品的关注数");
-    return trigger.countProductStar();
+    trigger.countProductStar();
+  }
+
+  @Override
+  public void countTopicStar() throws Exception {
+    logger.info("统计主题的关注数和产品数");
+    trigger.countTopicStar();
   }
 
   @Override
@@ -121,12 +127,10 @@ public class BaseDaoImpl implements BaseDao {
   }
 
   @Override
-  public int deleteTopicProduct(Long tid, Long pid) throws Exception {
+  public int deleteTP(Long tid, Long pid) throws Exception {
     logger.info("删除主题：{}, 关联的产品：{}", tid, pid);
-    
-    /*触发主题的产品数 -1*/
-    trigger.deleteTopicProduct(tid);
-    return re.deleteTopicProduct(tid, pid);
+    trigger.minusTopicProduct(tid);
+    return re.removeTP(tid, pid);
   }
 
   @Override
@@ -160,12 +164,10 @@ public class BaseDaoImpl implements BaseDao {
   }
 
   @Override
-  public int addTopicProduct(Long tid, Long pid) throws Exception {
+  public int addTP(Long tid, Long pid) throws Exception {
     logger.info("添加主题：{}, 关联的产品：{}", tid, pid);
-    
-    /*触发主题的产品数 +1*/
-    trigger.insertTopicProduct(tid);
-    return re.insertTopicProduct(tid, pid);
+    trigger.plusTopicProduct(tid);
+    return re.addTP(tid, pid);
   }
 
   @Override
@@ -209,7 +211,7 @@ public class BaseDaoImpl implements BaseDao {
   }
 
   @Override
-  public PageInfo<Product> findTopicProducts(TopicProduct tp, Pagination p) throws Exception {
+  public PageInfo<Product> findProducts(TopicProduct tp, Pagination p) throws Exception {
     logger.info("分页查询主题关联的产品：{}", JSON.toJSONString(tp));
     addPageHelper(p);
     List<Product> list = pm.selectByTid(tp);
@@ -217,7 +219,7 @@ public class BaseDaoImpl implements BaseDao {
   }
 
   @Override
-  public PageInfo<Product> findUserProducts(Long uid, Pagination p) throws Exception {
+  public PageInfo<Product> findProducts(Long uid, Pagination p) throws Exception {
     logger.info("分页查询用户关注的产品：{}", uid);
     addPageHelper(p);
     List<Product> list = pm.selectByUid(uid);
@@ -254,7 +256,7 @@ public class BaseDaoImpl implements BaseDao {
   }
 
   @Override
-  public PageInfo<Topic> findUserTopics(Long uid, Pagination p) throws Exception {
+  public PageInfo<Topic> findTopics(Long uid, Pagination p) throws Exception {
     logger.info("分页查询主题");
     addPageHelper(p);
     List<Topic> list = tm.selectByUid(uid);
@@ -276,45 +278,45 @@ public class BaseDaoImpl implements BaseDao {
   }
 
   @Override
-  public PageInfo<User> findProductUsers(Long fid, Pagination p) throws Exception {
+  public PageInfo<User> findUsersByProduct(Long fid, Pagination p) throws Exception {
     logger.info("分页查询关注产品[{}]的用户列表", fid);
-    return findProductUsers(fid, null, null, null, p);
+    return findUsersByProduct(fid, new User(), p);
   }
 
   @Override
-  public PageInfo<User> findProductUsers(Long fid, String name, Byte type, Byte state, Pagination p)
+  public PageInfo<User> findUsersByProduct(Long fid, User user, Pagination p)
       throws Exception {
     logger.info("分页查询关注产品[{}]的用户列表", fid);
     addPageHelper(p);
-    List<User> list = um.followProductUser(fid, name, type, state);
+    List<User> list = um.followProductUser(fid, user);
     return new PageInfo<>(list);
   }
 
   @Override
-  public PageInfo<User> findTopicUsers(Long fid, Pagination p) throws Exception {
+  public PageInfo<User> findUsersByTopic(Long fid, Pagination p) throws Exception {
     logger.info("分页查询关注主题[{}]的用户列表", fid);
-    return findTopicUsers(fid, null, null, null, p);
+    return findUsersByTopic(fid, new User(), p);
   }
 
   @Override
-  public PageInfo<User> findTopicUsers(Long fid, String name, Byte type, Byte state, Pagination p)
+  public PageInfo<User> findUsersByTopic(Long fid, User user, Pagination p)
       throws Exception {
     logger.info("分页查询关注主题[{}]的用户列表", fid);
     addPageHelper(p);
-    List<User> list = um.followTopicUser(fid, name, type, state);
+    List<User> list = um.followTopicUser(fid, user);
     return new PageInfo<>(list);
   }
   
   @Override
   public List<Long> findProductIds(Long uid) throws Exception {
     logger.info("用户[{}]关注的产品IDs", uid);
-    return re.followProductIds(uid);
+    return re.followPids(uid);
   }
 
   @Override
   public List<Long> findTopicIds(Long uid) throws Exception {
     logger.info("用户[{}]关注的主题IDs", uid);
-    return re.followTopicIds(uid);
+    return re.followTids(uid);
   }
 
   @Override
@@ -348,49 +350,30 @@ public class BaseDaoImpl implements BaseDao {
   }
   
   @Override
-  public List<Long> followProductIds(Long uid) throws Exception {
-    logger.info("用户[{}]关注产品的IDs", uid);
-    return um.followProductIds(uid);
-  }
-
-  @Override
-  public List<Long> followTopicIds(Long uid) throws Exception {
-    logger.info("用户[{}]关注主题的IDs", uid);
-    return um.followTopicIds(uid);
-  }
-
-  @Override
   public int followProduct(Long uid, Long fid) throws Exception {
     logger.info("用户[{}]关注产品[{}]", uid, fid);
-    
-    /*触发产品的关注数 +1*/
-    trigger.followProduct(fid);
+    trigger.plusProductStar(fid);
     return re.followProduct(uid, fid);
   }
 
   @Override
   public int unfollowProduct(Long uid, Long fid) throws Exception {
     logger.info("用户[{}]取消关注产品[{}]", uid, fid);
-    
-    /*触发产品的关注数 -1*/
-    trigger.unfollowProduct(fid);
+    trigger.minusProductStar(fid);
     return re.unfollowProduct(uid, fid);
   }
 
   @Override
   public int followTopic(Long uid, Long fid) throws Exception {
     logger.info("用户[{}]关注主题[{}]", uid, fid);
-    
-    /*触发主题的关注数 +1*/
-    trigger.followTopic(fid);
+    trigger.plusTopicStar(fid);
     return re.followTopic(uid, fid);
   }
 
   @Override
   public int unfollowTopic(Long uid, Long fid) throws Exception {
     logger.info("用户[{}]取消关注主题[{}]", uid, fid);
-    /*触发主题的关注数 -1*/
-    trigger.unfollowTopic(fid);
+    trigger.minusTopicStar(fid);
     return re.followTopic(uid, fid);
   }
 

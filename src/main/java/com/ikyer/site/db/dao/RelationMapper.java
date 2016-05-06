@@ -7,20 +7,20 @@ import org.apache.ibatis.annotations.Param;
 public interface RelationMapper {
 
   /**
-   * 添加主题和产品的关联
+   * 关联主题和产品
    * @param tid 主题ID
    * @param pid 产品ID
    * @return
    */
-  int insertTopicProduct(@Param("tid") Long tid, @Param("pid") Long pid);
+  int addTP(@Param("tid") Long tid, @Param("pid") Long pid);
   
   /**
-   * 删除主题和产品的关联
+   * 取消关联主题和产品
    * @param tid 主题ID
    * @param pid 产品ID
    * @return
    */
-  int deleteTopicProduct(@Param("tid") Long tid, @Param("pid") Long pid);
+  int removeTP(@Param("tid") Long tid, @Param("pid") Long pid);
 
   /**
    * 关注产品
@@ -59,13 +59,13 @@ public interface RelationMapper {
    * @param uid 用户ID
    * @return
    */
-  List<Long> followProductIds(@Param("uid") Long uid);
+  List<Long> followPids(@Param("uid") Long uid);
   
   /**
    * 用户关注主题的列表
    * @param uid 用户ID
    * @return
    */
-  List<Long> followTopicIds(@Param("uid") Long uid);
+  List<Long> followTids(@Param("uid") Long uid);
 
 }

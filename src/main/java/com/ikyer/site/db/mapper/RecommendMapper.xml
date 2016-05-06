@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ikyer.site.db.dao.RecommendMapper" >
-  <resultMap id="BaseResultMap" type="com.ikyer.site.db.entity.Recommend" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ikyer.site.db.dao.RecommendMapper">
+
+  <resultMap id="BaseResultMap" type="com.ikyer.site.db.entity.Recommend">
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
@@ -16,25 +17,26 @@
     <result column="creator" property="creator" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" suffix=")" prefixOverrides="and">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -45,25 +47,26 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" suffix=")" prefixOverrides="and">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -74,218 +77,228 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
+  
+  <sql id="Base_Column_List">
     id, name, title, keywords, description, url, tid, topic, state, created, last_modified, 
     creator, remark
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ikyer.site.db.entity.RecommendExample" >
+  
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ikyer.site.db.entity.RecommendExample">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from t_recommend
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
     select 
     <include refid="Base_Column_List" />
     from t_recommend
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_recommend
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.ikyer.site.db.entity.RecommendExample" >
+  
+  <delete id="deleteByExample" parameterType="com.ikyer.site.db.entity.RecommendExample">
     delete from t_recommend
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ikyer.site.db.entity.Recommend" >
+  
+  <insert id="insert" parameterType="com.ikyer.site.db.entity.Recommend" useGeneratedKeys="true" keyProperty="id">
     insert into t_recommend
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         name,
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         title,
       </if>
-      <if test="keywords != null" >
+      <if test="keywords != null">
         keywords,
       </if>
-      <if test="description != null" >
+      <if test="description != null">
         description,
       </if>
-      <if test="url != null" >
+      <if test="url != null">
         url,
       </if>
-      <if test="tid != null" >
+      <if test="tid != null">
         tid,
       </if>
-      <if test="topic != null" >
+      <if test="topic != null">
         topic,
       </if>
-      <if test="state != null" >
+      <if test="state != null">
         state,
       </if>
-      <if test="created != null" >
+      <if test="created != null">
         created,
       </if>
-      <if test="lastModified != null" >
+      <if test="lastModified != null">
         last_modified,
       </if>
-      <if test="creator != null" >
+      <if test="creator != null">
         creator,
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="keywords != null" >
+      <if test="keywords != null">
         #{keywords,jdbcType=VARCHAR},
       </if>
-      <if test="description != null" >
+      <if test="description != null">
         #{description,jdbcType=VARCHAR},
       </if>
-      <if test="url != null" >
+      <if test="url != null">
         #{url,jdbcType=VARCHAR},
       </if>
-      <if test="tid != null" >
+      <if test="tid != null">
         #{tid,jdbcType=BIGINT},
       </if>
-      <if test="topic != null" >
+      <if test="topic != null">
         #{topic,jdbcType=VARCHAR},
       </if>
-      <if test="state != null" >
+      <if test="state != null">
         #{state,jdbcType=TINYINT},
       </if>
-      <if test="created != null" >
+      <if test="created != null">
         #{created,jdbcType=TIMESTAMP},
       </if>
-      <if test="lastModified != null" >
+      <if test="lastModified != null">
         #{lastModified,jdbcType=TIMESTAMP},
       </if>
-      <if test="creator != null" >
+      <if test="creator != null">
         #{creator,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.ikyer.site.db.entity.RecommendExample" resultType="java.lang.Integer" >
+  
+  <select id="countByExample" parameterType="com.ikyer.site.db.entity.RecommendExample" resultType="java.lang.Integer">
     select count(*) from t_recommend
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExample" parameterType="map" >
+  
+  <update id="updateByExample" parameterType="map">
     update t_recommend
-    <set >
-      <if test="record.id != null" >
+    <set>
+      <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.name != null" >
+      <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.title != null" >
+      <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.keywords != null" >
+      <if test="record.keywords != null">
         keywords = #{record.keywords,jdbcType=VARCHAR},
       </if>
-      <if test="record.description != null" >
+      <if test="record.description != null">
         description = #{record.description,jdbcType=VARCHAR},
       </if>
-      <if test="record.url != null" >
+      <if test="record.url != null">
         url = #{record.url,jdbcType=VARCHAR},
       </if>
-      <if test="record.tid != null" >
+      <if test="record.tid != null">
         tid = #{record.tid,jdbcType=BIGINT},
       </if>
-      <if test="record.topic != null" >
+      <if test="record.topic != null">
         topic = #{record.topic,jdbcType=VARCHAR},
       </if>
-      <if test="record.state != null" >
+      <if test="record.state != null">
         state = #{record.state,jdbcType=TINYINT},
       </if>
-      <if test="record.created != null" >
+      <if test="record.created != null">
         created = #{record.created,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.lastModified != null" >
+      <if test="record.lastModified != null">
         last_modified = #{record.lastModified,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.creator != null" >
+      <if test="record.creator != null">
         creator = #{record.creator,jdbcType=VARCHAR},
       </if>
-      <if test="record.remark != null" >
+      <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.ikyer.site.db.entity.Recommend" >
+  
+  <update id="updateByPrimaryKey" parameterType="com.ikyer.site.db.entity.Recommend">
     update t_recommend
-    <set >
-      <if test="name != null" >
+    <set>
+      <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="keywords != null" >
+      <if test="keywords != null">
         keywords = #{keywords,jdbcType=VARCHAR},
       </if>
-      <if test="description != null" >
+      <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
       </if>
-      <if test="url != null" >
+      <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
       </if>
-      <if test="tid != null" >
+      <if test="tid != null">
         tid = #{tid,jdbcType=BIGINT},
       </if>
-      <if test="topic != null" >
+      <if test="topic != null">
         topic = #{topic,jdbcType=VARCHAR},
       </if>
-      <if test="state != null" >
+      <if test="state != null">
         state = #{state,jdbcType=TINYINT},
       </if>
-      <if test="created != null" >
+      <if test="created != null">
         created = #{created,jdbcType=TIMESTAMP},
       </if>
-      <if test="lastModified != null" >
+      <if test="lastModified != null">
         last_modified = #{lastModified,jdbcType=TIMESTAMP},
       </if>
-      <if test="creator != null" >
+      <if test="creator != null">
         creator = #{creator,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
 </mapper>

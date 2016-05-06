@@ -1,4 +1,4 @@
-package com.ikyer.site.front.controller;
+package com.ikyer.site.front;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.github.pagehelper.PageInfo;
 import com.ikyer.site.core.exception.SecurityException;
 import com.ikyer.site.core.security.ApplicationProps;
-import com.ikyer.site.core.security.AuthzUtil;
 import com.ikyer.site.db.entity.Pagination;
 import com.ikyer.site.db.entity.Product;
 import com.ikyer.site.db.entity.ProductExample;
@@ -50,7 +49,7 @@ public class FrontController extends BaseController {
     
     redirect = StringUtils.isEmpty(redirect)? "/": redirect;
     
-    if (AuthzUtil.isAuthorized()) {
+    if (isAuthorized()) {
       return redirect(redirect);
     } 
     
@@ -85,7 +84,7 @@ public class FrontController extends BaseController {
       HttpServletRequest request) throws SecurityException {
     initPagination(p);
     User user = service.findUser(name);
-    PageInfo<Product> pageInfo = service.findUserProducts(user.getId(), p);
+    PageInfo<Product> pageInfo = service.findProducts(user.getId(), p);
     
     addUser(model, user);
     addHeader(model, name, request);
@@ -110,7 +109,7 @@ public class FrontController extends BaseController {
       HttpServletRequest request) throws SecurityException {
     initPagination(p);
     User user = service.findUser(name);
-    PageInfo<Topic> pageInfo = service.findUserTopics(user.getId(), p);
+    PageInfo<Topic> pageInfo = service.findTopics(user.getId(), p);
     
     addUser(model, user);
     addHeader(model, name, request);
@@ -152,14 +151,14 @@ public class FrontController extends BaseController {
       throws SecurityException {
     
     /* 用户未登录，则重定向到 [精选] */
-    if (!AuthzUtil.isAuthorized()) {
+    if (!isAuthorized()) {
       return homeByPick(p, model, request);
     }
 
     initPagination(p);
-    PageInfo<Product> pageInfo = service.findUserProducts(AuthzUtil.getUserId(), p);
+    PageInfo<Product> pageInfo = service.findProducts(getUserId(), p);
 
-    addHeader(model, AuthzUtil.getUsername(), request);
+    addHeader(model, getUserName(), request);
     addProducts(model, pageInfo.getList());
     addPager(model, pageInfo, getServletPath(request));
     addF(model, "my");
@@ -183,7 +182,7 @@ public class FrontController extends BaseController {
     ProductExample.Criteria criteria = example.createCriteria();
     criteria.andPickEqualTo((byte) 1); // 精选
     criteria.andStateEqualTo((byte) 1); // 状态为启动
-    PageInfo<Product> pageInfo = service.findProducts(example, p);
+    PageInfo<Product> pageInfo = service.findProducts(getUserId(), example, p);
 
     addHeader(model, props.getSeoSlogan(), request);
     addProducts(model, pageInfo.getList());
@@ -208,7 +207,7 @@ public class FrontController extends BaseController {
     ProductExample example = new ProductExample();
     ProductExample.Criteria criteria = example.createCriteria();
     criteria.andStateEqualTo((byte) 1); // 状态为启动
-    PageInfo<Product> pageInfo = service.findProducts(example, p);
+    PageInfo<Product> pageInfo = service.findProducts(getUserId(), example, p);
 
     addHeader(model, props.getSeoSlogan(), request);
     addProducts(model, pageInfo.getList());
@@ -233,7 +232,7 @@ public class FrontController extends BaseController {
     ProductExample example = new ProductExample();
     ProductExample.Criteria criteria = example.createCriteria();
     criteria.andStateEqualTo((byte) 1); // 状态为启动
-    PageInfo<Product> pageInfo = service.findProducts(example, p);
+    PageInfo<Product> pageInfo = service.findProducts(getUserId(), example, p);
 
     addHeader(model, props.getSeoSlogan(), request);
     addProducts(model, pageInfo.getList());
@@ -254,12 +253,12 @@ public class FrontController extends BaseController {
       throws SecurityException {
 
     /* 用户未登录，则重定向到 [精选] */
-    if (!AuthzUtil.isAuthorized()) {
+    if (!isAuthorized()) {
       return topicByPick(p, model, request);
     }
 
     initPagination(p);
-    PageInfo<Topic> pageInfo = service.findUserTopics(AuthzUtil.getUserId(), p);
+    PageInfo<Topic> pageInfo = service.findTopics(getUserId(), p);
 
     addHeader(model, props.getSeoTopic(), request);
     addTopics(model, pageInfo.getList());
@@ -284,7 +283,7 @@ public class FrontController extends BaseController {
     TopicExample.Criteria criteria = example.createCriteria();
     criteria.andPickEqualTo((byte) 1); // 精选
     criteria.andStateEqualTo((byte) 1); // 状态为启动
-    PageInfo<Topic> pageInfo = service.findTopics(example, p);
+    PageInfo<Topic> pageInfo = service.findTopics(getUserId(), example, p);
 
     addHeader(model, props.getSeoTopic(), request);
     addTopics(model, pageInfo.getList());
@@ -308,7 +307,7 @@ public class FrontController extends BaseController {
     TopicExample example = new TopicExample();
     TopicExample.Criteria criteria = example.createCriteria();
     criteria.andStateEqualTo((byte) 1); // 状态为启动
-    PageInfo<Topic> pageInfo = service.findTopics(example, p);
+    PageInfo<Topic> pageInfo = service.findTopics(getUserId(), example, p);
 
     addHeader(model, props.getSeoTopic(), request);
     addTopics(model, pageInfo.getList());
@@ -332,7 +331,7 @@ public class FrontController extends BaseController {
     TopicExample example = new TopicExample();
     TopicExample.Criteria criteria = example.createCriteria();
     criteria.andStateEqualTo((byte) 1); // 状态为启动
-    PageInfo<Topic> pageInfo = service.findTopics(example, p);
+    PageInfo<Topic> pageInfo = service.findTopics(getUserId(), example, p);
 
     addHeader(model, props.getSeoTopic(), request);
     addTopics(model, pageInfo.getList());
@@ -355,8 +354,8 @@ public class FrontController extends BaseController {
       HttpServletRequest request) throws SecurityException {
 
     initPagination(p, "created", "desc");
-    Topic record = service.findTopic(id);
-    PageInfo<Product> pageInfo = service.findTopicProducts(new TopicProduct(id), p);
+    Topic record = service.findTopic(getUserId(), id);
+    PageInfo<Product> pageInfo = service.findProducts(getUserId(), new TopicProduct(id), p);
 
     addHeader(model, record.getTitle(), request);
     addTopic(model, record);
@@ -380,8 +379,8 @@ public class FrontController extends BaseController {
       HttpServletRequest request) throws SecurityException {
 
     initPagination(p, "star", "desc");
-    Topic record = service.findTopic(id);
-    PageInfo<Product> pageInfo = service.findTopicProducts(new TopicProduct(id), p);
+    Topic record = service.findTopic(getUserId(), id);
+    PageInfo<Product> pageInfo = service.findProducts(getUserId(), new TopicProduct(id), p);
 
     addHeader(model, record.getTitle(), request);
     addTopic(model, record);
@@ -405,11 +404,11 @@ public class FrontController extends BaseController {
       HttpServletRequest request) throws SecurityException {
 
     initPagination(p);
-    Topic record = service.findTopic(id);
+    Topic record = service.findTopic(getUserId(), id);
     TopicProduct tp = new TopicProduct(id);
     tp.setPick((byte) 1); // 查询精选
 
-    PageInfo<Product> pageInfo = service.findTopicProducts(tp, p);
+    PageInfo<Product> pageInfo = service.findProducts(getUserId(), tp, p);
     addHeader(model, record.getTitle(), request);
     addTopic(model, record);
     addProducts(model, pageInfo.getList());
@@ -442,7 +441,7 @@ public class FrontController extends BaseController {
       criteria.andTitleLike("%" + q + "%"); // 模糊查询
     }
 
-    PageInfo<Product> pageInfo = service.findProducts(example, p);
+    PageInfo<Product> pageInfo = service.findProducts(getUserId(), example, p);
     logger.info("用户搜索产品数：{}", pageInfo.getTotal());
 
     addHeader(model, props.getSeoSearchProduct(), request);
@@ -478,7 +477,7 @@ public class FrontController extends BaseController {
       criteria.andTitleLike("%" + q + "%"); // 模糊查询
     }
 
-    PageInfo<Topic> pageInfo = service.findTopics(example, p);
+    PageInfo<Topic> pageInfo = service.findTopics(getUserId(), example, p);
     logger.info("用户搜索主题数：{}", pageInfo.getTotal());
 
     addHeader(model, props.getSeoSearchTopic(), request);
@@ -512,7 +511,7 @@ public class FrontController extends BaseController {
    */
   @RequestMapping(value = "/{id}/hit", method = RequestMethod.GET)
   public String hitProduct(@PathVariable Long id, Model model) throws SecurityException {
-    return redirect(service.updateProductHit(id));
+    return redirect(service.updateProductHit(getUserId(), id));
   }
 
   /**
@@ -524,7 +523,7 @@ public class FrontController extends BaseController {
   @RequestMapping(value = "/recommend", method = RequestMethod.GET)
   public String recommend(Model model, Pagination p, HttpServletRequest request) throws SecurityException {
     addHeader(model, props.getSeoRecommend(), request);
-    PageInfo<Topic> pageInfo = service.findTopics(new TopicExample(), p);
+    PageInfo<Topic> pageInfo = service.findTopics(getUserId(), new TopicExample(), p);
     addTopics(model, pageInfo.getList());
     return "recommend.ftl";
   }

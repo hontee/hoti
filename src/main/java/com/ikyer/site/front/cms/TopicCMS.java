@@ -26,7 +26,7 @@ import com.ikyer.site.db.entity.TopicExample;
 import com.ikyer.site.db.entity.TopicProduct;
 import com.ikyer.site.db.entity.User;
 import com.ikyer.site.db.entity.VUtil;
-import com.ikyer.site.front.controller.BaseController;
+import com.ikyer.site.front.BaseController;
 import com.ikyer.site.front.vo.ResponseVO;
 import com.ikyer.site.front.vo.TopicVO;
 import com.ikyer.site.rest.BaseService;
@@ -75,7 +75,7 @@ public class TopicCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
   public String editPage(@PathVariable Long id, Model model) throws SecurityException {
-    super.addRecord(model, service.findTopic(id));
+    super.addRecord(model, service.findTopic(getUserId(), id));
     return "cms/topics/edit";
   }
 
@@ -135,7 +135,7 @@ public class TopicCMS extends BaseController {
   @RequiresRoles(value = "admin")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) throws SecurityException {
-    super.addRecord(model, service.findTopic(id));
+    super.addRecord(model, service.findTopic(getUserId(), id));
     return "cms/topics/view";
   }
 
@@ -166,7 +166,7 @@ public class TopicCMS extends BaseController {
       criteria.andStateEqualTo(state);
     }
 
-    PageInfo<Topic> pageInfo = service.findTopics(example, p);
+    PageInfo<Topic> pageInfo = service.findTopics(getUserId(), example, p);
     return new DataGrid<>(pageInfo);
   }
 
@@ -198,7 +198,7 @@ public class TopicCMS extends BaseController {
     tp.setTitle(title);
     tp.setState(state);
     
-    PageInfo<Product> pageInfo = service.findTopicProducts(tp, p);
+    PageInfo<Product> pageInfo = service.findProducts(getUserId(), tp, p);
     return new DataGrid<>(pageInfo);
   }
 
@@ -219,18 +219,20 @@ public class TopicCMS extends BaseController {
       @RequestParam(required = false) String name, @RequestParam(required = false) Byte type,
       @RequestParam(required = false) Byte state, Pagination p) throws SecurityException {
 
+    User user = new User();
+    
     /* 用户信息过滤 */
-    if (StringUtils.isEmpty(name)) {
-      name = null;
+    if (StringUtils.isNotEmpty(name)) {
+      user.setName(name);
     }
-    if (!VUtil.assertBaseState(state)) {
-      state = null;
+    if (VUtil.assertBaseState(state)) {
+      user.setState(state);
     }
-    if (!VUtil.assertUserType(type)) {
-      type = null;
+    if (VUtil.assertUserType(type)) {
+      user.setType(type);
     }
 
-    PageInfo<User> pageInfo = service.findTopicUsers(id, name, type, state, p);
+    PageInfo<User> pageInfo = service.findUsersByTopic(id, user, p);
     return new DataGrid<>(pageInfo);
   }
 
@@ -265,7 +267,7 @@ public class TopicCMS extends BaseController {
   public @ResponseBody ResponseVO addProducts(@RequestParam Long[] ids, @PathVariable Long id,
       HttpServletRequest request) throws SecurityException {
     logger.info("后台主题批量添加产品: {}, {}", id, ids);
-    service.addTopicProduct(id, ids);
+    service.addTP(id, ids);
     return buildResponse();
   }
 
@@ -283,7 +285,7 @@ public class TopicCMS extends BaseController {
   public @ResponseBody ResponseVO deleteProducts(@RequestParam Long[] ids, @PathVariable Long id,
       HttpServletRequest request) throws SecurityException {
     logger.info("后台主题批量移除产品: {}, {}", id, ids);
-    service.deleteTopicProduct(id, ids);
+    service.deleteTP(id, ids);
     return buildResponse();
   }
 

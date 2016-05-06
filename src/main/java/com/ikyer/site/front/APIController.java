@@ -1,4 +1,4 @@
-package com.ikyer.site.front.controller;
+package com.ikyer.site.front;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -85,7 +85,7 @@ public class APIController extends BaseController {
     Recommend record = FetchFactory.get(vo.getUrl());
 
     if (vo.getTid() != null) {
-      Topic t = service.findTopic(vo.getTid());
+      Topic t = service.findTopic(getUserId(), vo.getTid());
       record.setTid(t.getId());
       record.setTopic(t.getTitle());
     }
@@ -134,7 +134,7 @@ public class APIController extends BaseController {
   public ResponseVO followProduct(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
     logger.info("关注产品: {}", id);
-    service.followProduct(id);
+    service.followProduct(getUserId(), id);
     return buildResponse();
   }
 
@@ -150,7 +150,7 @@ public class APIController extends BaseController {
   public ResponseVO unfollowProduct(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
     logger.info("取消关注产品: {}", id);
-    service.unfollowProduct(id);
+    service.unfollowProduct(getUserId(), id);
     return buildResponse();
   }
 
@@ -166,7 +166,7 @@ public class APIController extends BaseController {
   public ResponseVO followTopic(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
     logger.info("关注主题：{}", id);
-    service.followTopic(id);
+    service.followTopic(getUserId(), id);
     return buildResponse();
   }
 
@@ -182,7 +182,7 @@ public class APIController extends BaseController {
   public ResponseVO unfollowTopic(@PathVariable Long id, HttpServletRequest request)
       throws SecurityException {
     logger.info("取消关注主题: {}", id);
-    service.unfollowTopic(id);
+    service.unfollowTopic(getUserId(), id);
     return buildResponse();
   }
 

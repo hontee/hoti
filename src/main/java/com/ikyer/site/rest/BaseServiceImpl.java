@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageInfo;
 import com.ikyer.site.core.exception.ErrorIDs;
 import com.ikyer.site.core.exception.SecurityException;
-import com.ikyer.site.core.security.AuthzUtil;
 import com.ikyer.site.core.security.MemcachedUtil;
 import com.ikyer.site.core.security.ThreadUtil;
 import com.ikyer.site.db.api.BaseDao;
@@ -152,13 +151,24 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public void deleteTopicProduct(Long tid, Long pid) throws SecurityException {
+  public void deleteTP(Long tid, Long pid) throws SecurityException {
     try {
-      dao.deleteTopicProduct(tid, pid);
+      dao.deleteTP(tid, pid);
     } catch (Exception e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.DELETE_FAILIED, e);
     }
+  }
+
+  @Override
+  public void deleteTP(Long tid, Long[] pids) throws SecurityException {
+    Arrays.asList(pids).forEach((pid) -> {
+      try {
+        deleteTP(tid, pid);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    });
   }
 
   @Override
@@ -172,9 +182,9 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public void addMenu(Menu record) throws SecurityException {
+  public int addMenu(Menu record) throws SecurityException {
     try {
-      dao.addMenu(record);
+      return dao.addMenu(record);
     } catch (Exception e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.CREATE_FAILIED, e);
@@ -182,9 +192,9 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public void addProduct(Product record) throws SecurityException {
+  public int addProduct(Product record) throws SecurityException {
     try {
-      dao.addProduct(record);
+      return dao.addProduct(record);
     } catch (Exception e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.CREATE_FAILIED, e);
@@ -192,9 +202,9 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public void addRecommend(Recommend record) throws SecurityException {
+  public int addRecommend(Recommend record) throws SecurityException {
     try {
-      dao.addRecommend(record);
+      return dao.addRecommend(record);
     } catch (Exception e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.CREATE_FAILIED, e);
@@ -202,9 +212,9 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public void addTopic(Topic record) throws SecurityException {
+  public int addTopic(Topic record) throws SecurityException {
     try {
-      dao.addTopic(record);
+      return dao.addTopic(record);
     } catch (Exception e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.CREATE_FAILIED, e);
@@ -212,9 +222,9 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public void addTopicProduct(Long tid, Long pid) throws SecurityException {
+  public void addTP(Long tid, Long pid) throws SecurityException {
     try {
-      dao.addTopicProduct(tid, pid);
+      dao.addTP(tid, pid);
     } catch (Exception e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.CREATE_FAILIED, e);
@@ -222,9 +232,9 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public void addUser(User record) throws SecurityException {
+  public int addUser(User record) throws SecurityException {
     try {
-      dao.addUser(record);
+      return dao.addUser(record);
     } catch (Exception e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.CREATE_FAILIED, e);
@@ -262,12 +272,12 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public Product findProduct(Long id) throws SecurityException {
+  public Product findProduct(Long uid, Long id) throws SecurityException {
     try {
       /* 判断是否关注 */
       Product product = dao.findProduct(id);
 
-      if (isFollowProduct(product.getId())) {
+      if (isFollowProduct(uid, product.getId())) {
         product.setFollow(1);
       }
 
@@ -281,11 +291,11 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public PageInfo<Product> findProducts(ProductExample example, Pagination p)
+  public PageInfo<Product> findProducts(Long uid, ProductExample example, Pagination p)
       throws SecurityException {
     try {
       PageInfo<Product> pageInfo = dao.findProducts(example, p);
-      return followProductHandler(pageInfo); /* 判断是否关注 */
+      return followProductHandler(pageInfo, uid); /* 判断是否关注 */
     } catch (Exception e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.READ_FAILIED, e);
@@ -295,11 +305,11 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public PageInfo<Product> findTopicProducts(TopicProduct tp, Pagination p)
+  public PageInfo<Product> findProducts(Long uid, TopicProduct tp, Pagination p)
       throws SecurityException {
     try {
-      PageInfo<Product> pageInfo = dao.findTopicProducts(tp, p);
-      return followProductHandler(pageInfo); /* 判断是否关注 */
+      PageInfo<Product> pageInfo = dao.findProducts(tp, p);
+      return followProductHandler(pageInfo, uid); /* 判断是否关注 */
     } catch (Exception e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.READ_FAILIED, e);
@@ -309,10 +319,10 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public PageInfo<Product> findUserProducts(Long uid, Pagination p) throws SecurityException {
+  public PageInfo<Product> findProducts(Long uid, Pagination p) throws SecurityException {
     try {
-      PageInfo<Product> pageInfo = dao.findUserProducts(uid, p);
-      return followProductHandler(pageInfo); /* 判断是否关注 */
+      PageInfo<Product> pageInfo = dao.findProducts(uid, p);
+      return followProductHandler(pageInfo, uid); /* 判断是否关注 */
     } catch (Exception e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.READ_FAILIED, e);
@@ -343,11 +353,11 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public Topic findTopic(Long id) throws SecurityException {
+  public Topic findTopic(Long uid, Long id) throws SecurityException {
     try {
       Topic t = dao.findTopic(id);
 
-      if (isFollowTopic(t.getId())) {
+      if (isFollowTopic(uid, t.getId())) {
         t.setFollow(1);
       }
 
@@ -361,10 +371,10 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public PageInfo<Topic> findTopics(TopicExample example, Pagination p) throws SecurityException {
+  public PageInfo<Topic> findTopics(Long uid, TopicExample example, Pagination p) throws SecurityException {
     try {
       PageInfo<Topic> pageInfo = dao.findTopics(example, p);
-      return followTopicHandler(pageInfo); /* 判断是否关注 */
+      return followTopicHandler(pageInfo, uid); /* 判断是否关注 */
     } catch (Exception e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.READ_FAILIED, e);
@@ -374,10 +384,10 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public PageInfo<Topic> findUserTopics(Long uid, Pagination p) throws SecurityException {
+  public PageInfo<Topic> findTopics(Long uid, Pagination p) throws SecurityException {
     try {
-      PageInfo<Topic> pageInfo = dao.findUserTopics(uid, p);
-      return followTopicHandler(pageInfo); /* 判断是否关注 */
+      PageInfo<Topic> pageInfo = dao.findTopics(uid, p);
+      return followTopicHandler(pageInfo, uid); /* 判断是否关注 */
     } catch (Exception e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.READ_FAILIED, e);
@@ -407,9 +417,9 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public PageInfo<User> findProductUsers(Long fid, Pagination p) throws SecurityException {
+  public PageInfo<User> findUsersByProduct(Long fid, Pagination p) throws SecurityException {
     try {
-      return dao.findProductUsers(fid, p);
+      return dao.findUsersByProduct(fid, p);
     } catch (Exception e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.READ_FAILIED, e);
@@ -419,10 +429,10 @@ public class BaseServiceImpl implements BaseService {
 
 
   @Override
-  public PageInfo<User> findProductUsers(Long fid, String name, Byte type, Byte state, Pagination p)
+  public PageInfo<User> findUsersByProduct(Long fid, User user, Pagination p)
       throws SecurityException {
     try {
-      return dao.findProductUsers(fid, name, type, state, p);
+      return dao.findUsersByProduct(fid, user, p);
     } catch (Exception e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.READ_FAILIED, e);
@@ -430,9 +440,9 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public PageInfo<User> findTopicUsers(Long fid, Pagination p) throws SecurityException {
+  public PageInfo<User> findUsersByTopic(Long fid, Pagination p) throws SecurityException {
     try {
-      return dao.findTopicUsers(fid, p);
+      return dao.findUsersByTopic(fid, p);
     } catch (Exception e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.READ_FAILIED, e);
@@ -440,10 +450,10 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public PageInfo<User> findTopicUsers(Long fid, String name, Byte type, Byte state, Pagination p)
+  public PageInfo<User> findUsersByTopic(Long fid, User user, Pagination p)
       throws SecurityException {
     try {
-      return dao.findTopicUsers(fid, name, type, state, p);
+      return dao.findUsersByTopic(fid, user, p);
     } catch (Exception e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.READ_FAILIED, e);
@@ -451,12 +461,12 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public boolean isFollowProduct(Long pid) {
+  public boolean isFollowProduct(Long pid, Long uid) {
     try {
       Object object = MemcachedUtil.get("follow.product");
 
       if (object == null) {
-        MemcachedUtil.set("follow.product", 3600, dao.findProductIds(AuthzUtil.getUserId()));
+        MemcachedUtil.set("follow.product", 3600, dao.findProductIds(uid));
         object = MemcachedUtil.get("follow.product");
       }
 
@@ -470,12 +480,12 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public boolean isFollowTopic(Long tid) {
+  public boolean isFollowTopic(Long tid, Long uid) {
     try {
       Object object = MemcachedUtil.get("follow.topic");
 
       if (object == null) {
-        MemcachedUtil.set("follow.topic", 3600, dao.findTopicIds(AuthzUtil.getUserId()));
+        MemcachedUtil.set("follow.topic", 3600, dao.findTopicIds(uid));
         object = MemcachedUtil.get("follow.topic");
       }
 
@@ -539,9 +549,9 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public List<Long> followProductIds() throws SecurityException {
+  public List<Long> findProductIds(Long uid) throws SecurityException {
     try {
-      return dao.followProductIds(AuthzUtil.getUserId());
+      return dao.findProductIds(uid);
     } catch (Exception e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
@@ -549,9 +559,9 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public List<Long> followTopicIds() throws SecurityException {
+  public List<Long> findTopicIds(Long uid) throws SecurityException {
     try {
-      return dao.followTopicIds(AuthzUtil.getUserId());
+      return dao.findTopicIds(uid);
     } catch (Exception e) {
       e.printStackTrace();
 throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
@@ -559,9 +569,9 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
   }
 
   @Override
-  public void followProduct(Long fid) throws SecurityException {
+  public void followProduct(Long uid, Long fid) throws SecurityException {
     try {
-      dao.followProduct(AuthzUtil.getUserId(), fid);
+      dao.followProduct(uid, fid);
     } catch (Exception e) {
       e.printStackTrace();
 throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
@@ -569,9 +579,9 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
   }
 
   @Override
-  public void unfollowProduct(Long fid) throws SecurityException {
+  public void unfollowProduct(Long uid, Long fid) throws SecurityException {
     try {
-      dao.unfollowProduct(AuthzUtil.getUserId(), fid);
+      dao.unfollowProduct(uid, fid);
     } catch (Exception e) {
       e.printStackTrace();
 throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
@@ -579,9 +589,9 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
   }
 
   @Override
-  public void followTopic(Long fid) throws SecurityException {
+  public void followTopic(Long uid, Long fid) throws SecurityException {
     try {
-      dao.followTopic(AuthzUtil.getUserId(), fid);
+      dao.followTopic(uid, fid);
     } catch (Exception e) {
       e.printStackTrace();
 throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
@@ -589,9 +599,9 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
   }
 
   @Override
-  public void unfollowTopic(Long fid) throws SecurityException {
+  public void unfollowTopic(Long uid, Long fid) throws SecurityException {
     try {
-      dao.unfollowTopic(AuthzUtil.getUserId(), fid);
+      dao.unfollowTopic(uid, fid);
     } catch (Exception e) {
       e.printStackTrace();
 throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
@@ -639,14 +649,14 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
   }
 
   @Override
-  public void addUser(UserVO vo) throws SecurityException {
+  public int addUser(UserVO vo) throws SecurityException {
     User record = new User();
     record.setPasswordEncrypt(vo.getPassword());
     record.setType(vo.getType());
     record.setName(vo.getName());
     record.setState(vo.getState());
     record.setTitle(vo.getName());
-    addUser(record);
+    return addUser(record);
   }
 
   @Override
@@ -673,7 +683,6 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
       User currentUser = findUser(principal);
       Session session = subject.getSession();
       session.setAttribute(GlobalIDs.loginUser(), currentUser);
-      session.setAttribute(GlobalIDs.adminUser(), AuthzUtil.isAdmin());
     } catch (AuthenticationException e) {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.AUTHZ_FAILIED, "用户授权失败");
@@ -705,13 +714,13 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
   }
 
   @Override
-  public void addRecommend(String url) throws SecurityException {
+  public void addRecommend(Long uid, String url) throws SecurityException {
     ThreadUtil.execute(new Runnable() {
       public void run() {
         try {
           Recommend record = FetchFactory.get(url);
           /* 检测数据库, 如果已存在则直接设置为拒绝审核 */
-          if (checkProductUrl(url)) {
+          if (checkProductUrl(uid, url)) {
             record.setState((byte) 3); // 审核拒绝
             record.setRemark("系统检测：链接已存在");
           }
@@ -751,7 +760,7 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
   }
 
   @Override
-  public void addProduct(ProductVO vo) throws SecurityException {
+  public int addProduct(ProductVO vo) throws SecurityException {
     Product record = new Product();
     record.setName(vo.getName());
     record.setTitle(vo.getTitle());
@@ -759,24 +768,24 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
     record.setDescription(vo.getDescription());
     record.setTags(vo.getTags());
     record.setState(vo.getState());
-    record.setCreateBy(AuthzUtil.getUserId());
-    record.setCreator(AuthzUtil.getUsername());
+    record.setCreateBy(vo.getUid());
+    record.setCreator(vo.getCreator());
     record.setReffer(GlobalIDs.reffer());
-    addProduct(record);
+    return addProduct(record);
   }
 
   @Override
-  public boolean checkProductUrl(String url) throws SecurityException {
+  public boolean checkProductUrl(Long uid, String url) throws SecurityException {
     ProductExample example = new ProductExample();
     example.createCriteria().andUrlEqualTo(url);
-    PageInfo<Product> pageInfo = findProducts(example, new Pagination());
+    PageInfo<Product> pageInfo = findProducts(uid, example, new Pagination());
     /* 总记录数大于0，说明url已经存在 */
     return pageInfo.getTotal() > 0;
   }
 
   @Override
-  public boolean checkProductFollow(Long fid) throws SecurityException {
-    return followProductIds().contains(fid);
+  public boolean checkProductFollow(Long uid, Long fid) throws SecurityException {
+    return findProductIds(uid).contains(fid);
   }
 
   @Override
@@ -793,8 +802,8 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
   }
 
   @Override
-  public String updateProductHit(Long id) throws SecurityException {
-    Product record = findProduct(id);
+  public String updateProductHit(Long uid, Long id) throws SecurityException {
+    Product record = findProduct(uid, id);
     record.setHit(record.getHit() + 1);
     
     ThreadUtil.execute(new Runnable() {
@@ -813,9 +822,9 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
   }
 
   @Override
-  public void addMenu(MenuVO vo) throws SecurityException {
+  public int addMenu(MenuVO vo) throws SecurityException {
     Menu record = new Menu();
-    record.setCreator(AuthzUtil.getUsername());
+    record.setCreator(vo.getCreator());
     record.setDescription(vo.getDescription());
     record.setName(vo.getName());
     record.setState(vo.getState());
@@ -823,7 +832,7 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
     record.setPath(vo.getPath());
     record.setWeight(vo.getWeight());
     record.setOrganization(vo.getOrganization());
-    addMenu(record);
+    return addMenu(record);
   }
 
   @Override
@@ -841,33 +850,22 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
   }
 
   @Override
-  public void deleteTopicProduct(Long tid, Long[] pids) throws SecurityException {
-    Arrays.asList(pids).forEach((pid) -> {
-      try {
-        deleteTopicProduct(tid, pid);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    });
-  }
-
-  @Override
-  public void addTopic(TopicVO vo) throws SecurityException {
+  public int addTopic(TopicVO vo) throws SecurityException {
     Topic record = new Topic();
-    record.setCreateBy(AuthzUtil.getUserId());
-    record.setCreator(AuthzUtil.getUsername());
+    record.setCreateBy(vo.getUid());
+    record.setCreator(vo.getCreator());
     record.setDescription(vo.getDescription());
     record.setName(vo.getName());
     record.setState(vo.getState());
     record.setTitle(vo.getTitle());
-    addTopic(record);
+    return addTopic(record);
   }
 
   @Override
-  public void addTopicProduct(Long tid, Long[] pids) throws SecurityException {
+  public void addTP(Long tid, Long[] pids) throws SecurityException {
     Arrays.asList(pids).forEach((pid) -> {
       try {
-        addTopicProduct(tid, pid);
+        addTP(tid, pid);
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -875,8 +873,8 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
   }
 
   @Override
-  public boolean checkTopicFollow(Long fid) throws SecurityException {
-    return followTopicIds().contains(fid);
+  public boolean checkTopicFollow(Long uid, Long fid) throws SecurityException {
+    return findTopicIds(uid).contains(fid);
   }
 
   @Override
@@ -891,14 +889,13 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
 
   /**
    * 处理用户是否关注产品
-   * 
    * @param pageInfo
    * @return
    */
-  private PageInfo<Product> followProductHandler(PageInfo<Product> pageInfo) {
+  private PageInfo<Product> followProductHandler(PageInfo<Product> pageInfo, Long uid) {
     List<Product> list = pageInfo.getList();
     list.stream().forEach((p) -> {
-      if (isFollowProduct(p.getId())) {
+      if (isFollowProduct(uid, p.getId())) {
         p.setFollow(1);
       }
     });
@@ -907,14 +904,13 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
 
   /**
    * 处理用户是否关注主题
-   * 
    * @param pageInfo
    * @return
    */
-  private PageInfo<Topic> followTopicHandler(PageInfo<Topic> pageInfo) {
+  private PageInfo<Topic> followTopicHandler(PageInfo<Topic> pageInfo, Long uid) {
     List<Topic> list = pageInfo.getList();
     list.stream().forEach((t) -> {
-      if (isFollowTopic(t.getId())) {
+      if (isFollowTopic(uid, t.getId())) {
         t.setFollow(1);
       }
     });

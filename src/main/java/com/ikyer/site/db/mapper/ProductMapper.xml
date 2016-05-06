@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ikyer.site.db.dao.ProductMapper">
+
   <resultMap id="BaseResultMap" type="com.ikyer.site.db.entity.Product">
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -23,6 +24,7 @@
     <result column="uid" property="uid" jdbcType="BIGINT" />
     <result column="ftime" property="ftime" jdbcType="TIMESTAMP" />
   </resultMap>
+  
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -52,6 +54,7 @@
       </foreach>
     </where>
   </sql>
+  
   <sql id="Update_By_Example_Where_Clause">
     <where>
       <foreach collection="example.oredCriteria" item="criteria" separator="or">
@@ -81,10 +84,12 @@
       </foreach>
     </where>
   </sql>
+  
   <sql id="Base_Column_List">
     id, name, title, url, description, tags, avatar, reffer, star, hit, pick, audit, 
     state, created, last_modified, create_by, creator
   </sql>
+  
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ikyer.site.db.entity.ProductExample">
     select
     <if test="distinct">
@@ -99,6 +104,7 @@
       order by ${orderByClause}
     </if>
   </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
     select 
     <include refid="Base_Column_List" />
@@ -110,8 +116,10 @@
   <select id="selectByUid" resultMap="BaseResultMap" parameterType="java.lang.Long">
     select id, name, title, url, description, tags, avatar, reffer, star, hit, state, 
     audit, pick, created, last_modified, create_by, creator, uid, ftime
-    from v_user_product
-    WHERE uid = #{uid}
+    from v_user_product 
+	<where>
+	uid = #{uid}
+	</where>
   </select>
   
   <!-- 主题关联的产品列表 -->
@@ -134,16 +142,17 @@
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from t_product
-    where id = #{id,jdbcType=BIGINT}
+    delete from t_product where id = #{id,jdbcType=BIGINT}
   </delete>
+  
   <delete id="deleteByExample" parameterType="com.ikyer.site.db.entity.ProductExample">
     delete from t_product
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ikyer.site.db.entity.Product">
+  
+  <insert id="insert" parameterType="com.ikyer.site.db.entity.Product" useGeneratedKeys="true" keyProperty="id">
     insert into t_product
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -252,12 +261,14 @@
       </if>
     </trim>
   </insert>
+  
   <select id="countByExample" parameterType="com.ikyer.site.db.entity.ProductExample" resultType="java.lang.Integer">
     select count(*) from t_product
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  
   <update id="updateByExample" parameterType="map">
     update t_product
     <set>
@@ -317,6 +328,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  
   <update id="updateByPrimaryKey" parameterType="com.ikyer.site.db.entity.Product">
     update t_product
     <set>
@@ -374,8 +386,7 @@
   
   <!-- 精选批量操作 -->
   <update id="updateByPick" parameterType="map">
-  	UPDATE t_product 
-	SET pick = #{pick,jdbcType=BIGINT}
+  	UPDATE t_product SET pick = #{pick,jdbcType=BIGINT}
 	WHERE id in 
 	<foreach collection="array" item="id" open="(" separator="," close=")">
    	<trim>#{id}</trim>

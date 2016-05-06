@@ -39,4 +39,5 @@ public interface TopicMapper {
    * @return
    */
   int updateByPick(@Param("pick") int pick, @Param("array") Long[] array);
+
 }

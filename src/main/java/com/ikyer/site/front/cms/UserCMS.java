@@ -23,7 +23,7 @@ import com.ikyer.site.db.entity.Pagination;
 import com.ikyer.site.db.entity.User;
 import com.ikyer.site.db.entity.UserExample;
 import com.ikyer.site.db.entity.VUtil;
-import com.ikyer.site.front.controller.BaseController;
+import com.ikyer.site.front.BaseController;
 import com.ikyer.site.front.vo.ResponseVO;
 import com.ikyer.site.front.vo.UserVO;
 import com.ikyer.site.rest.BaseService;

@@ -23,7 +23,7 @@ import com.ikyer.site.db.entity.Pagination;
 import com.ikyer.site.db.entity.Recommend;
 import com.ikyer.site.db.entity.RecommendExample;
 import com.ikyer.site.db.entity.VUtil;
-import com.ikyer.site.front.controller.BaseController;
+import com.ikyer.site.front.BaseController;
 import com.ikyer.site.front.vo.ProductVO;
 import com.ikyer.site.front.vo.RecommendVO;
 import com.ikyer.site.front.vo.ResponseVO;
@@ -164,7 +164,7 @@ public class RecommendCMS extends BaseController {
   public @ResponseBody ResponseVO addRecommend(@RequestParam String url, HttpServletRequest request)
       throws SecurityException {
     logger.info("后台添加推荐: {}", url);
-    service.addRecommend(url);
+    service.addRecommend(getUserId(), url);
     return buildResponse();
   }
 

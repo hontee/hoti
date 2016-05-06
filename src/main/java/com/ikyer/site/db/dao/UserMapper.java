@@ -24,38 +24,18 @@ public interface UserMapper {
   /**
    * 关注产品的用户列表
    * @param fid 产品ID
-   * @param name 用户名
-   * @param type 用户类型 1=普通用户 2=管理员
-   * @param state 用户状态 0=禁用 1=启用 2=锁定 3=已删除
+   * @param user 用户对象
    * @return
    */
-  List<User> followProductUser(@Param("fid") Long fid, @Param("name") String name,
-      @Param("type") Byte type, @Param("state") Byte state);
+  List<User> followProductUser(@Param("fid") Long fid, @Param("user") User user);
   
   /**
    * 关注主题的用户列表
    * @param fid 产品ID
-   * @param name 用户名
-   * @param type 用户类型 1=普通用户 2=管理员
-   * @param state 用户状态 0=禁用 1=启用 2=锁定 3=已删除
+   * @param user 用户对象
    * @return
    */
-  List<User> followTopicUser(@Param("fid") Long fid, @Param("name") String name,
-      @Param("type") Byte type, @Param("state") Byte state);
-  
-  /**
-   * 用户关注的产品IDs
-   * @param uid
-   * @return
-   */
-  List<Long> followProductIds(Long uid);
-  
-  /**
-   * 用户关注的主题IDs
-   * @param uid
-   * @return
-   */
-  List<Long> followTopicIds(Long uid);
+  List<User> followTopicUser(@Param("fid") Long fid, @Param("user") User user);
 
   int updateByExample(@Param("record") User record, @Param("example") UserExample example);
 

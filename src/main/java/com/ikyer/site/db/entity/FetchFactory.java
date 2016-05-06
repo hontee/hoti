@@ -7,9 +7,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import com.ikyer.site.core.security.AuthzUtil;
-import com.ikyer.site.db.entity.Recommend;
-
 /**
  * 自动获取网站信息
  * @author larry.qi
@@ -26,7 +23,6 @@ public class FetchFactory {
 	 */
 	public static Recommend get(String url) {
 		Recommend record = new Recommend();
-		record.setCreator(AuthzUtil.getUsername());
 		record.setState((byte)1);
 		record.setName(UUID.randomUUID().toString());
 		record.setUrl(url);

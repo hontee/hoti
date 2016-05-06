@@ -119,7 +119,7 @@ public interface BaseService {
    * @param pid 产品ID
    * @return
    */
-  void deleteTopicProduct(Long tid, Long pid) throws SecurityException;
+  void deleteTP(Long tid, Long pid) throws SecurityException;
   
   /**
    * 批量移除主题和产品的关联
@@ -127,7 +127,7 @@ public interface BaseService {
    * @param pids
    * @throws SecurityException
    */
-  void deleteTopicProduct(Long tid, Long[] pids) throws SecurityException;
+  void deleteTP(Long tid, Long[] pids) throws SecurityException;
 
   /**
    * 删除用户
@@ -143,7 +143,7 @@ public interface BaseService {
    * @param record
    * @return
    */
-  void addMenu(Menu record) throws SecurityException;
+  int addMenu(Menu record) throws SecurityException;
 
   /**
    * 添加菜单
@@ -151,7 +151,7 @@ public interface BaseService {
    * @param vo
    * @throws SecurityException
    */
-  void addMenu(MenuVO vo) throws SecurityException;
+  int addMenu(MenuVO vo) throws SecurityException;
 
   /**
    * 添加产品
@@ -159,7 +159,7 @@ public interface BaseService {
    * @param record
    * @return
    */
-  void addProduct(Product record) throws SecurityException;
+  int addProduct(Product record) throws SecurityException;
 
   /**
    * 添加产品
@@ -167,7 +167,7 @@ public interface BaseService {
    * @param record
    * @return
    */
-  void addProduct(ProductVO vo) throws SecurityException;
+  int addProduct(ProductVO vo) throws SecurityException;
 
   /**
    * 添加推荐
@@ -175,7 +175,7 @@ public interface BaseService {
    * @param record
    * @return
    */
-  void addRecommend(Recommend record) throws SecurityException;
+  int addRecommend(Recommend record) throws SecurityException;
 
   /**
    * 添加推荐
@@ -183,7 +183,7 @@ public interface BaseService {
    * @param url
    * @return
    */
-  void addRecommend(String url) throws SecurityException;
+  void addRecommend(Long uid, String url) throws SecurityException;
 
   /**
    * 添加主题
@@ -191,14 +191,14 @@ public interface BaseService {
    * @param record
    * @return
    */
-  void addTopic(Topic record) throws SecurityException;
+  int addTopic(Topic record) throws SecurityException;
   
   /**
    * 添加主题
    * @param vo
    * @throws SecurityException
    */
-  void addTopic(TopicVO vo) throws SecurityException;
+  int addTopic(TopicVO vo) throws SecurityException;
 
   /**
    * 添加主题和产品的关联
@@ -207,7 +207,7 @@ public interface BaseService {
    * @param pid 产品ID
    * @return
    */
-  void addTopicProduct(Long tid, Long pid) throws SecurityException;
+  void addTP(Long tid, Long pid) throws SecurityException;
   
   /**
    * 批量添加主题和产品的关联
@@ -216,7 +216,7 @@ public interface BaseService {
    * @param pids
    * @throws SecurityException
    */
-  void addTopicProduct(Long tid, Long[] pids) throws SecurityException;
+  void addTP(Long tid, Long[] pids) throws SecurityException;
 
   /**
    * 添加用户
@@ -224,7 +224,7 @@ public interface BaseService {
    * @param record
    * @return
    */
-  void addUser(User record) throws SecurityException;
+  int addUser(User record) throws SecurityException;
 
   /**
    * 添加用户
@@ -232,7 +232,7 @@ public interface BaseService {
    * @param record
    * @return
    */
-  void addUser(UserVO record) throws SecurityException;
+  int addUser(UserVO record) throws SecurityException;
 
   /**
    * 查询菜单
@@ -264,7 +264,7 @@ public interface BaseService {
    * @param id
    * @return
    */
-  Product findProduct(Long id) throws SecurityException;
+  Product findProduct(Long uid, Long id) throws SecurityException;
 
   /**
    * 查询产品
@@ -272,7 +272,7 @@ public interface BaseService {
    * @param example
    * @return
    */
-  PageInfo<Product> findProducts(ProductExample example, Pagination p) throws SecurityException;
+  PageInfo<Product> findProducts(Long uid, ProductExample example, Pagination p) throws SecurityException;
 
   /**
    * 主题关联的产品列表
@@ -283,7 +283,7 @@ public interface BaseService {
    * @param pick 精选
    * @return
    */
-  PageInfo<Product> findTopicProducts(TopicProduct tp, Pagination p)
+  PageInfo<Product> findProducts(Long uid, TopicProduct tp, Pagination p)
       throws SecurityException;
   /**
    * 用户关注的产品列表
@@ -291,7 +291,7 @@ public interface BaseService {
    * @param uid 用户ID
    * @return
    */
-  PageInfo<Product> findUserProducts(Long uid, Pagination p) throws SecurityException;
+  PageInfo<Product> findProducts(Long uid, Pagination p) throws SecurityException;
 
   /**
    * 查询推荐
@@ -316,7 +316,7 @@ public interface BaseService {
    * @param id
    * @return
    */
-  Topic findTopic(Long id) throws SecurityException;
+  Topic findTopic(Long uid, Long id) throws SecurityException;
 
   /**
    * 查询主题
@@ -324,7 +324,7 @@ public interface BaseService {
    * @param example
    * @return
    */
-  PageInfo<Topic> findTopics(TopicExample example, Pagination p) throws SecurityException;
+  PageInfo<Topic> findTopics(Long uid, TopicExample example, Pagination p) throws SecurityException;
 
   /**
    * 用户关注的主题列表
@@ -332,7 +332,7 @@ public interface BaseService {
    * @param uid 用户ID
    * @return
    */
-  PageInfo<Topic> findUserTopics(Long uid, Pagination p) throws SecurityException;
+  PageInfo<Topic> findTopics(Long uid, Pagination p) throws SecurityException;
 
   /**
    * 查询用户
@@ -364,17 +364,15 @@ public interface BaseService {
    * @param fid 产品ID
    * @return
    */
-  PageInfo<User> findProductUsers(Long fid, Pagination p) throws SecurityException;
+  PageInfo<User> findUsersByProduct(Long fid, Pagination p) throws SecurityException;
   
   /**
    * 关注产品的用户列表
    * @param fid 产品ID
-   * @param name 用户名
-   * @param type 用户类型 1=普通用户 2=管理员
-   * @param state 用户状态 0=禁用 1=启用 2=锁定 3=已删除
+   * @param user 用户对象
    * @return
    */
-  PageInfo<User> findProductUsers(Long fid, String name, Byte type, Byte state, Pagination p) throws SecurityException;
+  PageInfo<User> findUsersByProduct(Long fid, User user, Pagination p) throws SecurityException;
   
   /**
    * 关注主题的用户列表
@@ -382,31 +380,45 @@ public interface BaseService {
    * @param fid 主题ID
    * @return
    */
-  PageInfo<User> findTopicUsers(Long fid, Pagination p) throws SecurityException;
+  PageInfo<User> findUsersByTopic(Long fid, Pagination p) throws SecurityException;
   
   /**
    * 关注主题的用户列表
    * @param fid 产品ID
-   * @param name 用户名
-   * @param type 用户类型 1=普通用户 2=管理员
-   * @param state 用户状态 0=禁用 1=启用 2=锁定 3=已删除
+   * @param user 用户对象
    * @return
    */
-  PageInfo<User> findTopicUsers(Long fid, String name, Byte type, Byte state, Pagination p) throws SecurityException;
+  PageInfo<User> findUsersByTopic(Long fid, User user, Pagination p) throws SecurityException;
+
+  /**
+   * 用户关注产品IDs
+   * 
+   * @param uid 用户ID
+   * @return
+   */
+  List<Long> findProductIds(Long uid) throws SecurityException;
+
+  /**
+   * 用户关注主题IDs
+   * 
+   * @param uid 用户ID
+   * @return
+   */
+  List<Long> findTopicIds(Long uid) throws SecurityException;
 
   /**
    * 判断用户是否关注产品
    * @param pid 产品ID
    * @return
    */
-  boolean isFollowProduct(Long pid);
+  boolean isFollowProduct(Long pid, Long uid);
   
   /**
    * 判断用户是否关注主题
    * @param tid 主题ID
    * @return
    */
-  boolean isFollowTopic(Long tid);
+  boolean isFollowTopic(Long tid, Long uid);
 
   /**
    * 检测产品的链接地址
@@ -415,7 +427,7 @@ public interface BaseService {
    * @return
    * @throws SecurityException
    */
-  boolean checkProductUrl(String url) throws SecurityException;
+  boolean checkProductUrl(Long uid, String url) throws SecurityException;
 
   /**
    * 检测用户是否关注该产品
@@ -424,7 +436,7 @@ public interface BaseService {
    * @return
    * @throws SecurityException
    */
-  boolean checkProductFollow(Long fid) throws SecurityException;
+  boolean checkProductFollow(Long uid, Long fid) throws SecurityException;
   
   /**
    * 检测用户是否关注该主题
@@ -433,7 +445,7 @@ public interface BaseService {
    * @return
    * @throws SecurityException
    */
-  boolean checkTopicFollow(Long fid) throws SecurityException;
+  boolean checkTopicFollow(Long uid, Long fid) throws SecurityException;
 
   /**
    * 检测用户名
@@ -510,7 +522,7 @@ public interface BaseService {
    * @return
    * @throws SecurityException
    */
-  String updateProductHit(Long id) throws SecurityException;
+  String updateProductHit(Long uid, Long id) throws SecurityException;
 
   /**
    * 更新推荐
@@ -571,29 +583,13 @@ public interface BaseService {
   void updateUser(Long id, String password) throws SecurityException;
 
   /**
-   * 用户关注产品IDs
-   * 
-   * @param uid 用户ID
-   * @return
-   */
-  List<Long> followProductIds() throws SecurityException;
-
-  /**
-   * 用户关注主题IDs
-   * 
-   * @param uid 用户ID
-   * @return
-   */
-  List<Long> followTopicIds() throws SecurityException;
-
-  /**
    * 关注产品
    * 
    * @param uid 用户ID
    * @param fid 产品ID
    * @return
    */
-  void followProduct(Long fid) throws SecurityException;
+  void followProduct(Long uid, Long fid) throws SecurityException;
 
   /**
    * 取消关注产品
@@ -602,7 +598,7 @@ public interface BaseService {
    * @param fid 产品ID
    * @return
    */
-  void unfollowProduct(Long fid) throws SecurityException;
+  void unfollowProduct(Long uid, Long fid) throws SecurityException;
 
   /**
    * 关注主题
@@ -611,7 +607,7 @@ public interface BaseService {
    * @param fid 主题ID
    * @return
    */
-  void followTopic(Long fid) throws SecurityException;
+  void followTopic(Long uid, Long fid) throws SecurityException;
 
   /**
    * 取消关注主题
@@ -620,7 +616,7 @@ public interface BaseService {
    * @param fid 主题ID
    * @return
    */
-  void unfollowTopic(Long fid) throws SecurityException;
+  void unfollowTopic(Long uid, Long fid) throws SecurityException;
 
   /**
    * 精选产品

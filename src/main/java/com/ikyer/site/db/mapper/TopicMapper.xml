@@ -54,6 +54,7 @@
       </foreach>
     </where>
   </sql>
+  
   <sql id="Update_By_Example_Where_Clause">
     <where>
       <foreach collection="example.oredCriteria" item="criteria" separator="or">
@@ -83,10 +84,12 @@
       </foreach>
     </where>
   </sql>
+  
   <sql id="Base_Column_List">
     id, name, title, description, tags, avatar, cover, star, product, audit, pick, type, state, 
     created, last_modified, create_by, creator
   </sql>
+  
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ikyer.site.db.entity.TopicExample">
     select
     <if test="distinct">
@@ -101,6 +104,7 @@
       order by ${orderByClause}
     </if>
   </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
     select 
     <include refid="Base_Column_List" />
@@ -120,13 +124,15 @@
     delete from t_topic
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  
   <delete id="deleteByExample" parameterType="com.ikyer.site.db.entity.TopicExample">
     delete from t_topic
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ikyer.site.db.entity.Topic">
+  
+  <insert id="insert" parameterType="com.ikyer.site.db.entity.Topic" useGeneratedKeys="true" keyProperty="id">
     insert into t_topic
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -235,12 +241,14 @@
       </if>
     </trim>
   </insert>
+  
   <select id="countByExample" parameterType="com.ikyer.site.db.entity.TopicExample" resultType="java.lang.Integer">
     select count(*) from t_topic
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  
   <update id="updateByExample" parameterType="map">
     update t_topic
     <set>
@@ -300,6 +308,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  
   <update id="updateByPrimaryKey" parameterType="com.ikyer.site.db.entity.Topic">
     update t_topic
     <set>
@@ -364,4 +373,5 @@
    	<trim>#{id}</trim>
    	</foreach>
   </update>
+  
 </mapper>

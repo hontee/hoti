@@ -24,4 +24,5 @@ public interface MenuMapper {
   int updateByExample(@Param("record") Menu record, @Param("example") MenuExample example);
 
   int updateByPrimaryKey(Menu record);
+  
 }

@@ -25,7 +25,7 @@ import com.ikyer.site.db.entity.Menu;
 import com.ikyer.site.db.entity.MenuExample;
 import com.ikyer.site.db.entity.Pagination;
 import com.ikyer.site.db.entity.VUtil;
-import com.ikyer.site.front.controller.BaseController;
+import com.ikyer.site.front.BaseController;
 import com.ikyer.site.front.vo.MenuVO;
 import com.ikyer.site.front.vo.ResponseVO;
 import com.ikyer.site.rest.BaseService;
