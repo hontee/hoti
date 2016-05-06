@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
@@ -15,14 +14,8 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageInfo;
-import com.ikyer.site.core.exception.AuthzException;
-import com.ikyer.site.core.exception.CountException;
-import com.ikyer.site.core.exception.CreateException;
-import com.ikyer.site.core.exception.DeleteException;
-import com.ikyer.site.core.exception.FindException;
-import com.ikyer.site.core.exception.FollowException;
+import com.ikyer.site.core.exception.ErrorIDs;
 import com.ikyer.site.core.exception.SecurityException;
-import com.ikyer.site.core.exception.UpdateException;
 import com.ikyer.site.core.security.AuthzUtil;
 import com.ikyer.site.core.security.MemcachedUtil;
 import com.ikyer.site.core.security.ThreadUtil;
@@ -60,7 +53,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.countMenu(example);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new CountException(e);
+      throw new SecurityException(ErrorIDs.COUNT_FAILIED, e);
     }
   }
 
@@ -70,7 +63,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.countProduct(example);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new CountException(e);
+      throw new SecurityException(ErrorIDs.COUNT_FAILIED, e);
     }
   }
 
@@ -87,7 +80,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.countRecommend(example);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new CountException(e);
+      throw new SecurityException(ErrorIDs.COUNT_FAILIED, e);
     }
   }
 
@@ -97,7 +90,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.countTopic(example);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new CountException(e);
+      throw new SecurityException(ErrorIDs.COUNT_FAILIED, e);
     }
   }
 
@@ -114,7 +107,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.countUser(example);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new CountException(e);
+      throw new SecurityException(ErrorIDs.COUNT_FAILIED, e);
     }
   }
 
@@ -124,7 +117,7 @@ public class BaseServiceImpl implements BaseService {
       dao.deleteMenu(id);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new DeleteException(e);
+      throw new SecurityException(ErrorIDs.DELETE_FAILIED, e);
     }
   }
 
@@ -134,7 +127,7 @@ public class BaseServiceImpl implements BaseService {
       dao.deleteProduct(id);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new DeleteException(e);
+      throw new SecurityException(ErrorIDs.DELETE_FAILIED, e);
     }
   }
 
@@ -144,7 +137,7 @@ public class BaseServiceImpl implements BaseService {
       dao.deleteRecommend(id);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new DeleteException(e);
+      throw new SecurityException(ErrorIDs.DELETE_FAILIED, e);
     }
   }
 
@@ -154,7 +147,7 @@ public class BaseServiceImpl implements BaseService {
       dao.deleteTopic(id);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new DeleteException(e);
+      throw new SecurityException(ErrorIDs.DELETE_FAILIED, e);
     }
   }
 
@@ -164,7 +157,7 @@ public class BaseServiceImpl implements BaseService {
       dao.deleteTopicProduct(tid, pid);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new DeleteException(e);
+      throw new SecurityException(ErrorIDs.DELETE_FAILIED, e);
     }
   }
 
@@ -174,7 +167,7 @@ public class BaseServiceImpl implements BaseService {
       dao.deleteUser(id);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new DeleteException(e);
+      throw new SecurityException(ErrorIDs.DELETE_FAILIED, e);
     }
   }
 
@@ -184,7 +177,7 @@ public class BaseServiceImpl implements BaseService {
       dao.addMenu(record);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new CreateException(e);
+      throw new SecurityException(ErrorIDs.CREATE_FAILIED, e);
     }
   }
 
@@ -194,7 +187,7 @@ public class BaseServiceImpl implements BaseService {
       dao.addProduct(record);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new CreateException(e);
+      throw new SecurityException(ErrorIDs.CREATE_FAILIED, e);
     }
   }
 
@@ -204,7 +197,7 @@ public class BaseServiceImpl implements BaseService {
       dao.addRecommend(record);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new CreateException(e);
+      throw new SecurityException(ErrorIDs.CREATE_FAILIED, e);
     }
   }
 
@@ -214,7 +207,7 @@ public class BaseServiceImpl implements BaseService {
       dao.addTopic(record);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new CreateException(e);
+      throw new SecurityException(ErrorIDs.CREATE_FAILIED, e);
     }
   }
 
@@ -224,7 +217,7 @@ public class BaseServiceImpl implements BaseService {
       dao.addTopicProduct(tid, pid);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new CreateException(e);
+      throw new SecurityException(ErrorIDs.CREATE_FAILIED, e);
     }
   }
 
@@ -234,7 +227,7 @@ public class BaseServiceImpl implements BaseService {
       dao.addUser(record);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new CreateException(e);
+      throw new SecurityException(ErrorIDs.CREATE_FAILIED, e);
     }
   }
 
@@ -244,7 +237,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.findMenu(id);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     }
   }
 
@@ -254,7 +247,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.findMenus(example, p);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     }
   }
 
@@ -264,7 +257,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.findAllMenus();
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     }
   }
 
@@ -281,7 +274,7 @@ public class BaseServiceImpl implements BaseService {
       return product;
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     } finally {
       MemcachedUtil.delete("follow.product");
     }
@@ -295,7 +288,7 @@ public class BaseServiceImpl implements BaseService {
       return followProductHandler(pageInfo); /* 判断是否关注 */
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     } finally {
       MemcachedUtil.delete("follow.product");
     }
@@ -309,7 +302,7 @@ public class BaseServiceImpl implements BaseService {
       return followProductHandler(pageInfo); /* 判断是否关注 */
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     } finally {
       MemcachedUtil.delete("follow.product");
     }
@@ -322,7 +315,7 @@ public class BaseServiceImpl implements BaseService {
       return followProductHandler(pageInfo); /* 判断是否关注 */
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     } finally {
       MemcachedUtil.delete("follow.product");
     }
@@ -334,7 +327,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.findRecommend(id);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     }
   }
 
@@ -345,7 +338,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.findRecommends(example, p);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     }
   }
 
@@ -361,7 +354,7 @@ public class BaseServiceImpl implements BaseService {
       return t;
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     } finally {
       MemcachedUtil.delete("follow.topic");
     }
@@ -374,7 +367,7 @@ public class BaseServiceImpl implements BaseService {
       return followTopicHandler(pageInfo); /* 判断是否关注 */
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     } finally {
       MemcachedUtil.delete("follow.topic");
     }
@@ -387,7 +380,7 @@ public class BaseServiceImpl implements BaseService {
       return followTopicHandler(pageInfo); /* 判断是否关注 */
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     } finally {
       MemcachedUtil.delete("follow.topic");
     }
@@ -399,7 +392,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.findUser(id);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     }
   }
 
@@ -409,7 +402,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.findUsers(example, p);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     }
   }
 
@@ -419,7 +412,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.findProductUsers(fid, p);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     }
   }
 
@@ -432,7 +425,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.findProductUsers(fid, name, type, state, p);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     }
   }
 
@@ -442,7 +435,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.findTopicUsers(fid, p);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     }
   }
 
@@ -453,7 +446,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.findTopicUsers(fid, name, type, state, p);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FindException(e);
+      throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     }
   }
 
@@ -501,7 +494,7 @@ public class BaseServiceImpl implements BaseService {
       dao.updateMenu(record);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new UpdateException(e);
+      throw new SecurityException(ErrorIDs.UPDATE_FAILIED, e);
     }
   }
 
@@ -511,7 +504,7 @@ public class BaseServiceImpl implements BaseService {
       dao.updateProduct(record);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new UpdateException(e);
+      throw new SecurityException(ErrorIDs.UPDATE_FAILIED, e);
     }
   }
 
@@ -521,7 +514,7 @@ public class BaseServiceImpl implements BaseService {
       dao.updateRecommend(record);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new UpdateException(e);
+      throw new SecurityException(ErrorIDs.UPDATE_FAILIED, e);
     }
   }
 
@@ -531,7 +524,7 @@ public class BaseServiceImpl implements BaseService {
       dao.updateTopic(record);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new UpdateException(e);
+      throw new SecurityException(ErrorIDs.UPDATE_FAILIED, e);
     }
   }
 
@@ -541,7 +534,7 @@ public class BaseServiceImpl implements BaseService {
       dao.updateUser(record);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new UpdateException(e);
+      throw new SecurityException(ErrorIDs.UPDATE_FAILIED, e);
     }
   }
 
@@ -551,7 +544,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.followProductIds(AuthzUtil.getUserId());
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FollowException(e);
+      throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
     }
   }
 
@@ -561,7 +554,7 @@ public class BaseServiceImpl implements BaseService {
       return dao.followTopicIds(AuthzUtil.getUserId());
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FollowException(e);
+throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
     }
   }
 
@@ -571,7 +564,7 @@ public class BaseServiceImpl implements BaseService {
       dao.followProduct(AuthzUtil.getUserId(), fid);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FollowException(e);
+throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
     }
   }
 
@@ -581,7 +574,7 @@ public class BaseServiceImpl implements BaseService {
       dao.unfollowProduct(AuthzUtil.getUserId(), fid);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FollowException(e);
+throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
     }
   }
 
@@ -591,7 +584,7 @@ public class BaseServiceImpl implements BaseService {
       dao.followTopic(AuthzUtil.getUserId(), fid);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FollowException(e);
+throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
     }
   }
 
@@ -601,7 +594,7 @@ public class BaseServiceImpl implements BaseService {
       dao.unfollowTopic(AuthzUtil.getUserId(), fid);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new FollowException(e);
+throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
     }
   }
 
@@ -611,7 +604,7 @@ public class BaseServiceImpl implements BaseService {
       dao.pickProduct(array);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new UpdateException(e);
+      throw new SecurityException(ErrorIDs.UPDATE_FAILIED, e);
     }
   }
 
@@ -621,7 +614,7 @@ public class BaseServiceImpl implements BaseService {
       dao.unpickProduct(array);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new UpdateException(e);
+      throw new SecurityException(ErrorIDs.UPDATE_FAILIED, e);
     }
   }
 
@@ -631,7 +624,7 @@ public class BaseServiceImpl implements BaseService {
       dao.pickTopic(array);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new UpdateException(e);
+      throw new SecurityException(ErrorIDs.UPDATE_FAILIED, e);
     }
   }
 
@@ -641,7 +634,7 @@ public class BaseServiceImpl implements BaseService {
       dao.unpickTopic(array);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new UpdateException(e);
+      throw new SecurityException(ErrorIDs.UPDATE_FAILIED, e);
     }
   }
 
@@ -683,10 +676,10 @@ public class BaseServiceImpl implements BaseService {
       session.setAttribute(GlobalIDs.adminUser(), AuthzUtil.isAdmin());
     } catch (AuthenticationException e) {
       e.printStackTrace();
-      throw new AuthzException("用户授权失败", e);
+      throw new SecurityException(ErrorIDs.AUTHZ_FAILIED, "用户授权失败");
     } catch (Exception e) {
       e.printStackTrace();
-      throw new AccountException("用户名或密码错误", e);
+      throw new SecurityException(ErrorIDs.ACCOUNT_ERROR, "用户名或密码错误");
     }
   }
 
@@ -732,8 +725,7 @@ public class BaseServiceImpl implements BaseService {
 
   @Override
   public void auditRecommendOk(Long id, ProductVO vo) throws SecurityException {
-    Recommend record = new Recommend();
-    record.setId(id);
+    Recommend record = findRecommend(id);
     record.setState((byte) 2); // 审核通过
     updateRecommend(record);
     addProduct(vo);

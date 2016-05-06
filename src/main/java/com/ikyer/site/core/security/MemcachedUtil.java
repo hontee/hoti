@@ -2,7 +2,7 @@ package com.ikyer.site.core.security;
 
 import java.io.IOException;
 
-import com.ikyer.site.core.exception.CacheException;
+import com.ikyer.site.core.exception.ErrorIDs;
 import com.ikyer.site.core.exception.SecurityException;
 import com.ikyer.site.db.entity.GlobalIDs;
 
@@ -49,7 +49,7 @@ public class MemcachedUtil {
       OperationFuture<Boolean> future = client.set(key, expire, value);
       future.get(); // 确保之前(mc.set())操作已经结束
     } catch (Exception e) {
-      throw new CacheException("设置缓存失败: " + key, e);
+      throw new SecurityException(ErrorIDs.CACHE_ERROR, e);
     } finally {
       destory(client);
     }
@@ -68,7 +68,7 @@ public class MemcachedUtil {
       client = getMemcachedClient();
       return client.get(key);
     } catch (IOException e) {
-      throw new CacheException("获取缓存失败: " + key, e);
+      throw new SecurityException(ErrorIDs.CACHE_ERROR, e);
     } finally {
       destory(client);
     }
@@ -98,17 +98,16 @@ public class MemcachedUtil {
 
   /**
    * 刷新所有缓存
-   * 
-   * @throws CacheException
+   * @throws SecurityException
    */
-  public static void flush() throws CacheException {
+  public static void flush() throws SecurityException {
     MemcachedClient client = null;
     try {
       client = getMemcachedClient();
       OperationFuture<Boolean> future = client.flush();
       future.get();
     } catch (Exception e) {
-      throw new CacheException("刷新缓存失败: ", e);
+      throw new SecurityException(ErrorIDs.CACHE_ERROR, e);
     } finally {
       destory(client);
     }

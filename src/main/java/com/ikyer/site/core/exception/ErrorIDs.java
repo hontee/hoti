@@ -2,7 +2,6 @@ package com.ikyer.site.core.exception;
 
 /**
  * 错码码
- * 
  * @author larry.qi
  */
 public enum ErrorIDs {

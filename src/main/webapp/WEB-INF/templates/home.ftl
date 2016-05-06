@@ -11,7 +11,7 @@
     </div>
 
     <div class="right">
-      <a class="btn btn-primary" href="/recommend">分享新产品</a>
+      <a class="btn btn-primary" href="/recommend">推荐新产品</a>
     </div>
   </div>
 </div>

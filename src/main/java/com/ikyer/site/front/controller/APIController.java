@@ -74,7 +74,7 @@ public class APIController extends BaseController {
   }
 
   /**
-   * 分享产品
+   * 推荐产品
    * @return
    * @throws SecurityException
    */

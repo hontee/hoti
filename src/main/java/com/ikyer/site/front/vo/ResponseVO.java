@@ -2,91 +2,86 @@ package com.ikyer.site.front.vo;
 
 import java.io.Serializable;
 
-import com.ikyer.site.core.exception.BaseException;
-import com.ikyer.site.core.exception.BaseRuntimeException;
+import com.ikyer.site.core.exception.SecurityException;
 
 public class ResponseVO implements Serializable {
-	
-	private static final long serialVersionUID = -8290882370006935102L;
 
-	private boolean success = true; // 成功标记
-	private Error error; // 错误
-	private Object result; // 成功
-	
-	protected ResponseVO() {}
-	
-	public ResponseVO(Object result) {
-		this.setResult(result);
-	}
-	
-	public ResponseVO(BaseException e) {
-		this.setError(e.getErrorId().name(), e.getMessage());
-	}
-	
-	public ResponseVO(BaseRuntimeException e) {
-		this.setError(e.getErrorId().name(), e.getMessage());
-	}
-	
-	public boolean isSuccess() {
-		return success;
-	}
+  private static final long serialVersionUID = -8290882370006935102L;
 
-	public void setSuccess(boolean success) {
-		this.success = success;
-		if (success) {
-			this.error = null;
-		} else {
-			this.result = null;
-		}
-	}
+  private boolean success = true; // 成功标记
+  private Error error; // 错误
+  private Object result; // 成功
 
-	public Error getError() {
-		return error;
-	}
+  protected ResponseVO() {}
 
-	public void setError(String code, String message) {
-		this.setSuccess(false);
-		this.error = new Error();
-		error.setCode(code);
-		error.setMessage(message);
-	}
+  public ResponseVO(Object result) {
+    this.setResult(result);
+  }
 
-	public Object getResult() {
-		return result;
-	}
+  public ResponseVO(SecurityException e) {
+    this.setError(e.getErrorId().name(), e.getMessage());
+  }
 
-	public void setResult(Object result) {
-		this.setSuccess(true);
-		this.result = result;
-	}
+  public boolean isSuccess() {
+    return success;
+  }
 
-	/**
-	 * 错误信息
-	 * @author larry.qi
-	 */
-	public static class Error implements Serializable{
+  public void setSuccess(boolean success) {
+    this.success = success;
+    if (success) {
+      this.error = null;
+    } else {
+      this.result = null;
+    }
+  }
 
-		private static final long serialVersionUID = -4425094276756966685L;
+  public Error getError() {
+    return error;
+  }
 
-		private String code; // 错误码
-		
-		private String message; // 错误信息
+  public void setError(String code, String message) {
+    this.setSuccess(false);
+    this.error = new Error();
+    error.setCode(code);
+    error.setMessage(message);
+  }
 
-		public String getCode() {
-			return code;
-		}
+  public Object getResult() {
+    return result;
+  }
 
-		public void setCode(String code) {
-			this.code = code;
-		}
+  public void setResult(Object result) {
+    this.setSuccess(true);
+    this.result = result;
+  }
 
-		public String getMessage() {
-			return message;
-		}
+  /**
+   * 错误信息
+   * @author larry.qi
+   */
+  public static class Error implements Serializable {
 
-		public void setMessage(String message) {
-			this.message = message;
-		}
-	}
+    private static final long serialVersionUID = -4425094276756966685L;
+
+    private String code; // 错误码
+
+    private String message; // 错误信息
+
+    public String getCode() {
+      return code;
+    }
+
+    public void setCode(String code) {
+      this.code = code;
+    }
+
+    public String getMessage() {
+      return message;
+    }
+
+    public void setMessage(String message) {
+      this.message = message;
+    }
+  }
 
 }

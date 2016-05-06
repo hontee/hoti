@@ -11,29 +11,16 @@ public class GlobalExceptionHandler {
 
   /**
    * 业务异常
-   * 
    * @param e
    * @return
    */
-  @ExceptionHandler({BaseException.class})
-  public @ResponseBody ResponseVO handle(BaseException e) {
-    return new ResponseVO(e);
-  }
-
-  /**
-   * 运行时异常
-   * 
-   * @param e
-   * @return
-   */
-  @ExceptionHandler({BaseRuntimeException.class})
-  public @ResponseBody ResponseVO handle(BaseRuntimeException e) {
+  @ExceptionHandler({SecurityException.class})
+  public @ResponseBody ResponseVO handle(SecurityException e) {
     return new ResponseVO(e);
   }
 
   /**
    * 未知错误
-   * 
    * @param e
    * @return
    */

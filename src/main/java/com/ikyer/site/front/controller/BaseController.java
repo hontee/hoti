@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.context.request.WebRequest;
 
 import com.github.pagehelper.PageInfo;
-import com.ikyer.site.core.exception.BaseException;
 import com.ikyer.site.core.exception.ErrorIDs;
 import com.ikyer.site.core.exception.SecurityException;
 import com.ikyer.site.core.security.AuthzUtil;
@@ -99,7 +98,7 @@ public abstract class BaseController {
    * @param e 异常类型
    * @return
    */
-  public ResponseVO buildResponse(BaseException e) {
+  public ResponseVO buildResponse(SecurityException e) {
     return new ResponseVO(e);
   }
 
