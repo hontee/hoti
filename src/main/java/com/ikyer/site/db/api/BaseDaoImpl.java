@@ -374,7 +374,7 @@ public class BaseDaoImpl implements BaseDao {
   public int unfollowTopic(Long uid, Long fid) throws Exception {
     logger.info("用户[{}]取消关注主题[{}]", uid, fid);
     trigger.minusTopicStar(fid);
-    return re.followTopic(uid, fid);
+    return re.unfollowTopic(uid, fid);
   }
 
   @Override

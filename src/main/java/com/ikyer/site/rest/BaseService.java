@@ -411,14 +411,14 @@ public interface BaseService {
    * @param pid 产品ID
    * @return
    */
-  boolean isFollowProduct(Long pid, Long uid);
+  boolean isFollowProduct(Long uid, Long pid);
   
   /**
    * 判断用户是否关注主题
    * @param tid 主题ID
    * @return
    */
-  boolean isFollowTopic(Long tid, Long uid);
+  boolean isFollowTopic(Long uid, Long tid);
 
   /**
    * 检测产品的链接地址

@@ -461,7 +461,7 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public boolean isFollowProduct(Long pid, Long uid) {
+  public boolean isFollowProduct(Long uid, Long pid) {
     try {
       Object object = MemcachedUtil.get("follow.product");
 
@@ -480,7 +480,7 @@ public class BaseServiceImpl implements BaseService {
   }
 
   @Override
-  public boolean isFollowTopic(Long tid, Long uid) {
+  public boolean isFollowTopic(Long uid, Long tid) {
     try {
       Object object = MemcachedUtil.get("follow.topic");
 
@@ -604,7 +604,7 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
       dao.unfollowTopic(uid, fid);
     } catch (Exception e) {
       e.printStackTrace();
-throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
+      throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
     }
   }
 
