@@ -31,20 +31,8 @@
 </@override>
 
 <@override name="footer">
-<script>
-$(function() {
-	$("#submit").click(function() {
-		$.post("/${u.name!}/settings", $("#form").serialize(), function(data) {
-			var r = $.parseJSON(data);
-			if (r.success) {
-				window.location.href = "/${u.name!}/dashbord";
-			} else {
-				alert(r.error.message);
-			}
-		});
-	});
-});
-</script>
+  <@super/>
+  <script src="/assets/js/module/settings.js"></script>
 </@override>
 
 <@extends name="module/base.ftl"/>

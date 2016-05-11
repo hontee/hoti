@@ -7,7 +7,7 @@
 </div>
 
 <div class="container">
-<form id="form" action="javascript:void(0);" style="width: 440px; padding-bottom: 20px;">
+<form id="form" action="/javascript:void(0)" style="width: 440px; padding-bottom: 20px;">
   <dl class="form-group">
     <dt><label for="url">* URL (必填)</label></dt>
     <dd>
@@ -44,27 +44,15 @@
   </dl>
   
   <div class="form-actions">
-    <button id="submit" class="btn btn-primary">确认推荐</button>
+    <button class="btn btn-primary">确认推荐</button>
   </div>
 </form>
 </div>
 </@override>
 
 <@override name="footer">
-<script>
-$(function() {
-	$("#submit").click(function() {
-		$.post("/recommend", $("#form").serialize(), function(data) {
-			var r = $.parseJSON(data);
-			if (r.success) {
-				window.location.href = "/";
-			} else {
-				alert(r.error.message);
-			}
-		});
-	});
-});
-</script>
+  <@super/>
+  <script src="/assets/js/module/recommend.js"></script>
 </@override>
 
 <@extends name="module/base.ftl"/>

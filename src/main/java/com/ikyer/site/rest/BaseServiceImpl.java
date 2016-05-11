@@ -737,7 +737,8 @@ throw new SecurityException(ErrorIDs.FOLLOW_FAILIED, e);
     Recommend record = findRecommend(id);
     record.setState((byte) 2); // 审核通过
     updateRecommend(record);
-    addProduct(vo);
+    long pid = addProduct(vo);
+    addTP(record.getTid(), pid);
   }
 
   @Override

@@ -19,28 +19,15 @@
     </dd>
   </dl>
   <div class="form-actions">
-    <button class="btn btn-primary" id="submit">创建主题</button>
+    <button class="btn btn-primary">创建主题</button>
   </div>
 </form>
 </div>
 </@override>
 
 <@override name="footer">
-<script>
-$(function() {
-	$("#submit").click(function() {
-		$.post("/topics/new", $("#form").serialize(), function(data) {
-			var r = $.parseJSON(data);
-			if (r.success) {
-			    alert('已提交，请耐心等待审核！');
-				window.location.href = "/";
-			} else {
-				alert(r.error.message);
-			}
-		});
-	});
-});
-</script>
+  <@super/>
+  <script src="/assets/js/module/topic-new.js"></script>
 </@override>
 
 <@extends name="module/base.ftl"/>

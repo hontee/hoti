@@ -25,39 +25,27 @@ h1 {margin-bottom: 40px;}
 <@override name="body">
 <div class="container">
 <h1 class="text-center">请登录</h1>
-<form class="form" id="loginForm" action="javascript:void(0)">
+<form class="form" id="form" action="javascript:void(0)">
   <input type="hidden" name="redirect" value="${record}">
   <dl class="form-group warn">
     <dt><label for="username">用户名</label></dt>
-    <dd><input class="form-control" id="username" name="username" type="text" placeholder="用户名" required autofocus autocomplete="off"></dd>
+    <dd><input class="form-control" name="username" placeholder="用户名" autofocus autocomplete="off"></dd>
   </dl>
   <br>
   <dl class="form-group warn" style="position: relative; top: -20px;">
     <dt><label for="password">密码</label></dt>
-    <dd><input class="form-control" id="password" name="password" type="password" placeholder="密码" required></dd>
+    <dd><input class="form-control" name="password" type="password" placeholder="密码"></dd>
   </dl>
   <dl class="form-group warn">
-    <button class="btn btn-primary btn-block" id="login">登录</button>
+    <button class="btn btn-primary btn-block">登录</button>
   </dl>
 </form>
 </div>
 </@override>
 
 <@override name="footer">
-<script>
-$(function() {
-  $("#login").click(function() {
-    $.post("/login", $("#loginForm").serialize(), function(data) {
-      var r = $.parseJSON(data);
-      if (r.success) {
-        KYER.redirect(r.result);
-      } else {
-        alert(r.error.message);
-      }
-    });
-  });
-});
-</script>
+  <@super/>
+  <script src="/assets/js/module/login.js"></script>
 </@override>
 
 <@extends name="module/base.ftl"/>

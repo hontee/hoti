@@ -13,9 +13,6 @@
   <link rel="shortcut icon" href="/favicon.ico">
   <@block name="resources">
   <link href="/assets/css/primer.css" rel="stylesheet">
-  <script src="/assets/js/vendor/modernizr-2.8.3.min.js"></script>
-  <script src="/assets/js/vendor/jquery-2.1.4.min.js"></script>
-  <script src="/assets/js/fronts.js"></script>
   </@block>
 </head>
 
@@ -50,7 +47,12 @@
 </@block>
 
 <@block name="body"></@block>
-<@block name="footer"></@block>
 
+<@block name="footer">
+  <script src="/assets/js/vendor/modernizr-2.8.3.min.js"></script>
+  <script src="/assets/js/vendor/jquery-2.1.4.min.js"></script>
+  <script src="/assets/js/vendor/validator/jquery.validator.min.js?local=zh-CN"></script>
+  <script src="/assets/js/module/base.js"></script>
+</@block>
 </body>
 </html>
