@@ -15,7 +15,7 @@
   <mvc:annotation-driven />
   <aop:aspectj-autoproxy proxy-target-class="true" />
   <context:component-scan base-package="com.ikyer.site" />
-  <context:property-placeholder location="classpath:application.properties"/>
+  <context:property-placeholder location="classpath:ikyer.properties"/>
   
   <!-- 定时任务 -->
   <task:executor id="executor" pool-size="5" />
