@@ -10,7 +10,7 @@
 
   <!-- 缓存管理器 使用Ehcache实现-->
   <beans:bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
-    <beans:property name="cacheManagerConfigFile" value="classpath:/META-INF/spring/ehcache.xml" />
+    <beans:property name="cacheManagerConfigFile" value="classpath:ehcache.xml" />
   </beans:bean>
   
   <!-- 凭证管理器 -->
