@@ -61,16 +61,6 @@ public class GlobalIDs {
     return ids.props.getFrontRows();
   }
 
-  /* MemCached Host */
-  public static String memcachedHost() {
-    return ids.props.getMemcachedHost();
-  }
-
-  /* MemCached Port */
-  public static String memcachedPort() {
-    return ids.props.getMemcachedPort();
-  }
-
   /**
    * 初始化静态方法
    */

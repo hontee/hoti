@@ -34,12 +34,6 @@ public class ApplicationProps implements Serializable {
   @Value("${sys.front.rows}")
   private Integer frontRows;
 
-  @Value("${memcached.host}")
-  private String memcachedHost;
-
-  @Value("${memcached.port}")
-  private String memcachedPort;
-
   @Value("${seo.slogan}")
   private String seoSlogan;
 
@@ -123,22 +117,6 @@ public class ApplicationProps implements Serializable {
 
   public void setFrontRows(Integer frontRows) {
     this.frontRows = frontRows;
-  }
-
-  public String getMemcachedHost() {
-    return memcachedHost;
-  }
-
-  public void setMemcachedHost(String memcachedHost) {
-    this.memcachedHost = memcachedHost;
-  }
-
-  public String getMemcachedPort() {
-    return memcachedPort;
-  }
-
-  public void setMemcachedPort(String memcachedPort) {
-    this.memcachedPort = memcachedPort;
   }
 
   public String getSeoSlogan() {

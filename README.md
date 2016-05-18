@@ -1,4 +1,4 @@
-# 快椰
+# 快意开发者
 
 - [User](docs/user.md)
 

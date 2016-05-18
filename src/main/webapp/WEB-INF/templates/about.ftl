@@ -16,7 +16,7 @@ blockquote {border-left: 3px solid #ddd; padding-left: 12px;}
 
 <div class="container" style="margin-top: 24px;">
   <blockquote>
-    <p class="lead">快椰（ikyer.com）是一个基于学习和分享的开发者社区，我们以汇聚国内外最优质资源，打造最有影响力的开发者平台为目标，专注于为开发者服务。</p>
+    <p class="lead">快易（ikyer.com）是一个基于学习和分享的开发者社区，我们以汇聚国内外最优质资源，打造最有影响力的开发者平台为目标，专注于为开发者服务。</p>
   </blockquote>
   <h3>在这里：</h3>
   

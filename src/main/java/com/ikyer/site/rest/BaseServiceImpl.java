@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageInfo;
 import com.ikyer.site.core.exception.ErrorIDs;
 import com.ikyer.site.core.exception.SecurityException;
-import com.ikyer.site.core.security.MemcachedUtil;
 import com.ikyer.site.core.security.ThreadUtil;
 import com.ikyer.site.db.api.BaseDao;
 import com.ikyer.site.db.entity.FetchFactory;
@@ -286,7 +285,7 @@ public class BaseServiceImpl implements BaseService {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     } finally {
-      MemcachedUtil.delete("follow.product");
+      
     }
   }
 
@@ -300,7 +299,7 @@ public class BaseServiceImpl implements BaseService {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     } finally {
-      MemcachedUtil.delete("follow.product");
+      
     }
   }
 
@@ -314,7 +313,7 @@ public class BaseServiceImpl implements BaseService {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     } finally {
-      MemcachedUtil.delete("follow.product");
+      
     }
   }
 
@@ -327,7 +326,7 @@ public class BaseServiceImpl implements BaseService {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     } finally {
-      MemcachedUtil.delete("follow.product");
+      
     }
   }
 
@@ -366,7 +365,7 @@ public class BaseServiceImpl implements BaseService {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     } finally {
-      MemcachedUtil.delete("follow.topic");
+      
     }
   }
 
@@ -379,7 +378,7 @@ public class BaseServiceImpl implements BaseService {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     } finally {
-      MemcachedUtil.delete("follow.topic");
+      
     }
   }
 
@@ -392,7 +391,7 @@ public class BaseServiceImpl implements BaseService {
       e.printStackTrace();
       throw new SecurityException(ErrorIDs.READ_FAILIED, e);
     } finally {
-      MemcachedUtil.delete("follow.topic");
+      
     }
   }
 
@@ -463,15 +462,7 @@ public class BaseServiceImpl implements BaseService {
   @Override
   public boolean isFollowProduct(Long uid, Long pid) {
     try {
-      Object object = MemcachedUtil.get("follow.product");
-
-      if (object == null) {
-        MemcachedUtil.set("follow.product", 3600, dao.findProductIds(uid));
-        object = MemcachedUtil.get("follow.product");
-      }
-
-      @SuppressWarnings("unchecked")
-      List<Long> list = (List<Long>) object;
+      List<Long> list = dao.findProductIds(uid);
       return list.contains(pid);
     } catch (Exception e) {
       e.printStackTrace();
@@ -482,15 +473,7 @@ public class BaseServiceImpl implements BaseService {
   @Override
   public boolean isFollowTopic(Long uid, Long tid) {
     try {
-      Object object = MemcachedUtil.get("follow.topic");
-
-      if (object == null) {
-        MemcachedUtil.set("follow.topic", 3600, dao.findTopicIds(uid));
-        object = MemcachedUtil.get("follow.topic");
-      }
-
-      @SuppressWarnings("unchecked")
-      List<Long> list = (List<Long>) object;
+      List<Long> list = dao.findTopicIds(uid);
       return list.contains(tid);
     } catch (Exception e) {
       e.printStackTrace();

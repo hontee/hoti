@@ -150,7 +150,7 @@ public abstract class BaseController {
    */
   public void addHeader(Model model, String title, HttpServletRequest request)
       throws SecurityException {
-    model.addAttribute("title", title.concat(" · 快椰 ikyer.com"));
+    model.addAttribute("title", title.concat(" · 快易开发者"));
     model.addAttribute("user", isAuthorized() ? getUserName() : null);
   }
 
